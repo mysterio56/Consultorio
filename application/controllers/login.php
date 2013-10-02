@@ -17,7 +17,7 @@ class Login extends CI_Controller{
 			$this->load->view('template', $data);
 
 		} else {
-
+			redirect(base_url('welcome')); exit();
 			$name      = $this->input->post('user_name');
 			$password  = $this->input->post('password');
 			
@@ -26,7 +26,7 @@ class Login extends CI_Controller{
 
 			if ($result === true){
 
-				redirect(base_url().'welcome');
+				redirect(base_url('welcome'));
 
 			}else{
 

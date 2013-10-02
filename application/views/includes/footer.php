@@ -1,4 +1,7 @@
-	<div id=id style="height:40px; background-color:#5252A2">
+	</div> <!-- cierre wrapper -->
+	<section class="footer-container">
+		<div  class="footer" id="footer">
 			<p>footer</p>
-	</div>
+		</div>
+	</section>
 </body>
