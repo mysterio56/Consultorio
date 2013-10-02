@@ -1,0 +1,232 @@
+* {
+ font-family: Arial, sans;
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+ -moz-box-sizing: border-box;
+}
+
+html, body{     
+    height: 100%; 
+} 
+ 
+/*#wrapper{    
+    min-height: 100%;     
+    height: auto !important;    
+    margin: 0 auto -109px; 
+} */
+
+/********* Estilos para Footer *********/
+
+.footer-container #footer {     
+    height: 40px;
+    background-color:#5252A2 
+}
+
+/********* Estilos para Header *********/
+
+.header-container {
+    width: 100%;     
+    height: 136px;
+    background-color: #f4f4f4; 
+
+}
+
+.header-container #header {
+    width: 985px;     
+    height: 136px; 
+    margin: 0 auto 0 auto;
+}
+
+.header-container #logo {
+    width: 307px;     
+    height: 136px;
+    float: left;
+    padding-top: 20px;
+    padding-left: 50px;
+}
+
+.header-container #logo img {
+    width: 211px;     
+    height: 88px;
+}
+
+.header-container #menu {
+    width: 674px;     
+    height: 136px;
+    float: left;
+}
+
+/********* Estilos para Acordeon *********/
+
+.ac-container{
+    width: 400px;
+    margin: 10px auto 30px auto;
+}
+
+.ac-container label{
+    font-family: 'BebasNeueRegular', 'Arial Narrow', Arial, sans-serif;
+    padding: 5px 20px;
+    position: relative;
+    z-index: 20;
+    display: block;
+    height: 30px;
+    cursor: pointer;
+    color: #777;
+    text-shadow: 1px 1px 1px rgba(255,255,255,0.8);
+    line-height: 17px;
+    font-size: 19px;
+    background: linear-gradient(top, #ffffff 1%,#eaeaea 100%);
+    box-shadow: 
+        0px 0px 0px 1px rgba(155,155,155,0.3), 
+        1px 0px 0px 0px rgba(255,255,255,0.9) inset, 
+        0px 2px 2px rgba(0,0,0,0.1);
+}
+
+.ac-container label:hover{
+    background: #fff;
+}
+
+.ac-container label:hover:after,
+.ac-container input:checked + label:hover:after{
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    right: 13px;
+    top: 5px;
+    background: transparent url(../images/arrow_down.png) no-repeat center center;  
+}
+
+.ac-container input:checked + label:hover:after{
+    background-image: url(../images/arrow_up.png);
+}
+
+.ac-container input{
+    display: none;
+}
+
+.ac-container article{
+    background: rgba(255, 255, 255, 0.5);
+    margin-top: -1px;
+    overflow: hidden;
+    height: 0px;
+    position: relative;
+    z-index: 10;
+    transition: 
+        height 0.3s ease-in-out, 
+        box-shadow 0.6s linear;
+}
+.ac-container input:checked ~ article{
+    transition: 
+        height 0.5s ease-in-out, 
+        box-shadow 0.1s linear;
+    box-shadow: 0px 0px 0px 1px rgba(155,155,155,0.3);
+}
+
+.ac-container article p{
+    font-style: italic;
+    color: #777;
+    line-height: 23px;
+    font-size: 14px;
+    padding: 20px;
+    text-shadow: 1px 1px 1px rgba(255,255,255,0.8);
+}
+
+.ac-container input:checked ~ article.ac-small{
+    height: 140px;
+}
+.ac-container input:checked ~ article.ac-medium{
+    height: 180px;
+}
+.ac-container input:checked ~ article.ac-large{
+    height: 230px;
+}
+
+/********* Estilos para pestanias *********/
+
+h1 {
+ margin: 1em 0;
+ text-align: center;
+}
+#container {
+ margin: 0 auto;
+ width: 50%; /* Ancho del contenedor */
+}
+#container input {
+ height: 2.5em;
+ visibility: hidden;
+}
+#container label {
+ background: #f9f9f9; /* Fondo de las pestañas */
+ border-radius: .25em .25em 0 0;
+ color: #888; /* Color del texto de las pestañas */
+ cursor: pointer;
+ display: block;
+ float: left;
+ font-size: 1em; /* Tamaño del texto de las pestañas */
+ height: 2.5em;
+ line-height: 2.5em;
+ margin-right: .25em;
+ padding: 0 1.5em;
+ text-align: center;
+}
+#container input:hover + label {
+ background: #ddd; /* Fondo de las pestañas al pasar el cursor por encima */
+ color: #666; /* Color del texto de las pestañas al pasar el cursor por encima */
+}
+#container input:checked + label {
+ background: #f1f1f1; /* Fondo de las pestañas al presionar */
+ color: #444; /* Color de las pestañas al presionar */
+ position: relative;
+ z-index: 6;
+}
+#content {
+ background: #f1f1f1; /* Fondo del contenido */
+ border-radius: 0 .25em .25em .25em;
+ min-height: 20em; /* Alto del contenido */
+ position: relative;
+ width: 100%;
+ z-index: 5;
+}
+#content div {
+ opacity: 0;
+ padding: 1.5em;
+ position: absolute;
+ z-index: -100;
+}
+#content-1 p {
+ clear: both;
+ margin-bottom: 1em;
+}
+#content-1 p.left img {
+ float: left;
+ margin-right: 1em;
+}
+#content-1 p.last {
+ margin-bottom: 0;
+}
+#content-2 p {
+ float: left;
+ width: 48.5%;
+}
+#content-2 p.column-right {
+ margin-left: 3%;
+}
+#content-2 p img {
+ display: block;
+ margin: 0 auto 1em auto;
+}
+#content-3 p,
+#content-3 ul {
+ margin-bottom: 1em;
+}
+#content-3 ul {
+ margin-left: 2em;
+}
+#container input#tab-1:checked ~ #content #content-1,
+#container input#tab-2:checked ~ #content #content-2,
+#container input#tab-3:checked ~ #content #content-3 {
+ opacity: 1;
+ z-index: 100;
+}
