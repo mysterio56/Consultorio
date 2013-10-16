@@ -1,11 +1,11 @@
-<a href="<?php echo base_url();?>login/logout">Salir</a>
-
 <?php
 
-echo $title;
-echo '<br />';
-echo "Bienvendo";
-$this->load->view('servicios');
-$this->load->view('tabs');
+	$this->load->view('banner');
+	echo '<section class="main-container">';
+		echo '<div id="div-container">';
+			$this->load->view('servicios');
+			$this->load->view('tabs');
+		echo '</div>';
+	echo '</section>';
 
 ?>

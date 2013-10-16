@@ -5,7 +5,7 @@ class Welcome extends CI_Controller{
 	public function __construct()
     {
     	parent::__construct();
-       //if (!$this->session->userdata('username')){ redirect(base_url().'login'); }
+       if (!$this->session->userdata('username')){ redirect(base_url().'login'); }
     }
 
 	public function index()

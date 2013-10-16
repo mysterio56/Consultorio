@@ -1,0 +1,591 @@
+* {
+ font-family: Helvetica, Arial, sans-serif;
+ font-size: 13px;
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+ -moz-box-sizing: border-box;
+ /*behavior: url("../css3-tools/PIE/PIE.htc");
+ behavior: url("../css3-tools/ie-css3.htc");*/
+}
+
+html, body{
+    height: 100%;
+}
+
+
+/*#wrapper{
+    min-height: 100%;
+    height: auto !important;
+    margin: 0 auto -109px;
+} */
+
+/********* Estilos para Footer *********/
+
+.footer-container {
+    height: 96px;
+     background-image: url(../images/bg_blue_lines.png);
+    -moz-box-shadow:inset 0 0 10px #000000;
+    -webkit-box-shadow:inset 0 0 10px #000000;
+    box-shadow:inset 0 0 10px #000000;
+}
+
+.footer-container #footer{
+  width: 985px;
+  height: 96px;
+  margin: 0 auto;
+}
+
+.footer-container #logo-footer{
+  width: 309px;
+  height: 100%;
+  display: inline-block;
+  vertical-align: top;
+  padding-top:15px; 
+}
+
+.footer-container #logo-footer a > *{
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.footer-container #logo-footer a{
+  text-decoration: none;
+}
+
+.footer-container #renew-footer{
+  width: 672px;
+  height: 100%;
+  display: inline-block;
+  vertical-align: top;
+  text-align: right;
+}
+
+.footer-container #renew-footer p{
+  background-image: url(../images/white-arrow.png);
+  background-repeat: no-repeat;
+  background-size: 20px 18px;
+  background-position-x: 412px;
+}
+
+.footer-container #submit-footer {
+    width: 103px;
+    height: 22px;
+    background-color: #ccc;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius:4px;
+    color: #016f93;
+    text-decoration: none;
+    cursor: pointer;
+    border:none;
+    font-size: 11px;
+    margin: 18px;
+}
+
+.footer-container #submit-footer:hover {
+    border: none;
+    background:#a1c5e2;
+    box-shadow: 0px 0px 1px #777;
+}
+
+.footer-container p{
+  color:#FFFFFF;
+}
+
+.footer-container strong{
+  font-size: 15px;
+}
+
+/********* Estilos para Header *********/
+
+.header-container {
+    width: 100%;
+    background-image: url(../images/bg_gray_lines.png);
+    border-bottom: 1px solid #c1c0c0;
+}
+
+.header-container #header {
+
+    height: 100px;
+    margin: 0 auto;
+    width: 986px;
+}
+
+.header-container #logo {
+    display: inline-block;
+    margin-left: 65px;
+}
+
+.header-container #logo img {
+    height: 100px;
+}
+
+.header-container #menu {
+  display: inline-block;
+  float: right;
+}
+
+/********* Estilos para Banner *********/
+
+.banner-container {
+    width: 100%;
+    height: 130px;
+    background-image: url(../images/bg_blue_lines.png);
+    margin: 5px 0 5px 0;
+    /*sombras internas*/
+    -moz-box-shadow:inset 0 0 10px #000000;
+    -webkit-box-shadow:inset 0 0 10px #000000;
+    box-shadow:inset 0 0 10px #000000;
+}
+
+.banner-container #div-banner{
+    width: 986px;
+    height: 100%;
+    margin: 0 auto;
+}
+
+.banner-container #prox-cita{
+    width: 309px;
+    height: 100%;
+    background-color: #F1F1F1;
+    display: inline-block;
+    vertical-align: top;
+    /*sombras internas*/
+    -moz-box-shadow:inset 0 0 10px #000000;
+    -webkit-box-shadow:inset 0 0 10px #000000;
+    box-shadow:inset 0 0 10px #000000;
+    color: #0079a1;
+}
+
+.banner-container #datetime > *{
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+    padding: 10px;
+}
+
+.banner-container #datetime > #time{
+    width: 28%;
+    background-image: url(../images/clock.png);
+    background-repeat: no-repeat;
+    background-position:center left; 
+}
+
+.banner-container #datetime > #date{
+    width: 70%;
+}
+
+.banner-container #doctors{
+    width: 673px;
+    height: 100%;
+    background-color: transparent;
+    display: inline-block;
+    background-image: url(../images/bg_banner.png);
+    background-repeat: no-repeat;
+    background-position:center;
+}
+
+/********* Estilos para Main *********/
+
+.main-container{
+    height: 480px;
+    background-color: #ECECEC;
+    border-top: 1px solid #C1C0C0;
+    border-bottom: 1px solid #C1C0C0;
+    margin-bottom: 5px;
+}
+
+.main-container #div-container{
+    width: 985px;
+    margin: 20px auto 20px auto;
+}
+
+/********* Estilos para Acordeon *********/
+
+.ac-container{
+    width: 309px;
+    height: 400px;
+    display: inline-block;
+    vertical-align: top;
+    background-color: #FCFCFC;
+}
+
+.ac-container label{
+    padding: 5px 20px;
+    position: relative;
+    z-index: 20;
+    display: block;
+    height: 30px;
+    cursor: pointer;
+    color: #6fc7e4;
+    text-shadow: 1px 1px 1px rgba(255,255,255,0.8);
+    line-height: 17px;
+    /*font-size: 19px;*/
+    background: linear-gradient(top, #ffffff 1%,#eaeaea 100%);
+    box-shadow:
+        0px 0px 0px 1px rgba(155,155,155,0.3),
+        1px 0px 0px 0px rgba(255,255,255,0.9) inset,
+        0px 2px 2px rgba(0,0,0,0.1);
+}
+
+.ac-container label:hover{
+    background: #fff;
+}
+
+.ac-container label:hover:after,
+.ac-container input:checked + label:hover:after{
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    right: 13px;
+    top: 5px;
+    background: transparent url(../images/arrow_down.png) no-repeat center center;
+}
+
+.ac-container input:checked + label:hover:after{
+    background-image: url(../images/arrow_up.png);
+}
+
+.ac-container input{
+    display: none;
+}
+
+.ac-container article{
+    background: rgba(255, 255, 255, 0.5);
+    margin-top: -1px;
+    overflow: hidden;
+    height: 0px;
+    position: relative;
+    z-index: 10;
+    transition:
+        height 0.3s ease-in-out,
+        box-shadow 0.6s linear;
+}
+.ac-container input:checked ~ article{
+    transition:
+        height 0.5s ease-in-out,
+        box-shadow 0.1s linear;
+    box-shadow: 0px 0px 0px 1px rgba(155,155,155,0.3);
+}
+
+.ac-container article p{
+    font-style: italic;
+    color: #777;
+    line-height: 23px;
+    /*font-size: 14px;*/
+    padding: 20px;
+    text-shadow: 1px 1px 1px rgba(255,255,255,0.8);
+}
+
+.ac-container input:checked ~ article.ac-small{
+    height: 140px;
+}
+.ac-container input:checked ~ article.ac-medium{
+    height: 180px;
+}
+.ac-container input:checked ~ article.ac-large{
+    height: 230px;
+}
+
+/********* Estilos para Tabs *********/
+
+.tabs-container{
+  width: 655px;
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 20px;
+}
+
+#container {
+
+}
+#container input {
+ height: 2.5em;
+ visibility: hidden;
+}
+#container label {
+ background: #f9f9f9; /* Fondo de las pestañas */
+ border-radius: .25em .25em 0 0;
+ color: #888; /* Color del texto de las pestañas */
+ cursor: pointer;
+ display: block;
+ float: left;
+ font-size: 1em; /* Tamaño del texto de las pestañas */
+ height: 2.5em;
+ line-height: 2.5em;
+ margin-right: .25em;
+ padding: 0 1.5em;
+ text-align: center;
+}
+#container input:hover + label {
+ background: #ddd; /* Fondo de las pestañas al pasar el cursor por encima */
+ color: #666; /* Color del texto de las pestañas al pasar el cursor por encima */
+}
+#container input:checked + label {
+ background: #f1f1f1; /* Fondo de las pestañas al presionar */
+ color: #444; /* Color de las pestañas al presionar */
+ position: relative;
+ border: 1px solid #000000;
+ z-index: 6;
+}
+#content {
+ border-radius: 0 .25em .25em .25em;
+ min-height: 20em; /* Alto del contenido */
+ position: relative;
+ width: 100%;
+ z-index: 5;
+}
+#content div {
+ opacity: 0;
+ padding: 1.5em;
+ position: absolute;
+ z-index: -100;
+}
+#content-1 p {
+ clear: both;
+ margin-bottom: 1em;
+}
+#content-1 p.left img {
+ float: left;
+ margin-right: 1em;
+}
+#content-1 p.last {
+ margin-bottom: 0;
+}
+#content-2 p {
+ float: left;
+ width: 48.5%;
+}
+#content-2 p.column-right {
+ margin-left: 3%;
+}
+#content-2 p img {
+ display: block;
+ margin: 0 auto 1em auto;
+}
+#content-3 p,
+#content-3 ul {
+ margin-bottom: 1em;
+}
+#content-3 ul {
+ margin-left: 2em;
+}
+#container input#tab-1:checked ~ #content #content-1,
+#container input#tab-2:checked ~ #content #content-2,
+#container input#tab-3:checked ~ #content #content-3 {
+ opacity: 1;
+ z-index: 100;
+}
+
+/********* Estilos para menu_header *********/
+
+nav{
+   height: 39px;
+   background: #F9F9F9;
+   border: 2px solid #8F8F8F;
+   border-top: none;
+   float: right;
+   display: inline-block;
+   -moz-border-radius: 0 0 6px 6px;
+   -webkit-border-radius: 0 0 6px 6px;
+   border-radius: 0 0 6px 6px;
+   margin-bottom: 10px;
+}
+
+nav li{
+   list-style: none;
+   height: 39px;
+   position:relative; /* importante, para que el submenu tome la posición correcta*/
+   float: right;
+   display: inline-block;
+   padding-left: 13px;
+}
+
+nav li a{
+   color:#666;
+   height: 39px;
+   text-decoration:none;
+   padding: 10px;
+   padding-left: 19px;
+   display:block;
+}
+
+.parent > a{
+    background: transparent url(../images/arrow_down.png) no-repeat left center;
+}
+
+nav li a:hover{
+   color:#08D;
+}
+
+nav li.parent:hover{
+   border: 1px #ccc solid;
+   margin: -1px;
+   background: #F8F8F8;
+   -moz-border-radius: 0 0 6px 6px;
+   -webkit-border-radius: 0 0 6px 6px;
+   border-radius: 0 0 6px 6px;
+}
+
+nav li li a{
+   width: 180px;/*el ancho de los links del submenu, debe ser fijo, esto servirá para crear la animación mas adelante */
+   height: 27px;
+   display: block;
+   padding: 3px;
+   padding-left: 17px;
+}
+
+nav li li{
+   border-bottom:1px solid #8F8F8F;
+   left: 1px;
+   height: 27px;
+   padding-left: 0px;
+}
+
+/* aquí esta lo importante!! */
+nav li ul {
+   width: 180px;
+   margin: 0;
+   display: none;
+   background: #F8F8F8;
+   position: absolute;
+   top: 107%;
+   left: -1px;
+   border: 1px solid #8F8F8F;
+   border-bottom: none;
+}
+nav li:hover ul {
+   display: block;
+}
+
+.header-container #logout, #welcome{
+   margin-bottom: 10px;
+   text-align: right;
+}
+
+.header-container #logout > a{
+    padding-left: 20px;
+    background: transparent url(../images/logout.png) no-repeat left center;
+    background-size:15px 15px;
+    text-decoration: none;
+    color: #eb6f00;
+    font-size: 11px;
+}
+
+.header-container #welcome > *{
+  display: inline-block;
+}
+
+.header-container #welcome > p{
+  padding-left: 30px;
+  background: transparent url(../images/green_dot.png) no-repeat left center;
+  background-size:30px 30px;
+}
+
+.header-container #welcome {
+  color: #005d7b;
+}
+
+/********* Estilos para Datagrid *********/
+
+.datagrid table {
+  border-collapse: collapse;
+  text-align: left;
+  width: 100%; }
+
+.datagrid {
+    background: #fff;
+    overflow: hidden;
+    border: 1px solid #006699;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px; }
+
+.datagrid table td,
+.datagrid table th {
+  padding: 3px 10px;
+  }
+
+.datagrid table thead th {
+/*background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );
+background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );
+filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');*/
+background-color:#4cbade;
+color:#cfecf5;
+font-size: 15px;
+font-weight: bold;
+border-left: 1px solid #0070A8;
+}
+
+.datagrid table thead th:first-child {
+border: none;
+}
+
+.datagrid table tbody td {
+  color: #00496B;
+  border-left: 1px solid #E1EEF4;
+  font-size: 12px;
+  font-weight: normal;
+  }
+
+.datagrid table tbody .alt td {
+  background: #E1EEF4;
+  color: #00496B; }
+
+.datagrid table tbody td:first-child {
+  border-left: none;
+  }
+
+.datagrid table tbody tr:last-child td {
+  border-bottom: none;
+  }
+.datagrid table tfoot td div {
+  border-top: 1px solid #006699;
+  background: #E1EEF4;
+
+  }
+.datagrid table tfoot td {
+  padding: 0;
+  font-size: 12px
+
+  }
+
+.datagrid table tfoot td div{
+  padding: 2px;
+  }
+
+.datagrid table tfoot td ul {
+  margin: 0;
+  padding:0;
+  list-style: none;
+  text-align: right;
+  }
+
+.datagrid table tfoot  li {
+  display: inline;
+  }
+
+.datagrid table tfoot li a {
+  text-decoration: none;
+  display: inline-block;
+  padding: 2px 8px;
+  margin: 1px;
+  color: #FFFFFF;
+  border: 1px solid #006699;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );
+  background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');
+  background-color:#006699; }
+
+.datagrid table tfoot ul.active, .datagrid table tfoot ul a:hover {
+    text-decoration: none;
+    border-color: #006699;
+    color: #FFFFFF;
+    background: none;
+    background-color:#00557F;
+}
