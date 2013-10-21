@@ -3,7 +3,20 @@
 	<head>
 		<meta charset="utf-8" />
 		<title><?= $title ?></title>
-	<link rel="stylesheet" href="<?php echo base_url("assets/css/styles.css");?>" type="text/css" media="screen"/>
+		<?php
+			if(isset($cssFiles) && is_array($cssFiles)){
+				foreach($cssFiles as $cssFile) {
+		        	echo '<link href="'.base_url('assets/css/'.$cssFile).'" rel="stylesheet" type="text/css" />';
+		        } 
+		    }
+        ?>
+        <?php
+	        if(isset($jsFiles) && is_array($jsFiles)){
+				foreach($jsFiles as $jsFile) {
+					echo '<script src="'.base_url('assets/js/'.$jsFile).'" type="text/javascript"></script>';
+		        }
+		    } 
+        ?>
 	</head>
 	<body>
 		<header class="header-container">

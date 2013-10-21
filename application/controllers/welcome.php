@@ -5,13 +5,17 @@ class Welcome extends CI_Controller{
 	public function __construct()
     {
     	parent::__construct();
-       if (!$this->session->userdata('username')){ redirect(base_url().'login'); }
+    	if (!$this->session->userdata('username')){ redirect(base_url().'login'); }
     }
 
 	public function index()
 	{
 		$data['title'] = "welcome page";
 		$data['view']  = "welcome";
+		$data['cssFiles'] = array('styles.css');
+		$data['jsFiles'] = array('jquery.js',
+								 'main.js'); 
+
 		$this->load->view('template',$data);
 	}
 

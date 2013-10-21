@@ -5,11 +5,14 @@ class Login extends CI_Controller{
 	public function index()
 	{	
 		
+		if ($this->session->userdata('username')){ redirect(base_url('welcome')); }
+
 		$this->form_validation->set_rules('user_name', 'Username', 'strip_tags|trim|valid_email|required|xss_clean');
 		$this->form_validation->set_rules('password', 'Password', 'strip_tags|trim|required|md5');
 
 		$data['title'] = "Login";
 		$data['view']  = "login";
+		$data['cssFiles'] = array('styles.css');
 
 		if ($this->form_validation->run() === false){
 
