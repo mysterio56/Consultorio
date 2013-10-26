@@ -29,11 +29,9 @@
 				<div id="menu">
 					<?php if ($this->session->userdata('username')): ?>
 						<?php $this->load->view('menu_header'); ?>
-						<div id="logout">
-							<a href="<?php echo base_url();?>login/logout">Cerrar Sesión</a>
-						</div>
+						
 						<div id="welcome">
-							<p>Bienvenido:</p><strong><?php echo $user_name = "&nbsp;Dr. Francisco Javier Sanchez Rosales"; ?></strong>
+							<p>Bienvenido:</p><strong><?= $user_name = "&nbsp;Dr. Francisco Javier Sanchez Rosales"; ?></strong><a id="logout" href="<?= base_url(); ?>login/logout">Cerrar Sesión</a>
 						</div>
 					<?php endif; ?>
 				</div>
