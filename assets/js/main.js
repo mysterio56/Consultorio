@@ -106,8 +106,10 @@ Tab.moveRight = function()
   var left = $("#carousel-tabs").css("left");
   left = parseInt(left);
   if(left < 0){
-    left = left+25;
-    $("#carousel-tabs").css("left",left);
+    left = left+100;
+    $("#carousel-tabs").animate({"left":left});
+  } else {
+    $("#carousel-tabs").animate({"left":0});
   }
   
 }
@@ -115,6 +117,56 @@ Tab.moveRight = function()
 Tab.moveLeft = function()
 {
   var left = $("#carousel-tabs").css("left");
-  left = parseInt(left)-25;
-  $("#carousel-tabs").css("left",left);
+  left = parseInt(left)-100;
+  $("#carousel-tabs").animate({"left":left});
 }
+
+/*** Funciones para la animacion del banner ***/ 
+function Banner() {
+  setTimeout("Banner.hide();",3000);
+}
+
+Banner.hide = function()
+{
+  $('.banner-container').animate({"height": "30px"});
+  $('.banner-container').attr({"title": "Da click para expander"});
+  $('#prox-cita').animate({width: "985px"});
+  $('#doctors').hide();
+  $('#detail-cita').hide();
+  $('#detail-cita-small').show();
+  $('#detail-cita-small').css({display: 'inline-block'});
+  $('#head-cita').css({'width':'150px',
+                       'padding-left': '50px',
+                       'padding-top': '4px',
+                       'background-position': '25px 3px',
+                       'background-size': '18px'});
+  $('#date, #time').css('padding','7px');
+  
+}
+
+Banner.show = function()
+{
+  $('.banner-container').animate({"height": "130px"});
+  $('.banner-container').attr({"title": "Da click para ocultar"});
+  $('#prox-cita').animate({width: "309px"});
+  $('#doctors').show();
+  $('#detail-cita').show();
+  $('#detail-cita-small').css({display: 'none'});
+  $('#head-cita').css({'width':'330px',
+                       'padding-left': '0px',
+                       'padding-top': '7px',
+                       'background-position': '77px 5px',
+                       'background-size': '21px'});
+  $('#date, #time').css('padding','10px');
+}
+
+Banner.showHide = function()
+{
+  if($('.banner-container').css("height") == "30px"){
+    this.show();
+  } else {
+    this.hide();
+  }
+}
+
+var banner = new Banner();
