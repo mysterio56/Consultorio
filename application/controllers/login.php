@@ -7,38 +7,27 @@ class Login extends CI_Controller{
 		
 		if ($this->session->userdata('username')){ redirect(base_url('welcome')); }
 
-		$this->form_validation->set_rules('user_name', 'Username', 'strip_tags|trim|valid_email|required|xss_clean');
-		$this->form_validation->set_rules('password', 'Password', 'strip_tags|trim|required|md5');
-
 		$data['title'] = "Login";
 		$data['view']  = "login";
 		$data['cssFiles'] = array('styles.css');
+		
+        $name      = $this->input->post('user_name');
+		$password  = $this->input->post('password');
 
-		if ($this->form_validation->run() === false){
+		$oUsuarios = new Usuario();
+	    $oUsuarios->get();
 
-			$data['error_message'] = "Inserte su nombre de usuario y contraseña por favor";
-			$this->load->view('template', $data);
+	    $total = count($oUsuarios->all);
 
-		} else {
-	
-			$name      = $this->input->post('user_name');
-			$password  = $this->input->post('password');
-			
-			$this->load->model('login_model');
-			$result = $this->login_model->get_user($name, $password);
+	    print_r($total);exit();
 
-			if ($result === true){
-
-				redirect(base_url('welcome'));
-
-			}else{
-
-				$data['error_menssage'] = 'Usuario y/o constraseña invalido';
-				$this->load->view('template', $data);
-
-			}
-		}
+		if ($oUsuarios->save()) {
+	        redirect('welcome');
+    	} else {
+        	$this->load->view('template',$data);
+    	}
 	}
+	
 
 	public function logout()
 	{
