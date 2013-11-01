@@ -7,24 +7,53 @@ class Login extends CI_Controller{
 		
 		if ($this->session->userdata('username')){ redirect(base_url('welcome')); }
 
-		$data['title'] = "Login";
-		$data['view']  = "login";
+		$data['title']    = "Login";
+		$data['view']     = "login";
 		$data['cssFiles'] = array('styles.css');
+		$data['jsFiles']  = array('jquery.js',
+								  'jquery-validation/dist/jquery.validate.js',
+								  'jquery-validation/localization/messages_es.js',
+								  'valid_forms.js');
 		
-        $name      = $this->input->post('user_name');
-		$password  = $this->input->post('password');
+		if($this->input->post()){
 
-		$oUsuarios = new Usuario();
-	    $oUsuarios->get();
+	        $usuario   = $this->input->post('usuario');
+			$password  = md5($this->input->post('password'));
 
-	    $total = count($oUsuarios->all);
+			$oUsuarios = new Usuario();
 
-	    print_r($total);exit();
+		    $oUsuarios->where(array('usuario' => $usuario,
+		    						'clave'   => $password,
+		    						'estatus' => 1))->get();
+		    
+		    $total = count($oUsuarios->all);
 
-		if ($oUsuarios->save()) {
-	        redirect('welcome');
+			if ($total) {
+
+				$oUsuarios->empleado->get();
+
+				$userdata = array('username'        => $oUsuarios->usuario,
+	                              'id_user'         => $oUsuarios->id,
+	                              'type_user'       => $oUsuarios->tipo,
+	                              'id_consultorio'  => $oUsuarios->empleado->consultorio_id,
+	                              'nombre_completo' => $oUsuarios->empleado->nombre.' '.
+	                              					   $oUsuarios->empleado->apellido_p.' '.
+	                              					   $oUsuarios->empleado->apellido_m);
+	                 
+	            $this->session->set_userdata($userdata);
+		        redirect('welcome');
+
+	    	} else {
+	    		
+	    		$data['error_menssage'] = 'Usuario y/o constraseña invalido';
+	        	$this->load->view('template',$data);
+
+	    	}
+
     	} else {
-        	$this->load->view('template',$data);
+
+    		$this->load->view('template',$data);
+
     	}
 	}
 	

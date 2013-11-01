@@ -20,6 +20,14 @@ html, body{
     margin: 0 auto -109px;
 } */
 
+/********* Estilos para error de validacion en formularios *********/
+
+.error{
+  color:red;
+  font-weight: bold;
+  margin: 3px;
+}
+
 /********* Estilos para Footer *********/
 
 .footer-container {
@@ -452,9 +460,10 @@ html, body{
 
 #container iframe {
   height: 400px;
-  width: 620px;
+  width: 665px;
   border:none;
   background-color:#ECECEC;
+  margin-top: -10px;
 }
 
 #container input[type="radio"] {
@@ -534,6 +543,11 @@ html, body{
 }
 
 /********* Estilos para menu_header *********/
+
+#divnav{
+  width: 680px;
+  height: 45px;
+}
 
 nav{
    height: 30px;
@@ -649,106 +663,4 @@ nav li:hover ul {
 
 .header-container #welcome {
   color: #005d7b;
-}
-
-/********* Estilos para Datagrid *********/
-
-.datagrid table {
-  border-collapse: collapse;
-  text-align: left;
-  width: 100%; }
-
-.datagrid {
-    background: #fff;
-    overflow: hidden;
-    border: 1px solid #006699;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px; }
-
-.datagrid table td,
-.datagrid table th {
-  padding: 3px 10px;
-  }
-
-.datagrid table thead th {
-/*background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );
-background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );
-filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');*/
-background-color:#4cbade;
-color:#cfecf5;
-font-size: 15px;
-font-weight: bold;
-border-left: 1px solid #0070A8;
-}
-
-.datagrid table thead th:first-child {
-border: none;
-}
-
-.datagrid table tbody td {
-  color: #00496B;
-  border-left: 1px solid #E1EEF4;
-  font-size: 12px;
-  font-weight: normal;
-  }
-
-.datagrid table tbody .alt td {
-  background: #E1EEF4;
-  color: #00496B; }
-
-.datagrid table tbody td:first-child {
-  border-left: none;
-  }
-
-.datagrid table tbody tr:last-child td {
-  border-bottom: none;
-  }
-.datagrid table tfoot td div {
-  border-top: 1px solid #006699;
-  background: #E1EEF4;
-
-  }
-.datagrid table tfoot td {
-  padding: 0;
-  font-size: 12px
-
-  }
-
-.datagrid table tfoot td div{
-  padding: 2px;
-  }
-
-.datagrid table tfoot td ul {
-  margin: 0;
-  padding:0;
-  list-style: none;
-  text-align: right;
-  }
-
-.datagrid table tfoot  li {
-  display: inline;
-  }
-
-.datagrid table tfoot li a {
-  text-decoration: none;
-  display: inline-block;
-  padding: 2px 8px;
-  margin: 1px;
-  color: #FFFFFF;
-  border: 1px solid #006699;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );
-  background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );
-  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');
-  background-color:#006699; }
-
-.datagrid table tfoot ul.active, .datagrid table tfoot ul a:hover {
-    text-decoration: none;
-    border-color: #006699;
-    color: #FFFFFF;
-    background: none;
-    background-color:#00557F;
 }

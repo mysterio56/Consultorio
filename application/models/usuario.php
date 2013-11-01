@@ -3,14 +3,16 @@
 class Usuario extends DataMapper
 {
  
-    public $table = "usuarios";
+    public $table    = "usuarios";
  
-    //public $has_one = array("empleado");
+    public $has_one  = array("empleado");
+
+    public $has_many = array("modulo");
  
     public $validation = array(
         'usuario' => array(
             'label' => 'Usuario',
-            'rules' => array('required', 'trim', 'unique', 'min_length' => 2, 'max_length' => 45),
+            'rules' => array('valid_email','required', 'trim', 'unique', 'min_length' => 2, 'max_length' => 45),
         ),
         'clave' => array(
             'label' => 'Clave',

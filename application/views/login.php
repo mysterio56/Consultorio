@@ -1,21 +1,28 @@
+<script>
+	$(function(){ Valid.login() });
+</script>
 <div id="login_form" 
 	 style="width:400px; margin:100px auto; border-radius:5px; border:1px solid #909090; pading:20px" >
 
 	 <?php
-	 	//echo '<p>'.$error_message.'</p>';
-	 	//echo validation_errors();
-	 	echo form_open();
 
-	 		echo form_label('Username : ');
+	 	if (isset($error_menssage)){
+	 		echo '<div class="error">'.$error_menssage.'</div>';
+	 	}
+
+	    $attributes = array('id' => 'loginForm');
+
+	 	echo form_open(null,$attributes);
+
+	 		echo form_label('Usuario : ');
 		 	$data = array(
-		 		'name'  =>  'user_name',
-		 		'id'    => 'user_name',
-		 		'value' => set_value('username'),
+		 		'name'  => 'usuario',
+		 		'id'    => 'usuario',
+		 		'value' => set_value('usuario'),
 		 		'style' => 'width:90%'
 		 	);
 
 		 	echo form_input($data);
-		 	echo form_error('user_name');
 
 		 	echo form_label('Password : ');
 		 	$data = array(
@@ -26,7 +33,6 @@
 		 	);
 
 		 	echo form_password($data);
-		 	echo form_error('password');
 
 		 	$data = array(
 		 		'name'  =>  'login',

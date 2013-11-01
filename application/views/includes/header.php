@@ -31,7 +31,7 @@
 						<?php $this->load->view('menu_header'); ?>
 						
 						<div id="welcome">
-							<p>Bienvenido:</p><strong><?= $user_name = "&nbsp;Dr. Francisco Javier Sanchez Rosales"; ?></strong><a id="logout" href="<?= base_url(); ?>login/logout">Cerrar Sesión</a>
+							<p>Bienvenido:</p><strong><?= "&nbsp".$this->session->userdata('nombre_completo'); ?></strong><a id="logout" href="<?= base_url(); ?>login/logout">Cerrar Sesión</a>
 						</div>
 					<?php endif; ?>
 				</div>

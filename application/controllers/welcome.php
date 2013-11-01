@@ -10,13 +10,19 @@ class Welcome extends CI_Controller{
 
 	public function index()
 	{
-		$data['title'] = "welcome page";
-		$data['view']  = "welcome";
-		$data['cssFiles'] = array('styles.css');
-		$data['jsFiles'] = array('jquery.js',
-								 'main.js'); 
 
+		$oUsuario = new Usuario();
+		$oUsuario->where('id',$this->session->userdata('id_user'))->get();
+
+		$data['modulos']  = $oUsuario->modulo->get()->all;
+		$data['title']    = "welcome page";
+		$data['view']     = "welcome";
+		$data['cssFiles'] = array('styles.css');
+		$data['jsFiles']  = array('jquery.js',
+								  'main.js'); 
+		
 		$this->load->view('template',$data);
+
 	}
 
 }

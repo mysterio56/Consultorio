@@ -2,15 +2,35 @@
 	<table>
 		<thead>
 			<tr>
+				<th>Código</th>
 				<th>Nombre</th>
-				<th>Edad</th>
-				<th>Nombre de Usuario</th>
+				<th>Email</th>
+				<th>Teléfono</th>
+				<th>Celular</th>
 				<th>Editar</th>
 				<th>Activo</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
+			<?php 
+				foreach($empleados as $empleado){
+					echo '<tr>';
+						echo '<td>'.$empleado->codigo.'</td>';
+						echo '<td>'.$empleado->nombre.' '.$empleado->apellido_p.' '.$empleado->apellido_m.'</td>';
+						echo '<td>'.$empleado->email.'</td>';
+						echo '<td>'.$empleado->telefono.'</td>';
+						echo '<td>'.$empleado->celular.'</td>';
+
+						echo '<td><a href="'.base_url('employees/editar/'.$empleado->id).'">
+								  <img src="'.base_url('assets/images/edit.png').'" /></a></td>';
+
+						$activo = $empleado->estatus?'active':'inactive';
+						echo '<td><a href="'.base_url('employees/status/'.$empleado->id).'">
+								  <img src="'.base_url('assets/images/'.$activo.'.png').'" /></a></td>';
+					echo '</tr>';
+				}
+			?>
+			<!--<tr>
 				<td>Yolanda Cristina Núñez Toscano</td>
 				<td>20</td>
 				<td>yola123</td>
@@ -51,7 +71,7 @@
 				<td>vasti123</td>
 				<td><img src="<?php echo base_url('assets/images/edit.png');?>" /></td>
 				<td><img src="<?php echo base_url('assets/images/active.png');?>" /></td>
-			</tr>
+			</tr>-->
 		</tbody>
 		<tfoot>
 			<tr>
@@ -99,3 +119,4 @@
 			</tfoot>
 	</table>
 </section>
+<a class="abutton" href="<?= base_url('employees/agregar') ?>">Agregar</a>
