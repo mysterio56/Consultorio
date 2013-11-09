@@ -1,5 +1,14 @@
 <?php
+    /** funcion para validar que la pagina se habra en un iframe **/
+    IframeRedirect();
 
+    define ("PERMISOS", serialize (array("Agregar"  => array(4,5,6,7),
+                                         "Editar"   => array(2,3,6,7),
+                                         "Eliminar" => array(1,3,5,7)
+                                         )
+                                  )
+           );
+    
 	if(isset($cssFiles) && is_array($cssFiles)){
 		foreach($cssFiles as $cssFile) {
         	echo '<link href="'.base_url('assets/css/'.$cssFile).'" rel="stylesheet" type="text/css" />';
@@ -30,6 +39,5 @@
      title   = "Recargar pestaña" />
 
 <?php   
-    $this->load->view($view); 
-    
+    $this->load->view($view);     
 ?>

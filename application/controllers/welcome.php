@@ -13,13 +13,18 @@ class Welcome extends CI_Controller{
 
 		$oUsuario = new Usuario();
 		$oUsuario->where('id',$this->session->userdata('id_user'))->get();
+		
+		$empleado = $oUsuario->empleado->get();
+		$empleado->consultorio->get();
 
-		$data['modulos']  = $oUsuario->modulo->get()->all;
-		$data['title']    = "welcome page";
-		$data['view']     = "welcome";
-		$data['cssFiles'] = array('styles.css');
-		$data['jsFiles']  = array('jquery.js',
-								  'main.js'); 
+		$data['logo']       = $empleado->consultorio->nombre_logo;
+		$data['modulos']    = $oUsuario->modulo->where('modulo_id',0)->get()->all;
+		$data['submodulos'] = $oUsuario->modulo->where('modulo_id <>',0)->get()->all;
+		$data['title']      = "welcome page";
+		$data['view']       = "welcome";
+		$data['cssFiles']   = array('styles.css');
+		$data['jsFiles']    = array('jquery.js',
+							     	'main.js'); 
 		
 		$this->load->view('template',$data);
 

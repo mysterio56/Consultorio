@@ -1,6 +1,6 @@
 <section class="tabs-container">
   <div id="container">
-
+  <img src="<?php echo base_url("assets/images/logos/".$logo."_bg_logo.png");?>" />
   	  <input type="button" id="moveTabLeft"  class="hide" onClick="Tab.moveRight()" />
 	  <div id="tabs">
 	  	<div id="carousel-tabs">

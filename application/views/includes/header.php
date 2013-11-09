@@ -23,13 +23,14 @@
 			<div id="header">
 				<div id="logo">
 					<a href="<?php echo base_url("welcome");?>">
-						<img src="<?php echo base_url("assets/images/header_logo.png");?>" />
+						<?php if ($this->session->userdata('username')): ?>
+							<img src="<?php echo base_url("assets/images/logos/".$logo."_logo.png");?>" />
+						<?php endif; ?>
 					</a>
 				</div>
 				<div id="menu">
 					<?php if ($this->session->userdata('username')): ?>
 						<?php $this->load->view('menu_header'); ?>
-						
 						<div id="welcome">
 							<p>Bienvenido:</p><strong><?= "&nbsp".$this->session->userdata('nombre_completo'); ?></strong><a id="logout" href="<?= base_url(); ?>login/logout">Cerrar Sesión</a>
 						</div>

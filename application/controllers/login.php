@@ -25,8 +25,20 @@ class Login extends CI_Controller{
 		    $oUsuarios->where(array('usuario' => $usuario,
 		    						'clave'   => $password,
 		    						'estatus' => 1))->get();
-		    
+
+		    $oUsuarios->empleados->get();
+
 		    $total = count($oUsuarios->all);
+
+		    if($oUsuarios->empleados->estatus != 1){
+		    	$total = 0;
+			}
+
+			$oUsuarios->empleados->consultorio->get(); 
+
+			if($oUsuarios->empleados->consultorio->estatus != 1){
+		    	$total = 0;
+			}
 
 			if ($total) {
 

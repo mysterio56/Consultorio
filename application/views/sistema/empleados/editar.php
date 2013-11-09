@@ -2,6 +2,8 @@
 	$(function(){ Valid.empleados(); });
 </script>
 <?php
+
+	$aPermisos = unserialize (PERMISOS);
 	$attributes = array('id' => 'empleadosForm');
 
 	 	echo form_open(null,$attributes);
@@ -87,15 +89,43 @@
 		 	echo form_input($data);
 		 	echo '<br />';
 
-		 	echo form_label('Activo:');
-		 	$data = array(
-		 		'name'    => 'activo',
-		 		'id'      => 'activo',
-		 		'value'   => 1,
-		 		'checked' => ($empleado->estatus)?"checked":"",
-		 	);
+            echo form_label('Tipo de empleado:');
 
-		 	echo form_checkbox($data);
+		 	?>
+
+		 	<select name="tipo_empleado">
+		 		<option value="0">Seleccione...</option>
+		 		<?php foreach($tipoEmpleado as $tipo): ?>
+				  <option value="<?= $tipo->id; ?>" 
+				  	      <?= ($empleado->tipo_empleado_id == $tipo->id)?'selected':''; ?> >
+				  	      <?= $tipo->nombre; ?></option>
+				<?php endforeach; ?>
+		    </select>
+
+		 	<?php
+		 	echo '<br />';
+
+		 	$empleado->especialidad->get();
+
+			foreach($empleado->especialidad->all as $empleado_especialidad){
+             			$aChecked[$empleado_especialidad->id] = $empleado_especialidad->id;
+             }
+
+             if(!isset($aChecked))
+             	$aChecked[0] = 0;
+
+		 	foreach($especialidades as $especialidad){
+		 		echo form_label($especialidad->nombre.':');
+		 		$data = array(
+		 			'name'  => 'especialidades[]',
+		 			'id'    => 'especialidad_'.$especialidad->id,
+		 			'value' => $especialidad->id,
+		 			'checked' => (in_array($especialidad->id,$aChecked))?true:false
+ 		 			);
+
+		 		echo form_checkbox($data);
+		 	}
+
 		 	echo '<br />';
 
 		 	echo form_label('Activar como usuario del sistema:');
@@ -128,6 +158,44 @@
 		 		);
 
 		 		echo form_checkbox($data);
+
+		 		$printPermiso = 0;
+
+		 		foreach($permisos as $permiso){
+		 			if($modulo->id == $permiso->modulo_id){
+		 				$printPermiso = $permiso->permiso;
+		 			}
+		 		}
+             		
+
+		 		echo form_label('Agregar:');
+		 		$data = array(
+				 		'name'    => 'permisos_'.$modulo->id.'[]',
+				 		'value'   => 4,
+				 		'checked' => (in_array($printPermiso,$aPermisos['Agregar']))?true:false,		
+		 		);
+
+		 		echo form_checkbox($data);
+
+		 		echo form_label('Editar:');
+		 		$data = array(
+				 		'name'    => 'permisos_'.$modulo->id.'[]',
+				 		'value'   => 2,
+				 		'checked' => (in_array($printPermiso,$aPermisos['Editar']))?true:false,		
+		 		);
+
+		 		echo form_checkbox($data);
+
+		 		echo form_label('Eliminar:');
+		 		$data = array(
+				 		'name'    => 'permisos_'.$modulo->id.'[]',
+				 		'value'   => 1,
+				 		'checked' => (in_array($printPermiso,$aPermisos['Eliminar']))?true:false,		
+		 		);
+
+		 		echo form_checkbox($data);
+
+		 		echo '<br />';
 
 		 	}
 

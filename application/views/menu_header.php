@@ -4,11 +4,47 @@
 <div id="divnav">
    <nav>
 
-         <?php 
+         <?php
+
+            $aSubmodulo = array();
+
+            foreach($submodulos as $submodulo){
+              $aSubmodulo[$submodulo->id] = $submodulo->nombre; 
+            }
+  
             foreach($modulos as $modulo){
-               echo '<li><a href="javascript:void(0)" 
+
+               $modulo->modulo->get();
+
+               $isParent = '';
+
+              foreach($modulo->modulo->all as $submodulo){
+                if(in_array($submodulo->nombre,$aSubmodulo)){
+                    $isParent = 'parent';                  
+                }
+              }
+
+               echo '<li class="'.$isParent.'"><a href="javascript:void(0)" 
                            onClick = "Tab.newTab(\''.$modulo->nombre.'\',base_url+\''.$modulo->url.'\');">'.$modulo->nombre.'
-                         </a></li>';
+                         </a>';
+                         if($isParent == 'parent'){
+                           echo '<ul>';
+                            foreach($modulo->modulo->all as $submodulo){
+                                if(in_array($submodulo->nombre,$aSubmodulo)){
+                                  
+                                      echo '<li>
+                                               <a href="javascript:void(0)"
+                                                   onClick = "Tab.newTab(\''.$submodulo->nombre.'\',base_url+\''.$submodulo->url.'\');">'.$submodulo->nombre.'
+                                                </a>
+                                            </li>';
+                                      
+                                  
+                                }
+                            }
+                            echo '</ul>';
+                         }
+
+               echo '</li>';
             }
          ?>
          <!--<li class="parent"><a href="javascript:void(0)">Menu 1</a>

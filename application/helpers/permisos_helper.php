@@ -2,14 +2,24 @@
 
 if ( ! function_exists('permisos'))
 {
-    function permisos($usuario_id = null, $modulo_id = null)
+    function permisos($usuario_id = null)
     {
 
     	$permisos = new Permiso();
-    	$permisos->where(array('usuario_id' => $usuario_id,
-    						   'modulo_id'  => $modulo_id))->get();
+    	$modulos  = new Modulo();
 
-        return $permisos->permiso;
+    	$permisos->where('usuario_id', $usuario_id)->get();
+
+    	foreach($permisos as $aIthem){
+    		$modulos->where('id', $aIthem->modulo_id)->get();
+    		$aPermisosUsuario[$modulos->url] = $aIthem->permiso;
+    	}
+
+        if(isset($aPermisosUsuario)){
+            return $aPermisosUsuario;
+        } else {
+            redirect(base_url('error'));
+        }
 
     }   
 }

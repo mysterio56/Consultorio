@@ -15,7 +15,7 @@
 
 .datagrid table td,
 .datagrid table th {
-  padding: 3px 10px;
+  padding: 3px 5px;
   }
 
 .datagrid table thead th {
@@ -23,14 +23,15 @@
 background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );
 filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');*/
 background-color:#4cbade;
-color:#cfecf5;
+color:#005d7b;
 font-size: 15px;
 font-weight: bold;
 border-left: 1px solid #0070A8;
+border-bottom: 1px solid #0070A8;
 }
 
 .datagrid table thead th:first-child {
-border: none;
+border-left: none;
 }
 
 .datagrid table tbody td {
@@ -45,12 +46,17 @@ border: none;
   color: #00496B; }
 
 .datagrid table tbody td:first-child {
-  border-left: none;
+  
   }
 
 .datagrid table tbody tr:last-child td {
   border-bottom: none;
-  }
+}
+
+.datagrid table tbody tr.even {
+  background-color: #CEECF5;  
+}
+
 .datagrid table tfoot td div {
   border-top: 1px solid #006699;
   background: #E1EEF4;
@@ -73,7 +79,7 @@ border: none;
   text-align: right;
   }
 
-.datagrid table tfoot  li {
+.datagrid table tfoot li {
   display: inline;
   }
 
@@ -92,12 +98,15 @@ border: none;
   filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');
   background-color:#006699; }
 
-.datagrid table tfoot ul.active, .datagrid table tfoot ul a:hover {
+.datagrid table tfoot ul a.active, .datagrid table tfoot ul a:hover {
     text-decoration: none;
-    border-color: #006699;
-    color: #FFFFFF;
+    color: #000000;
     background: none;
-    background-color:#00557F;
+    background-color:#4cbade;
+}
+
+.datagrid a {
+    text-decoration: none;
 }
 
 /********* Estilos para Formulario *********/
@@ -138,7 +147,7 @@ div .error{
 /********* Estilos para imagen reload *********/
 
 .abutton {
-  display: block;
+  display: inline-block;
   width: 78px;
   background: #006699;
   padding: 6px;

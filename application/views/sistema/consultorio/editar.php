@@ -2,24 +2,18 @@
 	$(function(){ Valid.consultorio(); });
 </script>
 <?php
-
+	$aPermisos = unserialize (PERMISOS);
 	$attributes = array('id' => 'consultorioForm');
 
-	 	echo form_open(null,$attributes);
-
-	 	if (isset($error_menssage)){
-	 		echo '<div class="error">'.$error_menssage.'</div>';
-	 	}
+	 	echo form_open_multipart(null,$attributes);
 
 	 		echo form_label('Nombre:');
-		 	$data = array(
-		 		'name'  => 'nombre',
-		 		'id'    => 'nombre',
-		 		'value' => set_value('nombre', $consultorio->nombre),
-		 		'style' => 'width:180px'
-		 	);
+	 		echo form_label($consultorio->nombre);
 
-		 	echo form_input($data);
+ 			$consultorio->tipo_consultorio->get();
+
+	 		echo form_label('Tipo de consultorio:');
+	 		echo form_label($consultorio->tipo_consultorio->nombre);
 		 	echo '<br />';
 
 		 	echo form_label('Teléfono 1:');
@@ -48,20 +42,42 @@
 		 		'name'  => 'email',
 		 		'id'    => 'email',
 		 		'value' => set_value('email', $consultorio->email),
-		 		'style' => 'width:180px'
+		 		'style' => 'width:210px'
 		 	);
 
 		 	echo form_input($data);
+		 	echo '<br />';
+
+			echo form_label('Logo:');
+		 	?>
+
+		 	<input type="file" name="userfile" size="20" />
+
+		 	<?php
 		
 		 	echo '<br />';
 		 	$data = array(
 		 		'name'  => 'editar',
 		 		'id'    => 'editar',
+		 		'class' => 'abutton',
 		 		'value' => 'Editar'
 		 	);
 
-		 	echo form_submit($data);
+		 	?>
 
+		 	<select name="estado">
+		 		<option value="0">Seleccione...</option>
+		 		<?php foreach($estados as $estado): ?>
+				  <option value="<?= $tipo->id; ?>" 
+				  	      <?= //($empleado->tipo_empleado_id == $tipo->id)?'selected':''; ?> >
+				  	      <?= $estado->nombre; ?></option>
+				<?php endforeach; ?>
+		    </select>
+
+		 	<?php
+		 	if(in_array($permisos,$aPermisos['Editar']) ){
+		 		echo form_submit($data);
+		 	}
 
 	 	echo form_close();
 ?>

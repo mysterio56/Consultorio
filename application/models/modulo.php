@@ -7,4 +7,6 @@ class Modulo extends DataMapper
 
     public $has_many = array("usuario");
 
+    public $has_one = array("modulo");
+
 }
