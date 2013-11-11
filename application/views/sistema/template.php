@@ -32,17 +32,18 @@
          title   = "Regresar" />
  </a>
 
+
 <?php endif; ?>
 
 <img class   = "action" 
      src     = "<?= base_url('assets/images/reload.png')?>" 
      onClick = "Valid.carga();"
      title   = "Recargar pestaña" />
-<div >
+<div class="subir">
 <?php
     echo form_open();
     echo form_label('Codigo:','codigo');
-    echo form_input(array('name' => 'codigo' , DISPLAY:INT_LINE_FLOAT
+    echo form_input(array('name' => 'codigo' , 
                           'id' => 'codigo' , 
                           'size' => '20' , 
                           'value' => set_value('codigo')));
@@ -56,6 +57,8 @@
     echo form_submit('Buscar', 'Buscar');
     echo form_close();
 ?> 
+</div>
+
 <?php   
     $this->load->view($view);     
 ?>

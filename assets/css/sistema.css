@@ -112,7 +112,7 @@ border-left: none;
 /********* Estilos para Formulario *********/
 
 form > label{
-
+  
   color:#58ACFA;
   margin: 5px;
 }
@@ -120,6 +120,11 @@ form > label{
 form .capitalize
 {
 text-transform:capitalize;
+}
+
+.subir{
+  display: inline-block; 
+  margin_buttom: 8px;
 }
 
 /********* Estilos para error de validacion en formularios *********/
@@ -143,6 +148,8 @@ div .error{
   cursor: pointer;
   margin: 0 5px 5px 0;
   text-decoration: none;
+  display: inline-block;
+  vertical-align: top;
 }
 
 /********* Estilos para imagen reload *********/
