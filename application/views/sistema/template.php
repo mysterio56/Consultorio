@@ -1,5 +1,6 @@
 <?php
     /** funcion para validar que la pagina se habra en un iframe **/
+
     IframeRedirect();
 
     define ("PERMISOS", serialize (array("Agregar"  => array(4,5,6,7),
@@ -38,6 +39,23 @@
      onClick = "Valid.carga();"
      title   = "Recargar pestaña" />
 
+<?php
+    echo form_open();
+    echo form_label('Codigo:','codigo');
+    echo form_input(array('name' => 'codigo' , 
+                          'id' => 'codigo' , 
+                          'size' => '20' , 
+                          'value' => set_value('codigo')));
+
+    echo form_label('Nombre:','nombre');
+    echo form_input(array('name' => 'nombre' , 
+                          'id' => 'nombre' , 
+                          'size' => '20' , 
+                          'value' => set_value('nombre')));
+    
+    echo form_submit('Buscar', 'Buscar');
+    echo form_close();
+?> 
 <?php   
     $this->load->view($view);     
 ?>

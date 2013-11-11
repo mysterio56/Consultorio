@@ -112,7 +112,8 @@ border-left: none;
 /********* Estilos para Formulario *********/
 
 form > label{
-  color:#0091c0;
+
+  color:#58ACFA;
   margin: 5px;
 }
 
@@ -158,4 +159,7 @@ div .error{
   text-decoration: none;
   margin: 10px;
   cursor: pointer;
+}
+label {
+
 }
