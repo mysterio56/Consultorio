@@ -66,12 +66,6 @@
 		 	?>
 
 		 	<select name="estado">
-		 		<option value="0">Seleccione...</option>
-		 		<?php foreach($estados as $estado): ?>
-				  <option value="<?= $tipo->id; ?>" 
-				  	      <?= //($empleado->tipo_empleado_id == $tipo->id)?'selected':''; ?> >
-				  	      <?= $estado->nombre; ?></option>
-				<?php endforeach; ?>
 		    </select>
 
 		 	<?php
@@ -81,3 +75,20 @@
 
 	 	echo form_close();
 ?>
+<script>
+$(function () {
+var base_url = "<?= base_url(); ?>";
+
+$.getJSON( base_url = "address/getFederalEntities/", function( data ) {
+  var items = [];
+  $.each( data, function( key, val ) {
+    items.push( "<li id='" + key + "'>" + val + "</li>" );
+  });
+ 
+  $( "<ul/>", {
+    "class": "my-new-list",
+    html: items.join( "" )
+  }).appendTo( "body" );
+});
+});
+</script>

@@ -13,7 +13,6 @@ class Surgery extends CI_Controller{
 		
 		$aPermisos = permisos($this->session->userdata('id_user'));
 
-		print_r($aPaises);
 		$consultorio = new Consultorio();
 
 		$data['permisos']    = $aPermisos['surgery'];

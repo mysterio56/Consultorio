@@ -4,7 +4,10 @@ if ( ! function_exists('IframeRedirect'))
 {
     function IframeRedirect()
     {
-    	if(!isset($_SERVER['HTTP_REFERER']))
-    		redirect(base_url('welcome'));
+    	if(!isset($_SERVER['HTTP_REFERER'])){
+    		if($_SERVER['HTTP_REFERER'] != base_url('welcome')){
+    			redirect(base_url('welcome'));
+    		}
+    	}
     }   
 }
