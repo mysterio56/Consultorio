@@ -15,8 +15,11 @@ class Surgery extends CI_Controller{
 
 		$consultorio = new Consultorio();
 
+        $consultorio->where('id', $this->session->userdata('id_consultorio'))->get();
+        $consultorio->direccion->get();
+
 		$data['permisos']    = $aPermisos['surgery'];
-		$data['consultorio'] = $consultorio->where('id', $this->session->userdata('id_consultorio'))->get();
+		$data['consultorio'] = $consultorio;
 		$data['view']        = 'sistema/consultorio/editar';
 		$data['cssFiles']    = array('sistema.css');
 		$data['jsFiles']     = array('jquery.js',
@@ -62,9 +65,16 @@ class Surgery extends CI_Controller{
 			$consultorio->telefono2           = $this->input->post('telefono2');
 			$consultorio->email               = $this->input->post('email');
 			$consultorio->fecha_modificacion  = date("Y-m-d H:i:s");
-			$consultorio->tipo_consultorio_id = 1;
 
-			if($consultorio->save()){
+			$consultorio->direccion->estado_id         = $this->input->post('estado');
+			$consultorio->direccion->municipio_id      = $this->input->post('municipio');
+			$consultorio->direccion->codigo_postal_id  = $this->input->post('codigo_postal');
+			$consultorio->direccion->colonia_id        = $this->input->post('colonia');
+			$consultorio->direccion->calle             = $this->input->post('calle');
+			$consultorio->direccion->numero_int        = $this->input->post('numero_int');
+			$consultorio->direccion->numero_ext        = $this->input->post('numero_ext');
+
+			if($consultorio->save() && $consultorio->direccion->save()){
 
 				redirect('surgery');
 

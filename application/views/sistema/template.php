@@ -38,11 +38,11 @@
      src     = "<?= base_url('assets/images/reload.png')?>" 
      onClick = "Valid.carga();"
      title   = "Recargar pestaña" />
-
+<div >
 <?php
     echo form_open();
     echo form_label('Codigo:','codigo');
-    echo form_input(array('name' => 'codigo' , 
+    echo form_input(array('name' => 'codigo' , DISPLAY:INT_LINE_FLOAT
                           'id' => 'codigo' , 
                           'size' => '20' , 
                           'value' => set_value('codigo')));
