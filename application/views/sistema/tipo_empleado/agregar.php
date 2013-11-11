@@ -37,11 +37,7 @@
 		 	);
    echo form_input($data);
    echo'</td>';
-
    echo '</tr>'; 
- 		
-		 	
-   echo '<br />';
    echo'<tr>'; 
    echo'<td colspan= 1>';
 		 	$data = array(
@@ -53,8 +49,7 @@
 
 		 	echo form_submit($data);
 		 	echo'</td>';
-
-   echo '</tr>'; 
+		 	echo '</tr>'; 
 	 	echo form_close();
 ?>
 

@@ -1,23 +1,33 @@
 <script>
+
 	$(function(){ Valid.tipoEmpleado(); });
 </script>
-<?php
-	$attributes = array('id' => 'tipoEmpleadoForm');
-
+	<?php
+        $attributes = array('id' => 'tipoEmpleadoForm');
 	 	echo form_open(null,$attributes);
 
-	 		echo form_label('Codigo del tipo de empleado:');
+	echo '<table class="table_form">';
+	echo'<tr>'; 
+ 	echo'<td  width="100" valing="top">'; 
+	 		echo form_label('Codigo:');
+	 echo'</td>';
+     echo'<td>';
 		 	$data = array(
-		 		'name'  => 'codigo',
-		 		'id'    => 'codigo',
-		 		'value' => set_value('codigo',$tipoEmpleado->codigo),
-		 		'style' => 'width:80px'
+             'name'  => 'codigo',
+		 	 'id'    => 'codigo',
+		 	'value' => set_value('codigo',$tipoEmpleado->codigo),
+		 	'style' => 'width:80px'
 		 	);
-
-		 	echo form_input($data);
-		 	echo '<br />';
-
-		 	echo form_label('Nombre:');
+		 	 
+             echo form_input($data);
+      echo'</td>';
+      echo '</tr>';
+ 		 
+	echo'<tr>'; 
+ 	echo'<td  width="100" valing="top">'; 
+		 	echo form_label('Nombre:'); 
+		 	echo'</td>';
+            echo'<td>';
 		 	$data = array(
 		 		'name'  => 'nombre',
 		 		'id'    => 'nombre',
@@ -25,9 +35,11 @@
 		 		'value' => set_value('nombre',$tipoEmpleado->nombre),
 		 		'style' => 'width:125px'
 		 	);
-
-		 	echo form_input($data);
-
+   echo form_input($data);
+   echo'</td>';
+   echo '</tr>'; 
+   echo'<tr>'; 
+   echo'<td colspan= 1>';
 		 	$data = array(
 		 		'name'  => 'editar',
 		 		'id'    => 'editar',
@@ -36,6 +48,11 @@
 		 	);
 
 		 	echo form_submit($data);
-
+		 	echo'</td>';
+		 	echo '</tr>'; 
 	 	echo form_close();
 ?>
+
+  </form>
+</div> 
+</table>
