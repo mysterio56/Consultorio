@@ -192,7 +192,7 @@ echo'<td  width="100" valing="top">';
              	$aChecked[0] = 0;
 
 		 	foreach($modulos as $modulo){
-		 		 echo'<tr class="hide" id="trModulos">';
+		 		 echo'<tr class="hide trModulos" id="trModulos">';
 		 	     echo'<td colspan=100%>';
 		 		echo form_label($modulo->nombre.':');
 		 		$data = array(
@@ -269,6 +269,10 @@ $(function(){
 			showEspecialidades();
 	});
 
+	$("#act_sistema").change(function(){
+			showModulos();
+	});
+
 });
 
 function showEspecialidades(){
@@ -280,6 +284,18 @@ function showEspecialidades(){
 			$("#tdEspecialidadesLabel").hide();
 			$("#tdEspecialidades").hide();
 		}
+}
+
+function showModulos(){
+	
+	var trModulos = $('.trModulos');
+	$.each(trModulos , function (key, trModule){
+		if($('#act_sistema').is(':checked') === true){
+			$(trModule).show();
+		} else {
+			$(trModule).hide();
+		}
+	});
 }
 
 </script>
