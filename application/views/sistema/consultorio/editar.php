@@ -119,7 +119,7 @@ echo '<table class="table_form">';
 		 	<?= form_label('Colonia:'); ?>
 	</td>
 	<td>
-		    <select name="colonia" id="colonia" class="hide"  onChange="showComplements();"/></select>
+		    <select name="colonia" id="colonia" class="hide" /></select>
 	</td>
 </tr>
 
@@ -173,7 +173,7 @@ echo '</tr>';
 		 	);
 
 		 	echo '</div>';
-echo '<table>';
+echo '</table>';
 
 		 	if(in_array($permisos,$aPermisos['Editar']) ){
 		 		echo form_submit($data);
@@ -182,7 +182,6 @@ echo '<table>';
 	 	echo form_close();
 	?>
 <script>
-
 
 $(function () {
 	$("input[type=submit]").attr("disabled", "disabled");
@@ -286,12 +285,6 @@ var url = base_url + "address/getColonies/"+$("#codigo_postal").val();
 		$('#colonia').show();
 		
 	});
-	
-}
-
-function showComplements(){
-
-
 	
 }
 

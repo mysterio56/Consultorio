@@ -55,6 +55,21 @@ Valid.empleados = function()
             celular:{
                 required:true,
                 number:true
+            },
+            estado: {
+                selectcheck: true
+            },
+            municipio: {
+                selectcheck: true
+            },
+            codigo_postal: {
+                selectcheck: true
+            },
+            colonia: {
+                selectcheck: true
+            },
+            tipo_empleado: {
+                selectcheck: true
             }
         },
         errorElement: 'div',

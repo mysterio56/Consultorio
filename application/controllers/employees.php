@@ -33,13 +33,18 @@ class Employees extends CI_Controller{
 
 	public function agregar(){
 
-		$data['view']     = 'sistema/empleados/agregar';
-		$data['return']   = 'employees';
-		$data['cssFiles'] = array('sistema.css');
-		$data['jsFiles']  = array('jquery.js',
-								  'jquery-validation/dist/jquery.validate.js',
-								  'jquery-validation/localization/messages_es.js',
-								  'valid_forms.js');
+		$tipoEmpleado   = new Tipo_empleado();
+		$especialidades = new Especialidad();
+
+		$data['view']           = 'sistema/empleados/agregar';
+		$data['return']         = 'employees';
+		$data['tipoEmpleado']   = $tipoEmpleado->where('estatus', 1)->get();
+		$data['especialidades'] = $especialidades->where('estatus', 1)->get();
+		$data['cssFiles']       = array('sistema.css');
+		$data['jsFiles']        = array('jquery.js',
+							      	    'jquery-validation/dist/jquery.validate.js',
+								        'jquery-validation/localization/messages_es.js',
+								        'valid_forms.js');
 
 		$this->load->view('sistema/template',$data);
 
@@ -59,7 +64,16 @@ class Employees extends CI_Controller{
 			$empleado->estatus          = 1;
 			$empleado->consultorio_id   = $this->session->userdata('id_consultorio');
 
-			if($empleado->save()){
+			$empleado->direccion->get();
+			$empleado->direccion->estado_id        = $this->input->post('estado');
+			$empleado->direccion->municipio_id     = $this->input->post('municipio');
+			$empleado->direccion->codigo_postal_id = $this->input->post('codigo_postal');
+			$empleado->direccion->colonia_id       = $this->input->post('colonia');
+			$empleado->direccion->calle            = $this->input->post('calle');
+			$empleado->direccion->numero_int       = $this->input->post('numero_int');
+			$empleado->direccion->numero_ext       = $this->input->post('numero_ext');
+
+			if($empleado->save() && $empleado->direccion->save()){
 
 				redirect(base_url('employees/index/'));
 
