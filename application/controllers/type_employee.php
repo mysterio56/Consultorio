@@ -13,11 +13,11 @@ class Type_employee extends CI_Controller{
     	$tipoEmpleados = new Tipo_empleado();
 		$aPermisos = permisos($this->session->userdata('id_user'));
 
-		$tipoEmpleados->get();
+		$tipoEmpleados->where('estatus <>',2);
 
 		$tipoEmpleados->order_by('nombre', 'ASC');
     
-    	$tipoEmpleados->get_paged($page, 9);
+    	$tipoEmpleados->get_paged_iterated($page, 9);
 
 		$data['permisos']      = $aPermisos['type_employee'];
 		$data['paginaActual']  = $page;
@@ -122,6 +122,28 @@ class Type_employee extends CI_Controller{
 
 		}
 	}
+
+
+public function eliminar($id_tipoEmpleado){
+
+		$tipoEmpleado = new Tipo_empleado();
+
+		$tipoEmpleado->where('id', $id_tipoEmpleado)->get();
+
+		$tipoEmpleado->estatus    = 2;
+		$tipoEmpleado->fecha_baja = date("Y-m-d H:i:s");
+
+		if($tipoEmpleado->save()){
+
+			redirect(base_url('type_employee'));
+		} else {
+			echo $tipoEmpleado->error->string;
+
+		}
+
+	}
+
+
 
 	public function status($id_tipoEmpleado){
 
