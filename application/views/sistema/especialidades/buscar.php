@@ -1,8 +1,8 @@
 <script>
-	$(function(){ Find.empleados(); });
+	$(function(){ Find.especialidades(); });
 </script>
 <?php
-	$attributes = array('id' => 'empleadosForm');
+	$attributes = array('id' => 'especialidadesForm');
 
 	 	echo form_open(null,$attributes);
 
@@ -10,7 +10,7 @@
 	 		echo '<div class="error">'.$error_menssage.'</div>';
 	 	}
 
-	 		echo form_label('Codigo:');
+	 		echo form_label('Codigo de Especialidad:');
 		 	$data = array(
 		 		'name'  => 'codigo',
 		 		'id'    => 'codigo',
@@ -29,28 +29,6 @@
 		 		'class' => 'capitalize',
 		 		'value' => set_value('nombre'),
 		 		'style' => 'width:125px'
-		 	);
-
-		 	echo form_input($data);
-
-		 	echo form_label('Apellido Paterno:');
-		 	$data = array(
-		 		'name'  => 'apellido_p',
-		 		'id'    => 'apellido_p',
-		 		'class' => 'capitalize',
-		 		'value' => set_value('apellido_p'),
-		 		'style' => 'width:85px'
-		 	);
-
-		 	echo form_input($data);
-
-		 	echo form_label('Apellido Materno:');
-		 	$data = array(
-		 		'name'  => 'apellido_m',
-		 		'id'    => 'apellido_m',
-		 		'class' => 'capitalize',
-		 		'value' => set_value('apellido_m'),
-		 		'style' => 'width:85px'
 		 	);
 
 		 	echo form_input($data);
@@ -84,9 +62,9 @@
 
 	 	echo form_close();
 
-	 	if(isset($empleados)){
+	 	if(isset($especialidades)){
 
-	 		$this->load->view('sistema/empleados/lista');
+	 		$this->load->view('sistema/especialidades/lista');
 
 	 	}
 ?>

@@ -1,8 +1,8 @@
 <script>
-	$(function(){ Find.empleados(); });
+	$(function(){ Find.pacientes(); });
 </script>
 <?php
-	$attributes = array('id' => 'empleadosForm');
+	$attributes = array('id' => 'pacientesForm');
 
 	 	echo form_open(null,$attributes);
 
@@ -84,9 +84,9 @@
 
 	 	echo form_close();
 
-	 	if(isset($empleados)){
+	 	if(isset($pacientes)){
 
-	 		$this->load->view('sistema/empleados/lista');
+	 		$this->load->view('sistema/pacientes/lista');
 
 	 	}
 ?>

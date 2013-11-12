@@ -250,7 +250,37 @@ Find.empleados = function()
                 altField:   "#fecha_alta",
                 altFormat:  "yy-mm-dd",
                 dateFormat: "dd M yy"});
-    
+}
+Find.especialidades = function()
+{
+
+    $('#especialidadesForm')
+        .children('#fecha_alta_value')
+            .datepicker({
+                altField:   "#fecha_alta",
+                altFormat:  "yy-mm-dd",
+                dateFormat: "dd M yy"});
+}
+Find.tipoempleados = function()
+{
+
+    $('#tipoempleadoForm')
+        .children('#fecha_alta_value')
+            .datepicker({
+                altField:   "#fecha_alta",
+                altFormat:  "yy-mm-dd",
+                dateFormat: "dd M yy"});
+}
+
+Find.pacientes = function()
+{
+
+    $('#pacienteForm')
+        .children('#fecha_alta_value')
+            .datepicker({
+                altField:   "#fecha_alta",
+                altFormat:  "yy-mm-dd",
+                dateFormat: "dd M yy"});
 }
 
 jQuery.validator.addMethod('selectcheck', function (value) {

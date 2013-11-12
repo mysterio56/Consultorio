@@ -145,4 +145,47 @@ class Specialism extends CI_Controller{
 
 	}
 
+	public function buscar($page = 1){
+
+		$data['view']     = 'sistema/especialidades/buscar';
+		$data['return']   = 'specialism';
+		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
+								  'sistema.css');
+		$data['jsFiles']  = array('jquery.js',
+							      'jquery-ui.js',
+							      'jquery.ui.datepicker-es.js',
+							      'valid_forms.js');
+
+		if($this->input->post()){
+
+			$especialidades = new Especialidad();
+			
+			$aPermisos = permisos($this->session->userdata('id_user'));
+			$input_count = 0;
+
+			foreach ($this->input->post() as $input_name => $input) {
+				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != ''){
+			 		$especialidades->like($input_name, $input);
+			 		$input_count++;
+			 	}
+			 } 
+			if($input_count > 0){
+
+				$especialidades->where(array('estatus <>' => 2));
+
+				$especialidades->order_by('nombre');
+				$especialidades->get_paged_iterated($page, 5);
+
+				$data['permisos']     = $aPermisos['specialism'];
+				$data['paginaActual'] = $page;
+				$data['especialidades']= $especialidades;
+				$data['buscar']       = true;
+
+			}
+
+		}
+
+		$this->load->view('sistema/template',$data);
+
+	}
 }
