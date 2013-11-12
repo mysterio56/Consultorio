@@ -5,17 +5,14 @@
 
 	$aPermisos = unserialize (PERMISOS);
 	$attributes = array('id' => 'empleadosForm');
-
-	 	echo form_open(null,$attributes);
-	 
-	 	if (isset($error_menssage)){
+     echo form_open(null,$attributes);
+     if (isset($error_menssage)){
 	 		echo '<div class="error">'.$error_menssage.'</div>';
 	 	}
-	    echo '<table class="table_form">';
-	    echo'<tr>'; 
- 	    echo'<td  width="100" valing="top">'; 
-
-	 		echo form_label('Codigo:');
+	     echo '<table class="table_form">';
+	     echo'<tr>'; 
+ 	     echo'<td  width="100" valing="top">';
+            echo form_label('Codigo:');
 	 		echo'</td>';
             echo'<td>';
 		 	$data = array(
@@ -118,13 +115,13 @@ echo'<td  width="100" valing="top">';
             echo '</tr>';
 		 	echo '<br />';
 		 	echo'<tr>'; 
- echo'<td valing="top colspan=100%" >';
+ echo'<td valing="top">';
             echo form_label('Tipo de empleado:');
             echo'</td>';
            
 
 		 	?>
-             <td colspan=100%>
+             <td valing="top">
 		 	<select name="tipo_empleado">
 		 		<option value="0">Seleccione...</option>
 		 		<?php foreach($tipoEmpleado as $tipo): ?>
@@ -133,9 +130,11 @@ echo'<td  width="100" valing="top">';
 				  	      <?= $tipo->nombre; ?></option>
 				  	  
 				<?php endforeach; ?>
+
 		    </select>
 
 		 	<?php
+
 		 	echo '<br />';
 
 		 	$empleado->especialidad->get();
@@ -163,6 +162,10 @@ echo'<td  width="100" valing="top">';
 		 	echo'</tr>';
 		 	echo '<br />';
 
+		 	echo'<tr>';
+		 	echo'<td colspan=100%>';
+		 	echo form_label('Especialidades:');
+
 		 	echo form_label('Activar como usuario del sistema:');
 		 	$data = array(
 		 		'name'    => 'act_sistema',
@@ -172,6 +175,7 @@ echo'<td  width="100" valing="top">';
 		 	);
 
 		 	echo form_checkbox($data);
+		 	
 		 	echo '<br />';
 
 			$usuario->modulo->get();
