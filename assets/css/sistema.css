@@ -156,7 +156,6 @@ div .error{
 
 .abutton {
   display: inline-block;
-  width: 78px;
   background: #006699;
   padding: 6px;
   text-align: center;
@@ -197,4 +196,8 @@ div .error{
 
 .table_form input {
    width: 100%;
+}
+
+.table_form input[type='checkbox'] {
+    width: 16px;
 }

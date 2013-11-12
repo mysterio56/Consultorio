@@ -5,7 +5,7 @@ class Empleado extends DataMapper
 
 	public $table = "empleados";
 
-	public $has_one = array("usuario","consultorio");
+	public $has_one = array("usuario","consultorio","direccion");
 
 	public $has_many = array("especialidad");
 
@@ -31,7 +31,7 @@ class Empleado extends DataMapper
         ),
         'email' => array(
             'label' => 'Email',
-            'rules' => array('valid_email', 'trim', 'min_length' => 2, 'max_length' => 15),
+            'rules' => array('valid_email', 'trim', 'min_length' => 2, 'max_length' => 45),
         ),
         'telefono' => array(
             'label' => 'Teléfono',

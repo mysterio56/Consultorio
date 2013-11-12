@@ -5,6 +5,6 @@ class Direccion extends DataMapper
  
     public $table = "direcciones";
 
-    public $has_one = array("consultorio");
+    public $has_one = array("consultorio","empleado");
 
 }
