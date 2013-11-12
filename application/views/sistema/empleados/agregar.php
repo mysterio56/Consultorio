@@ -110,7 +110,7 @@ echo '<tr>';
 	echo '</td>';
 	?>
 		<td>
-		 	<select name="tipo_empleado">
+		 	<select name="tipo_empleado" id="tipo_empleado">
 		 		<option value="0">Seleccione...</option>
 		 		<?php foreach($tipoEmpleado as $tipo): ?>
 				  <option value="<?= $tipo->id; ?>"> <?= $tipo->nombre; ?></option>
@@ -121,7 +121,7 @@ echo '<tr>';
 <?php
 
 echo '<tr>';
-	echo '<td colspan="100%" class="hide" id="tdEspecialidades">';
+	echo '<td colspan="100%" class="hide" id="tdEspecialidadesLabel">';
 			echo form_label('Especialidades:');
 	echo '</td>';
 echo '</tr>';
@@ -237,6 +237,9 @@ echo '</table>';
 $(function () {
 	base_url = "<?= base_url(); ?>";
 	getFederalEntities();
+	$("#tipo_empleado").change(function(){
+			showEspecialidades();
+		});
 });
 
 function getFederalEntities(){
@@ -313,6 +316,17 @@ var url = base_url + "address/getColonies/"+$("#codigo_postal").val();
 		
 	});
 	
+}
+
+function showEspecialidades(){
+	var tipo_empleado = $("#tipo_empleado").val();
+		if(tipo_empleado == 1){
+			$("#tdEspecialidadesLabel").show();
+			$("#tdEspecialidades").show();
+		} else {
+			$("#tdEspecialidadesLabel").hide();
+			$("#tdEspecialidades").hide();
+		}
 }
 
 </script>
