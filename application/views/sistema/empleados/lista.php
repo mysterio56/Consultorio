@@ -81,7 +81,7 @@
 									</li>
 									<li>
 										<a href="<?= base_url('employees/index/'.$empleados->paged->previous_page); ?>">
-											<span>Anteriro</span>
+											<span>Anterior</span>
 										</a>
 									</li>
 								<?php endif; ?>

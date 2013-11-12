@@ -9,6 +9,7 @@
 					<th>Editar</th>
 				<?php endif; ?>
 				<th>Activo</th>
+				<th>Eliminar</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -31,10 +32,18 @@
 						}			  
 						$activo = $tipoEmpleado->estatus?'active':'inactive';
 						echo '<td>';
-								if(in_array($permisos,$aPermisos['Eliminar']) ){
+								if(in_array($permisos,$aPermisos['Editar']) ){
 									echo '<a href="'.base_url('type_employee/status/'.$tipoEmpleado->id).'">
 											<img src="'.base_url('assets/images/'.$activo.'.png').'" />
 										 </a>';
+										}
+                        echo '<td>';
+								if(in_array($permisos,$aPermisos['Eliminar']) ){
+									echo '<a href="'.base_url('type_employee/eliminar/'.$tipoEmpleado->id).'">
+									  <img src="'.base_url('assets/images/delete.png').'"/>
+                                     </a>';
+
+
 								}else{
 									echo '<img src="'.base_url('assets/images/'.$activo.'.png').'" />';
 								}
