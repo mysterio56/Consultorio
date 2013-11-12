@@ -120,6 +120,10 @@
 		<?php endif; ?>
 	</table>
 </section>
-<?php if(in_array($permisos,$aPermisos['Agregar']) ): ?>
-	<a class="abutton" href="<?= base_url('patient/agregar') ?>">Agregar</a>
-<?php endif; ?>
+<?php if(!isset($buscar)): ?>
+
+	<?php if(in_array($permisos,$aPermisos['Agregar']) ): ?>
+		<a class="abutton" href="<?= base_url('patient/agregar') ?>">Agregar</a>
+	<?php endif; ?>
+	<a class="abutton" href="<?= base_url('patient/buscar') ?>">Búsqueda Avanzada</a>
+    <?php endif; ?>

@@ -1,32 +1,34 @@
 <script>
-	$(function(){ Valid.paciente(); });
+	$(function(){ Find.pacientes(); });
 </script>
 <?php
-
-	$attributes = array('id' => 'pacienteForm');
+	$attributes = array('id' => 'pacientesForm');
 
 	 	echo form_open(null,$attributes);
+
+	 	if (isset($error_menssage)){
+	 		echo '<div class="error">'.$error_menssage.'</div>';
+	 	}
 	 	echo '<table class="table_form">';
 	    echo'<tr>'; 
 	    echo'<td  width="100" valing="top">'; 
 	 		echo form_label('Codigo:');
-	 		 echo'</td>';
-	   		 echo'<td>';
+	    echo'</td>';
+	    echo'<td>';
 		 	$data = array(
 		 		'name'  => 'codigo',
 		 		'id'    => 'codigo',
 		 		'value' => set_value('codigo'),
 		 		'style' => 'width:80px'
 		 	);
-
 		 	echo form_input($data);
 		 	echo'</td>';
             echo '</tr>';
-	
-        echo'<tr>'; 
- 	    echo'<td  width="100" valing="top">'; 
-		 	echo form_label('Nombre:');
-		 	echo'</td>';
+
+           echo'<tr>'; 
+ 	       echo'<td  width="100" valing="top">'; 
+		   echo form_label('Nombre:');
+			echo'</td>';
             echo'<td>';
 		 	$data = array(
 		 		'name'  => 'nombre',
@@ -38,7 +40,7 @@
 
 		 	echo form_input($data);
 
-		 	echo form_label('Apellido paterno:');
+		 	echo form_label('Apellido Paterno:');
 		 	$data = array(
 		 		'name'  => 'apellido_p',
 		 		'id'    => 'apellido_p',
@@ -46,10 +48,9 @@
 		 		'value' => set_value('apellido_p'),
 		 		'style' => 'width:85px'
 		 	);
-
 		 	echo form_input($data);
 
-		 	echo form_label('Apellido materno:');
+		 	echo form_label('Apellido Materno:');
 		 	$data = array(
 		 		'name'  => 'apellido_m',
 		 		'id'    => 'apellido_m',
@@ -57,67 +58,51 @@
 		 		'value' => set_value('apellido_m'),
 		 		'style' => 'width:85px'
 		 	);
-
 		 	echo form_input($data);
 		 	echo'</td>';
             echo '</tr>';
-
-		 echo'<tr>'; 
- 	     echo'<td  width="100" valing="top">';
-		 	echo form_label('Email:');
-		 	echo'</td>';
-            echo'<td>';
-		 	$data = array(
-		 		'name'  => 'email',
-		 		'id'    => 'email',
-		 		'value' => set_value('email'),
-		 		'style' => 'width:200px'
-		 	);
-
-		 	echo form_input($data);
-		 	echo'</td>';
-            echo '</tr>';
-
-
-		 echo'<tr>'; 
- 	     echo'<td  width="100" valing="top">';
-		 	echo form_label('Teléfono:');
-		 	echo'</td>';
-            echo'<td>';
-		 	$data = array(
-		 		'name'  => 'telefono',
-		 		'id'    => 'telefono',
-		 		'value' => set_value('telefono')
-		 	);
-
-		 	echo form_input($data);
 		 	
-		  	echo form_label('Celular:');
+
+		 	echo'<tr>'; 
+ 	        echo'<td  width="100" valing="top">'; 
+		 	echo form_label('Fecha de alta:');
 		 	echo'</td>';
             echo'<td>';
 		 	$data = array(
-		 		'name'  => 'celular',
-		 		'id'    => 'celular',
-		 		'value' => set_value('celular')
+		 		'name'  => 'fecha_alta_value',
+		 		'id'    => 'fecha_alta_value',
+		 		'value' => set_value('fecha_alta_value'),
+		 		'style' => 'width:85px'
 		 	);
 
 		 	echo form_input($data);
 		 	echo'</td>';
-            echo '</tr>';
+            echo '</tr>'
+			
+			?>
 
-            echo'<tr>'; 
+			<input type="hidden" name="fecha_alta" id="fecha_alta" />
+
+			<?php
+			echo'<tr>'; 
             echo'<td colspan= 1>';
 		 	$data = array(
-		 		'name'  => 'agregar',
-		 		'id'    => 'agregar',
+		 		'name'  => 'buscar',
+		 		'id'    => 'buscar',
 		 		'class' => 'abutton',
-		 		'value' => 'Agregar'
+		 		'value' => 'Buscar'
 		 	);
 
 		 	echo form_submit($data);
 		 	echo'</td>';
-		 	echo '</tr>';
-		 	echo '</table>';
+            echo '</tr>';
+            echo '</table>';
 
 	 	echo form_close();
+
+	 	if(isset($pacientes)){
+
+	 		$this->load->view('sistema/pacientes/lista');
+
+	 	}
 ?>

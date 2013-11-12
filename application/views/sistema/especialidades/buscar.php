@@ -1,8 +1,8 @@
 <script>
-	$(function(){ Find.empleados(); });
+	$(function(){ Find.especialidades(); });
 </script>
 <?php
-	$attributes = array('id' => 'empleadosForm');
+	$attributes = array('id' => 'especialidadesForm');
 
 	 	echo form_open(null,$attributes);
 
@@ -21,14 +21,14 @@
 		 		'value' => set_value('codigo'),
 		 		'style' => 'width:80px'
 		 	);
-		echo form_input($data);
-		echo'</td>';
-        echo '</tr>';
+		 	echo form_input($data);
+		 	echo'</td>';
+            echo '</tr>';
 
-		echo'<tr>'; 
- 	    echo'<td  width="100" valing="top">'; 
-		echo form_label('Nombre:');
-			echo'</td>';
+            echo'<tr>'; 
+ 	        echo'<td  width="100" valing="top">'; 
+		 	echo form_label('Nombre:');
+            echo'</td>';
             echo'<td>';
 		 	$data = array(
 		 		'name'  => 'nombre',
@@ -39,35 +39,14 @@
 		 	);
 
 		 	echo form_input($data);
-		 	echo form_label('Apellido Paterno:');
-		 	$data = array(
-		 		'name'  => 'apellido_p',
-		 		'id'    => 'apellido_p',
-		 		'class' => 'capitalize',
-		 		'value' => set_value('apellido_p'),
-		 		'style' => 'width:85px'
-		 	);
-
-		 	echo form_input($data);
-
-		 	echo form_label('Apellido Materno:');
-		 	$data = array(
-		 		'name'  => 'apellido_m',
-		 		'id'    => 'apellido_m',
-		 		'class' => 'capitalize',
-		 		'value' => set_value('apellido_m'),
-		 		'style' => 'width:85px'
-		 	);
-
-		 	echo form_input($data);
 		 	echo '</td>';
             echo '</tr>';
-
-            echo'<tr>'; 
-	        echo'<td  width="100" valing="top">'; 
+		 	
+			echo'<tr>'; 
+ 	        echo'<td  width="100" valing="top">'; 
 		 	echo form_label('Fecha de alta:');
 		 	echo'</td>';
-	    	echo'<td>';
+            echo'<td>';
 		 	$data = array(
 		 		'name'  => 'fecha_alta_value',
 		 		'id'    => 'fecha_alta_value',
@@ -95,12 +74,13 @@
 		 	echo form_submit($data);
 		 	echo'</td>';
 		 	echo '</tr>';
-		 	 echo '</table>';
+		 	echo '</table>';
+
 	 	echo form_close();
 
-	 	if(isset($empleados)){
+	 	if(isset($especialidades)){
 
-	 		$this->load->view('sistema/empleados/lista');
+	 		$this->load->view('sistema/especialidades/lista');
 
 	 	}
 ?>

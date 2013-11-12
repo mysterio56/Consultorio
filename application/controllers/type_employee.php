@@ -169,4 +169,46 @@ public function eliminar($id_tipoEmpleado){
 
 	}
 
+
+   public function buscar($page = 1){
+
+		$data['view']     = 'sistema/tipo_empleado/buscar';
+		$data['return']   = 'type_employee';
+		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
+								  'sistema.css');
+		$data['jsFiles']  = array('jquery.js',
+							      'jquery-ui.js',
+							      'jquery.ui.datepicker-es.js',
+							      'valid_forms.js');
+
+		if($this->input->post()){
+
+			$tipoEmpleados = new Tipo_empleado();
+			
+			$aPermisos = permisos($this->session->userdata('id_user'));
+			$input_count = 0;
+
+			foreach ($this->input->post() as $input_name => $input) {
+				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != ''){
+			 		$tipoEmpleados->like($input_name, $input);
+			 		$input_count++;
+			 	}
+			 } 
+			if($input_count > 0){
+
+				$tipoEmpleados->order_by('nombre');
+				$tipoEmpleados->get_paged_iterated($page, 8);
+
+				$data['permisos']     = $aPermisos['type_employee'];
+				$data['paginaActual'] = $page;
+				$data['tipoEmpleados']= $tipoEmpleados;
+				$data['buscar']       = true;
+
+			}
+
+		}
+
+		$this->load->view('sistema/template',$data);
+
+	}
 }

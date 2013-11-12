@@ -170,4 +170,41 @@ class Patient extends CI_Controller{
 		redirect(base_url('patient'));
 
 	}
+
+	public function buscar($page = 1){
+
+		$data['view']     = 'sistema/pacientes/buscar';
+		$data['return']   = 'patient';
+		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
+								  'sistema.css');
+		$data['jsFiles']  = array('jquery.js',
+							      'jquery-ui.js',
+							      'jquery.ui.datepicker-es.js',
+							      'valid_forms.js');
+		if($this->input->post()){
+			$pacientes = new Paciente();
+			$aPermisos = permisos($this->session->userdata('id_user'));
+			$input_count = 0;
+
+			foreach ($this->input->post() as $input_name => $input) {
+				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != ''){
+			 		$pacientes->like($input_name, $input);
+			 		$input_count++;
+			 	}
+			 } 
+			if($input_count > 0){
+				$pacientes->where('estatus <>', 2);
+				$pacientes->order_by('nombre');
+				$pacientes->get_paged_iterated($page, 8);
+
+				$data['permisos']     = $aPermisos['patient'];
+				$data['paginaActual'] = $page;
+				$data['pacientes']	  = $pacientes;
+				$data['buscar']       = true;
+
+			}
+
+		}
+		$this->load->view('sistema/template',$data);
+	}	
 }
