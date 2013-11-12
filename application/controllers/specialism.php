@@ -97,6 +97,26 @@ class Specialism extends CI_Controller{
 		}
 	}
 
+public function eliminar($id_especialidad){
+
+		$especialidad = new Especialidad();
+
+		$especialidad->where('id', $id_especialidad)->get();
+
+		$especialidad->estatus    = 2;
+		$especialidad->fecha_baja = date("Y-m-d H:i:s");
+
+		if($especialidad->save()){
+
+			redirect(base_url('specialism'));
+		} else {
+			echo $especialidad->error->string;
+
+		}
+
+	}
+
+
 	public function status($id_especialidad){
 
 		$especialidad = new Especialidad();

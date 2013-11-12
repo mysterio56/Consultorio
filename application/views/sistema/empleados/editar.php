@@ -7,59 +7,79 @@
 	$attributes = array('id' => 'empleadosForm');
 
 	 	echo form_open(null,$attributes);
-
+	 
 	 	if (isset($error_menssage)){
 	 		echo '<div class="error">'.$error_menssage.'</div>';
 	 	}
+	    echo '<table class="table_form">';
+	    echo'<tr>'; 
+ 	    echo'<td  width="100" valing="top">'; 
 
-	 		echo form_label('Codigo de Empleado:');
+	 		echo form_label('Codigo:');
+	 		echo'</td>';
+            echo'<td>';
 		 	$data = array(
 		 		'name'  => 'codigo',
 		 		'id'    => 'codigo',
 		 		'value' => set_value('codigo', $empleado->codigo),
-		 		'style' => 'width:80px'
+		 		'style' => 'width:100px'
 		 	);
 
-
-		 	echo form_input($data);
+            echo form_input($data);
+		 	echo'</td>';
+            echo '</tr>';
 		 	echo '<br />';
 
+
+            echo'<tr>'; 
+ 	        echo'<td valing="top">';
 		 	echo form_label('Nombre:');
+		 	echo'<td  valing="top">';
 		 	$data = array(
 		 		'name'  => 'nombre',
 		 		'id'    => 'nombre',
 		 		'class' => 'capitalize',
 		 		'value' => set_value('nombre' , $empleado->nombre),
-		 		'style' => 'width:125px'
+		 		'style' => 'width:100px'
 		 	);
 
 		 	echo form_input($data);
-
+		 	echo'</td>';
+            echo'<td>';
 		 	echo form_label('Apellido Paterno:');
+		 	echo'</td>';
+		 	echo'<td>';
 		 	$data = array(
 		 		'name'  => 'apellido_p',
 		 		'id'    => 'apellido_p',
 		 		'class' => 'capitalize',
 		 		'value' => set_value('apellido_p', $empleado->apellido_p),
-		 		'style' => 'width:85px'
+		 		'style' => 'width:100px'
 		 	);
 
 		 	echo form_input($data);
-
+		 	echo'</td>';
+            echo'<td valing="top">';
 		 	echo form_label('Apellido Materno:');
+		 	echo'<td  valing="top">';
 		 	$data = array(
 		 		'name'  => 'apellido_m',
 		 		'id'    => 'apellido_m',
 		 		'class' => 'capitalize',
 		 		'value' => set_value('apellido_m', $empleado->apellido_m),
-		 		'style' => 'width:85px'
+		 		'style' => 'width:100px'
 		 	);
 
 
 		 	echo form_input($data);
+		 	echo'</td>';
+            echo '</tr>';
 		 	echo '<br />';
 
+            echo'<td  width="100" valing="top">';
 		 	echo form_label('Email:');
+		 	echo'</td>';
+            echo'<td>';
 		 	$data = array(
 		 		'name'  => 'email',
 		 		'id'    => 'email',
@@ -68,9 +88,13 @@
 		 	);
 
 		 	echo form_input($data);
+		 	echo'</td>';
+            echo '</tr>';
 		 	echo '<br />';
-
+echo'<td  width="100" valing="top">';
 		 	echo form_label('Teléfono:');
+		 	echo'</td>';
+            echo'<td>';
 		 	$data = array(
 		 		'name'  => 'telefono',
 		 		'id'    => 'telefono',
@@ -78,8 +102,11 @@
 		 	);
 
 		 	echo form_input($data);
-
+		 	echo'</td>';
+            echo'<td  width="100" valing="top">';
 		 	echo form_label('Celular:');
+		 	echo'</td>';
+            echo'<td>';
 		 	$data = array(
 		 		'name'  => 'celular',
 		 		'id'    => 'celular',
@@ -87,18 +114,24 @@
 		 	);
 
 		 	echo form_input($data);
+		 	echo'</td>';
+            echo '</tr>';
 		 	echo '<br />';
-
+		 	echo'<tr>'; 
+ echo'<td valing="top colspan=100%" >';
             echo form_label('Tipo de empleado:');
+            echo'</td>';
+           
 
 		 	?>
-
+             <td colspan=100%>
 		 	<select name="tipo_empleado">
 		 		<option value="0">Seleccione...</option>
 		 		<?php foreach($tipoEmpleado as $tipo): ?>
 				  <option value="<?= $tipo->id; ?>" 
 				  	      <?= ($empleado->tipo_empleado_id == $tipo->id)?'selected':''; ?> >
 				  	      <?= $tipo->nombre; ?></option>
+				  	  
 				<?php endforeach; ?>
 		    </select>
 
@@ -124,8 +157,10 @@
  		 			);
 
 		 		echo form_checkbox($data);
+		 	
 		 	}
-
+            	echo'</td>';
+		 	echo'</tr>';
 		 	echo '<br />';
 
 		 	echo form_label('Activar como usuario del sistema:');
@@ -212,3 +247,13 @@
 
 	 	echo form_close();
 ?>
+<script>
+	$(function() showEspecialidades(){
+		var text=$("id_tipoEmpleado[option=selected]").text()
+		if(text== "Doctor"){
+			$(id_especialidad).show()
+		}
+	}
+	$("id_tipoEmpleado").change(showEspecialidades());
+
+</script>
