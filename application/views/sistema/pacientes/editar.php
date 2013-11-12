@@ -6,8 +6,12 @@
 	$attributes = array('id' => 'pacienteForm');
 
 	 	echo form_open(null,$attributes);
-
-	 		echo form_label('Codigo del paciente:');
+	 	echo '<table class="table_form">';
+	    echo'<tr>'; 
+	    echo'<td  width="100" valing="top">'; 
+	 		echo form_label('Codigo:');
+		 	echo'</td>';
+	   		 echo'<td>';
 		 	$data = array(
 		 		'name'  => 'codigo',
 		 		'id'    => 'codigo',
@@ -16,9 +20,14 @@
 		 	);
 
 		 	echo form_input($data);
-		 	echo '<br />';
+		 	echo'</td>';
+            echo '</tr>';
 
+        echo'<tr>'; 
+ 	    echo'<td  width="100" valing="top">'; 
 		 	echo form_label('Nombre:');
+		 	echo'</td>';
+            echo'<td>';
 		 	$data = array(
 		 		'name'  => 'nombre',
 		 		'id'    => 'nombre',
@@ -50,9 +59,14 @@
 		 	);
 
 		 	echo form_input($data);
-		 	echo '<br />';
+		 	echo'</td>';
+            echo '</tr>';
 
+        echo'<tr>'; 
+ 	    echo'<td  width="100" valing="top">';
 		 	echo form_label('Email:');
+		 	echo'</td>';
+	   		echo'<td>';
 		 	$data = array(
 		 		'name'  => 'email',
 		 		'id'    => 'email',
@@ -61,26 +75,30 @@
 		 	);
 
 		 	echo form_input($data);
-		 	echo '<br />';
+		 	echo'</td>';
+            echo '</tr>';
 
+        echo'<tr>'; 
+ 	    echo'<td  width="100" valing="top">';    
 		 	echo form_label('Teléfono:');
-		 	$data = array(
+		 	 	$data = array(
 		 		'name'  => 'telefono',
 		 		'id'    => 'telefono',
 		 		'value' => set_value('telefono',$paciente->telefono)
 		 	);
-
 		 	echo form_input($data);
-
-		 	echo form_label('Celular:');
-		 	$data = array(
+		  	echo form_label('Celular:');
+		   		$data = array(
 		 		'name'  => 'celular',
 		 		'id'    => 'celular',
 		 		'value' => set_value('celular',$paciente->celular)
 		 	);
-
 		 	echo form_input($data);
+		 	echo'</td>';
+            echo '</tr>';
 
+            echo'<tr>'; 
+            echo'<td colspan= 1>';
 		 	$data = array(
 		 		'name'  => 'editar',
 		 		'id'    => 'editar',
@@ -89,6 +107,8 @@
 		 	);
 
 		 	echo form_submit($data);
-
+		 	echo'</td>';
+		 	echo '</tr>';
+		 	echo '</table>';
 	 	echo form_close();
 ?>

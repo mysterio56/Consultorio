@@ -190,6 +190,10 @@ div .error{
   font-size: 14px;
 }
 
+#tdPermisos{
+  background-color: #D8D8D8;
+}
+
 .table_form select {
    width: 100%;
 }

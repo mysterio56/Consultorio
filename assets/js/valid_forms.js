@@ -200,10 +200,10 @@ Valid.especialidad = function()
     
 }
 
-Valid.tipoEmpleado = function()
+Valid.tipoempleados = function()
 {
 
-    $('#tipoEmpleadoForm').validate({
+    $('#tipoEmpleadosForm').validate({
         rules:{
             codigo:{
                 required:true,
@@ -259,8 +259,7 @@ function Find() {
 Find.empleados = function()
 {
 
-    $('#empleadosForm')
-        .children('#fecha_alta_value')
+    $('#fecha_alta_value')
             .datepicker({
                 altField:   "#fecha_alta",
                 altFormat:  "yy-mm-dd",
@@ -269,8 +268,7 @@ Find.empleados = function()
 Find.especialidades = function()
 {
 
-    $('#especialidadesForm')
-        .children('#fecha_alta_value')
+    $('#fecha_alta_value')
             .datepicker({
                 altField:   "#fecha_alta",
                 altFormat:  "yy-mm-dd",
@@ -279,8 +277,7 @@ Find.especialidades = function()
 Find.tipoempleados = function()
 {
 
-    $('#tipoempleadoForm')
-        .children('#fecha_alta_value')
+    $('#fecha_alta_value')
             .datepicker({
                 altField:   "#fecha_alta",
                 altFormat:  "yy-mm-dd",
@@ -290,8 +287,7 @@ Find.tipoempleados = function()
 Find.pacientes = function()
 {
 
-    $('#pacienteForm')
-        .children('#fecha_alta_value')
+    $('#fecha_alta_value')
             .datepicker({
                 altField:   "#fecha_alta",
                 altFormat:  "yy-mm-dd",

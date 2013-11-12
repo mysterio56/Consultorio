@@ -9,6 +9,7 @@
 					<th>Editar</th>
 				<?php endif; ?>
 				<th>Activo</th>
+				<th>Eliminar</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -35,6 +36,14 @@
 									echo '<a href="'.base_url('specialism/status/'.$especialidad->id).'">
 											<img src="'.base_url('assets/images/'.$activo.'.png').'" />
 										 </a>';
+										}
+                                echo '<td>';
+								if(in_array($permisos,$aPermisos['Eliminar']) ){
+									echo '<a href="'.base_url('specialism/eliminar/'.$especialidad->id).'">
+									  <img src="'.base_url('assets/images/delete.png').'"/>
+                                     </a>';
+
+
 								}else{
 									echo '<img src="'.base_url('assets/images/'.$activo.'.png').'" />';
 								}
