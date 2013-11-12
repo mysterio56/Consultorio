@@ -10,7 +10,7 @@
 	 		echo '<div class="error">'.$error_menssage.'</div>';
 	 	}
 	     echo '<table class="table_form">';
-	     echo'<tr>'; 
+         echo'<tr>'; 
  	     echo'<td  width="100" valing="top">';
             echo form_label('Codigo:');
 	 		echo'</td>';
@@ -25,7 +25,6 @@
             echo form_input($data);
 		 	echo'</td>';
             echo '</tr>';
-		 	echo '<br />';
 
 
             echo'<tr>'; 
@@ -71,7 +70,6 @@
 		 	echo form_input($data);
 		 	echo'</td>';
             echo '</tr>';
-		 	echo '<br />';
 
             echo'<td  width="100" valing="top">';
 		 	echo form_label('Email:');
@@ -87,7 +85,7 @@
 		 	echo form_input($data);
 		 	echo'</td>';
             echo '</tr>';
-		 	echo '<br />';
+
 echo'<td  width="100" valing="top">';
 		 	echo form_label('Teléfono:');
 		 	echo'</td>';
@@ -113,30 +111,34 @@ echo'<td  width="100" valing="top">';
 		 	echo form_input($data);
 		 	echo'</td>';
             echo '</tr>';
-		 	echo '<br />';
-		 	echo'<tr>'; 
- echo'<td valing="top">';
-            echo form_label('Tipo de empleado:');
-            echo'</td>';
-           
 
+		 	echo'<tr>'; 
+            	echo'<td valing="top">';
+            			echo form_label('Tipo de empleado:');
+            	echo'</td>';
+      
 		 	?>
              <td valing="top">
-		 	<select name="tipo_empleado">
-		 		<option value="0">Seleccione...</option>
-		 		<?php foreach($tipoEmpleado as $tipo): ?>
-				  <option value="<?= $tipo->id; ?>" 
-				  	      <?= ($empleado->tipo_empleado_id == $tipo->id)?'selected':''; ?> >
-				  	      <?= $tipo->nombre; ?></option>
-				  	  
-				<?php endforeach; ?>
+			 	<select name="tipo_empleado" id="tipo_empleado">
+			 		<option value="0">Seleccione...</option>
+			 		<?php foreach($tipoEmpleado as $tipo): ?>
+					  <option value="<?= $tipo->id; ?>" 
+					  	      <?= ($empleado->tipo_empleado_id == $tipo->id)?'selected':''; ?> >
+					  	      <?= $tipo->nombre; ?></option>
+					  	  
+					<?php endforeach; ?>
 
-		    </select>
-
+			    </select>
+			</td>
 		 	<?php
+			echo'</tr>';
+		 	echo '<tr>';
+	        echo '<td colspan="100%" class="hide" id="tdEspecialidadesLabel">';
+			echo form_label('Especialidades:');
+	        echo '</td>';
+            echo '</tr>';
 
-		 	echo '<br />';
-
+            
 		 	$empleado->especialidad->get();
 
 			foreach($empleado->especialidad->all as $empleado_especialidad){
@@ -146,8 +148,11 @@ echo'<td  width="100" valing="top">';
              if(!isset($aChecked))
              	$aChecked[0] = 0;
 
+			echo '<tr>';
+	        echo '<td colspan="100%" class="hide" id="tdEspecialidades">';
 		 	foreach($especialidades as $especialidad){
 		 		echo form_label($especialidad->nombre.':');
+
 		 		$data = array(
 		 			'name'  => 'especialidades[]',
 		 			'id'    => 'especialidad_'.$especialidad->id,
@@ -156,17 +161,16 @@ echo'<td  width="100" valing="top">';
  		 			);
 
 		 		echo form_checkbox($data);
-		 	
+		 		
 		 	}
-            	echo'</td>';
+
+		 	echo'</td>';
 		 	echo'</tr>';
-		 	echo '<br />';
 
-		 	echo'<tr>';
-		 	echo'<td colspan=100%>';
-		 	echo form_label('Especialidades:');
-
+            echo'<tr>';
+		 	echo'<td colspan ="100%" >';
 		 	echo form_label('Activar como usuario del sistema:');
+		 	
 		 	$data = array(
 		 		'name'    => 'act_sistema',
 		 		'id'      => 'act_sistema',
@@ -175,8 +179,8 @@ echo'<td  width="100" valing="top">';
 		 	);
 
 		 	echo form_checkbox($data);
-		 	
-		 	echo '<br />';
+		 	echo'</td>';
+		 	echo'</tr>';
 
 			$usuario->modulo->get();
 
@@ -188,6 +192,8 @@ echo'<td  width="100" valing="top">';
              	$aChecked[0] = 0;
 
 		 	foreach($modulos as $modulo){
+		 		 echo'<tr class="hide" id="trModulos">';
+		 	     echo'<td colspan=100%>';
 		 		echo form_label($modulo->nombre.':');
 		 		$data = array(
 				 		'name'    => 'modulos[]',
@@ -197,7 +203,8 @@ echo'<td  width="100" valing="top">';
 		 		);
 
 		 		echo form_checkbox($data);
-
+                echo'</td>';
+		 	    echo'</tr>';
 		 		$printPermiso = 0;
 
 		 		foreach($permisos as $permiso){
@@ -205,7 +212,8 @@ echo'<td  width="100" valing="top">';
 		 				$printPermiso = $permiso->permiso;
 		 			}
 		 		}
-             		
+             		 echo'<tr class="hide">';
+		 	     echo'<td colspan="2" id="tdPermisos">';
 
 		 		echo form_label('Agregar:');
 		 		$data = array(
@@ -215,7 +223,6 @@ echo'<td  width="100" valing="top">';
 		 		);
 
 		 		echo form_checkbox($data);
-
 		 		echo form_label('Editar:');
 		 		$data = array(
 				 		'name'    => 'permisos_'.$modulo->id.'[]',
@@ -224,7 +231,7 @@ echo'<td  width="100" valing="top">';
 		 		);
 
 		 		echo form_checkbox($data);
-
+		 	
 		 		echo form_label('Eliminar:');
 		 		$data = array(
 				 		'name'    => 'permisos_'.$modulo->id.'[]',
@@ -233,12 +240,13 @@ echo'<td  width="100" valing="top">';
 		 		);
 
 		 		echo form_checkbox($data);
-
-		 		echo '<br />';
+                echo'</td>';
+                echo'</tr>';
 
 		 	}
 
-		 	echo '<br />';
+            echo'<tr>';
+		 	echo'<td>';
 		 	$data = array(
 		 		'name'  => 'editar',
 		 		'id'    => 'editar',
@@ -247,17 +255,31 @@ echo'<td  width="100" valing="top">';
 		 	);
 
 		 	echo form_submit($data);
-
+            echo'</tr>';
+		 	echo'</td>';
 
 	 	echo form_close();
 ?>
 <script>
-	$(function() showEspecialidades(){
-		var text=$("id_tipoEmpleado[option=selected]").text()
-		if(text== "Doctor"){
-			$(id_especialidad).show()
+
+$(function(){
+	showEspecialidades();
+
+	$("#tipo_empleado").change(function(){
+			showEspecialidades();
+	});
+
+});
+
+function showEspecialidades(){
+	var tipo_empleado = $("#tipo_empleado").val();
+		if(tipo_empleado == 1){
+			$("#tdEspecialidadesLabel").show();
+			$("#tdEspecialidades").show();
+		} else {
+			$("#tdEspecialidadesLabel").hide();
+			$("#tdEspecialidades").hide();
 		}
-	}
-	$("id_tipoEmpleado").change(showEspecialidades());
+}
 
 </script>
