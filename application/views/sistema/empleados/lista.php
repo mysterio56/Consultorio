@@ -125,5 +125,5 @@
 	<?php if(in_array($permisos,$aPermisos['Agregar']) ): ?>
 		<a class="abutton" href="<?= base_url('employees/agregar') ?>">Agregar</a>
 	<?php endif; ?>
-		<a class="abutton" href="<?= base_url('employees/buscar') ?>">Buscar</a>
+		<a class="abutton" href="<?= base_url('employees/buscar') ?>">Búsqueda Avanzada</a>
 <?php endif; ?>

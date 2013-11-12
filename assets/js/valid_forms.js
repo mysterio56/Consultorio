@@ -220,6 +220,10 @@ Valid.carga = function(){
     location.reload();
 }
 
+Valid.return = function(){
+    history.back();
+}
+
 function Find() {
 
 }

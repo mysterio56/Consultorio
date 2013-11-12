@@ -1,5 +1,6 @@
 <?php
     /** funcion para validar que la pagina se habra en un iframe **/
+
     IframeRedirect();
 
     define ("PERMISOS", serialize (array("Agregar"  => array(4,5,6,7),
@@ -24,12 +25,10 @@
     if(isset($return)):
 ?>
 
-<a class="action" href="<?= base_url($return) ?>">
-    <img class   = "action" 
-         src     = "<?= base_url('assets/images/return.png')?>" 
-         onClick = "Valid.carga();"
-         title   = "Regresar" />
- </a>
+<img class   = "action" 
+     src     = "<?= base_url('assets/images/return.png')?>" 
+     onClick = "Valid.return();"
+     title   = "Regresar" />
 
 <?php endif; ?>
 
@@ -37,6 +36,36 @@
      src     = "<?= base_url('assets/images/reload.png')?>" 
      onClick = "Valid.carga();"
      title   = "Recargar pestaña" />
+
+<div class="subir">
+
+<?php
+ if(!isset($return) && $view != 'sistema/consultorio/editar'){
+
+    echo form_open();
+    echo form_label('Codigo:','codigo');
+    echo form_input(array('name'  => 'codigo' , 
+                          'id'    => 'codigo' , 
+                          'size'  => '20', 
+                          'value' => set_value('codigo')));
+
+    echo form_label('Nombre:','nombre');
+    echo form_input(array('name'  => 'nombre', 
+                          'id'    => 'nombre', 
+                          'size'  => '20', 
+                          'value' => set_value('nombre')));
+   
+
+    echo form_submit(array('name'  => 'buscar', 
+                           'id'    => 'buscar',
+                           'class' => 'abutton',
+                           'value' => 'Buscar',
+                           'style' => 'margin:0px'));
+    echo form_close();
+
+  }
+?> 
+</div>
 
 <?php   
     $this->load->view($view);     
