@@ -24,7 +24,7 @@
             echo '</tr>';
 	
         echo'<tr>'; 
- 	    echo'<td  width="100" valing="top">'; 
+ 	    echo'<td  valing="top">'; 
 		 	echo form_label('Nombre:');
 		 	echo'</td>';
             echo'<td>';
@@ -37,8 +37,11 @@
 		 	);
 
 		 	echo form_input($data);
-
+            echo'</td>';
+            echo'<td valing="top">';
 		 	echo form_label('Apellido paterno:');
+		 	echo'</td>';
+		 	echo'<td>';
 		 	$data = array(
 		 		'name'  => 'apellido_p',
 		 		'id'    => 'apellido_p',
@@ -48,8 +51,11 @@
 		 	);
 
 		 	echo form_input($data);
+		 	echo'<td>';
 
 		 	echo form_label('Apellido materno:');
+		 	echo'</td>';
+		 	echo'<td>';
 		 	$data = array(
 		 		'name'  => 'apellido_m',
 		 		'id'    => 'apellido_m',
@@ -63,7 +69,7 @@
             echo '</tr>';
 
 		 echo'<tr>'; 
- 	     echo'<td  width="100" valing="top">';
+ 	     echo'<td valing="top">';
 		 	echo form_label('Email:');
 		 	echo'</td>';
             echo'<td>';
@@ -91,6 +97,9 @@
 		 	);
 
 		 	echo form_input($data);
+		 	echo'</td>';
+
+		 	echo'<td>';
 		 	
 		  	echo form_label('Celular:');
 		 	echo'</td>';
