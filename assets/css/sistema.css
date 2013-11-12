@@ -197,3 +197,7 @@ div .error{
 .table_form input {
    width: 100%;
 }
+
+.table_form input[type='checkbox'] {
+    width: 16px;
+}
