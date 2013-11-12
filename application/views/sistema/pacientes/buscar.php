@@ -9,20 +9,27 @@
 	 	if (isset($error_menssage)){
 	 		echo '<div class="error">'.$error_menssage.'</div>';
 	 	}
-
+	 	echo '<table class="table_form">';
+	    echo'<tr>'; 
+	    echo'<td  width="100" valing="top">'; 
 	 		echo form_label('Codigo:');
+	    echo'</td>';
+	    echo'<td>';
 		 	$data = array(
 		 		'name'  => 'codigo',
 		 		'id'    => 'codigo',
 		 		'value' => set_value('codigo'),
 		 		'style' => 'width:80px'
 		 	);
-
-
 		 	echo form_input($data);
-		 	echo '<br />';
+		 	echo'</td>';
+            echo '</tr>';
 
-		 	echo form_label('Nombre:');
+           echo'<tr>'; 
+ 	       echo'<td  width="100" valing="top">'; 
+		   echo form_label('Nombre:');
+			echo'</td>';
+            echo'<td>';
 		 	$data = array(
 		 		'name'  => 'nombre',
 		 		'id'    => 'nombre',
@@ -41,7 +48,6 @@
 		 		'value' => set_value('apellido_p'),
 		 		'style' => 'width:85px'
 		 	);
-
 		 	echo form_input($data);
 
 		 	echo form_label('Apellido Materno:');
@@ -52,11 +58,16 @@
 		 		'value' => set_value('apellido_m'),
 		 		'style' => 'width:85px'
 		 	);
-
 		 	echo form_input($data);
-		 	echo '<br />';
+		 	echo'</td>';
+            echo '</tr>';
+		 	
 
+		 	echo'<tr>'; 
+ 	        echo'<td  width="100" valing="top">'; 
 		 	echo form_label('Fecha de alta:');
+		 	echo'</td>';
+            echo'<td>';
 		 	$data = array(
 		 		'name'  => 'fecha_alta_value',
 		 		'id'    => 'fecha_alta_value',
@@ -65,13 +76,16 @@
 		 	);
 
 		 	echo form_input($data);
+		 	echo'</td>';
+            echo '</tr>'
 			
 			?>
 
 			<input type="hidden" name="fecha_alta" id="fecha_alta" />
 
 			<?php
-
+			echo'<tr>'; 
+            echo'<td colspan= 1>';
 		 	$data = array(
 		 		'name'  => 'buscar',
 		 		'id'    => 'buscar',
@@ -80,7 +94,9 @@
 		 	);
 
 		 	echo form_submit($data);
-
+		 	echo'</td>';
+            echo '</tr>';
+            echo '</table>';
 
 	 	echo form_close();
 
