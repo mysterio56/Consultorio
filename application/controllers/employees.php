@@ -26,7 +26,35 @@ class Employees extends CI_Controller{
 		$data['view']         = 'sistema/empleados/lista';
 		$data['cssFiles']     = array('sistema.css');
 		$data['jsFiles']      = array('valid_forms.js');
+		if($this->input->post()){
 
+			$empleados = new Empleado();
+			
+			$aPermisos = permisos($this->session->userdata('id_user'));
+			$input_count = 0;
+
+			foreach ($this->input->post() as $input_name => $input) {
+				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != ''){
+			 		$empleados->like($input_name, $input);
+			 		$input_count++;
+			 	}
+			 } 
+			if($input_count > 0){
+
+				$empleados->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
+									    'estatus <>'     => 2));
+
+				$empleados->order_by('nombre');
+				$empleados->get_paged_iterated($page, 8);
+
+				$data['permisos']     = $aPermisos['employees'];
+				$data['paginaActual'] = $page;
+				$data['empleados']    = $empleados;
+				$data['buscar']       = true;
+
+			}
+
+		}
 		$this->load->view('sistema/template',$data);
 
 	}
