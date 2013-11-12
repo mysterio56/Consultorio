@@ -43,7 +43,8 @@ Tab.newTab = function(name_tab, url_tab)
       }).appendTo('#content');
 
       $('<iframe/>', {
-        src: url_tab
+        src: url_tab,
+        id: 'iframe',
       }).appendTo('#div'+name_tab);
 
   }
