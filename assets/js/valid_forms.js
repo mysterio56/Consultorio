@@ -18,7 +18,7 @@ Valid.login = function()
         errorElement: 'div',
         wrapper: 'div',
         errorPlacement: function(error, element) {
-            error.insertAfter(element); // default function
+            error.insertAfter(element);
         }
     });
     
@@ -60,7 +60,7 @@ Valid.empleados = function()
         errorElement: 'div',
         wrapper: 'div',
         errorPlacement: function(error, element) {
-            error.insertAfter(element); // default function
+            error.insertAfter(element);
         }
     });
     
@@ -102,7 +102,7 @@ Valid.paciente = function()
         errorElement: 'div',
         wrapper: 'div',
         errorPlacement: function(error, element) {
-            error.insertAfter(element); // default function
+            error.insertAfter(element); 
         }
     });
     
@@ -139,12 +139,24 @@ Valid.consultorio = function()
             celular:{
                 required:true,
                 number:true
+            },
+            estado: {
+                selectcheck: true
+            },
+            municipio: {
+                selectcheck: true
+            },
+            codigo_postal: {
+                selectcheck: true
+            },
+            colonia: {
+                selectcheck: true
             }
         },
         errorElement: 'div',
         wrapper: 'div',
         errorPlacement: function(error, element) {
-            error.insertAfter(element); // default function
+            error.insertAfter(element); 
         }
     });
     
@@ -167,7 +179,7 @@ Valid.especialidad = function()
         errorElement: 'div',
         wrapper: 'div',
         errorPlacement: function(error, element) {
-            error.insertAfter(element); // default function
+            error.insertAfter(element); 
         }
     });
     
@@ -190,7 +202,7 @@ Valid.tipoEmpleado = function()
         errorElement: 'div',
         wrapper: 'div',
         errorPlacement: function(error, element) {
-            error.insertAfter(element); // default function
+            error.insertAfter(element); 
         }
     });
     
@@ -240,3 +252,7 @@ Find.empleados = function()
                 dateFormat: "dd M yy"});
     
 }
+
+jQuery.validator.addMethod('selectcheck', function (value) {
+        return (value != '0');
+    }, "Este campo es requerido");

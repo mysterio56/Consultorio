@@ -185,11 +185,12 @@ echo '<table>';
 
 
 $(function () {
+	$("input[type=submit]").attr("disabled", "disabled");
 	base_url = "<?= base_url(); ?>";
-	getFederalEntities();
+	getFederalEntities(1);
 });
 
-function getFederalEntities(){
+function getFederalEntities(nStart){
 
 	$.getJSON( base_url + "address/getFederalEntities/", function( data ) {
 
@@ -198,13 +199,18 @@ function getFederalEntities(){
   		$.each( data, function( key, val ) {
   			$('#estado').append('<option value="' + val.id + '">' + val.name + '</option>');
  	 	});
- 	 	$('#estado').val("<?= $consultorio->direccion->estado_id; ?>");
+
+ 	 	if(nStart){
+ 	 		$('#estado').val("<?= $consultorio->direccion->estado_id; ?>");
+ 	 		getMunicipalities(1);
+ 	 	}
+
  	 	$('#estado').show();
-     	getMunicipalities();
+     	
 	});
 }
 
-function getMunicipalities(){
+function getMunicipalities(nStart){
 
 $("#municipio option").remove();
 $('#municipio').hide();
@@ -220,15 +226,19 @@ var url = base_url + "address/getMunicipalities/"+$("#estado").val();
 		 $.each( data, function( key, val ) {
   			$('#municipio').append('<option value="' + val.id + '">' + val.name + '</option>');
  	 	});
-		$('#municipio').val("<?= $consultorio->direccion->municipio_id; ?>");
+
+		 if(nStart){
+ 	 		$('#municipio').val("<?= $consultorio->direccion->municipio_id; ?>");
+ 	 		getPostalCodes(1);
+ 	 	}
+
      	$('#municipio').show();
-     	getPostalCodes();
 		
 	});
 	
 }
 
-function getPostalCodes(){
+function getPostalCodes(nStart){
 
 $("#codigo_postal option").remove();
 $('#codigo_postal').hide();
@@ -241,15 +251,19 @@ var url = base_url + "address/getPostalCodes/"+$("#municipio").val();
 		 $.each( data, function( key, val ) {
   			$('#codigo_postal').append('<option value="' + val.id + '">' + val.name + '</option>');
  	 	});
-		$('#codigo_postal').val("<?= $consultorio->direccion->codigo_postal_id; ?>");
+
+		 if(nStart){
+ 	 		$('#codigo_postal').val("<?= $consultorio->direccion->codigo_postal_id; ?>");
+ 	 		getColonies(1);
+ 	 	}
+
 		$('#codigo_postal').show();
-     	getColonies();
-		
+     		
 	});
 	
 }
 
-function getColonies(){
+function getColonies(nStart){
 
 $("#colonia option").remove();
 $('#colonia').hide();
@@ -260,10 +274,16 @@ var url = base_url + "address/getColonies/"+$("#codigo_postal").val();
 		 $.each( data, function( key, val ) {
   			$('#colonia').append('<option value="' + val.id + '">' + val.name + '</option>');
  	 	});
-		$('#colonia').val("<?= $consultorio->direccion->colonia_id; ?>");
+
+		if(nStart){
+
+ 	 		$('#colonia').val("<?= $consultorio->direccion->colonia_id; ?>");
+ 	 		$('#wait').hide();
+			$('#address').show();
+			$("input[type=submit]").removeAttr("disabled");
+ 	 	}
+		
 		$('#colonia').show();
-		$('#wait').hide();
-		$('#address').show();
 		
 	});
 	
