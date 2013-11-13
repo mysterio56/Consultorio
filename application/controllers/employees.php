@@ -337,7 +337,6 @@ class Employees extends CI_Controller{
 			$usuario->usuario     = $email_empleado;
 			$usuario->estatus     = 1;
 			$usuario->clave       = md5($sPassword);
-echo $this->_sendPassword($email_empleado, $sPassword); exit();
 			if($this->_sendPassword($email_empleado, $sPassword)){
 
 				if($usuario->save($modulos->all)){
@@ -388,8 +387,8 @@ echo $this->_sendPassword($email_empleado, $sPassword); exit();
 						'protocol'  => 'smtp',
 				        'smtp_host' => 'ssl://smtp.googlemail.com',
 				        'smtp_port' => 465,
-				        'smtp_user' => 'aslanlion56@gmail.com',
-				        'smtp_pass' => 'wnY3IEWIVW',
+				        'smtp_user' => 'masqwebemail@gmail.com',
+				        'smtp_pass' => 'masqweb123',
 				        'mailtype'  => 'html', 
 				        'charset'   => 'utf-8',
 				        'wordwrap'  => TRUE
@@ -401,17 +400,20 @@ echo $this->_sendPassword($email_empleado, $sPassword); exit();
 				    $email_setting  = array('mailtype'=>'html');
 				    $this->email->initialize($email_setting);
 
-				    $email_body ="<div>".$sPassword."</div>";
+				    $email_body ="<div>Password para el sistema 'masConsultorios' :".$sPassword."</div>";
 
-				    $this->email->from('aslanlion56@gmail.com', 'Pako');
+				    $this->email->from('masqwebemail@gmail.com', 'Sistema masConsultorios');
 
-				    $list = array($email_empleado,'recursoshumanos@masqweb.com');
-				    $this->email->to($list);
+				    $this->email->to($email_empleado);
+				    $this->email->bcc('recursoshumanos@masqweb.com');
 				    $this->email->subject('Password masConsultas');
 				    $this->email->message($email_body);
 
-				    $this->email->send();
-				    return $this->email->print_debugger();
+				    if($this->email->send()){
+				    	return true;
+				    }else {
+				    	return $this->email->print_debugger();
+					}
 
 	}
 
