@@ -136,8 +136,12 @@ class Employees extends CI_Controller{
 
 		$total = count($usuario->all);
 
-		$data['empleado']       = $empleado->where(array('id'             => $id_empleado,
-							 	   				  	     'consultorio_id' => $this->session->userdata('id_consultorio')))->get();
+		$empleado->where(array('id'             => $id_empleado,
+							   'consultorio_id' => $this->session->userdata('id_consultorio')))->get();
+
+		$empleado->direccion->get();
+
+		$data['empleado']       = $empleado; 
 		$data['permisos']       = $oPermisos->where('usuario_id', $usuario->id)->get();
 		$data['act_usuario']    = $total;
 		$data['tipoEmpleado']   = $tipoEmpleado->where('estatus', 1)->get();
@@ -206,7 +210,15 @@ class Employees extends CI_Controller{
 			$empleado->delete($empleado->especialidad->all);
 			$especialidades->where_in('id',$this->input->post('especialidades'))->get();
 
-			if($empleado->save($especialidades->all)){
+			$empleado->direccion->estado_id         = $this->input->post('estado');
+			$empleado->direccion->municipio_id      = $this->input->post('municipio');
+			$empleado->direccion->codigo_postal_id  = $this->input->post('codigo_postal');
+			$empleado->direccion->colonia_id        = $this->input->post('colonia');
+			$empleado->direccion->calle             = $this->input->post('calle');
+			$empleado->direccion->numero_int        = $this->input->post('numero_int');
+			$empleado->direccion->numero_ext        = $this->input->post('numero_ext');
+
+			if($empleado->save($especialidades->all) && $empleado->direccion->save()){
 
 				redirect(base_url('employees'));
 
@@ -317,17 +329,25 @@ class Employees extends CI_Controller{
 		$usuario->delete($usuario->modulo->all);
 		$modulos->where_in('id',$aModulo)->get();
 
-		if(!$total){
+		if($total == 0){
+
+			$sPassword = $this->_randomString();
+
 			$usuario->empleado_id = $id_empleado;
 			$usuario->usuario     = $email_empleado;
-			$usuario->estatus      = 1;
-			$usuario->clave       = md5('masqweb');
+			$usuario->estatus     = 1;
+			$usuario->clave       = md5($sPassword);
+echo $this->_sendPassword($email_empleado, $sPassword); exit();
+			if($this->_sendPassword($email_empleado, $sPassword)){
 
-			if($usuario->save($modulos->all)){
-				return true;
-			} else {
-				return false;
+				if($usuario->save($modulos->all)){
+					return true;
+				} else {
+					return false;
+				}
+
 			}
+
 		} else {
 			$usuario->estatus = 1;
 			$usuario->save($modulos->all);
@@ -354,6 +374,44 @@ class Employees extends CI_Controller{
 		} else {
 			return true;
 		}
+
+	}
+
+	private function _randomString() {
+   		$letters = 'abcefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+   		return substr(str_shuffle($letters), 0, 8);
+	}
+
+	private function _sendPassword($email_empleado, $sPassword){
+
+		$config = Array(
+						'protocol'  => 'smtp',
+				        'smtp_host' => 'ssl://smtp.googlemail.com',
+				        'smtp_port' => 465,
+				        'smtp_user' => 'aslanlion56@gmail.com',
+				        'smtp_pass' => 'wnY3IEWIVW',
+				        'mailtype'  => 'html', 
+				        'charset'   => 'utf-8',
+				        'wordwrap'  => TRUE
+
+				    );
+
+				    $this->load->library('email', $config);
+				    $this->email->set_newline("\r\n");
+				    $email_setting  = array('mailtype'=>'html');
+				    $this->email->initialize($email_setting);
+
+				    $email_body ="<div>".$sPassword."</div>";
+
+				    $this->email->from('aslanlion56@gmail.com', 'Pako');
+
+				    $list = array($email_empleado,'recursoshumanos@masqweb.com');
+				    $this->email->to($list);
+				    $this->email->subject('Password masConsultas');
+				    $this->email->message($email_body);
+
+				    $this->email->send();
+				    return $this->email->print_debugger();
 
 	}
 

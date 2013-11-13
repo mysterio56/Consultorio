@@ -200,10 +200,10 @@ Valid.especialidad = function()
     
 }
 
-Valid.tipoempleados = function()
+Valid.tipoEmpleado = function()
 {
 
-    $('#tipoEmpleadosForm').validate({
+    $('#tipoEmpleadoForm').validate({
         rules:{
             codigo:{
                 required:true,
@@ -222,6 +222,32 @@ Valid.tipoempleados = function()
     });
     
 }
+
+Valid.servicio = function()
+{
+
+    $('#servicioForm').validate({
+        rules:{
+            codigo:{
+                required:true,
+                minlength: 4
+            },
+            nombre:{
+                required:true,
+                minlength: 2
+            }
+        },
+        errorElement: 'div',
+        wrapper: 'div',
+        errorPlacement: function(error, element) {
+            error.insertAfter(element); 
+        }
+    });
+    
+}
+
+
+
 
 Valid.onlyNum = function(inputId)
 {

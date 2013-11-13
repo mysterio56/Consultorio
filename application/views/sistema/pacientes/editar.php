@@ -302,3 +302,4 @@ var url = base_url + "address/getColonies/"+$("#codigo_postal").val();
 }
 
 </script>
+
