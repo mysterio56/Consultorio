@@ -55,7 +55,7 @@ class Patient extends CI_Controller{
 	}
 
 	public function agregar(){
-
+		$direccion = new Direccion();
     	$paciente = new Paciente();
 
     	$data['view']     	  = 'sistema/pacientes/agregar';
@@ -80,6 +80,17 @@ class Patient extends CI_Controller{
 			$paciente->fecha_alta = date("Y-m-d H:i:s");
 			$paciente->estatus    = 1;
 
+			$direccion->estado_id        = $this->input->post('estado');
+			$direccion->municipio_id     = $this->input->post('municipio');
+			$direccion->codigo_postal_id = $this->input->post('codigo_postal');
+			$direccion->colonia_id       = $this->input->post('colonia');
+			$direccion->calle            = $this->input->post('calle');
+			$direccion->numero_int       = $this->input->post('numero_int');
+			$direccion->numero_ext       = $this->input->post('numero_ext');
+
+			$direccion->save();
+			$paciente->direccion_id = $direccion->id;
+
 			if($paciente->save()){
 
 				redirect(base_url('patient'));
@@ -98,7 +109,10 @@ class Patient extends CI_Controller{
 
     	$paciente = new Paciente();
 
-		$data['paciente'] = $paciente->where('id',$id_paciente)->get();
+		$paciente->where('id',$id_paciente)->get();
+    	$paciente->direccion-> get();
+
+		$data['paciente'] = $paciente; 
 		$data['return']   = 'patient'; 		
 		$data['view']     = 'sistema/pacientes/editar';
 		$data['cssFiles'] = array('sistema.css');
@@ -120,7 +134,15 @@ class Patient extends CI_Controller{
 			$paciente->celular            = $this->input->post('celular');
 			$paciente->fecha_modificacion = date("Y-m-d H:i:s");
 
-			if($paciente->save()){
+			$paciente->direccion->estado_id         = $this->input->post('estado');
+			$paciente->direccion->municipio_id      = $this->input->post('municipio');
+			$paciente->direccion->codigo_postal_id  = $this->input->post('codigo_postal');
+			$paciente->direccion->colonia_id        = $this->input->post('colonia');
+			$paciente->direccion->calle             = $this->input->post('calle');
+			$paciente->direccion->numero_int        = $this->input->post('numero_int');
+			$paciente->direccion->numero_ext        = $this->input->post('numero_ext');
+
+			if($paciente->save() && $paciente->direccion->save()){
 
 				redirect(base_url('patient'));
 				
@@ -131,6 +153,7 @@ class Patient extends CI_Controller{
 			}
 
 		}
+
 	}
 
 	public function status($id_paciente){

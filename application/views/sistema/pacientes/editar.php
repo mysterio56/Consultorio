@@ -197,7 +197,7 @@ echo'<td colspan= 1>';
 	?>
 <script>
 
-$(function (nStart) {
+$(function () {
 	$("input[type=submit]").attr("disabled", "disabled");
 	base_url = "<?= base_url(); ?>";
 	getFederalEntities(1);
@@ -208,7 +208,7 @@ function getFederalEntities(nStart){
 	$.getJSON( base_url + "address/getFederalEntities/", function( data ) {
 
 		$('#estado').append('<option value="0">Seleccione un Estado</option>');
-echo '</div>';
+
   		$.each( data, function( key, val ) {
   			$('#estado').append('<option value="' + val.id + '">' + val.name + '</option>');
  	 	});
@@ -250,6 +250,7 @@ var url = base_url + "address/getMunicipalities/"+$("#estado").val();
 	});
 	
 }
+
 function getPostalCodes(nStart){
 
 $("#codigo_postal option").remove();
@@ -302,4 +303,3 @@ var url = base_url + "address/getColonies/"+$("#codigo_postal").val();
 }
 
 </script>
-
