@@ -1,9 +1,9 @@
 <script>
 
-	$(function(){ Valid.tipoEmpleado(); });
+	$(function(){ Valid.servicio(); });
 </script>
 	<?php
-        $attributes = array('id' => 'tipoEmpleadosForm');
+        $attributes = array('id' => 'servicioForm');
 	 	echo form_open(null,$attributes);
 
 	echo '<table class="table_form">';
@@ -15,7 +15,7 @@
 		 	$data = array(
              'name'  => 'codigo',
 		 	 'id'    => 'codigo',
-		 	'value' => set_value('codigo',$tipoEmpleado->codigo),
+		 	'value' => set_value('codigo',$servicio->codigo),
 		 	'style' => 'width:80px'
 		 	);
 		 	 
@@ -32,7 +32,7 @@
 		 		'name'  => 'nombre',
 		 		'id'    => 'nombre',
 		 		'class' => 'capitalize',
-		 		'value' => set_value('nombre',$tipoEmpleado->nombre),
+		 		'value' => set_value('nombre',$servicio->nombre),
 		 		'style' => 'width:125px'
 		 	);
    echo form_input($data);

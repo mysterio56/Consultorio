@@ -1,8 +1,8 @@
 <script>
-	$(function(){ Find.tipoempleados(); });
+	$(function(){ Find.servicio(); });
 </script>
 <?php
-	$attributes = array('id' => 'tipoEmpleadoForm');
+	$attributes = array('id' => 'servicioForm');
 		
 	 	echo form_open(null,$attributes);
 
@@ -81,9 +81,9 @@
 
 	 	echo form_close();
 
-	 	if(isset($tipoEmpleados)){
+	 	if(isset($servicios)){
 
-	 		$this->load->view('sistema/tipo_empleado/lista');
+	 		$this->load->view('sistema/servicio/lista');
 
 	 	}
 ?>
