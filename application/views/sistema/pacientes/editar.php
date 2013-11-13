@@ -2,7 +2,7 @@
 	$(function(){ Valid.paciente(); });
 </script>
 <?php
-
+	$aPermisos  = unserialize(PERMISOS);
 	$attributes = array('id' => 'pacienteForm');
 
 	 	echo form_open(null,$attributes);
@@ -105,7 +105,82 @@ echo '<tr>';
 		 	echo form_input($data);
 	echo '</td>';
 echo '</tr>';
+echo '</tr>';
+?>
+<tr>
+	<td>
+		 	<?= form_label('Estado:'); ?>
+	</td>
+	<td>
+	  	 <select name="estado" id="estado" class="hide" onChange="getMunicipalities();"> </select>
+	</td>
+</tr>
+<tr>
+	<td>
+		 	<?= form_label('Municipio:'); ?>
+	</td>
+	<td> 
+		<select  name="municipio" id="municipio" class="hide" onchange="getPostalCodes();"/></select>
+	</td>
+</tr>
+<tr>
+    <td>
+    <?= form_label('Codigo Postal:');?>
+    </td>
+    <td>
+    	<select name="codigo_postal" id="codigo_postal" class="hide" onchange="getColonies();"/></select>
+    </td>
+</tr>
+<tr>
+    <td>
+    	<?= form_label('Colonia:'); ?>
+	</td>
+	<td>
+		<select name="colonia" id="colonia" class="hide"/></select>
+	</td>
+</tr>
 
+<?php
+echo '<tr>';
+	echo '<td>';
+		 	echo form_label('Calle:');
+	echo '</td>';
+
+			 	$data = array(
+		 		'name'  => 'calle',
+		 		'id'    => 'calle',
+		 		'value' => set_value('calle',$paciente->direccion->calle),
+		 		//'style' => 'width:210px'
+		 	);
+	echo '<td>';
+		 	echo form_input($data);
+	echo '</td>';
+echo '</tr>';
+echo '<tr>';
+	echo '<td>';
+		 	echo form_label('Número Exterior:');
+	echo '</td>';
+		 	$data = array(
+		 		'name'  => 'numero_ext',
+		 		'id'    => 'numero_ext',
+		 		'value' => set_value('numero_ext',$paciente->direccion->numero_ext),
+		 		//'style' => 'width:210px'
+		 	);
+	echo '<td>';
+		 	echo form_input($data);
+	echo '</td>';
+	echo '<td>';
+		 	echo form_label('Número interior:');
+	echo '</td>';
+		 	$data = array(
+		 		'name'  => 'numero_int',
+		 		'id'    => 'numero_int',
+		 		'value' => set_value('numero_int',$paciente->direccion->numero_ext),
+		 		//'style' => 'width:210px'
+		 	);
+		 	echo '<td>';
+		 	echo form_input($data);
+	echo '</td>';
 echo '</tr>';
 echo'<td colspan= 1>';
 		 	$data = array(
@@ -114,11 +189,117 @@ echo'<td colspan= 1>';
 		 		'class' => 'abutton',
 		 		'value' => 'Editar'
 		 	);
+		 	echo '</div>';
+			echo '</table>';
+		 		echo form_submit($data);
 
-		 	echo form_submit($data);
-		 	echo'</td>';
-		 	echo '</tr>';
-		 	echo '</table>';
 	 	echo form_close();
-?>
+	?>
+<script>
+
+$(function () {
+	$("input[type=submit]").attr("disabled", "disabled");
+	base_url = "<?= base_url(); ?>";
+	getFederalEntities(1);
+});
+
+function getFederalEntities(nStart){
+
+	$.getJSON( base_url + "address/getFederalEntities/", function( data ) {
+
+		$('#estado').append('<option value="0">Seleccione un Estado</option>');
+
+  		$.each( data, function( key, val ) {
+  			$('#estado').append('<option value="' + val.id + '">' + val.name + '</option>');
+ 	 	});
+
+ 	 	if(nStart){
+ 	 		$('#estado').val("<?= $paciente->direccion->estado_id; ?>");
+ 	 		getMunicipalities(1);
+ 	 	}
+
+ 	 	$('#estado').show();
+     	
+	});
+}
+
+function getMunicipalities(nStart){
+
+$("#municipio option").remove();
+$('#municipio').hide();
+$("#codigo_postal option").remove();
+$('#codigo_postal').hide();
+$("#colonia option").remove();
+$('#colonia').hide();
+
+
+var url = base_url + "address/getMunicipalities/"+$("#estado").val();
+	$.getJSON( url, function( data ) {
+		$('#municipio').append('<option value="0">Seleccione un Municipio</option>');
+		 $.each( data, function( key, val ) {
+  			$('#municipio').append('<option value="' + val.id + '">' + val.name + '</option>');
+ 	 	});
+
+		 if(nStart){
+ 	 		$('#municipio').val("<?= $paciente->direccion->municipio_id; ?>");
+ 	 		getPostalCodes(1);
+ 	 	}
+
+     	$('#municipio').show();
+		
+	});
 	
+}
+
+function getPostalCodes(nStart){
+
+$("#codigo_postal option").remove();
+$('#codigo_postal').hide();
+$("#colonia option").remove();
+$('#colonia').hide();
+
+var url = base_url + "address/getPostalCodes/"+$("#municipio").val();
+	$.getJSON( url, function( data ) {
+		$('#codigo_postal').append('<option value="0">Seleccione un Código Postal</option>');
+		 $.each( data, function( key, val ) {
+  			$('#codigo_postal').append('<option value="' + val.id + '">' + val.name + '</option>');
+ 	 	});
+
+		 if(nStart){
+ 	 		$('#codigo_postal').val("<?= $paciente->direccion->codigo_postal_id; ?>");
+ 	 		getColonies(1);
+ 	 	}
+
+		$('#codigo_postal').show();
+     		
+	});
+	
+}
+
+function getColonies(nStart){
+
+$("#colonia option").remove();
+$('#colonia').hide();
+
+var url = base_url + "address/getColonies/"+$("#codigo_postal").val();
+	$.getJSON( url, function( data ) {
+		$('#colonia').append('<option value="0">Seleccione una Colonia</option>');
+		 $.each( data, function( key, val ) {
+  			$('#colonia').append('<option value="' + val.id + '">' + val.name + '</option>');
+ 	 	});
+
+		if(nStart){
+
+ 	 		$('#colonia').val("<?= $paciente->direccion->colonia_id; ?>");
+ 	 		$('#wait').hide();
+			$('#address').show();
+			$("input[type=submit]").removeAttr("disabled");
+ 	 	}
+		
+		$('#colonia').show();
+		
+	});
+	
+}
+
+</script>

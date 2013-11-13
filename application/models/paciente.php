@@ -4,7 +4,7 @@ class Paciente extends DataMapper
 {
 
     public $table = "pacientes";
-
+    public $has_one=array("direccion");
     public $error_prefix = '<div class="error">';
     public $error_suffix = '</div>';
 
