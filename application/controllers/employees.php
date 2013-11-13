@@ -63,6 +63,7 @@ class Employees extends CI_Controller{
 
 		$tipoEmpleado   = new Tipo_empleado();
 		$especialidades = new Especialidad();
+		$direccion      = new Direccion();
 
 		$data['view']           = 'sistema/empleados/agregar';
 		$data['return']         = 'employees';
@@ -92,16 +93,22 @@ class Employees extends CI_Controller{
 			$empleado->estatus          = 1;
 			$empleado->consultorio_id   = $this->session->userdata('id_consultorio');
 
-			$empleado->direccion->get();
-			$empleado->direccion->estado_id        = $this->input->post('estado');
-			$empleado->direccion->municipio_id     = $this->input->post('municipio');
-			$empleado->direccion->codigo_postal_id = $this->input->post('codigo_postal');
-			$empleado->direccion->colonia_id       = $this->input->post('colonia');
-			$empleado->direccion->calle            = $this->input->post('calle');
-			$empleado->direccion->numero_int       = $this->input->post('numero_int');
-			$empleado->direccion->numero_ext       = $this->input->post('numero_ext');
+			$direccion->estado_id        = $this->input->post('estado');
+			$direccion->municipio_id     = $this->input->post('municipio');
+			$direccion->codigo_postal_id = $this->input->post('codigo_postal');
+			$direccion->colonia_id       = $this->input->post('colonia');
+			$direccion->calle            = $this->input->post('calle');
+			$direccion->numero_int       = $this->input->post('numero_int');
+			$direccion->numero_ext       = $this->input->post('numero_ext');
 
-			if($empleado->save() && $empleado->direccion->save()){
+			$empleado->especialidad->get();
+			$empleado->delete($empleado->especialidad->all);
+			$especialidades->where_in('id',$this->input->post('especialidades'))->get();
+
+			$direccion->save();
+			$empleado->direccion_id = $direccion->id;
+
+			if($empleado->save($especialidades->all)){
 
 				redirect(base_url('employees/index/'));
 
