@@ -81,7 +81,7 @@
 
 	 	echo form_close();
 
-	 	if(isset($servicios)){
+	 	if(isset($productos)){
 
 	 		$this->load->view('sistema/producto/lista');
 

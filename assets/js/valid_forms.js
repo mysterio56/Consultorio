@@ -235,6 +235,9 @@ Valid.servicio = function()
             nombre:{
                 required:true,
                 minlength: 2
+            },
+            costo:{
+                required:true
             }
         },
         errorElement: 'div',
@@ -246,8 +249,31 @@ Valid.servicio = function()
     
 }
 
+Valid.producto = function()
+{
 
-
+    $('#productoForm').validate({
+        rules:{
+            codigo:{
+                required:true,
+                minlength: 4
+            },
+            nombre:{
+                required:true,
+                minlength: 2
+            },
+            costo:{
+                required:true
+            }
+        },
+        errorElement: 'div',
+        wrapper: 'div',
+        errorPlacement: function(error, element) {
+            error.insertAfter(element); 
+        }
+    });
+    
+}
 
 Valid.onlyNum = function(inputId)
 {
@@ -311,6 +337,16 @@ Find.tipoempleados = function()
 }
 
 Find.pacientes = function()
+{
+
+    $('#fecha_alta_value')
+            .datepicker({
+                altField:   "#fecha_alta",
+                altFormat:  "yy-mm-dd",
+                dateFormat: "dd M yy"});
+}
+
+Find.fecha_alta_value = function()
 {
 
     $('#fecha_alta_value')

@@ -1,14 +1,11 @@
 <script>
-	$(function(){ Find.servicio(); });
+	$(function(){ Find.fecha_alta_value(); });
 </script>
 <?php
 	$attributes = array('id' => 'servicioForm');
 		
 	 	echo form_open(null,$attributes);
 
-	 	if (isset($error_menssage)){
-	 		echo '<div class="error">'.$error_menssage.'</div>';
-	 	}
 	 	echo '<table class="table_form">';
 	    echo'<tr>'; 
 	    echo'<td  width="100" valing="top">'; 
@@ -82,7 +79,7 @@
 	 	echo form_close();
 
 	 	if(isset($servicios)){
-
+	 		
 	 		$this->load->view('sistema/servicio/lista');
 
 	 	}
