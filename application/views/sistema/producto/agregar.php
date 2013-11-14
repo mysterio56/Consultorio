@@ -1,5 +1,7 @@
 <script>
-     $(function(){ Valid.producto();});
+     $(function(){ Valid.producto();
+     	$('.auto').autoNumeric('init');
+     });
 </script>
 	<?php
         $attributes = array('id' =>'productoForm');
@@ -36,7 +38,25 @@
 		 	);
    echo form_input($data);
    echo'</td>';
+   echo '</tr>';
+
+   echo'<tr>'; 
+ 	echo'<td  width="100" valing="top">'; 
+		 	echo form_label('Costo:'); 
+		 	echo'</td>';
+            echo'<td>';
+		 	$data = array(
+		 		'name'  => 'costo',
+		 		'id'    => 'costo',
+		 		'class' => 'auto',
+		 		'value' => set_value('costo'),
+		 		'style' => 'width:125px'
+		 	);
+   echo form_input($data);
+   echo'</td>';
    echo '</tr>'; 
+
+    
    echo'<tr>'; 
    echo'<td colspan= 1>';
 		 	$data = array(

@@ -69,6 +69,7 @@ class Product extends CI_Controller{
 		$data['jsFiles']      = array('jquery.js',
 							     	  'jquery-validation/dist/jquery.validate.js',
 								      'jquery-validation/localization/messages_es.js',
+								      'autoNumeric.js',
 								      'valid_forms.js');
 
 		$this->load->view('sistema/template',$data);
@@ -77,6 +78,7 @@ class Product extends CI_Controller{
 
 			$producto->codigo         = $this->input->post('codigo'); 
 			$producto->nombre         = $this->input->post('nombre');
+			$producto->costo          = str_replace(",","",$this->input->post('costo'));
 			$producto->consultorio_id = $this->session->userdata('id_consultorio');
 			$producto->fecha_alta     = date("Y-m-d H:i:s");
 			$producto->estatus        = 1;
@@ -107,6 +109,7 @@ class Product extends CI_Controller{
 		$data['jsFiles']  = array('jquery.js',
 							   	  'jquery-validation/dist/jquery.validate.js',
 								  'jquery-validation/localization/messages_es.js',
+								  'autoNumeric.js',
 								  'valid_forms.js');
 
 		$this->load->view('sistema/template',$data);
@@ -115,6 +118,7 @@ class Product extends CI_Controller{
 
 			$producto->codigo             = $this->input->post('codigo'); 
 			$producto->nombre             = $this->input->post('nombre');
+			$producto->costo          = str_replace(",","",$this->input->post('costo'));
 			$producto->fecha_modificacion = date("Y-m-d H:i:s");
 
 			if($producto->save()){
@@ -205,12 +209,12 @@ public function eliminar($id_producto){
 				$productos->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
 								        'estatus <>'     => 2));
 
-				$producto->order_by('nombre');
-				$producto->get_paged_iterated($page, 8);
+				$productos->order_by('nombre');
+				$productos->get_paged_iterated($page, 8);
 
 				$data['permisos']     = $aPermisos['product'];
 				$data['paginaActual'] = $page;
-				$data['producto']     = $producto;
+				$data['productos']     = $productos;
 				$data['buscar']       = true;
 
 			}

@@ -35,14 +35,15 @@ class Service extends CI_Controller{
 
 			foreach ($this->input->post() as $input_name => $input) {
 				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != ''){
-			 		$servicio->like($input_name, $input);
+			 		$servicios->like($input_name, $input);
 			 		$input_count++;
 			 	}
 			 } 
+
 			if($input_count > 0){
 
-				$servicio->order_by('nombre');
-				$servicio->get_paged_iterated($page, 8);
+				$servicios->order_by('nombre');
+				$servicios->get_paged_iterated($page, 8);
 
 				$data['permisos']     = $aPermisos['service'];
 				$data['paginaActual'] = $page;
@@ -65,6 +66,7 @@ class Service extends CI_Controller{
 		$data['jsFiles']      = array('jquery.js',
 							     	  'jquery-validation/dist/jquery.validate.js',
 								      'jquery-validation/localization/messages_es.js',
+								      'autoNumeric.js',
 								      'valid_forms.js');
 
 		$this->load->view('sistema/template',$data);
@@ -73,6 +75,7 @@ class Service extends CI_Controller{
 
 			$servicio->codigo         = $this->input->post('codigo'); 
 			$servicio->nombre         = $this->input->post('nombre');
+			$servicio->costo          = str_replace(",","",$this->input->post('costo'));
 			$servicio->consultorio_id = $this->session->userdata('id_consultorio');
 			$servicio->fecha_alta     = date("Y-m-d H:i:s");
 			$servicio->estatus        = 1;
@@ -103,6 +106,7 @@ class Service extends CI_Controller{
 		$data['jsFiles']      = array('jquery.js',
 							   	      'jquery-validation/dist/jquery.validate.js',
 								      'jquery-validation/localization/messages_es.js',
+								      'autoNumeric.js',
 								      'valid_forms.js');
 
 		$this->load->view('sistema/template',$data);
@@ -111,6 +115,7 @@ class Service extends CI_Controller{
 
 			$servicio->codigo             = $this->input->post('codigo'); 
 			$servicio->nombre             = $this->input->post('nombre');
+			$servicio->costo              = str_replace(",","",$this->input->post('costo'));
 			$servicio->fecha_modificacion = date("Y-m-d H:i:s");
 
 			if($servicio->save()){
@@ -157,11 +162,11 @@ public function eliminar($id_servicio){
 		if($servicio->estatus == 1){
 
 			$servicio->estatus    = 0;
-			$servicio->fecha_baja = '0000-00-00 00:00:00';
+			$servicio->fecha_modificacion = '0000-00-00 00:00:00';
 	
 		} else{
 
-			$servicio->fecha_baja = date("Y-m-d H:i:s");
+			$servicio->fecha_modificacion = date("Y-m-d H:i:s");
 			$servicio->estatus    = 1;
 
 		}
@@ -197,16 +202,19 @@ public function eliminar($id_servicio){
 			 		$input_count++;
 			 	}
 			 } 
+
 			if($input_count > 0){
 
-				$servicio->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
+				$servicios->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
 								        'estatus <>'     => 2)); 
-				$servicio->order_by('nombre');
-				$servicio->get_paged_iterated($page, 8);
+
+				$servicios->order_by('nombre');
+
+				$servicios->get_paged_iterated($page, 8);
 
 				$data['permisos']     = $aPermisos['service'];
 				$data['paginaActual'] = $page;
-				$data['servicio']     = $servicio;
+				$data['servicios']     = $servicios;
 				$data['buscar']       = true;
 
 			}
