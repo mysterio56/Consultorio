@@ -274,7 +274,7 @@ Valid.carga = function(){
 }
 
 Valid.return = function(id_iframe){
-    parent.document.getElementById(id_iframe).contentWindow.history.back();
+    parent.document.getElementById(id_iframe).contentWindow.history.go(-1);
 }
 
 function Find() {

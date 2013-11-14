@@ -4,6 +4,8 @@ class Servicio extends DataMapper
 {
 
     public $table = "servicios";
+    
+    public $has_one = array("consultorio");
 
     public $error_prefix = '<div class = "error">';
     public $error_suffix = '</div>';

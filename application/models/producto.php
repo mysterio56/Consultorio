@@ -5,6 +5,8 @@ class Producto extends DataMapper
 
     public $table = "productos";
 
+    public $has_one = array("consultorio");
+
     public $error_prefix = '<div class = "error">';
     public $error_suffix = '</div>';
 

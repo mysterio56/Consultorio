@@ -13,7 +13,8 @@ class Service extends CI_Controller{
     	$servicios = new Servicio();
 		$aPermisos = permisos($this->session->userdata('id_user'));
 
-		$servicios->where('estatus <>',2);
+		$servicios->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
+								'estatus <>'     => 2));
 
 		$servicios->order_by('nombre', 'ASC');
     
@@ -70,10 +71,11 @@ class Service extends CI_Controller{
 
 		if($this->input->post()){
 
-			$servicio->codigo     = $this->input->post('codigo'); 
-			$servicio->nombre     = $this->input->post('nombre');
-			$servicio->fecha_alta = date("Y-m-d H:i:s");
-			$servicio->estatus    = 1;
+			$servicio->codigo         = $this->input->post('codigo'); 
+			$servicio->nombre         = $this->input->post('nombre');
+			$servicio->consultorio_id = $this->session->userdata('id_consultorio');
+			$servicio->fecha_alta     = date("Y-m-d H:i:s");
+			$servicio->estatus        = 1;
 
 			if($servicio->save()){
 
@@ -93,7 +95,8 @@ class Service extends CI_Controller{
 
     	$servicio = new Servicio();
 
-		$data['servicio'] = $servicio->where('id',$id_servicio)->get();
+		$data['servicio'] = $servicio->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
+											       'id'             => $id_servicio))->get();
 		$data['return']       = 'service'; 		
 		$data['view']         = 'sistema/servicio/editar';
 		$data['cssFiles']     = array('sistema.css');
@@ -196,6 +199,8 @@ public function eliminar($id_servicio){
 			 } 
 			if($input_count > 0){
 
+				$servicio->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
+								        'estatus <>'     => 2)); 
 				$servicio->order_by('nombre');
 				$servicio->get_paged_iterated($page, 8);
 

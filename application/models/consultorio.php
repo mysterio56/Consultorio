@@ -5,7 +5,7 @@ class Consultorio extends DataMapper
 
 	public $table    = "consultorios";
 
-	public $has_one  = array("empleado","tipo_consultorio","direccion");
+	public $has_one  = array("empleado","tipo_consultorio","direccion","producto","servicio");
 
 	public $error_prefix = '<div class="error">';
     public $error_suffix = '</div>';

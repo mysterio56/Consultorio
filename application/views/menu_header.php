@@ -34,7 +34,7 @@
                                   
                                       echo '<li>
                                                <a href="javascript:void(0)"
-                                                   onClick = "Tab.newTab(\''.$submodulo->nombre.'\',base_url+\''.$submodulo->url.'\');">'.$submodulo->nombre.'
+                                                   onClick = "Tab.newTab(\''.$submodulo->nombre.'\',base_url+\''.$submodulo->url.'\', \''.$submodulo->url.'\' );">'.$submodulo->nombre.'
                                                 </a>
                                             </li>';
                                       

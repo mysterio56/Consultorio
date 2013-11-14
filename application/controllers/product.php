@@ -13,7 +13,8 @@ class Product extends CI_Controller{
     	$productos = new Producto();
 		$aPermisos = permisos($this->session->userdata('id_user'));
 
-		$productos->where('estatus <>',2);
+		$productos->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
+								'estatus <>'     => 2));
 
 		$productos->order_by('nombre', 'ASC');
     
@@ -25,6 +26,7 @@ class Product extends CI_Controller{
 		$data['view']          = 'sistema/producto/lista';
 		$data['cssFiles']      = array('sistema.css');
 		$data['jsFiles']       = array('valid_forms.js');
+
 		if($this->input->post()){
 
 			$productos = new Producto();
@@ -38,10 +40,11 @@ class Product extends CI_Controller{
 			 		$input_count++;
 			 	}
 			 } 
+
 			if($input_count > 0){
 
-                /*$productos->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
-									    'estatus <>'     => 2));*/
+                $productos->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
+									    'estatus <>'     => 2));
 				$productos->order_by('nombre');
 				$productos->get_paged_iterated($page, 8);
 
@@ -72,10 +75,11 @@ class Product extends CI_Controller{
 
 		if($this->input->post()){
 
-			$producto->codigo     = $this->input->post('codigo'); 
-			$producto->nombre     = $this->input->post('nombre');
-			$producto->fecha_alta = date("Y-m-d H:i:s");
-			$producto->estatus    = 1;
+			$producto->codigo         = $this->input->post('codigo'); 
+			$producto->nombre         = $this->input->post('nombre');
+			$producto->consultorio_id = $this->session->userdata('id_consultorio');
+			$producto->fecha_alta     = date("Y-m-d H:i:s");
+			$producto->estatus        = 1;
 
 			if($producto->save()){
 
@@ -95,14 +99,15 @@ class Product extends CI_Controller{
 
     	$producto = new Producto();
 
-		$data['producto'] = $producto->where('id',$id_producto)->get();
-		$data['return']       = 'product'; 		
-		$data['view']         = 'sistema/producto/editar';
-		$data['cssFiles']     = array('sistema.css');
-		$data['jsFiles']      = array('jquery.js',
-							   	      'jquery-validation/dist/jquery.validate.js',
-								      'jquery-validation/localization/messages_es.js',
-								      'valid_forms.js');
+		$data['producto'] = $producto->where(array('id'             => $id_producto,
+												   'consultorio_id' => $this->session->userdata('id_consultorio')))->get();
+		$data['return']   = 'product'; 		
+		$data['view']     = 'sistema/producto/editar';
+		$data['cssFiles'] = array('sistema.css');
+		$data['jsFiles']  = array('jquery.js',
+							   	  'jquery-validation/dist/jquery.validate.js',
+								  'jquery-validation/localization/messages_es.js',
+								  'valid_forms.js');
 
 		$this->load->view('sistema/template',$data);
 
@@ -144,7 +149,6 @@ public function eliminar($id_producto){
 		}
 
 	}
-
 
 
 	public function status($id_producto){
@@ -197,6 +201,9 @@ public function eliminar($id_producto){
 			 	}
 			 } 
 			if($input_count > 0){
+
+				$productos->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
+								        'estatus <>'     => 2));
 
 				$producto->order_by('nombre');
 				$producto->get_paged_iterated($page, 8);

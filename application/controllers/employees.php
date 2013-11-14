@@ -39,6 +39,7 @@ class Employees extends CI_Controller{
 			 		$input_count++;
 			 	}
 			 } 
+
 			if($input_count > 0){
 
 				$empleados->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
@@ -296,6 +297,7 @@ class Employees extends CI_Controller{
 			 		$input_count++;
 			 	}
 			 } 
+			 
 			if($input_count > 0){
 
 				$empleados->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
