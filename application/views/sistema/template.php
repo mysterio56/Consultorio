@@ -43,7 +43,7 @@
  if(!isset($return) && $view != 'sistema/consultorio/editar'){
 
     echo form_open();
-    echo form_label('Codigo:','codigo');
+    echo form_label('Código:','codigo');
     echo form_input(array('name'  => 'codigo' , 
                           'id'    => 'codigo' , 
                           'size'  => '20', 
