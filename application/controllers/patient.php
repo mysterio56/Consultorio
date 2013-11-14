@@ -110,7 +110,7 @@ class Patient extends CI_Controller{
     	$paciente = new Paciente();
 
 		$paciente->where('id',$id_paciente)->get();
-    	$paciente->direccion-> get();
+    	$paciente->direccion->get();
 
 		$data['paciente'] = $paciente; 
 		$data['return']   = 'patient'; 		
@@ -134,13 +134,13 @@ class Patient extends CI_Controller{
 			$paciente->celular            = $this->input->post('celular');
 			$paciente->fecha_modificacion = date("Y-m-d H:i:s");
 
-			$paciente->direccion->estado_id         = $this->input->post('estado');
-			$paciente->direccion->municipio_id      = $this->input->post('municipio');
-			$paciente->direccion->codigo_postal_id  = $this->input->post('codigo_postal');
-			$paciente->direccion->colonia_id        = $this->input->post('colonia');
-			$paciente->direccion->calle             = $this->input->post('calle');
-			$paciente->direccion->numero_int        = $this->input->post('numero_int');
-			$paciente->direccion->numero_ext        = $this->input->post('numero_ext');
+			$paciente->direccion->estado_id        = $this->input->post('estado');
+			$paciente->direccion->municipio_id     = $this->input->post('municipio');
+			$paciente->direccion->codigo_postal_id = $this->input->post('codigo_postal');
+			$paciente->direccion->colonia_id       = $this->input->post('colonia');
+			$paciente->direccion->calle            = $this->input->post('calle');
+			$paciente->direccion->numero_int       = $this->input->post('numero_int');
+			$paciente->direccion->numero_ext       = $this->input->post('numero_ext');
 
 			if($paciente->save() && $paciente->direccion->save()){
 

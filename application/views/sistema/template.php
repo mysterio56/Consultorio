@@ -27,7 +27,7 @@
 
 <img class   = "action" 
      src     = "<?= base_url('assets/images/return.png')?>" 
-     onClick = "Valid.return();"
+     onClick = "Valid.return('<?= $return; ?>');"
      title   = "Regresar" />
 
 <?php endif; ?>

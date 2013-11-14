@@ -25,7 +25,7 @@
               }
 
                echo '<li class="'.$isParent.'"><a href="javascript:void(0)" 
-                           onClick = "Tab.newTab(\''.$modulo->nombre.'\',base_url+\''.$modulo->url.'\');">'.$modulo->nombre.'
+                           onClick = "Tab.newTab(\''.$modulo->nombre.'\',base_url+\''.$modulo->url.'\', \''.$modulo->url.'\' );">'.$modulo->nombre.'
                          </a>';
                          if($isParent == 'parent'){
                            echo '<ul>';

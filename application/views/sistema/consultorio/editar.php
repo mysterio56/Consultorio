@@ -194,7 +194,7 @@ function getFederalEntities(nStart){
 	$.getJSON( base_url + "address/getFederalEntities/", function( data ) {
 
 		$('#estado').append('<option value="0">Seleccione un Estado</option>');
-echo '</div>';
+
   		$.each( data, function( key, val ) {
   			$('#estado').append('<option value="' + val.id + '">' + val.name + '</option>');
  	 	});

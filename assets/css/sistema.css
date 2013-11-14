@@ -112,9 +112,10 @@ border-left: none;
 /********* Estilos para Formulario *********/
 
 form > label{
-  
-  color:#58ACFA;
+  color: #0091c0;
   margin: 5px;
+  font-weight: bold;
+  font-size: 14px;
 }
 
 form .capitalize

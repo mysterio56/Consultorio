@@ -2,7 +2,7 @@ function Tab() {
 
 }
 
-Tab.newTab = function(name_tab, url_tab)
+Tab.newTab = function(name_tab, url_tab, name_iframe)
 {
 
   name_tab_title = name_tab;
@@ -43,8 +43,9 @@ Tab.newTab = function(name_tab, url_tab)
       }).appendTo('#content');
 
       $('<iframe/>', {
-        src: url_tab,
-        id: 'iframe',
+        name: name_iframe, 
+        src : url_tab,
+        id  : name_iframe,
       }).appendTo('#div'+name_tab);
 
   }

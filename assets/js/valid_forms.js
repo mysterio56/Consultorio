@@ -273,8 +273,8 @@ Valid.carga = function(){
     location.reload();
 }
 
-Valid.return = function(){
-    history.back();
+Valid.return = function(id_iframe){
+    parent.document.getElementById(id_iframe).contentWindow.history.back();
 }
 
 function Find() {
