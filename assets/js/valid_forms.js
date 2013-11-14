@@ -9,10 +9,12 @@ Valid.login = function()
         rules:{
             usuario:{
                 required:true,
-                email: true
+                email: true,
+                minlength: 5
             },
             password:{
-                required:true
+                required:true,
+                 minlength: 5
             }
         },
         errorElement: 'div',
@@ -33,28 +35,37 @@ Valid.empleados = function()
     $('#empleadosForm').validate({
         rules:{
             codigo:{
-                required:true
+                required:true,
+                 minlength: 4
             },
             nombre:{
-                required:true
+                required:true,
+                 minlength: 3
             },
             apellido_p:{
-                required:true
+                required:true,
+                 minlength: 4
             },
             apellido_m:{
-                required:true
+                required:true,
+                 minlength: 4
             },
             email:{
                 required:true,
-                email:true
+                email:true,
+                minlength: 5
             },
             telefono:{
                 required:true,
-                number:true
+                number:true,
+                minlength: 8,
+                maxlength: 10
             },
             celular:{
                 required:true,
-                number:true
+                number:true,
+                minlength: 10,
+                maxlength: 13
             },
             estado: {
                 selectcheck: true
@@ -90,28 +101,37 @@ Valid.paciente = function()
     $('#pacienteForm').validate({
         rules:{
             codigo:{
-                required:true
+                required:true,
+                minlength: 4
             },
             nombre:{
-                required:true
+                required:true,
+                minlength: 3,
             },
             apellido_p:{
-                required:true
+                required:true,
+                minlength: 4,
             },
             apellido_m:{
-                required:true
+                required:true,
+                minlength: 4,
             },
             email:{
                 required:true,
-                email:true
+                email:true,
+                minlength: 5,
             },
             telefono:{
                 required:true,
-                number:true
+                number:true,
+                minlength: 8,
+                maxlength: 10
             },
             celular:{
                 required:true,
-                number:true
+                number:true,
+                minlength: 10,
+                maxlength: 13
             }
         },
         errorElement: 'div',
@@ -132,28 +152,37 @@ Valid.consultorio = function()
     $('#consultorioForm').validate({
         rules:{
             codigo:{
-                required:true
+                required:true,
+                minlength: 4
             },
             nombre:{
-                required:true
+                required:true,
+                minlength: 3
             },
             apellido_p:{
-                required:true
+                required:true,
+                minlength: 4
             },
             apellido_m:{
-                required:true
+                required:true,
+                minlength: 4
             },
             email:{
                 required:true,
-                email:true
+                email:true,
+                minlength: 5
             },
             telefono:{
                 required:true,
-                number:true
+                number:true,
+                minlength: 8,
+                maxlength: 10
             },
             celular:{
                 required:true,
-                number:true
+                number:true,
+                minlength: 10,
+                maxlength: 13
             },
             estado: {
                 selectcheck: true

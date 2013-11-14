@@ -33,11 +33,11 @@ class Paciente extends DataMapper
         ),
         'telefono' => array(
             'label' => 'Teléfono',
-            'rules' => array('trim', 'min_length' => 2, 'max_length' => 15),
+            'rules' => array('trim', 'min_length' => 8, 'max_length' => 10),
         ),
         'celular' => array(
             'label' => 'Celular',
-            'rules' => array('trim', 'min_length' => 2, 'max_length' => 15),
+            'rules' => array('trim', 'min_length' => 10, 'max_length' => 13),
         )
     );
  

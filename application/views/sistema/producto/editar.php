@@ -6,6 +6,7 @@
 </script>
 	<?php
         $attributes = array('id' => 'productoForm');
+        
 	 	echo form_open(null,$attributes);
 
 	echo '<table class="table_form">';

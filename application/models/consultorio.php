@@ -17,12 +17,12 @@ class Consultorio extends DataMapper
         ),
         'telefono1' => array(
             'label' => 'Teléfono 1',
-            'rules' => array('trim', 'min_length' => 2, 'max_length' => 15),
+            'rules' => array('trim', 'min_length' => 10, 'max_length' => 13),
         ),
         'telefono2' => array(
             'label' => 'Teléfono 2
             ',
-            'rules' => array('trim', 'min_length' => 2, 'max_length' => 15),
+            'rules' => array('trim', 'min_length' => 10, 'max_length' => 13),
         )
     );
 
