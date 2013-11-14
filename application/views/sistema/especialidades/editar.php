@@ -8,7 +8,7 @@
 	echo '<table class="table_form">';
 	echo'<tr>'; 
  	echo'<td  width="100" valing="top">'; 
-	 		echo form_label('Codigo:');
+	 		echo form_label('Código:');
 	 echo'</td>';
      echo'<td>';
 		 	$data = array(
