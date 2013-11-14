@@ -19,8 +19,9 @@ class Service extends CI_Controller{
 		$servicios->order_by('nombre', 'ASC');
     
     	$servicios->get_paged_iterated($page, 9);
+    	
 
-		$data['permisos']      = $aPermisos['service'];
+    	$data['permisos']      = $aPermisos['service'];
 		$data['paginaActual']  = $page;
 		$data['servicios']     = $servicios;
 		$data['view']          = 'sistema/servicio/lista';
@@ -41,7 +42,7 @@ class Service extends CI_Controller{
 			 } 
 
 			if($input_count > 0){
-
+				$servicios->where('estatus <>', 2);
 				$servicios->order_by('nombre');
 				$servicios->get_paged_iterated($page, 8);
 
