@@ -12,7 +12,7 @@
 	     echo '<table class="table_form">';
          echo'<tr>'; 
  	     echo'<td  width="100" valing="top">';
-            echo form_label('Codigo:');
+            echo form_label('Código:');
 	 		echo'</td>';
             echo'<td>';
 		 	$data = array(
@@ -201,7 +201,7 @@
 			</tr>
 			<tr>	
 				<td>
-					 	<?= form_label('Codigo Postal:'); ?>
+					 	<?= form_label('Código Postal:'); ?>
 				</td>
 				<td>
 					    <select name="codigo_postal" id="codigo_postal" class="hide"  onChange="getColonies();"/></select>
@@ -234,7 +234,7 @@
 			echo '</tr>';
 			echo '<tr>';
 				echo '<td>';
-					 	echo form_label('Número Exterio:');
+					 	echo form_label('Número Exterior:');
 				echo '</td>';
 					 	$data = array(
 					 		'name'  => 'numero_ext',

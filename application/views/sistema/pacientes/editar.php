@@ -108,6 +108,14 @@ echo '</tr>';
 echo '</tr>';
 ?>
 <tr>
+	<td colspan="100%">
+	 	<div id="wait" class="wait">
+		<p>Cargando dirección, por favor espere</p>
+	 	</div>
+	</td>
+</tr>
+
+<tr>
 	<td>
 		 	<?= form_label('Estado:'); ?>
 	</td>
@@ -125,7 +133,7 @@ echo '</tr>';
 </tr>
 <tr>
     <td>
-    <?= form_label('Codigo Postal:');?>
+    <?= form_label('Código Postal:');?>
     </td>
     <td>
     	<select name="codigo_postal" id="codigo_postal" class="hide" onchange="getColonies();"/></select>
@@ -175,7 +183,7 @@ echo '<tr>';
 		 	$data = array(
 		 		'name'  => 'numero_int',
 		 		'id'    => 'numero_int',
-		 		'value' => set_value('numero_int',$paciente->direccion->numero_ext),
+		 		'value' => set_value('numero_int',$paciente->direccion->numero_int),
 		 		//'style' => 'width:210px'
 		 	);
 		 	echo '<td>';
