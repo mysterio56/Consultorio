@@ -7,6 +7,8 @@ class Paciente extends DataMapper
 
     public $has_one = array("direccion");
 
+    public $has_many = array("consultorio");
+
     public $error_prefix = '<div class="error">';
     public $error_suffix = '</div>';
 
@@ -29,7 +31,7 @@ class Paciente extends DataMapper
         ),
         'email' => array(
             'label' => 'Email',
-            'rules' => array('valid_email', 'trim', 'min_length' => 2, 'max_length' => 15),
+            'rules' => array('valid_email', 'trim', 'min_length' => 2, 'max_length' => 45),
         ),
         'telefono' => array(
             'label' => 'Teléfono',

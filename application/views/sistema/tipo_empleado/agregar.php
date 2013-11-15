@@ -39,8 +39,8 @@
    echo form_input($data);
    echo'</td>';
    echo '</tr>'; 
-   echo'<tr>'; 
-   echo'<td colspan= 1>';
+   echo'</table>'; 
+
 		 	$data = array(
 		 		'name'  => 'agregar',
 		 		'id'    => 'agregar',
@@ -49,9 +49,8 @@
 		 	);
 
 		 	echo form_submit($data);
-		 	echo'</td>';
-		 	echo '</tr>'; 
-	 	echo form_close();
+		 	echo '<a href="'.base_url($return).'" class="abutton_cancel">Cancelar</a>';
+	 		echo form_close();
 ?>
 
   </form>

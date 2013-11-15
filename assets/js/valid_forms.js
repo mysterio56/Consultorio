@@ -132,6 +132,21 @@ Valid.paciente = function()
                 number:true,
                 minlength: 10,
                 maxlength: 13
+            },
+            estado: {
+                selectcheck: true
+            },
+            municipio: {
+                selectcheck: true
+            },
+            codigo_postal: {
+                selectcheck: true
+            },
+            colonia: {
+                selectcheck: true
+            },
+            tipo_empleado: {
+                selectcheck: true
             }
         },
         errorElement: 'div',
@@ -297,7 +312,10 @@ Valid.servicio = function()
                 required:true,
                 minlength: 2
             },
-            costo:{
+            costo_c:{
+                required:true
+            },
+            costo_v:{
                 required:true
             }
         },
@@ -323,9 +341,12 @@ Valid.producto = function()
                 required:true,
                 minlength: 2
             },
-            costo:{
+            costo_c:{
                 required:true
-            }
+            },
+            costo_v:{
+                required:true
+            },
         },
         errorElement: 'div',
         wrapper: 'div',

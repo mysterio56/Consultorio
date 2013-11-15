@@ -147,7 +147,8 @@
 		<select name="colonia" id="colonia" class="hide"/></select>
 	</td>
 </tr>
-            <?php
+
+    <?php
     echo '<tr>';
 	echo '<td>';
 		 	echo form_label('*Calle:');
@@ -189,9 +190,8 @@
 		 	echo form_input($data);
 	echo '</td>';
 	echo '</tr>';
-
-            echo'<tr>'; 
-            echo'<td colspan= 1>';
+ 	echo '</table>';
+            
 		 	$data = array(
 		 		'name'  => 'agregar',
 		 		'id'    => 'agregar',
@@ -199,12 +199,10 @@
 		 		'value' => 'Agregar'
 		 	);
 
-		 	echo form_submit($data);
-		 	echo'</td>';
-		 	echo '</tr>';
-		 	echo '</table>';
-
-	 	echo form_close();
+		 	echo form_submit($data);	
+		 	echo '<a href="'.base_url($return).'" class="abutton_cancel">Cancelar</a>';
+			echo form_close(); 
+	 	
 ?>
 <script>
 $(function () {

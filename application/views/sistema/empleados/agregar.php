@@ -227,9 +227,8 @@ echo '</table>';
 		 	);
 
 		 	echo form_submit($data);
-
-
-	 	echo form_close();
+		 	echo '<a href="'.base_url($return).'" class="abutton_cancel">Cancelar</a>';
+	 		echo form_close();
 ?>
 
 <script>

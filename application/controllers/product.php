@@ -16,7 +16,7 @@ class Product extends CI_Controller{
 		$productos->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
 								'estatus <>'     => 2));
 
-		$productos->order_by('nombre', 'ASC');
+		$productos->order_by('codigo');
     
     	$productos->get_paged_iterated($page, 9);
 
@@ -45,7 +45,7 @@ class Product extends CI_Controller{
 
                 $productos->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
 									    'estatus <>'     => 2));
-				$productos->order_by('nombre');
+				$productos->order_by('codigo');
 				$productos->get_paged_iterated($page, 8);
 
 				$data['permisos']     = $aPermisos['product'];
@@ -78,7 +78,8 @@ class Product extends CI_Controller{
 
 			$producto->codigo         = $this->input->post('codigo'); 
 			$producto->nombre         = $this->input->post('nombre');
-			$producto->costo          = str_replace(",","",$this->input->post('costo'));
+			$producto->costo_compra   = str_replace(",","",$this->input->post('costo_c'));
+			$producto->costo_venta    = str_replace(",","",$this->input->post('costo_v'));
 			$producto->consultorio_id = $this->session->userdata('id_consultorio');
 			$producto->fecha_alta     = date("Y-m-d H:i:s");
 			$producto->estatus        = 1;
@@ -118,7 +119,8 @@ class Product extends CI_Controller{
 
 			$producto->codigo             = $this->input->post('codigo'); 
 			$producto->nombre             = $this->input->post('nombre');
-			$producto->costo          = str_replace(",","",$this->input->post('costo'));
+			$producto->costo_compra       = str_replace(",","",$this->input->post('costo_c'));
+			$producto->costo_venta        = str_replace(",","",$this->input->post('costo_v'));
 			$producto->fecha_modificacion = date("Y-m-d H:i:s");
 
 			if($producto->save()){
@@ -209,7 +211,7 @@ public function eliminar($id_producto){
 				$productos->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
 								        'estatus <>'     => 2));
 
-				$productos->order_by('nombre');
+				$productos->order_by('codigo');
 				$productos->get_paged_iterated($page, 8);
 
 				$data['permisos']     = $aPermisos['product'];

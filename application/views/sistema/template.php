@@ -21,21 +21,7 @@
 			echo '<script src="'.base_url('assets/js/'.$jsFile).'" type="text/javascript"></script>';
         }
     }
-
-    if(isset($return)):
 ?>
-
-<img class   = "action" 
-     src     = "<?= base_url('assets/images/return.png')?>" 
-     onClick = "Valid.return('<?= $return; ?>');"
-     title   = "Regresar" />
-
-<?php endif; ?>
-
-<img class   = "action" 
-     src     = "<?= base_url('assets/images/reload.png')?>" 
-     onClick = "Valid.carga();"
-     title   = "Recargar pestaña" />
 
 <div class="subir">
 
@@ -63,10 +49,12 @@
                            'style' => 'margin:0px'));
     echo form_close();
   }
+
 ?> 
+
 </div>
 
 
 <?php   
-    $this->load->view($view);     
+    $this->load->view($view);   
 ?>

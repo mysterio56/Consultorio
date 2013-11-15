@@ -16,7 +16,7 @@ class Service extends CI_Controller{
 		$servicios->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
 								'estatus <>'     => 2));
 
-		$servicios->order_by('nombre', 'ASC');
+		$servicios->order_by('codigo');
     
     	$servicios->get_paged_iterated($page, 9);
     	
@@ -43,7 +43,7 @@ class Service extends CI_Controller{
 
 			if($input_count > 0){
 				$servicios->where('estatus <>', 2);
-				$servicios->order_by('nombre');
+				$servicios->order_by('codigo');
 				$servicios->get_paged_iterated($page, 8);
 
 				$data['permisos']     = $aPermisos['service'];
@@ -76,7 +76,9 @@ class Service extends CI_Controller{
 
 			$servicio->codigo         = $this->input->post('codigo'); 
 			$servicio->nombre         = $this->input->post('nombre');
-			$servicio->costo          = str_replace(",","",$this->input->post('costo'));
+			$servicio->costo_compra   = str_replace(",","",$this->input->post('costo_c'));
+			$servicio->costo_venta    = str_replace(",","",$this->input->post('costo_v'));
+			$servicio->tipo           = $this->input->post('servicios'); 
 			$servicio->consultorio_id = $this->session->userdata('id_consultorio');
 			$servicio->fecha_alta     = date("Y-m-d H:i:s");
 			$servicio->estatus        = 1;
@@ -116,7 +118,9 @@ class Service extends CI_Controller{
 
 			$servicio->codigo             = $this->input->post('codigo'); 
 			$servicio->nombre             = $this->input->post('nombre');
-			$servicio->costo              = str_replace(",","",$this->input->post('costo'));
+			$servicio->costo_compra       = str_replace(",","",$this->input->post('costo_c'));
+			$servicio->costo_venta        = str_replace(",","",$this->input->post('costo_v'));
+			$servicio->tipo               = $this->input->post('servicios'); 
 			$servicio->fecha_modificacion = date("Y-m-d H:i:s");
 
 			if($servicio->save()){
@@ -209,7 +213,7 @@ public function eliminar($id_servicio){
 				$servicios->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
 								        'estatus <>'     => 2)); 
 
-				$servicios->order_by('nombre');
+				$servicios->order_by('codigo');
 
 				$servicios->get_paged_iterated($page, 8);
 

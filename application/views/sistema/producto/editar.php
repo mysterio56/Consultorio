@@ -45,33 +45,51 @@
 
    echo'<tr>'; 
  	echo'<td  width="100" valing="top">'; 
+<<<<<<< HEAD
 		 	echo form_label('*Costo:'); 
+=======
+		 	echo form_label('Costo Compra:'); 
+>>>>>>> 24387c51a6683d604cd40dfd7b6b031fb5eebbba
 		 	echo'</td>';
             echo'<td>';
 		 	$data = array(
-		 		'name'  => 'costo',
-		 		'id'    => 'costo',
+		 		'name'  => 'costo_c',
+		 		'id'    => 'costo_c',
 		 		'class' => 'auto',
-		 		'value' => set_value('costo',$producto->costo),
+		 		'value' => set_value('costo_c',$producto->costo_compra),
 		 		'style' => 'width:125px'
 		 	);
    echo form_input($data);
    echo'</td>';
    echo '</tr>'; 
 
-   echo'<tr>'; 
-   echo'<td colspan= 1>';
+echo'<tr>'; 
+ 	echo'<td  width="100" valing="top">'; 
+		 	echo form_label('Costo Venta:'); 
+		 	echo'</td>';
+            echo'<td>';
+		 	$data = array(
+		 		'name'  => 'costo_v',
+		 		'id'    => 'costo_v',
+		 		'class' => 'auto',
+		 		'value' => set_value('costo_v',$producto->costo_venta),
+		 		'style' => 'width:125px'
+		 	);
+   echo form_input($data);
+   echo'</td>';
+   echo '</tr>'; 
+   echo'</table>'; 
+
 		 	$data = array(
 		 		'name'  => 'editar',
 		 		'id'    => 'editar',
 		 		'class' => 'abutton',
-		 		'value' => 'Editar'
+		 		'value' => 'Actualizar'
 		 	);
 
-		 	echo form_submit($data);
-		 	echo'</td>';
-		 	echo '</tr>'; 
-	 	echo form_close();
+		 	echo form_submit($data);	
+		 	echo '<a href="'.base_url($return).'" class="abutton_cancel">Cancelar</a>';
+			echo form_close();
 ?>
 
   </form>

@@ -183,26 +183,25 @@ echo '<tr>';
 		 	$data = array(
 		 		'name'  => 'numero_int',
 		 		'id'    => 'numero_int',
-		 		'value' => set_value('numero_int',$paciente->direccion->numero_int),
-		 		//'style' => 'width:210px'
+		 		'value' => set_value('numero_int',$paciente->direccion->numero_int)
 		 	);
 		 	echo '<td>';
 		 	echo form_input($data);
 	echo '</td>';
 echo '</tr>';
-echo'<td colspan= 1>';
+echo '</table>';
 		 	$data = array(
 		 		'name'  => 'editar',
 		 		'id'    => 'editar',
 		 		'class' => 'abutton',
-		 		'value' => 'Editar'
+		 		'value' => 'Actualizar'
 		 	);
-		 	echo '</div>';
-			echo '</table>';
-		 		echo form_submit($data);
 
-	 	echo form_close();
+	 		echo form_submit($data);
+	 		echo '<a href="'.base_url($return).'" class="abutton_cancel">Cancelar</a>';
+	 		echo form_close(); 
 	?>
+	
 <script>
 
 $(function () {

@@ -347,20 +347,18 @@
 
 		 	}
 
-            echo'<tr>';
-		 	echo'<td>';
+            echo'</table>';
+	
 		 	$data = array(
 		 		'name'  => 'editar',
 		 		'id'    => 'editar',
 		 		'class' => 'abutton',
-		 		'value' => 'Editar'
+		 		'value' => 'Actualizar'
 		 	);
 
 		 	echo form_submit($data);
-            echo'</tr>';
-		 	echo'</td>';
-
-	 	echo form_close();
+		 	echo '<a href="'.base_url($return).'" class="abutton_cancel">Cancelar</a>';
+	 		echo form_close();
 ?>
 <script>
 
