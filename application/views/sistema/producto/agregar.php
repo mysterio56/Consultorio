@@ -77,8 +77,8 @@
 
 
     
-   echo'<tr>'; 
-   echo'<td colspan= 1>';
+   echo'</table>'; 
+
 		 	$data = array(
 		 		'name'  => 'agregar',
 		 		'id'    => 'agregar',
@@ -86,10 +86,9 @@
 		 		'value' => 'Agregar'
 		 	);
 
-		 	echo form_submit($data);
-		 	echo'</td>';
-		 	echo '</tr>'; 
-	 	echo form_close();
+		 	echo form_submit($data);	
+		 	echo '<a href="'.base_url($return).'" class="abutton_cancel">Cancelar</a>';
+			echo form_close();
 ?>
 
   </form>

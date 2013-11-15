@@ -13,8 +13,10 @@ class Specialism extends CI_Controller{
     	$especialidades = new Especialidad();
 		$aPermisos = permisos($this->session->userdata('id_user'));
 
-		$especialidades->where('estatus <>', 2);
-		$especialidades->order_by('nombre');
+		$especialidades->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
+								     'estatus <>'     => 2));
+
+		$especialidades->order_by('codigo');
 		$especialidades->get_paged_iterated($page, 9);
 
 		$data['permisos']       = $aPermisos['specialism'];
@@ -36,7 +38,7 @@ class Specialism extends CI_Controller{
 			 } 
 			if($input_count > 0){
 				$especialidades->where('estatus <>', 2);
-				$especialidades->order_by('nombre');
+				$especialidades->order_by('codigo');
 				$especialidades->get_paged_iterated($page, 8);
 
 				$data['permisos']     = $aPermisos['specialism'];
@@ -71,6 +73,7 @@ class Specialism extends CI_Controller{
 			$especialidad->codigo     = $this->input->post('codigo'); 
 			$especialidad->nombre     = $this->input->post('nombre');
 			$especialidad->fecha_alta = date("Y-m-d H:i:s");
+			$empleado->consultorio_id = $this->session->userdata('id_consultorio');
 			$especialidad->estatus    = 1;
 
 			if($especialidad->save()){
@@ -191,9 +194,10 @@ public function eliminar($id_especialidad){
 			 } 
 			if($input_count > 0){
 
-				$especialidades->where(array('estatus <>' => 2));
+				$empleados->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
+									    'estatus <>'     => 2));
 
-				$especialidades->order_by('nombre');
+				$especialidades->order_by('codigo');
 				$especialidades->get_paged_iterated($page, 5);
 
 				$data['permisos']     = $aPermisos['specialism'];

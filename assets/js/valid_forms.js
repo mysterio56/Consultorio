@@ -132,6 +132,21 @@ Valid.paciente = function()
                 number:true,
                 minlength: 10,
                 maxlength: 13
+            },
+            estado: {
+                selectcheck: true
+            },
+            municipio: {
+                selectcheck: true
+            },
+            codigo_postal: {
+                selectcheck: true
+            },
+            colonia: {
+                selectcheck: true
+            },
+            tipo_empleado: {
+                selectcheck: true
             }
         },
         errorElement: 'div',

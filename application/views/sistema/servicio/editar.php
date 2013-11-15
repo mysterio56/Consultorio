@@ -96,8 +96,6 @@ echo'<tr>';
    echo'</td>';
    echo '</tr>'; 
 
-
-
 echo'<tr id="trCostoVenta">'; 
  	echo'<td  width="100" valing="top">'; 
 		 	echo form_label('Costo Venta:'); 
@@ -113,21 +111,18 @@ echo'<tr id="trCostoVenta">';
    echo form_input($data);
    echo'</td>';
    echo '</tr>';
+   echo'</table>';
 
-
-   echo'<tr>'; 
-   echo'<td colspan= 1>';
 		 	$data = array(
 		 		'name'  => 'editar',
 		 		'id'    => 'editar',
 		 		'class' => 'abutton',
-		 		'value' => 'Editar'
+		 		'value' => 'Actualizar'
 		 	);
 
-		 	echo form_submit($data);
-		 	echo'</td>';
-		 	echo '</tr>'; 
-	 	echo form_close();
+		 	echo form_submit($data);	
+		 	echo '<a href="'.base_url($return).'" class="abutton_cancel">Cancelar</a>';
+			echo form_close(); 
 ?>
 
   </form>
