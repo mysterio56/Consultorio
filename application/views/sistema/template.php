@@ -62,10 +62,10 @@
                            'value' => 'Buscar',
                            'style' => 'margin:0px'));
     echo form_close();
-
   }
 ?> 
 </div>
+
 
 <?php   
     $this->load->view($view);     

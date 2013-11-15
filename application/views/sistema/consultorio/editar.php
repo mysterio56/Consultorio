@@ -8,8 +8,9 @@
 	 	echo form_open_multipart(null,$attributes);
 echo '<table class="table_form">';
 	echo '<tr>';
+	echo form_label('*Campos Requeridos','campo');
 		echo '<td>';
-	 		echo form_label('Nombre:');
+	 		echo form_label('*Nombre:');
 	 	echo '</td>';
 	 	echo '<td>';
 	 		echo form_label($consultorio->nombre);
@@ -17,7 +18,7 @@ echo '<table class="table_form">';
 
  			$consultorio->tipo_consultorio->get();
  		echo '<td>';
-	 		echo form_label('Tipo:');
+	 		echo form_label('*Tipo:');
 	 	echo '</td>';
 	 	echo '<td>';
 	 		echo form_label($consultorio->tipo_consultorio->nombre);
@@ -25,7 +26,7 @@ echo '<table class="table_form">';
 	echo '</tr>';
 	echo '<tr>';
 		echo '<td>';
-		 	echo form_label('Teléfono 1:');
+		 	echo form_label('*Teléfono 1:');
 		echo '</td>';
 		 	$data = array(
 		 		'name'  => 'telefono1',
@@ -53,7 +54,7 @@ echo '<table class="table_form">';
 	echo '</tr>';
 	echo '<tr>';
 		echo '<td>';
-		 	echo form_label('Email:');
+		 	echo form_label('*Email:');
 		echo '</td>';
 		 	$data = array(
 		 		'name'  => 'email',
@@ -92,7 +93,7 @@ echo '<table class="table_form">';
 		 	<div id="address" class="hide" >
 <tr>
 	<td>
-		 	<?= form_label('Estado:'); ?>
+		 	<?= form_label('*Estado:'); ?>
 	</td>
 	<td>
 		 	<select name="estado" id="estado" class="hide" onChange="getMunicipalities();"> </select>
@@ -100,7 +101,7 @@ echo '<table class="table_form">';
 </tr>
 <tr>
 	<td>
-		 	<?= form_label('Municipio:'); ?>
+		 	<?= form_label('*Municipio:'); ?>
 	</td>
 	<td>
 		    <select name="municipio" id="municipio" class="hide" onChange="getPostalCodes();" /> </select>
@@ -108,7 +109,7 @@ echo '<table class="table_form">';
 </tr>
 <tr>	
 	<td>
-		 	<?= form_label('Codigo Postal:'); ?>
+		 	<?= form_label('*Codigo Postal:'); ?>
 	</td>
 	<td>
 		    <select name="codigo_postal" id="codigo_postal" class="hide"  onChange="getColonies();"/></select>
@@ -116,7 +117,7 @@ echo '<table class="table_form">';
 </tr>
 <tr>
 	<td>
-		 	<?= form_label('Colonia:'); ?>
+		 	<?= form_label('*Colonia:'); ?>
 	</td>
 	<td>
 		    <select name="colonia" id="colonia" class="hide" /></select>
@@ -126,7 +127,7 @@ echo '<table class="table_form">';
 	<?php
 echo '<tr>';
 	echo '<td>';
-		 	echo form_label('Calle:');
+		 	echo form_label('*Calle:');
 	echo '</td>';
 
 			 	$data = array(
@@ -141,7 +142,7 @@ echo '<tr>';
 echo '</tr>';
 echo '<tr>';
 	echo '<td>';
-		 	echo form_label('Número Exterio:');
+		 	echo form_label('Número Exterior:');
 	echo '</td>';
 		 	$data = array(
 		 		'name'  => 'numero_ext',

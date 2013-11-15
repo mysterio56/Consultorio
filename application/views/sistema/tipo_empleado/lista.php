@@ -39,7 +39,7 @@
 										}
                         echo '<td>';
 								if(in_array($permisos,$aPermisos['Eliminar']) ){
-									echo '<a href="'.base_url('type_employee/eliminar/'.$tipoEmpleado->id).'">
+									echo '<a onclick="if(Valid.eliminaregistro() == false) return false" href="'.base_url('type_employee/eliminar/'.$tipoEmpleado->id).'">
 									  <img src="'.base_url('assets/images/delete.png').'"/>
                                      </a>';
 

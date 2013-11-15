@@ -229,6 +229,38 @@ Valid.especialidad = function()
     
 }
 
+Valid.eliminaregistro = function()
+{
+   if (confirm("¿Desea eliminar el registro?")){ 
+        alert("El registro ha sido eliminado.") 
+    }
+        else { 
+
+        return false
+        }
+}
+
+Valid.activaregistro =function ()
+{
+if (confirm("¿Desea activar el registro?")){ 
+        alert("El registro ha sido Activado.") }
+        else { 
+        return false
+    }
+}
+
+Valid.desactivaregistro = function()
+{
+    if (confirm("¿Desea desactivar el registro?")){ 
+      
+      alert("El registro ha sido Desactivado.") }
+    
+    else { 
+        return false
+    }
+}
+
+
 Valid.tipoEmpleado = function()
 {
 

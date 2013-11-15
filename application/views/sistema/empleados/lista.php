@@ -1,5 +1,9 @@
+<script>
+
+	$(function(){ Valid.eliminaregistro(); });
+</script>
 <?php $aPermisos = unserialize (PERMISOS); ?>
-<section class="datagrid">
+<section class="datagrid" >
 	<table>
 		<thead>
 			<tr>
@@ -55,9 +59,9 @@
 
 						if(in_array($permisos,$aPermisos['Eliminar'])){ 
 
-							echo '<a href="'.base_url('employees/eliminar/'.$empleado->id).'">
+							echo '<a onclick="if(Valid.eliminaregistro() ==false)return false" href="'.base_url('employees/eliminar/'.$empleado->id).'">
 									  <img src="'.base_url('assets/images/delete.png').'" title="Eliminar"/>
-								  </a>';
+								  </a>'; 
 
 						}	
 

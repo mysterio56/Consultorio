@@ -9,8 +9,9 @@
 
 	echo '<table class="table_form">';
 	echo'<tr>'; 
+	echo form_label('*Campos Requeridos','campo');
  	echo'<td  width="100" valing="top">'; 
-	 		echo form_label('Código:');
+	 		echo form_label('*Código:');
 	 echo'</td>';
      echo'<td>';
 		 	$data = array(
@@ -26,7 +27,7 @@
  		 
 	echo'<tr>'; 
  	echo'<td  width="100" valing="top">'; 
-		 	echo form_label('Nombre:'); 
+		 	echo form_label('*Nombre:'); 
 		 	echo'</td>';
             echo'<td>';
 		 	$data = array(
@@ -42,7 +43,7 @@
 
    echo'<tr>'; 
  	echo'<td  width="100" valing="top">'; 
-		 	echo form_label('Costo:'); 
+		 	echo form_label('*Costo:'); 
 		 	echo'</td>';
             echo'<td>';
 		 	$data = array(
