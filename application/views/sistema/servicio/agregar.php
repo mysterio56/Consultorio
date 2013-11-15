@@ -41,21 +41,79 @@
    echo'</td>';
    echo '</tr>';
 
-   echo'<tr>'; 
- 	echo'<td  width="100" valing="top">'; 
-		 	echo form_label('Costo:'); 
+echo '<tr>';
+ 	echo'<td colspan="100%">'; 
+		 	echo form_label('Servicios:'); 
+		 	
+		 	$data = array(
+		 		'name'    => 'servicios',
+		 		'id'      => 'servicios',
+		 		'value'   => 1,
+		 		'checked' => true,
+		 		'style'   => 'width:16px'
+		 	);
+
+             echo form_radio($data);
+
+ 		 	echo form_label('Servicios Externos:'); 
+		 
+		 	$data = array(
+		 		'name'    => 'servicios',
+		 		'id'      => 'servicios',
+		 		'value'   => 2,
+		 		'checked' => false,
+		 		'style'   => 'width:16px'
+		 	);
+             echo form_radio($data);
+ 
+		 	echo form_label('Ambos:'); 
+		 	
+		 	$data = array(
+		 		'name'    => 'servicios',
+		 		'id'      => 'servicios',
+		 		'value'   => 3,
+		 		'checked' => false,
+		 		'style'   => 'width:16px'
+		 	);
+
+             echo form_radio($data);
+
+   echo '</td>';
+   echo '</tr>'; 
+  
+ echo'<tr id="trCostoCompra">'; 
+ 	echo'<td>';  
+		 	echo form_label('Costo Compra:'); 
 		 	echo'</td>';
             echo'<td>';
 		 	$data = array(
-		 		'name'  => 'costo',
-		 		'id'    => 'costo',
+		 		'name'  => 'costo_c',
+		 		'id'    => 'costo_c',
 		 		'class' => 'auto',
-		 		'value' => set_value('costo'),
+		 		'value' => set_value('costo_c'),
 		 		'style' => 'width:125px'
 		 	);
    echo form_input($data);
    echo'</td>';
    echo '</tr>'; 
+
+
+
+echo'<tr id="trCostoVenta">'; 
+ 	echo'<td>'; 
+		 	echo form_label('Costo Venta:'); 
+		 	echo'</td>';
+            echo'<td>';
+		 	$data = array(
+		 		'name'  => 'costo_v',
+		 		'id'    => 'costo_v',
+		 		'class' => 'auto',
+		 		'value' => set_value('costo_v'),
+		 		'style' => 'width:125px'
+		 	);
+   echo form_input($data);
+   echo'</td>';
+   echo '</tr>';
 
    echo'<tr>'; 
    echo'<td colspan= 1>';
@@ -75,3 +133,33 @@
   </form>
 </div> 
 </table>
+<script>
+
+$(function(){
+	showCostos(1); 
+
+	$("input:radio[name=servicios]").click(function() {
+	    var value = $(this).val();
+	  	showCostos(value);  
+	});
+
+});
+
+function showCostos(costos){
+	
+		if(costos == 1){
+			$("#trCostoCompra").hide();
+			$("#trCostoVenta").show();
+		} 
+	if(costos == 2){
+			
+			$("#trCostoVenta").hide();
+			$("#trCostoCompra").show();
+		} 
+
+			if(costos == 3){
+			$("#trCostoCompra").show();
+			$("#trCostoVenta").show();
+		}
+}
+</script>

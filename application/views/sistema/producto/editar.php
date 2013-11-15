@@ -44,19 +44,39 @@
 
    echo'<tr>'; 
  	echo'<td  width="100" valing="top">'; 
-		 	echo form_label('Costo:'); 
+		 	echo form_label('Costo Compra:'); 
 		 	echo'</td>';
             echo'<td>';
 		 	$data = array(
-		 		'name'  => 'costo',
-		 		'id'    => 'costo',
+		 		'name'  => 'costo_c',
+		 		'id'    => 'costo_c',
 		 		'class' => 'auto',
-		 		'value' => set_value('costo',$producto->costo),
+		 		'value' => set_value('costo_c',$producto->costo_compra),
 		 		'style' => 'width:125px'
 		 	);
    echo form_input($data);
    echo'</td>';
    echo '</tr>'; 
+
+
+echo'<tr>'; 
+ 	echo'<td  width="100" valing="top">'; 
+		 	echo form_label('Costo Venta:'); 
+		 	echo'</td>';
+            echo'<td>';
+		 	$data = array(
+		 		'name'  => 'costo_v',
+		 		'id'    => 'costo_v',
+		 		'class' => 'auto',
+		 		'value' => set_value('costo_v',$producto->costo_venta),
+		 		'style' => 'width:125px'
+		 	);
+   echo form_input($data);
+   echo'</td>';
+   echo '</tr>'; 
+
+
+
 
    echo'<tr>'; 
    echo'<td colspan= 1>';

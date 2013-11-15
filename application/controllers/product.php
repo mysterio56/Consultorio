@@ -78,7 +78,8 @@ class Product extends CI_Controller{
 
 			$producto->codigo         = $this->input->post('codigo'); 
 			$producto->nombre         = $this->input->post('nombre');
-			$producto->costo          = str_replace(",","",$this->input->post('costo'));
+			$producto->costo_compra   = str_replace(",","",$this->input->post('costo_c'));
+			$producto->costo_venta    = str_replace(",","",$this->input->post('costo_v'));
 			$producto->consultorio_id = $this->session->userdata('id_consultorio');
 			$producto->fecha_alta     = date("Y-m-d H:i:s");
 			$producto->estatus        = 1;
@@ -118,7 +119,8 @@ class Product extends CI_Controller{
 
 			$producto->codigo             = $this->input->post('codigo'); 
 			$producto->nombre             = $this->input->post('nombre');
-			$producto->costo          = str_replace(",","",$this->input->post('costo'));
+			$producto->costo_compra       = str_replace(",","",$this->input->post('costo_c'));
+			$producto->costo_venta        = str_replace(",","",$this->input->post('costo_v'));
 			$producto->fecha_modificacion = date("Y-m-d H:i:s");
 
 			if($producto->save()){
