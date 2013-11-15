@@ -13,9 +13,10 @@ class Type_employee extends CI_Controller{
     	$tipoEmpleados = new Tipo_empleado();
 		$aPermisos = permisos($this->session->userdata('id_user'));
 
-		$tipoEmpleados->where('estatus <>',2);
+		$tipoEmpleados->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
+								    'estatus <>'     => 2));
 
-		$tipoEmpleados->order_by('nombre', 'ASC');
+		$tipoEmpleados->order_by('codigo');
     
     	$tipoEmpleados->get_paged_iterated($page, 9);
 
@@ -40,7 +41,7 @@ class Type_employee extends CI_Controller{
 			 } 
 			if($input_count > 0){
 
-				$tipoEmpleados->order_by('nombre');
+				$tipoEmpleados->order_by('codigo');
 				$tipoEmpleados->get_paged_iterated($page, 8);
 
 				$data['permisos']     = $aPermisos['type_employee'];
@@ -70,10 +71,11 @@ class Type_employee extends CI_Controller{
 
 		if($this->input->post()){
 
-			$tipoEmpleado->codigo     = $this->input->post('codigo'); 
-			$tipoEmpleado->nombre     = $this->input->post('nombre');
-			$tipoEmpleado->fecha_alta = date("Y-m-d H:i:s");
-			$tipoEmpleado->estatus    = 1;
+			$tipoEmpleado->codigo         = $this->input->post('codigo'); 
+			$tipoEmpleado->nombre         = $this->input->post('nombre');
+			$tipoEmpleado->fecha_alta     = date("Y-m-d H:i:s");
+			$tipoEmpleado->consultorio_id =  $this->session->userdata('id_consultorio');
+			$tipoEmpleado->estatus        = 1;
 
 			if($tipoEmpleado->save()){
 
@@ -196,7 +198,10 @@ public function eliminar($id_tipoEmpleado){
 			 } 
 			if($input_count > 0){
 
-				$tipoEmpleados->order_by('nombre');
+				$tipoEmpleados->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
+									        'estatus <>'     => 2));
+
+				$tipoEmpleados->order_by('codigo');
 				$tipoEmpleados->get_paged_iterated($page, 8);
 
 				$data['permisos']     = $aPermisos['type_employee'];

@@ -80,7 +80,7 @@ class Surgery extends CI_Controller{
 
 			}else{
 
-				echo $especialidad->error->string;
+				echo $consultorio->error->string;
 
 			}
 

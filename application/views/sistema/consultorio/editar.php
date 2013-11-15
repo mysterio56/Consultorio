@@ -169,7 +169,7 @@ echo '</tr>';
 		 		'name'  => 'editar',
 		 		'id'    => 'editar',
 		 		'class' => 'abutton',
-		 		'value' => 'Editar'
+		 		'value' => 'Actualizar'
 		 	);
 
 		 	echo '</div>';

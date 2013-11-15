@@ -17,7 +17,7 @@ class Employees extends CI_Controller{
 		$empleados->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
 								'estatus <>'     => 2));
 
-		$empleados->order_by('nombre');
+		$empleados->order_by('codigo');
 		$empleados->get_paged_iterated($page, 9);
 
 		$data['permisos']     = $aPermisos['employees'];
@@ -45,7 +45,7 @@ class Employees extends CI_Controller{
 				$empleados->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
 									    'estatus <>'     => 2));
 
-				$empleados->order_by('nombre');
+				$empleados->order_by('codigo');
 				$empleados->get_paged_iterated($page, 8);
 
 				$data['permisos']     = $aPermisos['employees'];
@@ -68,8 +68,10 @@ class Employees extends CI_Controller{
 
 		$data['view']           = 'sistema/empleados/agregar';
 		$data['return']         = 'employees';
-		$data['tipoEmpleado']   = $tipoEmpleado->where('estatus', 1)->get();
-		$data['especialidades'] = $especialidades->where('estatus', 1)->get();
+		$data['tipoEmpleado']   = $tipoEmpleado->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
+									    					 'estatus'        => 1))->get();
+		$data['especialidades'] = $especialidades->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
+									    					   'estatus'        => 1))->get();
 		$data['cssFiles']       = array('sistema.css');
 		$data['jsFiles']        = array('jquery.js',
 							      	    'jquery-validation/dist/jquery.validate.js',
@@ -145,8 +147,10 @@ class Employees extends CI_Controller{
 		$data['empleado']       = $empleado; 
 		$data['permisos']       = $oPermisos->where('usuario_id', $usuario->id)->get();
 		$data['act_usuario']    = $total;
-		$data['tipoEmpleado']   = $tipoEmpleado->where('estatus', 1)->get();
-		$data['especialidades'] = $especialidades->where('estatus', 1)->get();
+		$data['tipoEmpleado']   = $tipoEmpleado->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
+									    					 'estatus'        => 1))->get();
+		$data['especialidades'] = $especialidades->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
+									    					   'estatus'        => 1))->get();
 		$data['usuario']        = $usuario;
 		$data['return']         = 'employees';
 		$data['modulos']        = $modulos->get(); 		
@@ -303,7 +307,7 @@ class Employees extends CI_Controller{
 				$empleados->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
 									    'estatus <>'     => 2));
 
-				$empleados->order_by('nombre');
+				$empleados->order_by('codigo');
 				$empleados->get_paged_iterated($page, 5);
 
 				$data['permisos']     = $aPermisos['employees'];

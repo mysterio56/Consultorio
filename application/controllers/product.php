@@ -16,7 +16,7 @@ class Product extends CI_Controller{
 		$productos->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
 								'estatus <>'     => 2));
 
-		$productos->order_by('nombre', 'ASC');
+		$productos->order_by('codigo');
     
     	$productos->get_paged_iterated($page, 9);
 
@@ -45,7 +45,7 @@ class Product extends CI_Controller{
 
                 $productos->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
 									    'estatus <>'     => 2));
-				$productos->order_by('nombre');
+				$productos->order_by('codigo');
 				$productos->get_paged_iterated($page, 8);
 
 				$data['permisos']     = $aPermisos['product'];
@@ -209,7 +209,7 @@ public function eliminar($id_producto){
 				$productos->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
 								        'estatus <>'     => 2));
 
-				$productos->order_by('nombre');
+				$productos->order_by('codigo');
 				$productos->get_paged_iterated($page, 8);
 
 				$data['permisos']     = $aPermisos['product'];

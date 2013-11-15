@@ -16,7 +16,7 @@ class Service extends CI_Controller{
 		$servicios->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
 								'estatus <>'     => 2));
 
-		$servicios->order_by('nombre', 'ASC');
+		$servicios->order_by('codigo');
     
     	$servicios->get_paged_iterated($page, 9);
     	
@@ -43,7 +43,7 @@ class Service extends CI_Controller{
 
 			if($input_count > 0){
 				$servicios->where('estatus <>', 2);
-				$servicios->order_by('nombre');
+				$servicios->order_by('codigo');
 				$servicios->get_paged_iterated($page, 8);
 
 				$data['permisos']     = $aPermisos['service'];
@@ -209,7 +209,7 @@ public function eliminar($id_servicio){
 				$servicios->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
 								        'estatus <>'     => 2)); 
 
-				$servicios->order_by('nombre');
+				$servicios->order_by('codigo');
 
 				$servicios->get_paged_iterated($page, 8);
 

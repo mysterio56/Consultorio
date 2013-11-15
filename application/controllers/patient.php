@@ -10,14 +10,17 @@ class Patient extends CI_Controller{
 
 	public function index($page = 1){
 
-    	$pacientes = new Paciente();
+    	$consultorio = new Consultorio();
+
 		$aPermisos = permisos($this->session->userdata('id_user'));
 
-		$pacientes->order_by('nombre', 'ASC');
-    
-    	$pacientes->get_paged($page, 9);
+		$consultorio->where(array('id' => $this->session->userdata('id_consultorio')))->get();
 
-		$pacientes->where('estatus <>',2)->get();
+		$consultorio->paciente->where('estatus <>', 2);
+
+		$consultorio->paciente->order_by('codigo');
+    
+    	$pacientes = $consultorio->paciente->get_paged_iterated($page, 9);
 
 		$data['permisos']     = $aPermisos['patient'];
 		$data['paginaActual'] = $page;
@@ -25,21 +28,26 @@ class Patient extends CI_Controller{
 		$data['view']         = 'sistema/pacientes/lista';
 		$data['cssFiles']     = array('sistema.css');
 		$data['jsFiles']      = array('valid_forms.js');
+
 		if($this->input->post()){
-			$pacientes = new Paciente();
-			$aPermisos = permisos($this->session->userdata('id_user'));
+
+			$consultorio = new Consultorio();
+			$consultorio->where(array('id' => $this->session->userdata('id_consultorio')))->get();
+			//print_r($consultorio->nombre); exit();
+			$aPermisos   = permisos($this->session->userdata('id_user'));
 			$input_count = 0;
 
 			foreach ($this->input->post() as $input_name => $input) {
 				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != ''){
-			 		$pacientes->like($input_name, $input);
+			 		$consultorio->paciente->like($input_name, $input);
 			 		$input_count++;
 			 	}
 			 } 
+
 			if($input_count > 0){
-				$pacientes->where('estatus <>', 2);
-				$pacientes->order_by('nombre');
-				$pacientes->get_paged_iterated($page, 8);
+				$consultorio->paciente->where('estatus <>', 2);
+				$consultorio->paciente->order_by('codigo');
+				$pacientes = $consultorio->paciente->get_paged_iterated($page, 8);
 
 				$data['permisos']     = $aPermisos['patient'];
 				$data['paginaActual'] = $page;
@@ -55,8 +63,10 @@ class Patient extends CI_Controller{
 	}
 
 	public function agregar(){
-		$direccion = new Direccion();
-    	$paciente = new Paciente();
+
+		$direccion   = new Direccion();
+    	$paciente    = new Paciente();
+    	$consultorio = new Consultorio();
 
     	$data['view']     	  = 'sistema/pacientes/agregar';
 		$data['return']       = 'patient';
@@ -70,15 +80,15 @@ class Patient extends CI_Controller{
 
 		if($this->input->post()){
 
-			$paciente->codigo     = $this->input->post('codigo'); 
-			$paciente->nombre     = $this->input->post('nombre');
-			$paciente->apellido_p = $this->input->post('apellido_p');
-			$paciente->apellido_m = $this->input->post('apellido_m');
-			$paciente->email      = $this->input->post('email');
-			$paciente->telefono   = $this->input->post('telefono');
-			$paciente->celular    = $this->input->post('celular');
-			$paciente->fecha_alta = date("Y-m-d H:i:s");
-			$paciente->estatus    = 1;
+			$paciente->codigo         = $this->input->post('codigo'); 
+			$paciente->nombre         = $this->input->post('nombre');
+			$paciente->apellido_p     = $this->input->post('apellido_p');
+			$paciente->apellido_m     = $this->input->post('apellido_m');
+			$paciente->email          = $this->input->post('email');
+			$paciente->telefono       = $this->input->post('telefono');
+			$paciente->celular        = $this->input->post('celular');
+			$paciente->fecha_alta     = date("Y-m-d H:i:s");
+			$paciente->estatus        = 1;
 
 			$direccion->estado_id        = $this->input->post('estado');
 			$direccion->municipio_id     = $this->input->post('municipio');
@@ -88,10 +98,12 @@ class Patient extends CI_Controller{
 			$direccion->numero_int       = $this->input->post('numero_int');
 			$direccion->numero_ext       = $this->input->post('numero_ext');
 
+			$consultorio->where_in($this->session->userdata('id_consultorio'))->get();
+
 			$direccion->save();
 			$paciente->direccion_id = $direccion->id;
 
-			if($paciente->save()){
+			if($paciente->save($consultorio->all)){
 
 				redirect(base_url('patient'));
 
@@ -216,8 +228,9 @@ class Patient extends CI_Controller{
 			 	}
 			 } 
 			if($input_count > 0){
-				$pacientes->where('estatus <>', 2);
-				$pacientes->order_by('nombre');
+				$pacientes->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
+									    'estatus <>'     => 2));
+				$pacientes->order_by('codigo');
 				$pacientes->get_paged_iterated($page, 8);
 
 				$data['permisos']     = $aPermisos['patient'];
