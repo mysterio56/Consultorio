@@ -110,19 +110,27 @@ echo '</tr>';
 <tr>
 	<td colspan="100%">
 	 	<div id="wait" class="wait">
-		<p>Cargando dirección, por favor espere</p>
+		<p>Cargando Estado, por favor espere</p>
 	 	</div>
 	</td>
 </tr>
 
 <tr>
 	<td>
-		 	<?= form_label('*Estado:'); ?>
+		<?= form_label('*Estado:'); ?>
 	</td>
-	<td>
-	  	 <select name="estado" id="estado" class="hide" onChange="getMunicipalities();"> </select>
+	    <td>
+	  	   <select name="estado" id="estado" class="hide" onChange="getMunicipalities();"> </select>
+	    </td>
+</tr>
+<tr>
+	<td colspan="100%">
+	 	<div id="wait_mun" class="wait_mun">
+		<p>Cargando Municipio, por favor espere</p>
+	 	</div>
 	</td>
 </tr>
+
 <tr>
 	<td>
 		 	<?= form_label('*Municipio:'); ?>
@@ -132,62 +140,40 @@ echo '</tr>';
 	</td>
 </tr>
 <tr>
-    <td>
-    <?= form_label('*Código Postal:');?>
-    </td>
+	<td colspan="100%">
+	 	<div id="wait_col" class="wait_col">
+		<p>Cargando Codigo Postal, por favor espere</p>
+	 	</div>
+	</td>
+</tr>
+
+<tr>
+	<td>
+		 	<?= form_label('*Codigo Postal:'); ?>
+	</td>
     <td>
     	<select name="codigo_postal" id="codigo_postal" class="hide" onchange="getColonies();"/></select>
     </td>
 </tr>
 <tr>
-    <td>
-    	<?= form_label('*Colonia:'); ?>
+	<td colspan="100%">
+	 	<div id="wait_col" class="wait_col">
+		<p>Cargando Colonia, por favor espere</p>
+	 	</div>
+	</td>
+</tr>
+
+<tr>
+	<td>
+		 	<?= form_label('*Colonia:'); ?>
 	</td>
 	<td>
-		<select name="colonia" id="colonia" class="hide"/></select>
+		<select name="colonia" id="colonia" class="hide" onchange="getColonies();"/></select>
 	</td>
 </tr>
 
 <?php
-echo '<tr>';
-	echo '<td>';
-		 	echo form_label('*Calle:');
-	echo '</td>';
 
-			 	$data = array(
-		 		'name'  => 'calle',
-		 		'id'    => 'calle',
-		 		'value' => set_value('calle',$paciente->direccion->calle),
-		 		//'style' => 'width:210px'
-		 	);
-	echo '<td>';
-		 	echo form_input($data);
-	echo '</td>';
-echo '</tr>';
-echo '<tr>';
-	echo '<td>';
-		 	echo form_label('Número Exterior:');
-	echo '</td>';
-		 	$data = array(
-		 		'name'  => 'numero_ext',
-		 		'id'    => 'numero_ext',
-		 		'value' => set_value('numero_ext',$paciente->direccion->numero_ext),
-		 		//'style' => 'width:210px'
-		 	);
-	echo '<td>';
-		 	echo form_input($data);
-	echo '</td>';
-	echo '<td>';
-		 	echo form_label('Número interior:');
-	echo '</td>';
-		 	$data = array(
-		 		'name'  => 'numero_int',
-		 		'id'    => 'numero_int',
-		 		'value' => set_value('numero_int',$paciente->direccion->numero_int)
-		 	);
-		 	echo '<td>';
-		 	echo form_input($data);
-	echo '</td>';
 echo '</tr>';
 echo '</table>';
 		 	$data = array(
@@ -207,7 +193,7 @@ echo '</table>';
 $(function () {
 	$("input[type=submit]").attr("disabled", "disabled");
 	base_url = "<?= base_url(); ?>";
-	getFederalEntities(1);
+	getFederalEntities(1),getMunicipalities(1),getPostalCodes(1),getColonies(1);
 });
 
 function getFederalEntities(nStart){
@@ -217,6 +203,7 @@ function getFederalEntities(nStart){
 		$('#estado').append('<option value="0">Seleccione un Estado</option>');
 
   		$.each( data, function( key, val ) {
+
   			$('#estado').append('<option value="' + val.id + '">' + val.name + '</option>');
  	 	});
 
@@ -240,14 +227,20 @@ $("#colonia option").remove();
 $('#colonia').hide();
 
 
-var url = base_url + "address/getMunicipalities/"+$("#estado").val();
+   var url = base_url + "address/getMunicipalities/"+$("#estado").val();
+
 	$.getJSON( url, function( data ) {
-		$('#municipio').append('<option value="0">Seleccione un Municipio</option>');
-		 $.each( data, function( key, val ) {
-  			$('#municipio').append('<option value="' + val.id + '">' + val.name + '</option>');
+
+	$('#municipio').append('<option value="0">Seleccione un Municipio</option>');
+
+    $.each( data, function( key, val ) {
+
+  	$('#municipio').append('<option value="' + val.id + '">' + val.name + '</option>');
+
  	 	});
 
 		 if(nStart){
+
  	 		$('#municipio').val("<?= $paciente->direccion->municipio_id; ?>");
  	 		getPostalCodes(1);
  	 	}
@@ -266,13 +259,18 @@ $("#colonia option").remove();
 $('#colonia').hide();
 
 var url = base_url + "address/getPostalCodes/"+$("#municipio").val();
-	$.getJSON( url, function( data ) {
-		$('#codigo_postal').append('<option value="0">Seleccione un Código Postal</option>');
-		 $.each( data, function( key, val ) {
-  			$('#codigo_postal').append('<option value="' + val.id + '">' + val.name + '</option>');
+
+$.getJSON( url, function( data ) {
+		
+$('#codigo_postal').append('<option value="0">Seleccione un Código Postal</option>');
+		
+ $.each( data, function( key, val ) {
+  			
+  $('#codigo_postal').append('<option value="' + val.id + '">' + val.name + '</option>');
+
  	 	});
 
-		 if(nStart){
+	   if(nStart){
  	 		$('#codigo_postal').val("<?= $paciente->direccion->codigo_postal_id; ?>");
  	 		getColonies(1);
  	 	}
@@ -289,18 +287,23 @@ $("#colonia option").remove();
 $('#colonia').hide();
 
 var url = base_url + "address/getColonies/"+$("#codigo_postal").val();
-	$.getJSON( url, function( data ) {
-		$('#colonia').append('<option value="0">Seleccione una Colonia</option>');
-		 $.each( data, function( key, val ) {
-  			$('#colonia').append('<option value="' + val.id + '">' + val.name + '</option>');
+
+$.getJSON( url, function( data ) {
+
+$('#colonia').append('<option value="0">Seleccione una Colonia</option>');
+		 
+$.each( data, function( key, val ) {
+  			
+$('#colonia').append('<option value="' + val.id + '">' + val.name + '</option>');
  	 	});
 
 		if(nStart){
 
  	 		$('#colonia').val("<?= $paciente->direccion->colonia_id; ?>");
- 	 		$('#wait').hide();
+ 	 		$('#wait_col').hide();
 			$('#address').show();
 			$("input[type=submit]").removeAttr("disabled");
+
  	 	}
 		
 		$('#colonia').show();

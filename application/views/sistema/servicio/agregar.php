@@ -42,11 +42,10 @@
    echo'</td>';
    echo '</tr>';
 
-<<<<<<< HEAD
    echo'<tr>'; 
  	echo'<td  width="100" valing="top">'; 
 		 	echo form_label('*Costo:'); 
-=======
+
 echo '<tr>';
  	echo'<td colspan="100%">'; 
 		 	echo form_label('Servicios:'); 
