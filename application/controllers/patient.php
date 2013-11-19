@@ -5,14 +5,14 @@ class Patient extends CI_Controller{
 	public function __construct()
     {
     	parent::__construct();
-    	permisos($this->session->userdata('id_user'));
+    	permisos($this->session->userdata('type_user'));
     }
 
 	public function index($page = 1){
 
     	$consultorio = new Consultorio();
 
-		$aPermisos = permisos($this->session->userdata('id_user'));
+		$aPermisos = permisos($this->session->userdata('type_user'));
 
 		$consultorio->where(array('id' => $this->session->userdata('id_consultorio')))->get();
 
@@ -34,7 +34,7 @@ class Patient extends CI_Controller{
 			$consultorio = new Consultorio();
 			$consultorio->where(array('id' => $this->session->userdata('id_consultorio')))->get();
 			//print_r($consultorio->nombre); exit();
-			$aPermisos   = permisos($this->session->userdata('id_user'));
+			$aPermisos   = permisos($this->session->userdata('type_user'));
 			$input_count = 0;
 
 			foreach ($this->input->post() as $input_name => $input) {
@@ -218,7 +218,7 @@ class Patient extends CI_Controller{
 							      'valid_forms.js');
 		if($this->input->post()){
 			$pacientes = new Paciente();
-			$aPermisos = permisos($this->session->userdata('id_user'));
+			$aPermisos = permisos($this->session->userdata('type_user'));
 			$input_count = 0;
 
 			foreach ($this->input->post() as $input_name => $input) {

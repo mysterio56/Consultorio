@@ -38,12 +38,20 @@
 
 						}		
 
-						$activo = $paciente->estatus?'active':'inactive';
+						
 						$title  = $paciente->estatus?'Desactivar':'Activar';
 
 						if(in_array($permisos,$aPermisos['Editar']) ){
+							if($paciente->estatus==1){
+								$activo='active';
+								$function='if(Valid.desactivaregistro()==false)return false';
+							}
+							else if($paciente->estatus==0){
+								$activo='inactive';
+								$function='if(Valid.activaregistro()==false)return false';
 
-							echo '<a href="'.base_url('patient/status/'.$paciente->id).'">
+							}
+							echo '<a onclick="'.$function.'" href="'.base_url('patient/status/'.$paciente->id).'">
 									<img src="'.base_url('assets/images/'.$activo.'.png').'" title="'.$title.'" />
 								 </a>';
 
@@ -55,7 +63,7 @@
 
 						if(in_array($permisos,$aPermisos['Eliminar'])){ 
 
-							echo '<a href="'.base_url('patient/eliminar/'.$paciente->id).'">
+							echo '<a onclick="if(Valid.eliminaregistro() ==false)return false" href="'.base_url('patient/eliminar/'.$paciente->id).'">
 									  <img src="'.base_url('assets/images/delete.png').'" title="Eliminar"/>
 								  </a>';
 

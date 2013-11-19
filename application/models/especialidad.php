@@ -5,7 +5,7 @@ class Especialidad extends DataMapper
 
 	public $table = "especialidades";
 
-	public $has_many = array("empleado");
+	public $has_many = array("empleado", "consultorio");
 
 	public $error_prefix = '<div class="error">';
     public $error_suffix = '</div>';

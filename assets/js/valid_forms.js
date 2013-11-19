@@ -246,31 +246,21 @@ Valid.especialidad = function()
 
 Valid.eliminaregistro = function()
 {
-   if (confirm("¿Desea eliminar el registro?")){ 
-        alert("El registro ha sido eliminado.") 
-    }
-        else { 
-
+   if (!confirm("¿Desea eliminar el registro?")){ 
         return false
         }
 }
 
 Valid.activaregistro =function ()
 {
-if (confirm("¿Desea activar el registro?")){ 
-        alert("El registro ha sido Activado.") }
-        else { 
+if (!confirm("¿Desea activar el registro?")){  
         return false
     }
 }
 
 Valid.desactivaregistro = function()
 {
-    if (confirm("¿Desea desactivar el registro?")){ 
-      
-      alert("El registro ha sido Desactivado.") }
-    
-    else { 
+    if (!confirm("¿Desea desactivar el registro?")){  
         return false
     }
 }

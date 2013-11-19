@@ -46,8 +46,15 @@
 						$title  = $empleado->estatus?'Desactivar':'Activar';
 
 						if(in_array($permisos,$aPermisos['Editar']) ){
-
-							echo '<a href="'.base_url('employees/status/'.$empleado->id).'">
+							if($empleado->estatus==1){
+								$activo='active';
+								$function='if(Valid.desactivaregistro()==false)return false';
+							}
+							else if($empleado->estatus==0){
+								$activo='inactive';
+								$function='if(Valid.activaregistro()==false)return false';
+							}
+							echo '<a onclick="'.$function.'" href="'.base_url('employees/status/'.$empleado->id).'">
 									<img src="'.base_url('assets/images/'.$activo.'.png').'" title="'.$title.'" />
 								 </a>';
 
@@ -64,6 +71,7 @@
 								  </a>'; 
 
 						}	
+					
 
 						echo '</td>';
 					echo '</tr>';

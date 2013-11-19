@@ -80,7 +80,41 @@ echo '<table class="table_form">';
 		
 		echo '</td>';
 	echo '</tr>';
-		 
+	
+	echo '<tr>';
+	        echo '<td colspan="100%" class="standOut">';
+			echo form_label('Especialidades:');
+	        echo '</td>';
+            echo '</tr>';
+            
+		 	$consultorio->especialidad->get();
+
+			foreach($consultorio->especialidad->all as $consultorio_especialidad){
+             			$aChecked[$consultorio_especialidad->id] = $consultorio_especialidad->id;
+             }
+
+             if(!isset($aChecked))
+             	$aChecked[0] = 0;
+
+			echo '<tr>';
+	        echo '<td colspan="100%">';
+		 	foreach($especialidades as $especialidad){
+		 		echo form_label($especialidad->nombre.':');
+
+		 		$data = array(
+		 			'name'  => 'especialidades[]',
+		 			'id'    => 'especialidad_'.$especialidad->id,
+		 			'value' => $especialidad->id,
+		 			'checked' => (in_array($especialidad->id,$aChecked))?true:false
+ 		 			);
+
+		 		echo form_checkbox($data);
+		 		
+		 	}
+
+		 	echo'</td>';
+		 	echo'</tr>';
+
 		 	?>
 <tr>
 	<td colspan="100%">

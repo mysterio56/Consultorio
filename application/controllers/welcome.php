@@ -11,15 +11,19 @@ class Welcome extends CI_Controller{
 	public function index()
 	{
 
-		$oUsuario = new Usuario();
+		$oUsuario      = new Usuario();
+		$oTipoEmpleado = new Tipo_empleado();
+
 		$oUsuario->where('id',$this->session->userdata('id_user'))->get();
+
+		$oTipoEmpleado->where('id',$this->session->userdata('type_user'))->get();
 		
 		$empleado = $oUsuario->empleado->get();
 		$empleado->consultorio->get();
 
 		$data['logo']       = $empleado->consultorio->nombre_logo;
-		$data['modulos']    = $oUsuario->modulo->where('modulo_id',0)->get()->all;
-		$data['submodulos'] = $oUsuario->modulo->where('modulo_id <>',0)->get()->all;
+		$data['modulos']    = $oTipoEmpleado->modulo->where('modulo_id',0)->get()->all;
+		$data['submodulos'] = $oTipoEmpleado->modulo->where('modulo_id <>',0)->get()->all;
 		$data['title']      = "welcome page";
 		$data['view']       = "welcome";
 		$data['cssFiles']   = array('styles.css');

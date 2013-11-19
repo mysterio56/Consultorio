@@ -5,7 +5,7 @@ class Modulo extends DataMapper
  
     public $table = "modulos";
 
-    public $has_many = array("usuario");
+    public $has_many = array("tipo_empleado");
 
     public $has_one = array("modulo");
 

@@ -9,7 +9,9 @@
 					<th>Editar</th>
 				<?php endif; ?>
 				<th>Activo</th>
+				<?php if(in_array($permisos,$aPermisos['Eliminar']) ): ?>
 				<th>Eliminar</th>
+				<?php endif;?>
 			</tr>
 		</thead>
 		<tbody>
@@ -26,29 +28,39 @@
 					echo '<tr class='.$rowClass.'>';
 						echo '<td>'.$servicio->codigo.'</td>';
 						echo '<td>'.$servicio->nombre.'</td>';
-						if(in_array($permisos,array(2,6,7))){ 
+						if(in_array($permisos,$aPermisos['Editar'])){  
 							echo '<td><a href="'.base_url('service/editar/'.$servicio->id).'">
 									  <img src="'.base_url('assets/images/edit.png').'" /></a></td>';
 						}			  
-						$activo = $servicio->estatus?'active':'inactive';
 						echo '<td>';
 								if(in_array($permisos,$aPermisos['Editar']) ){
-									echo '<a href="'.base_url('service/status/'.$servicio->id).'">
+									if($servicio->estatus==1){
+										$activo='active';
+										$function='if(Valid.desactivaregistro()==false)return false';
+									}
+									else if($servicio->estatus==0){
+										$activo='inactive';
+										$function='if(Valid.activaregistro()== false)return false';
+									}
+									echo '<a onclick="'.$function.'" href="'.base_url('service/status/'.$servicio->id).'">
 											<img src="'.base_url('assets/images/'.$activo.'.png').'" />
 										 </a>';
-										}
-                        echo '<td>';
-								if(in_array($permisos,$aPermisos['Eliminar']) ){
-									echo '<a href="'.base_url('service/eliminar/'.$servicio->id).'">
-									  <img src="'.base_url('assets/images/delete.png').'"/>
-                                     </a>';
-
-
-								}else{
+								}
+                      			else{
+                      				$activo = $servicio->estatus?'active':'inactive';
 									echo '<img src="'.base_url('assets/images/'.$activo.'.png').'" />';
 								}
-
+						if(in_array($permisos,$aPermisos['Eliminar']) ){								
+                        echo '<td>';
+									echo '<a onclick="if(Valid.eliminaregistro() ==false)return false" href="'.base_url('service/eliminar/'.$servicio->id).'">
+									  <img src="'.base_url('assets/images/delete.png').'"/>
+                                     </a>';
+                        
 						echo '</td>';
+
+								}
+
+
 					echo '</tr>';
 					$nRow++;
 				}
