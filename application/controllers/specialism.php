@@ -5,13 +5,13 @@ class Specialism extends CI_Controller{
 	public function __construct()
     {
     	parent::__construct();
-    	permisos($this->session->userdata('id_user'));
+    	permisos($this->session->userdata('type_user'));
     }
 
     public function index($page = 1){
 
     	$especialidades = new Especialidad();
-		$aPermisos = permisos($this->session->userdata('id_user'));
+		$aPermisos = permisos($this->session->userdata('type_user'));
 
 		$especialidades->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
 								     'estatus <>'     => 2));
@@ -27,7 +27,7 @@ class Specialism extends CI_Controller{
 		$data['jsFiles']        = array('valid_forms.js');
 		if($this->input->post()){
 			$especialidades = new Especialidad();
-			$aPermisos = permisos($this->session->userdata('id_user'));
+			$aPermisos = permisos($this->session->userdata('type_user'));
 			$input_count = 0;
 
 			foreach ($this->input->post() as $input_name => $input) {
@@ -183,7 +183,7 @@ public function eliminar($id_especialidad){
 
 			$especialidades = new Especialidad();
 			
-			$aPermisos = permisos($this->session->userdata('id_user'));
+			$aPermisos = permisos($this->session->userdata('type_user'));
 			$input_count = 0;
 
 			foreach ($this->input->post() as $input_name => $input) {

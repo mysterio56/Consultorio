@@ -6,8 +6,6 @@ class Usuario extends DataMapper
     public $table    = "usuarios";
  
     public $has_one  = array("empleado");
-
-    public $has_many = array("modulo");
  
     public $validation = array(
         'usuario' => array(

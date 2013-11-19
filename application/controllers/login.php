@@ -46,13 +46,14 @@ class Login extends CI_Controller{
 
 				$userdata = array('username'        => $oUsuarios->usuario,
 	                              'id_user'         => $oUsuarios->id,
-	                              'type_user'       => $oUsuarios->tipo,
+	                              'type_user'       => $oUsuarios->empleado->tipo_empleado_id,
 	                              'id_consultorio'  => $oUsuarios->empleado->consultorio_id,
 	                              'nombre_completo' => $oUsuarios->empleado->nombre.' '.
 	                              					   $oUsuarios->empleado->apellido_p.' '.
 	                              					   $oUsuarios->empleado->apellido_m);
-	                 
+	              
 	            $this->session->set_userdata($userdata);
+	            
 		        redirect('welcome');
 
 	    	} else {

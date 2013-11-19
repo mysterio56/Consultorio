@@ -5,13 +5,13 @@ class Type_employee extends CI_Controller{
 	public function __construct()
     {
     	parent::__construct();
-    	permisos($this->session->userdata('id_user'));
+    	permisos($this->session->userdata('type_user'));
     }
 
 	public function index($page = 1){
 
     	$tipoEmpleados = new Tipo_empleado();
-		$aPermisos = permisos($this->session->userdata('id_user'));
+		$aPermisos = permisos($this->session->userdata('type_user'));
 
 		$tipoEmpleados->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
 								    'estatus <>'     => 2));
@@ -26,11 +26,12 @@ class Type_employee extends CI_Controller{
 		$data['view']          = 'sistema/tipo_empleado/lista';
 		$data['cssFiles']      = array('sistema.css');
 		$data['jsFiles']       = array('valid_forms.js');
+
 		if($this->input->post()){
 
 			$tipoEmpleados = new Tipo_empleado();
 			
-			$aPermisos = permisos($this->session->userdata('id_user'));
+			$aPermisos = permisos($this->session->userdata('type_user'));
 			$input_count = 0;
 
 			foreach ($this->input->post() as $input_name => $input) {
@@ -58,9 +59,12 @@ class Type_employee extends CI_Controller{
     public function agregar(){
 
     	$tipoEmpleado = new Tipo_empleado();
+    	$modulos      = new Modulo();
+    	$oPermisos    = new Permiso();
 
     	$data['view']     	  = 'sistema/tipo_empleado/agregar';
 		$data['return']       = 'type_employee';
+		$data['modulos']      = $modulos->where("estatus",1)->get();
 		$data['cssFiles']     = array('sistema.css');
 		$data['jsFiles']      = array('jquery.js',
 							     	  'jquery-validation/dist/jquery.validate.js',
@@ -77,7 +81,23 @@ class Type_employee extends CI_Controller{
 			$tipoEmpleado->consultorio_id =  $this->session->userdata('id_consultorio');
 			$tipoEmpleado->estatus        = 1;
 
-			if($tipoEmpleado->save()){
+			$modulos->where_in('id',$this->input->post('modulos'))->get();
+
+			if($tipoEmpleado->save($modulos->all)){
+
+				foreach($this->input->post('modulos') as $modulo){
+					
+					$oPermisos->where(array('modulo_id' => $modulo, 'tipo_empleado_id' => $tipoEmpleado->id))->get();
+					$sumPermiso = 0;
+					
+					foreach($this->input->post('permisos_'.$modulo) as $permiso){
+						 $sumPermiso = $sumPermiso + $permiso;
+					}
+
+					$oPermisos->permiso = $sumPermiso;
+					$oPermisos->save();
+
+				}
 
 				redirect(base_url('type_employee'));
 
@@ -94,9 +114,16 @@ class Type_employee extends CI_Controller{
     public function editar($id_tipoEmpleado){
 
     	$tipoEmpleado = new Tipo_empleado();
+    	$modulos      = new Modulo();
+    	$oPermisos    = new Permiso();
+
+    	$aPermisos = permisos($this->session->userdata('type_user'));
 
 		$data['tipoEmpleado'] = $tipoEmpleado->where('id',$id_tipoEmpleado)->get();
-		$data['return']       = 'type_employee'; 		
+		$data['modulos']      = $modulos->where("estatus",1)->get();
+		$data['permisos']     = $oPermisos->where('tipo_empleado_id', $id_tipoEmpleado)->get();
+		$data['printPermiso'] = $aPermisos['type_employee'];
+ 		$data['return']       = 'type_employee'; 		
 		$data['view']         = 'sistema/tipo_empleado/editar';
 		$data['cssFiles']     = array('sistema.css');
 		$data['jsFiles']      = array('jquery.js',
@@ -106,14 +133,32 @@ class Type_employee extends CI_Controller{
 
 		$this->load->view('sistema/template',$data);
 
-		if($this->input->post()){
+		if($this->input->post()){	
 
 			$tipoEmpleado->codigo             = $this->input->post('codigo'); 
 			$tipoEmpleado->nombre             = $this->input->post('nombre');
 			$tipoEmpleado->fecha_modificacion = date("Y-m-d H:i:s");
 
-			if($tipoEmpleado->save()){
+			$tipoEmpleado->modulo->get();
+			$tipoEmpleado->delete($tipoEmpleado->modulo->all);
+			$modulos->where_in('id',$this->input->post('modulos'))->get();
 
+			if($tipoEmpleado->save($modulos->all)){
+
+				foreach($this->input->post('modulos') as $modulo){
+					
+					$oPermisos->where(array('modulo_id' => $modulo, 'tipo_empleado_id' => $id_tipoEmpleado))->get();
+					$sumPermiso = 0;
+					
+					foreach($this->input->post('permisos_'.$modulo) as $permiso){
+						 $sumPermiso = $sumPermiso + $permiso;
+					}
+
+					$oPermisos->permiso = $sumPermiso;
+					$oPermisos->save();
+
+				}
+				
 				redirect(base_url('type_employee'));
 				
 			} else {

@@ -5,13 +5,13 @@ class Service extends CI_Controller{
 	public function __construct()
     {
     	parent::__construct();
-    	permisos($this->session->userdata('id_user'));
+    	permisos($this->session->userdata('type_user'));
     }
 
 	public function index($page = 1){
 
     	$servicios = new Servicio();
-		$aPermisos = permisos($this->session->userdata('id_user'));
+		$aPermisos = permisos($this->session->userdata('type_user'));
 
 		$servicios->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
 								'estatus <>'     => 2));
@@ -31,7 +31,7 @@ class Service extends CI_Controller{
 
 			$servicios = new Servicio();
 			
-			$aPermisos = permisos($this->session->userdata('id_user'));
+			$aPermisos = permisos($this->session->userdata('type_user'));
 			$input_count = 0;
 
 			foreach ($this->input->post() as $input_name => $input) {
@@ -198,7 +198,7 @@ public function eliminar($id_servicio){
 
 			$servicios = new Servicio();
 			
-			$aPermisos = permisos($this->session->userdata('id_user'));
+			$aPermisos = permisos($this->session->userdata('type_user'));
 			$input_count = 0;
 
 			foreach ($this->input->post() as $input_name => $input) {

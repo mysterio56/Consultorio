@@ -3,6 +3,6 @@
 class Permiso extends DataMapper
 {
 
-    public $table = "modulos_usuarios";
+    public $table = "modulos_tipo_empleados";
  
 }
