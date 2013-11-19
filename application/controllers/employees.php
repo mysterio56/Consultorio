@@ -5,14 +5,14 @@ class Employees extends CI_Controller{
 	public function __construct()
     {
     	parent::__construct();
-    	permisos($this->session->userdata('id_user'));
+    	permisos($this->session->userdata('type_user'));
     }
 
 	public function index($page = 1)
 	{
 
 		$empleados = new Empleado();
-		$aPermisos = permisos($this->session->userdata('id_user'));
+		$aPermisos = permisos($this->session->userdata('type_user'));
 
 		$empleados->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
 								'estatus <>'     => 2));
@@ -30,7 +30,7 @@ class Employees extends CI_Controller{
 
 			$empleados = new Empleado();
 			
-			$aPermisos = permisos($this->session->userdata('id_user'));
+			$aPermisos = permisos($this->session->userdata('type_user'));
 			$input_count = 0;
 
 			foreach ($this->input->post() as $input_name => $input) {
@@ -83,6 +83,7 @@ class Employees extends CI_Controller{
 		if($this->input->post()){
 
 			$empleado = new Empleado();
+			$usuario  = new Usuario();
 
 			$empleado->codigo           = $this->input->post('codigo'); 
 			$empleado->nombre           = $this->input->post('nombre');
@@ -108,17 +109,30 @@ class Employees extends CI_Controller{
 			$empleado->delete($empleado->especialidad->all);
 			$especialidades->where_in('id',$this->input->post('especialidades'))->get();
 
-			$direccion->save();
-			$empleado->direccion_id = $direccion->id;
+			if($direccion->save()){
 
-			if($empleado->save($especialidades->all)){
+				$empleado->direccion_id = $direccion->id;
 
-				redirect(base_url('employees/index/'));
+				if($empleado->save($especialidades->all)){
 
+					$usuario->email       = $this->input->post('email');
+					$usuario->clave       = md5($this->input->post('password'));
+					$usuario->estatus     = 1;
+					$usuario->empleado_id = $empleado->id;
+					$usuario->save();
+					
+					redirect(base_url('employees/index/'));
+
+				} else {
+
+					echo $empleado->error->string;
+
+				}
+				
 			} else {
 
-				echo $empleado->error->string;
-				
+				echo $direccion->error->string;
+
 			}
 
 		}
@@ -145,7 +159,6 @@ class Employees extends CI_Controller{
 		$empleado->direccion->get();
 
 		$data['empleado']       = $empleado; 
-		$data['permisos']       = $oPermisos->where('usuario_id', $usuario->id)->get();
 		$data['act_usuario']    = $total;
 		$data['tipoEmpleado']   = $tipoEmpleado->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
 									    					 'estatus'        => 1))->get();
@@ -174,42 +187,6 @@ class Employees extends CI_Controller{
 			$empleado->celular            = $this->input->post('celular');
 			$empleado->tipo_empleado_id   = $this->input->post('tipo_empleado');
 			$empleado->fecha_modificacion = date("Y-m-d H:i:s");
-
-			if($this->input->post('act_sistema')){
-
-				$this->_activarUsuario($id_empleado, $this->input->post('email'), $this->input->post('modulos'));
-
-				foreach($modulos->get() as $modulo){
-
-					if( $this->input->post('modulos') ){
-
-						if(in_array($modulo->id,$this->input->post('modulos'))){
-
-							$nPermisos = 0;
-
-							if(is_array($this->input->post('permisos_'.$modulo->id))){
-
-								foreach($this->input->post('permisos_'.$modulo->id) as $permiso){
-									$nPermisos += $permiso;	
-								}
-
-								$usuario->where('empleado_id', $id_empleado)->get();
-
-								$oPermisos->where(array('modulo_id'  =>$modulo->id,
-														'usuario_id' => $usuario->id))->get();
-
-								$oPermisos->permiso = $nPermisos;
-
-								$oPermisos->save();
-
-							}
-						}
-					}
-				}
-
-			} else {
-				$this->_desactivarUsuario($id_empleado);
-			}
 
 			$empleado->especialidad->get();
 			$empleado->delete($empleado->especialidad->all);
@@ -292,7 +269,7 @@ class Employees extends CI_Controller{
 
 			$empleados = new Empleado();
 			
-			$aPermisos = permisos($this->session->userdata('id_user'));
+			$aPermisos = permisos($this->session->userdata('type_user'));
 			$input_count = 0;
 
 			foreach ($this->input->post() as $input_name => $input) {

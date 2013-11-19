@@ -80,6 +80,30 @@ echo '<tr>';
 echo '</tr>';
 echo '<tr>';
 	echo '<td>';
+		 	echo form_label('Password:');
+	echo '</td>';
+		 	$data = array(
+		 		'name'  => 'password',
+		 		'id'    => 'password',
+		 		'style' => 'width:80px'
+		 	);
+	echo '<td>';
+		 	echo form_password($data);
+	echo '</td>';
+	echo '<td>';
+		 	echo form_label('Confirme Password:');
+	echo '</td>';
+		 	$data = array(
+		 		'name'  => 'passwordcheck',
+		 		'id'    => 'passwordcheck',
+		 		'style' => 'width:80px'
+		 	);
+	echo '<td>';
+		 	echo form_password($data);
+	echo '</td>';
+echo '</tr>';
+echo '<tr>';
+	echo '<td>';
 		 	echo form_label('Teléfono:');
 	echo '</td>';
 		 	$data = array(
@@ -236,9 +260,43 @@ echo '</table>';
 $(function () {
 	base_url = "<?= base_url(); ?>";
 	getFederalEntities();
+
 	$("#tipo_empleado").change(function(){
 			showEspecialidades();
 		});
+
+	$("#agregar").click(function(){
+        $(".error").hide();
+        var hasError = false;
+        var passwordVal = $("#password").val();
+        var checkVal = $("#passwordcheck").val();
+        
+        if (passwordVal != checkVal ) {
+            $("#passwordcheck").after('<span class="error">Passwords no coincide.</span>');
+            hasError = true;
+        }
+
+        if(hasError == true) {return false;}
+    });
+
+    $('#empleadosForm').validate({
+        rules:{
+            password:{
+                required:true,
+                 minlength: 5
+            },
+            passwordcheck:{
+                required:true,
+                 minlength: 5
+            },
+        },
+        errorElement: 'div',
+        wrapper: 'div',
+        errorPlacement: function(error, element) {
+            error.insertAfter(element);
+        }
+    });
+
 });
 
 function getFederalEntities(){

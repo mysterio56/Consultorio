@@ -5,13 +5,13 @@ class Product extends CI_Controller{
 	public function __construct()
     {
     	parent::__construct();
-    	permisos($this->session->userdata('id_user'));
+    	permisos($this->session->userdata('type_user'));
     }
 
 	public function index($page = 1){
 
     	$productos = new Producto();
-		$aPermisos = permisos($this->session->userdata('id_user'));
+		$aPermisos = permisos($this->session->userdata('type_user'));
 
 		$productos->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
 								'estatus <>'     => 2));
@@ -31,7 +31,7 @@ class Product extends CI_Controller{
 
 			$productos = new Producto();
 			
-			$aPermisos = permisos($this->session->userdata('id_user'));
+			$aPermisos = permisos($this->session->userdata('type_user'));
 			$input_count = 0;
 
 			foreach ($this->input->post() as $input_name => $input) {
@@ -195,7 +195,7 @@ public function eliminar($id_producto){
 
 			$productos = new Producto();
 			
-			$aPermisos = permisos($this->session->userdata('id_user'));
+			$aPermisos = permisos($this->session->userdata('type_user'));
 			$input_count = 0;
 
 			foreach ($this->input->post() as $input_name => $input) {

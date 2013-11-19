@@ -1,5 +1,5 @@
+<?php $aPermisos = unserialize (PERMISOS); ?>
 <script>
-
 	$(function(){ Valid.tipoEmpleado(); });
 </script>
 	<?php
@@ -39,6 +39,83 @@
    echo'</td>';
    echo '</tr>';
 
+   echo '<tr>';
+	   echo '<td colspan="2" class="standOut">';
+	   			echo form_label('Modulos y permisos:');
+	   echo '</td>';
+   echo '</tr>';
+
+			$tipoEmpleado->modulo->get();
+
+			foreach($tipoEmpleado->modulo->all as $tipo_empleado_modulo){
+             			$aChecked[$tipo_empleado_modulo->id] = $tipo_empleado_modulo->id;
+             }
+
+             if(!isset($aChecked))
+             	$aChecked[0] = 0;
+
+		 	foreach($modulos as $modulo){
+		 		 echo'<tr>';
+		 	     echo'<td colspan=100%>';
+		 		echo form_label($modulo->nombre.':');
+		 		$data = array(
+				 		'name'     => 'modulos[]',
+				 		'id'       => 'modulo_' + $modulo->id,
+				 		'value'    => $modulo->id,
+				 		'class'    => 'checkModulos',
+				 		'checked'  => (in_array($modulo->id,$aChecked))?true:false,
+				 		'onChange' => "showPermisos('".$modulo->id."', this.checked)"	
+		 		);
+
+		 		echo form_checkbox($data);
+                echo'</td>';
+		 	    echo'</tr>';
+		 		$printPermiso = 0;
+
+		 		foreach($permisos as $permiso){
+		 			if($modulo->id == $permiso->modulo_id){
+		 				$printPermiso = $permiso->permiso;
+		 			}
+		 		}
+             		 echo'<tr class="hide trPermiso" id="trPermisos_'.$modulo->id.'">';
+		 	     echo'<td colspan="2" class="standOut">';
+
+			 	if($modulo->nombre != 'Consultorio'){
+			 		echo form_label('Agregar:');
+			 		$data = array(
+					 		'name'    => 'permisos_'.$modulo->id.'[]',
+					 		'value'   => 4,
+					 		'checked' => (in_array($printPermiso,$aPermisos['Agregar']))?true:false,		
+			 		);
+
+			 		echo form_checkbox($data);
+		 		}
+		 		echo form_label('Editar:');
+		 		$data = array(
+				 		'name'    => 'permisos_'.$modulo->id.'[]',
+				 		'value'   => 2,
+				 		'checked' => (in_array($printPermiso,$aPermisos['Editar']))?true:false,		
+		 		);
+
+		 		echo form_checkbox($data);
+		 	
+			 	if($modulo->nombre != 'Consultorio'){
+			 		echo form_label('Eliminar:');
+			 		$data = array(
+					 		'name'    => 'permisos_'.$modulo->id.'[]',
+					 		'value'   => 1,
+					 		'checked' => (in_array($printPermiso,$aPermisos['Eliminar']))?true:false,		
+			 		);
+
+			 		echo form_checkbox($data);
+			 	}
+
+                echo'</td>';
+                echo'</tr>';
+
+		 	}
+
+
    echo'</table>';
 
 		 	$data = array(
@@ -52,7 +129,31 @@
 		 	echo '<a href="'.base_url($return).'" class="abutton_cancel">Cancelar</a>';
 	 		echo form_close();
 ?>
-
-  </form>
-</div> 
 </table>
+
+<script>
+
+$(function(){
+	$.each($(".checkModulos"), function(key, check){
+		if($(check).is(":checked")){
+			showPermisos($(check).val(),true);
+		}
+	});
+
+});
+
+function showPermisos(id_modulo, checked){
+
+	var trPermisos  = $('#trPermisos_' + id_modulo);
+	var moduloCheck = $('#modulo_'+id_modulo);
+
+		$.each(trPermisos , function (key, trPermiso){
+			if(checked === true){
+				$(trPermiso).show();
+			} else {
+				$(trPermiso).hide();
+			}
+		});
+}
+
+</script>

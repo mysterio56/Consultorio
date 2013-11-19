@@ -5,27 +5,29 @@ class Surgery extends CI_Controller{
 	public function __construct()
     {
     	parent::__construct();
-    	permisos($this->session->userdata('id_user'));
+    	permisos($this->session->userdata('type_user'));
     	define("IMAGEPATH", "/var/www/Consultorio/assets/images/logos/");
     }
 
 	public function index($id_consultorio = null){
 		
-		$aPermisos = permisos($this->session->userdata('id_user'));
-
-		$consultorio = new Consultorio();
+		$aPermisos      = permisos($this->session->userdata('type_user'));
+		$consultorio    = new Consultorio();
+		$especialidades = new Especialidad();
 
         $consultorio->where('id', $this->session->userdata('id_consultorio'))->get();
         $consultorio->direccion->get();
 
-		$data['permisos']    = $aPermisos['surgery'];
-		$data['consultorio'] = $consultorio;
-		$data['view']        = 'sistema/consultorio/editar';
-		$data['cssFiles']    = array('sistema.css');
-		$data['jsFiles']     = array('jquery.js',
-							   	  	 'jquery-validation/dist/jquery.validate.js',
-								  	 'jquery-validation/localization/messages_es.js',
-								  	 'valid_forms.js');
+        $data['especialidades'] = $especialidades->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
+									    					   'estatus'        => 1))->get();
+		$data['permisos']       = $aPermisos['surgery'];
+		$data['consultorio']    = $consultorio;
+		$data['view']           = 'sistema/consultorio/editar';
+		$data['cssFiles']       = array('sistema.css');
+		$data['jsFiles']        = array('jquery.js',
+							   	    	'jquery-validation/dist/jquery.validate.js',
+								  	    'jquery-validation/localization/messages_es.js',
+								  	    'valid_forms.js');
 
 		$this->load->view('sistema/template',$data);
 
@@ -74,7 +76,11 @@ class Surgery extends CI_Controller{
 			$consultorio->direccion->numero_int        = $this->input->post('numero_int');
 			$consultorio->direccion->numero_ext        = $this->input->post('numero_ext');
 
-			if($consultorio->save() && $consultorio->direccion->save()){
+			$consultorio->especialidad->get();
+			$consultorio->delete($consultorio->especialidad->all);
+			$especialidades->where_in('id',$this->input->post('especialidades'))->get();
+
+			if($consultorio->save($especialidades->all) && $consultorio->direccion->save()){
 
 				redirect('surgery');
 

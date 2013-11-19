@@ -2,13 +2,13 @@
 
 if ( ! function_exists('permisos'))
 {
-    function permisos($usuario_id = null)
+    function permisos($tipo_empleado_id = null)
     {
 
     	$permisos = new Permiso();
     	$modulos  = new Modulo();
 
-    	$permisos->where('usuario_id', $usuario_id)->get();
+    	$permisos->where('tipo_empleado_id', $tipo_empleado_id)->get();
 
     	foreach($permisos as $aIthem){
     		$modulos->where('id', $aIthem->modulo_id)->get();

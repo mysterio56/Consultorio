@@ -6,9 +6,8 @@
 	$aPermisos = unserialize (PERMISOS);
 	$attributes = array('id' => 'empleadosForm');
      echo form_open(null,$attributes);
-     if (isset($error_menssage)){
-	 		echo '<div class="error">'.$error_menssage.'</div>';
-	 	}
+
+
 	     echo '<table class="table_form">';
          echo'<tr>'; 
  	     echo'<td  width="100" valing="top">';
@@ -137,7 +136,6 @@
 			echo form_label('Especialidades:');
 	        echo '</td>';
             echo '</tr>';
-
             
 		 	$empleado->especialidad->get();
 
@@ -260,92 +258,6 @@
 			echo '</tr>';
 
 		 	echo '</div>';
-
-            echo'<tr>';
-		 	echo'<td colspan ="100%" class="standOut">';
-		 	echo form_label('Activar como usuario del sistema:');
-		 	
-		 	$data = array(
-		 		'name'    => 'act_sistema',
-		 		'id'      => 'act_sistema',
-		 		'value'   => 1,
-		 		'checked' => ($act_usuario)?"checked":"",
-		 	);
-
-		 	echo form_checkbox($data);
-		 	echo'</td>';
-		 	echo'</tr>';
-
-			$usuario->modulo->get();
-
-			foreach($usuario->modulo->all as $usuario_modulo){
-             			$aChecked[$usuario_modulo->id] = $usuario_modulo->id;
-             }
-
-             if(!isset($aChecked))
-             	$aChecked[0] = 0;
-
-		 	foreach($modulos as $modulo){
-		 		 echo'<tr class="hide trModulos">';
-		 	     echo'<td colspan=100%>';
-		 		echo form_label($modulo->nombre.':');
-		 		$data = array(
-				 		'name'     => 'modulos[]',
-				 		'id'       => 'modulo_' + $modulo->id,
-				 		'value'    => $modulo->id,
-				 		'class'    => 'checkModulos',
-				 		'checked'  => (in_array($modulo->id,$aChecked))?true:false,
-				 		'onChange' => "showPermisos('".$modulo->id."', this.checked)"	
-		 		);
-
-		 		echo form_checkbox($data);
-                echo'</td>';
-		 	    echo'</tr>';
-		 		$printPermiso = 0;
-
-		 		foreach($permisos as $permiso){
-		 			if($modulo->id == $permiso->modulo_id){
-		 				$printPermiso = $permiso->permiso;
-		 			}
-		 		}
-             		 echo'<tr class="hide trPermiso" id="trPermisos_'.$modulo->id.'">';
-		 	     echo'<td colspan="2" class="standOut">';
-
-			 	if($modulo->nombre != 'Consultorio'){
-			 		echo form_label('Agregar:');
-			 		$data = array(
-					 		'name'    => 'permisos_'.$modulo->id.'[]',
-					 		'value'   => 4,
-					 		'checked' => (in_array($printPermiso,$aPermisos['Agregar']))?true:false,		
-			 		);
-
-			 		echo form_checkbox($data);
-		 		}
-		 		echo form_label('Editar:');
-		 		$data = array(
-				 		'name'    => 'permisos_'.$modulo->id.'[]',
-				 		'value'   => 2,
-				 		'checked' => (in_array($printPermiso,$aPermisos['Editar']))?true:false,		
-		 		);
-
-		 		echo form_checkbox($data);
-		 	
-			 	if($modulo->nombre != 'Consultorio'){
-			 		echo form_label('Eliminar:');
-			 		$data = array(
-					 		'name'    => 'permisos_'.$modulo->id.'[]',
-					 		'value'   => 1,
-					 		'checked' => (in_array($printPermiso,$aPermisos['Eliminar']))?true:false,		
-			 		);
-
-			 		echo form_checkbox($data);
-			 	}
-
-                echo'</td>';
-                echo'</tr>';
-
-		 	}
-
             echo'</table>';
 	
 		 	$data = array(
@@ -363,15 +275,9 @@
 
 $(function(){
 	showEspecialidades();
-	showModulos();
-	auxPermisos();
 
 	$("#tipo_empleado").change(function(){
 			showEspecialidades();
-	});
-
-	$("#act_sistema").change(function(){
-			showModulos();
 	});
 
 	$("input[type=submit]").attr("disabled", "disabled");
@@ -380,15 +286,7 @@ $(function(){
 
 });
 
-function auxPermisos(){ 
-	$.each($('.checkModulos') , function (key, checkModulo){
-			
-			if(checkModulo.checked && $('#act_sistema').is(':checked') === true){
-				$('#trPermisos_' + checkModulo.value).show();
-			}
 
-		});
-}
 
 function showEspecialidades(){
 	var tipo_empleado = $("#tipo_empleado").val();
@@ -399,42 +297,6 @@ function showEspecialidades(){
 			$("#tdEspecialidadesLabel").hide();
 			$("#tdEspecialidades").hide();
 		}
-}
-
-function showModulos(){
-	
-	var trModulos = $('.trModulos');
-	var permisos  = $('.trPermiso')
-
-	$.each(trModulos , function (key, trModule){
-		if($('#act_sistema').is(':checked') === true){
-			$(trModule).show();
-		} else {
-			$(trModule).hide();
-		}
-	});
-
-	$.each(permisos , function (key, permiso){
-		if($('#act_sistema').is(':checked') === true){
-			auxPermisos();
-		} else {
-			$(permiso).hide();
-		}
-	});
-}
-
-function showPermisos(id_modulo, checked){
-
-	var trPermisos  = $('#trPermisos_' + id_modulo);
-	var moduloCheck = $('#modulo_'+id_modulo);
-
-		$.each(trPermisos , function (key, trPermiso){
-			if(checked === true){
-				$(trPermiso).show();
-			} else {
-				$(trPermiso).hide();
-			}
-		});
 }
 
 function getFederalEntities(nStart){
