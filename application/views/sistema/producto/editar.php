@@ -11,8 +11,9 @@
 
 	echo '<table class="table_form">';
 	echo'<tr>'; 
+	echo form_label('*Campos Requeridos','campo');
  	echo'<td  width="100" valing="top">'; 
-	 		echo form_label('Código:');
+	 		echo form_label('*Código:');
 	 echo'</td>';
      echo'<td>';
 		 	$data = array(
@@ -28,7 +29,7 @@
  		 
 	echo'<tr>'; 
  	echo'<td  width="100" valing="top">'; 
-		 	echo form_label('Nombre:'); 
+		 	echo form_label('*Nombre:'); 
 		 	echo'</td>';
             echo'<td>';
 		 	$data = array(
@@ -44,20 +45,39 @@
 
    echo'<tr>'; 
  	echo'<td  width="100" valing="top">'; 
-		 	echo form_label('Costo:'); 
+<<<<<<< HEAD
+		 	echo form_label('*Costo:'); 
+=======
+		 	echo form_label('Costo Compra:'); 
+>>>>>>> 24387c51a6683d604cd40dfd7b6b031fb5eebbba
 		 	echo'</td>';
             echo'<td>';
 		 	$data = array(
-		 		'name'  => 'costo',
-		 		'id'    => 'costo',
+		 		'name'  => 'costo_c',
+		 		'id'    => 'costo_c',
 		 		'class' => 'auto',
-		 		'value' => set_value('costo',$producto->costo),
+		 		'value' => set_value('costo_c',$producto->costo_compra),
 		 		'style' => 'width:125px'
 		 	);
    echo form_input($data);
    echo'</td>';
    echo '</tr>'; 
 
+echo'<tr>'; 
+ 	echo'<td  width="100" valing="top">'; 
+		 	echo form_label('Costo Venta:'); 
+		 	echo'</td>';
+            echo'<td>';
+		 	$data = array(
+		 		'name'  => 'costo_v',
+		 		'id'    => 'costo_v',
+		 		'class' => 'auto',
+		 		'value' => set_value('costo_v',$producto->costo_venta),
+		 		'style' => 'width:125px'
+		 	);
+   echo form_input($data);
+   echo'</td>';
+   echo '</tr>'; 
    echo'</table>'; 
 
 		 	$data = array(
