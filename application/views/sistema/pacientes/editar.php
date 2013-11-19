@@ -107,13 +107,6 @@ echo '<tr>';
 echo '</tr>';
 echo '</tr>';
 ?>
-<tr>
-	<td colspan="100%">
-	 	<div id="wait" class="wait">
-		<p>Cargando Estado, por favor espere</p>
-	 	</div>
-	</td>
-</tr>
 
 <tr>
 	<td>
@@ -121,14 +114,10 @@ echo '</tr>';
 	</td>
 	    <td>
 	  	   <select name="estado" id="estado" class="hide" onChange="getMunicipalities();"> </select>
+	  	   <div id="wait_estados" class="wait">
+				<p>Cargando Estados, por favor espere</p>
+	 		</div>
 	    </td>
-</tr>
-<tr>
-	<td colspan="100%">
-	 	<div id="wait_mun" class="wait_mun">
-		<p>Cargando Municipio, por favor espere</p>
-	 	</div>
-	</td>
 </tr>
 
 <tr>
@@ -137,12 +126,8 @@ echo '</tr>';
 	</td>
 	<td> 
 		<select  name="municipio" id="municipio" class="hide" onchange="getPostalCodes();"/></select>
-	</td>
-</tr>
-<tr>
-	<td colspan="100%">
-	 	<div id="wait_col" class="wait_col">
-		<p>Cargando Codigo Postal, por favor espere</p>
+		<div id="wait_mun" class="wait">
+		<p>Cargando Municipio, por favor espere</p>
 	 	</div>
 	</td>
 </tr>
@@ -153,14 +138,10 @@ echo '</tr>';
 	</td>
     <td>
     	<select name="codigo_postal" id="codigo_postal" class="hide" onchange="getColonies();"/></select>
-    </td>
-</tr>
-<tr>
-	<td colspan="100%">
-	 	<div id="wait_col" class="wait_col">
-		<p>Cargando Colonia, por favor espere</p>
+    	<div id="wait_cp" class="wait">
+			<p>Cargando Codigo Postal, por favor espere</p>
 	 	</div>
-	</td>
+    </td>
 </tr>
 
 <tr>
@@ -168,7 +149,10 @@ echo '</tr>';
 		 	<?= form_label('*Colonia:'); ?>
 	</td>
 	<td>
-		<select name="colonia" id="colonia" class="hide" onchange="getColonies();"/></select>
+		<select name="colonia" id="colonia" class="hide" onchange=""/></select>
+		<div id="wait_col" class="wait">
+		<p>Cargando Colonia, por favor espere</p>
+	 	</div>
 	</td>
 </tr>
 
@@ -193,7 +177,7 @@ echo '</table>';
 $(function () {
 	$("input[type=submit]").attr("disabled", "disabled");
 	base_url = "<?= base_url(); ?>";
-	getFederalEntities(1),getMunicipalities(1),getPostalCodes(1),getColonies(1);
+	getFederalEntities(1);
 });
 
 function getFederalEntities(nStart){
@@ -213,7 +197,8 @@ function getFederalEntities(nStart){
  	 	}
 
  	 	$('#estado').show();
-     	
+     	$('#wait_estados').hide();
+
 	});
 }
 
@@ -225,7 +210,7 @@ $("#codigo_postal option").remove();
 $('#codigo_postal').hide();
 $("#colonia option").remove();
 $('#colonia').hide();
-
+$('#wait_mun').show();
 
    var url = base_url + "address/getMunicipalities/"+$("#estado").val();
 
@@ -246,6 +231,7 @@ $('#colonia').hide();
  	 	}
 
      	$('#municipio').show();
+     	$('#wait_mun').hide();
 		
 	});
 	
@@ -257,6 +243,7 @@ $("#codigo_postal option").remove();
 $('#codigo_postal').hide();
 $("#colonia option").remove();
 $('#colonia').hide();
+$('#wait_cp').show();
 
 var url = base_url + "address/getPostalCodes/"+$("#municipio").val();
 
@@ -276,6 +263,7 @@ $('#codigo_postal').append('<option value="0">Seleccione un Código Postal</opti
  	 	}
 
 		$('#codigo_postal').show();
+		$('#wait_cp').hide();
      		
 	});
 	
@@ -285,6 +273,7 @@ function getColonies(nStart){
 
 $("#colonia option").remove();
 $('#colonia').hide();
+$('#wait_col').show();
 
 var url = base_url + "address/getColonies/"+$("#codigo_postal").val();
 
@@ -307,6 +296,7 @@ $('#colonia').append('<option value="' + val.id + '">' + val.name + '</option>')
  	 	}
 		
 		$('#colonia').show();
+		$('#wait_col').hide();
 		
 	});
 	

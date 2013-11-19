@@ -121,6 +121,9 @@
 	</td>
 	<td>
 	  	 <select name="estado" id="estado" class="hide" onChange="getMunicipalities();"> </select>
+	  	  <div id="wait_estados" class="wait">
+	  	  	<p>Cargando Estados, por favor espere</p>
+	  	  	</div>
 	</td>
 </tr>
 <tr>
