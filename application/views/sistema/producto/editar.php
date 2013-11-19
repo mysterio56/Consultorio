@@ -45,11 +45,7 @@
 
    echo'<tr>'; 
  	echo'<td  width="100" valing="top">'; 
-<<<<<<< HEAD
-		 	echo form_label('*Costo:'); 
-=======
-		 	echo form_label('Costo Compra:'); 
->>>>>>> 24387c51a6683d604cd40dfd7b6b031fb5eebbba
+		 	echo form_label('*Costo Compra:'); 
 		 	echo'</td>';
             echo'<td>';
 		 	$data = array(
@@ -65,7 +61,7 @@
 
 echo'<tr>'; 
  	echo'<td  width="100" valing="top">'; 
-		 	echo form_label('Costo Venta:'); 
+		 	echo form_label('*Costo Venta:'); 
 		 	echo'</td>';
             echo'<td>';
 		 	$data = array(

@@ -9,7 +9,9 @@
 					<th>Editar</th>
 				<?php endif; ?>
 				<th>Activo</th>
-				<th>Eliminar</th>
+				<?php if(in_array($permisos,$aPermisos['Eliminar']) ): ?>
+					<th>Eliminar</th>
+				<?php endif; ?>
 			</tr>
 		</thead>
 		<tbody>
@@ -26,29 +28,39 @@
 					echo '<tr class='.$rowClass.'>';
 						echo '<td>'.$tipoEmpleado->codigo.'</td>';
 						echo '<td>'.$tipoEmpleado->nombre.'</td>';
-						if(in_array($permisos,array(2,6,7))){ 
+						
+						if(in_array($permisos,$aPermisos['Editar'])){ 
 							echo '<td><a href="'.base_url('type_employee/editar/'.$tipoEmpleado->id).'">
 									  <img src="'.base_url('assets/images/edit.png').'" /></a></td>';
 						}			  
-						$activo = $tipoEmpleado->estatus?'active':'inactive';
+						
 						echo '<td>';
 								if(in_array($permisos,$aPermisos['Editar']) ){
-									echo '<a href="'.base_url('type_employee/status/'.$tipoEmpleado->id).'">
+									if($tipoEmpleado->estatus==1){
+										$activo='active';
+										$function='if(Valid.desactivaregistro()==false)return false';
+									}
+									else if($tipoEmpleado->estatus==0){
+										$activo='inactive';
+										$function='if(Valid.activaregistro()==false)return false';
+									}
+
+									echo '<a onclick="'.$function.'" href="'.base_url('type_employee/status/'.$tipoEmpleado->id).'">
 											<img src="'.base_url('assets/images/'.$activo.'.png').'" />
 										 </a>';
-										}
+								}
+								else{
+									echo '<img src="'.base_url('assets/images/'.$activo.'.png').'" />';
+								}
+					if(in_array($permisos,$aPermisos['Eliminar']) ){
                         echo '<td>';
-								if(in_array($permisos,$aPermisos['Eliminar']) ){
+								
 									echo '<a onclick="if(Valid.eliminaregistro() == false) return false" href="'.base_url('type_employee/eliminar/'.$tipoEmpleado->id).'">
 									  <img src="'.base_url('assets/images/delete.png').'"/>
                                      </a>';
-
-
-								}else{
-									echo '<img src="'.base_url('assets/images/'.$activo.'.png').'" />';
-								}
-
 						echo '</td>';
+					}
+
 					echo '</tr>';
 					$nRow++;
 				}
