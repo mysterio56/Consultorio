@@ -16,7 +16,7 @@ echo '<table class="table_form">';
 		 		'name'  => 'codigo',
 		 		'id'    => 'codigo',
 		 		'value' => set_value('codigo'),
-		 		'style' => 'width:100px'
+		 		//'style' => 'width:100px'
 		 	);
 
 		 	echo '<td>';
@@ -32,7 +32,7 @@ echo '<tr>';
 		 		'id'    => 'nombre',
 		 		'class' => 'capitalize',
 		 		'value' => set_value('nombre'),
-		 		'style' => 'width:100px'
+		 		//'style' => 'width:100px'
 		 	);
 	echo '<td>';
 		 	echo form_input($data);
@@ -45,7 +45,7 @@ echo '<tr>';
 		 		'id'    => 'apellido_p',
 		 		'class' => 'capitalize',
 		 		'value' => set_value('apellido_p'),
-		 		'style' => 'width:100px'
+		 		//'style' => 'width:100px'
 		 	);
 	echo '<td>';
 		 	echo form_input($data);
@@ -58,7 +58,7 @@ echo '<tr>';
 		 		'id'    => 'apellido_m',
 		 		'class' => 'capitalize',
 		 		'value' => set_value('apellido_m'),
-		 		'style' => 'width:100px'
+		 		//'style' => 'width:100px'
 		 	);
 
 	echo '<td>';
@@ -72,7 +72,7 @@ echo '<tr>';
 		 		'name'  => 'email',
 		 		'id'    => 'email',
 		 		'value' => set_value('email'),
-		 		'style' => 'width:200px'
+		 		//'style' => 'width:200px'
 		 	);
 	echo '<td colspan="2">';
 		 	echo form_input($data);
@@ -86,7 +86,7 @@ echo '<tr>';
 		 	$data = array(
 		 		'name'  => 'password',
 		 		'id'    => 'password',
-		 		'style' => 'width:80px'
+		 		//'style' => 'width:80px'
 		 	);
 	echo '<td>';
 		 	echo form_password($data);
@@ -97,7 +97,7 @@ echo '<tr>';
 		 	$data = array(
 		 		'name'  => 'passwordcheck',
 		 		'id'    => 'passwordcheck',
-		 		'style' => 'width:80px'
+		 		//'style' => 'width:80px'
 		 	);
 	echo '<td>';
 		 	echo form_password($data);
@@ -111,7 +111,7 @@ echo '<tr>';
 		 		'name'  => 'telefono',
 		 		'id'    => 'telefono',
 		 		'value' => set_value('telefono'),
-		 		'style' => 'width:100px'
+		 		//'style' => 'width:100px'
 		 	);
 	echo '<td>';
 		 	echo form_input($data);
@@ -123,7 +123,7 @@ echo '<tr>';
 		 		'name'  => 'celular',
 		 		'id'    => 'celular',
 		 		'value' => set_value('celular'),
-		 		'style' => 'width:100px'
+		 		//'style' => 'width:100px'
 		 	);
 	echo '<td>';
 		 	echo form_input($data);
@@ -146,7 +146,7 @@ echo '<tr>';
 <?php
 
 echo '<tr>';
-	echo '<td colspan="100%" class="hide" id="tdEspecialidadesLabel">';
+	echo '<td colspan="100%" class="hide standOut" id="tdEspecialidadesLabel">';
 			echo form_label('*Especialidades:');
 	echo '</td>';
 echo '</tr>';
@@ -165,6 +165,12 @@ echo '<tr>';
 				 	}
 	echo '</td>';
 echo '</tr>';
+
+echo'<tr>';
+		 		echo'<td colspan ="100%" class="standOut">';
+		 			echo form_label('Dirección:');
+		 		echo'</td>';
+		 	echo'</tr>';
 
 ?>
 <tr>
@@ -224,7 +230,7 @@ echo '<tr>';
 		 		'name'  => 'numero_ext',
 		 		'id'    => 'numero_ext',
 		 		'value' => set_value('numero_ext'),
-		 		'style' => 'width:100px'
+		 		//'style' => 'width:100px'
 		 	);
 	echo '<td>';
 		 	echo form_input($data);
@@ -236,7 +242,7 @@ echo '<tr>';
 		 		'name'  => 'numero_int',
 		 		'id'    => 'numero_int',
 		 		'value' => set_value('numero_int'),
-		 		'style' => 'width:100px'
+		 		//'style' => 'width:100px'
 		 	);
     echo '<td>';
 		 	echo form_input($data);

@@ -10,7 +10,7 @@
 	     echo '<table class="table_form">';
          echo'<tr>'; 
          echo form_label('*Campos Requeridos','campo');
- 	     echo'<td  width="100" valing="top">';
+ 	     echo'<td>';
             echo form_label('*Código:');
 	 		echo'</td>';
             echo'<td>';
@@ -18,7 +18,7 @@
 		 		'name'  => 'codigo',
 		 		'id'    => 'codigo',
 		 		'value' => set_value('codigo', $empleado->codigo),
-		 		'style' => 'width:100px'
+		 		//'style' => 'width:100px'
 		 	);
 
             echo form_input($data);
@@ -27,15 +27,15 @@
 
 
             echo'<tr>'; 
- 	        echo'<td valing="top">';
+ 	        echo'<td>';
 		 	echo form_label('*Nombre:');
-		 	echo'<td  valing="top">';
+		 	echo'<td>';
 		 	$data = array(
 		 		'name'  => 'nombre',
 		 		'id'    => 'nombre',
 		 		'class' => 'capitalize',
 		 		'value' => set_value('nombre' , $empleado->nombre),
-		 		'style' => 'width:100px'
+		 		//'style' => 'width:180px'
 		 	);
 
 		 	echo form_input($data);
@@ -49,20 +49,20 @@
 		 		'id'    => 'apellido_p',
 		 		'class' => 'capitalize',
 		 		'value' => set_value('apellido_p', $empleado->apellido_p),
-		 		'style' => 'width:100px'
+		 		//'style' => 'width:100px'
 		 	);
 
 		 	echo form_input($data);
 		 	echo'</td>';
-            echo'<td valing="top">';
+            echo'<td>';
 		 	echo form_label('*Apellido Materno:');
-		 	echo'<td  valing="top">';
+		 	echo'<td>';
 		 	$data = array(
 		 		'name'  => 'apellido_m',
 		 		'id'    => 'apellido_m',
 		 		'class' => 'capitalize',
 		 		'value' => set_value('apellido_m', $empleado->apellido_m),
-		 		'style' => 'width:100px'
+		 		//'style' => 'width:100px'
 		 	);
 
 
@@ -70,22 +70,22 @@
 		 	echo'</td>';
             echo '</tr>';
 
-            echo'<td  width="100" valing="top">';
+            echo'<td>';
 		 	echo form_label('*Email:');
 		 	echo'</td>';
-            echo'<td>';
+            echo'<td colspan="2">';
 		 	$data = array(
 		 		'name'  => 'email',
 		 		'id'    => 'email',
 		 		'value' => set_value('email', $empleado->email),
-		 		'style' => 'width:200px'
+		 		//'style' => 'width:200px'
 		 	);
 
 		 	echo form_input($data);
 		 	echo'</td>';
             echo '</tr>';
 
-			echo'<td  width="100" valing="top">';
+			echo'<td>';
 		 	echo form_label('*Teléfono:');
 		 	echo'</td>';
             echo'<td>';
@@ -97,7 +97,7 @@
 
 		 	echo form_input($data);
 		 	echo'</td>';
-            echo'<td  width="100" valing="top">';
+            echo'<td>';
 		 	echo form_label('*Celular:');
 		 	echo'</td>';
             echo'<td>';
@@ -112,12 +112,12 @@
             echo '</tr>';
 
 		 	echo'<tr>'; 
-            	echo'<td valing="top">';
+            	echo'<td>';
             			echo form_label('*Tipo de empleado:');
             	echo'</td>';
       
 		 	?>
-             <td valing="top">
+             <td>
 			 	<select name="tipo_empleado" id="tipo_empleado">
 			 		<option value="0">Seleccione...</option>
 			 		<?php foreach($tipoEmpleado as $tipo): ?>
@@ -185,7 +185,7 @@
 				<td>
 					 	<?= form_label('*Estado:'); ?>
 				</td>
-				<td>
+				<td colspan="2">
 					 	<select name="estado" id="estado" class="hide" onChange="getMunicipalities();"> </select>
 				</td>
 			</tr>
@@ -193,7 +193,7 @@
 				<td>
 					 	<?= form_label('*Municipio:'); ?>
 				</td>
-				<td>
+				<td colspan="2">
 					    <select name="municipio" id="municipio" class="hide" onChange="getPostalCodes();" /> </select>
 				</td>
 			</tr>
@@ -201,7 +201,7 @@
 				<td>
 					 	<?= form_label('*Código Postal:'); ?>
 				</td>
-				<td>
+				<td colspan="2">
 					    <select name="codigo_postal" id="codigo_postal" class="hide"  onChange="getColonies();"/></select>
 				</td>
 			</tr>
@@ -209,7 +209,7 @@
 				<td>
 					 	<?= form_label('*Colonia:'); ?>
 				</td>
-				<td>
+				<td colspan="2">
 					    <select name="colonia" id="colonia" class="hide" /></select>
 				</td>
 			</tr>

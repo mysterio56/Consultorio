@@ -17,7 +17,7 @@ echo '<table class="table_form">';
 		 		'name'  => 'codigo',
 		 		'id'    => 'codigo',
 		 		'value' => set_value('codigo',$paciente->codigo),
-		 		'style' => 'width:100px'
+		 		//'style' => 'width:100px'
 		 	);
 
 		 	echo '<td>';
@@ -33,7 +33,7 @@ echo '<tr>';
 		 		'id'    => 'nombre',
 		 		'class' => 'capitalize',
 		 		'value' => set_value('nombre',$paciente->nombre),
-		 		'style' => 'width:100px'
+		 		//'style' => 'width:100px'
 		 	);
 	echo '<td>';
 		 	echo form_input($data);
@@ -46,7 +46,7 @@ echo '<tr>';
 		 		'id'    => 'apellido_p',
 		 		'class' => 'capitalize',
 		 		'value' => set_value('apellido_p',$paciente->apellido_p),
-		 		'style' => 'width:100px'
+		 		//'style' => 'width:100px'
 		 	);
 	echo '<td>';
 		 	echo form_input($data);
@@ -59,7 +59,7 @@ echo '<tr>';
 		 		'id'    => 'apellido_m',
 		 		'class' => 'capitalize',
 		 		'value' => set_value('apellido_m',$paciente->apellido_m),
-		 		'style' => 'width:100px'
+		 		//'style' => 'width:100px'
 		 	);
 
 	echo '<td>';
@@ -73,7 +73,7 @@ echo '<tr>';
 		 		'name'  => 'email',
 		 		'id'    => 'email',
 		 		'value' => set_value('email',$paciente->email),
-		 		'style' => 'width:200px'
+		 		//'style' => 'width:200px'
 		 	);
 	echo '<td colspan="2">';
 		 	echo form_input($data);
@@ -87,7 +87,7 @@ echo '<tr>';
 		 		'name'  => 'telefono',
 		 		'id'    => 'telefono',
 		 		'value' => set_value('telefono',$paciente->telefono),
-		 		'style' => 'width:100px'
+		 		//'style' => 'width:100px'
 		 	);
 	echo '<td>';
 		 	echo form_input($data);
@@ -99,20 +99,27 @@ echo '<tr>';
 		 		'name'  => 'celular',
 		 		'id'    => 'celular',
 		 		'value' => set_value('celular',$paciente->celular),
-		 		'style' => 'width:100px'
+		 		//'style' => 'width:100px'
 		 	);
 	echo '<td>';
 		 	echo form_input($data);
 	echo '</td>';
 echo '</tr>';
 echo '</tr>';
+
+echo'<tr>';
+		 		echo'<td colspan ="100%" class="standOut">';
+		 			echo form_label('Dirección:');
+		 		echo'</td>';
+		 	echo'</tr>';
+		 	
 ?>
 
 <tr>
 	<td>
 		<?= form_label('*Estado:'); ?>
 	</td>
-	    <td>
+	    <td colspan="2">
 	  	   <select name="estado" id="estado" class="hide" onChange="getMunicipalities();"> </select>
 	  	   <div id="wait_estados" class="wait">
 				<p>Cargando Estados, por favor espere</p>
@@ -124,7 +131,7 @@ echo '</tr>';
 	<td>
 		 	<?= form_label('*Municipio:'); ?>
 	</td>
-	<td> 
+	<td colspan="2">
 		<select  name="municipio" id="municipio" class="hide" onchange="getPostalCodes();"/></select>
 		<div id="wait_mun" class="wait">
 		<p>Cargando Municipio, por favor espere</p>
@@ -136,7 +143,7 @@ echo '</tr>';
 	<td>
 		 	<?= form_label('*Codigo Postal:'); ?>
 	</td>
-    <td>
+    <td colspan="2">
     	<select name="codigo_postal" id="codigo_postal" class="hide" onchange="getColonies();"/></select>
     	<div id="wait_cp" class="wait">
 			<p>Cargando Codigo Postal, por favor espere</p>
@@ -148,7 +155,7 @@ echo '</tr>';
 	<td>
 		 	<?= form_label('*Colonia:'); ?>
 	</td>
-	<td>
+	<td colspan="2">
 		<select name="colonia" id="colonia" class="hide" onchange=""/></select>
 		<div id="wait_col" class="wait">
 		<p>Cargando Colonia, por favor espere</p>
