@@ -175,7 +175,21 @@ echo '</table>';
 		 	);
 
 	 		echo form_submit($data);
-	 		echo '<a href="'.base_url($return).'" class="abutton_cancel">Cancelar</a>';
+	 		echo '<a href="'.base_url($return).'" class="abutton_actualizar">Actualizar</a>';
+
+$data = array(
+		 		'name'  => 'editar',
+		 		'id'    => 'editar',
+		 		'class' => 'abutton',
+		 		'value' => 'Actualizar'
+		 	);
+
+	 		echo form_submit($data);
+	 		echo '<a href="'.base_url($return).'" class="abutton_actualizar">Actualizar</a>';
+
+
+
+
 	 		echo form_close(); 
 	?>
 	
