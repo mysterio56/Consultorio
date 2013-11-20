@@ -13,6 +13,9 @@ $lang['valid_date']			= 'El campo %s tiene que contener una fecha valida.';
 $lang['valid_date_group']	= 'El campo %s tiene que contener un grupo de fechas validas.';
 $lang['valid_match']		= 'El campo %s sólo puede contener %s.';
 
+$lang['unique_for_surgery'] = '%s que se ha propuesto ya existe.';
+
+
 $lang['related_required']	= 'Se requiere %s.';
 $lang['related_min_size']	= 'Se requiere que de %s haya como minimo %s.';
 $lang['related_max_size']	= 'Se requiere que de %s no exceda %s.';

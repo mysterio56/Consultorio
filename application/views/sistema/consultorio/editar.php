@@ -10,7 +10,7 @@ echo '<table class="table_form">';
 	echo '<tr>';
 	echo form_label('*Campos Requeridos','campo');
 		echo '<td>';
-	 		echo form_label('*Nombre:');
+	 		echo form_label('Nombre:');
 	 	echo '</td>';
 	 	echo '<td>';
 	 		echo form_label($consultorio->nombre);
@@ -18,7 +18,7 @@ echo '<table class="table_form">';
 
  			$consultorio->tipo_consultorio->get();
  		echo '<td>';
-	 		echo form_label('*Tipo:');
+	 		echo form_label('Tipo:');
 	 	echo '</td>';
 	 	echo '<td>';
 	 		echo form_label($consultorio->tipo_consultorio->nombre);
@@ -115,6 +115,13 @@ echo '<table class="table_form">';
 		 	echo'</td>';
 		 	echo'</tr>';
 
+
+		 	echo'<tr>';
+		 		echo'<td colspan ="100%" class="standOut">';
+		 			echo form_label('Dirección:');
+		 		echo'</td>';
+		 	echo'</tr>';
+		 	
 		 	?>
 <tr>
 	<td colspan="100%">

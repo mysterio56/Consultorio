@@ -19,7 +19,7 @@ class Paciente extends DataMapper
         ),
         'codigo' => array(
             'label' => 'Código',
-            'rules' => array('required', 'trim', 'unique', 'min_length' => 4, 'max_length' => 15),
+            'rules' => array('required', 'trim', 'unique_for_surgery' => 'codigo' , 'min_length' => 4, 'max_length' => 15),
         ),
         'apellido_p' => array(
             'label' => 'Apellido Paterno',
@@ -42,5 +42,21 @@ class Paciente extends DataMapper
             'rules' => array('trim', 'min_length' => 10, 'max_length' => 13),
         )
     );
+
+    function _unique_for_surgery($field, $campo)
+    {
+
+        $paciente = new Paciente();
+
+        $paciente->where(array($campo           => $this->{$field},
+                               "consultorio_id" => CONSULTORIOID))->get();
+
+        if(count($paciente->all)){
+            return false;
+        } else {
+            return true;
+        }
+
+    }
  
 }

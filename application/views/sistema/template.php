@@ -9,6 +9,8 @@
                                          )
                                   )
            );
+
+    define ("CONSULTORIOID", $this->session->userdata('id_consultorio'));
     
 	if(isset($cssFiles) && is_array($cssFiles)){
 		foreach($cssFiles as $cssFile) {

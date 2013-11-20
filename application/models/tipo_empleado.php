@@ -13,12 +13,28 @@ class Tipo_empleado extends DataMapper
 	public $validation = array(
         'nombre' => array(
             'label' => 'Nombre',
-            'rules' => array('required', 'trim', 'unique', 'min_length' => 2, 'max_length' => 45),
+            'rules' => array('required', 'trim', 'unique_for_surgery' => 'nombre', 'min_length' => 2, 'max_length' => 45),
         ),
         'codigo' => array(
             'label' => 'Código',
-            'rules' => array('required', 'trim', 'unique', 'min_length' => 4, 'max_length' => 15),
+            'rules' => array('required', 'trim', 'unique_for_surgery' => 'codigo', 'min_length' => 4, 'max_length' => 15),
         )
     );
- 
+
+    function _unique_for_surgery($field, $campo)
+    {
+
+        $tipo_empleado = new Tipo_empleado();
+
+        $tipo_empleado->where(array($campo           => $this->{$field},
+                                    "consultorio_id" => CONSULTORIOID))->get();
+
+        if(count($tipo_empleado->all)){
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
 }
