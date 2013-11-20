@@ -26,6 +26,7 @@
 						$rowClass = "odd";
 					}
 
+
 					echo '<tr class='.$rowClass.'>';
 						echo '<td>'.$empleado->codigo.'</td>';
 						echo '<td>'.$empleado->nombre.' '.$empleado->apellido_p.' '.$empleado->apellido_m.'</td>';
@@ -44,7 +45,7 @@
 
 						$activo = $empleado->estatus?'active':'inactive';
 						$title  = $empleado->estatus?'Desactivar':'Activar';
-
+						
 						if(in_array($permisos,$aPermisos['Editar']) ){
 							if($empleado->estatus==1){
 								$activo='active';
@@ -70,7 +71,8 @@
 									  <img src="'.base_url('assets/images/delete.png').'" title="Eliminar"/>
 								  </a>'; 
 
-						}	
+						}
+
 					
 
 						echo '</td>';

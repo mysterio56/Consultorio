@@ -57,6 +57,10 @@ border-left: none;
   background-color: #CEECF5;  
 }
 
+.datagrid table tbody tr.borrado{
+  background-color: #2E64FE;
+} 
+
 .datagrid table tfoot td div {
   border-top: 1px solid #006699;
   background: #E1EEF4;

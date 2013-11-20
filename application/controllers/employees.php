@@ -240,8 +240,7 @@ class Employees extends CI_Controller{
 	}
 
 	public function eliminar($id_empleado){
-
-		$empleado = new Empleado();
+       	$empleado = new Empleado();
 
 		$empleado->where('id', $id_empleado)->get();
 
