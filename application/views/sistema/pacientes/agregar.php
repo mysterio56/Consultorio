@@ -132,6 +132,9 @@
 	</td>
 	<td> 
 		<select  name="municipio" id="municipio" class="hide" onchange="getPostalCodes();"/></select>
+		 <div id="wait_mun" class="wait hide">
+	  	  	<p>Cargando Municipios, por favor espere</p>
+	  	  	</div>
 	</td>
 </tr>
 <tr>
@@ -140,6 +143,9 @@
     </td>
     <td>
     	<select name="codigo_postal" id="codigo_postal" class="hide" onchange="getColonies();"/></select>
+    	 <div id="wait_cp" class="wait hide">
+	  	  	<p>Cargando Codigos Postales, por favor espere</p>
+	  	  	</div>
     </td>
 </tr>
 <tr>
@@ -148,6 +154,9 @@
 	</td>
 	<td>
 		<select name="colonia" id="colonia" class="hide"/></select>
+		 <div id="wait_col" class="wait hide">
+	  	  	<p>Cargando Colonias, por favor espere</p>
+	  	  	</div>
 	</td>
 </tr>
 
@@ -224,6 +233,7 @@ function getFederalEntities(){
  	 	});
 
  	 	$('#estado').show();
+ 	 	$('#wait_estados').hide();
      	
 	});
 }
@@ -236,6 +246,7 @@ $("#codigo_postal option").remove();
 $('#codigo_postal').hide();
 $("#colonia option").remove();
 $('#colonia').hide();
+$('#wait_mun').show();
 
 
 var url = base_url + "address/getMunicipalities/"+$("#estado").val();
@@ -246,6 +257,7 @@ var url = base_url + "address/getMunicipalities/"+$("#estado").val();
  	 	});
 
      	$('#municipio').show();
+     	$('#wait_mun').hide();
 		
 	});
 	
@@ -257,6 +269,7 @@ $("#codigo_postal option").remove();
 $('#codigo_postal').hide();
 $("#colonia option").remove();
 $('#colonia').hide();
+$('#wait_cp').show();
 
 var url = base_url + "address/getPostalCodes/"+$("#municipio").val();
 	$.getJSON( url, function( data ) {
@@ -266,6 +279,7 @@ var url = base_url + "address/getPostalCodes/"+$("#municipio").val();
  	 	});
 
 		$('#codigo_postal').show();
+		$('#wait_cp').hide();
      		
 	});
 	
@@ -275,6 +289,7 @@ function getColonies(){
 
 $("#colonia option").remove();
 $('#colonia').hide();
+$('#wait_col').show();
 
 var url = base_url + "address/getColonies/"+$("#codigo_postal").val();
 	$.getJSON( url, function( data ) {
@@ -284,6 +299,7 @@ var url = base_url + "address/getColonies/"+$("#codigo_postal").val();
  	 	});
 		
 		$('#colonia').show();
+		$('#wait_col').hide();
 		
 	});
 	

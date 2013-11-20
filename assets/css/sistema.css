@@ -200,8 +200,6 @@ div .error{
 
 .wait{
   background: url('../images/wait.gif') no-repeat left center;
-  width: 300px;
-  height: 30px;
   background-size: 30px;
   padding-left: 32px; 
 }
