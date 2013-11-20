@@ -9,7 +9,7 @@
 	 	echo '<table class="table_form">';
 	    echo'<tr>'; 
 	    echo form_label('* Campos Requeridos','campo');
-	    echo'<td  width="100" valing="top">'; 
+	    echo'<td>'; 
 	 		echo form_label('* Código:');
 	 		 echo'</td>';
 	   		 echo'<td>';
@@ -17,7 +17,7 @@
 		 		'name'  => 'codigo',
 		 		'id'    => 'codigo',
 		 		'value' => set_value('codigo'),
-		 		'style' => 'width:80px'
+		 		//'style' => 'width:80px'
 		 	);
 
 		 	echo form_input($data);
@@ -25,7 +25,7 @@
             echo '</tr>';
 	
         echo'<tr>'; 
- 	    echo'<td  valing="top">'; 
+ 	    echo'<td>'; 
 		 	echo form_label('*Nombre:');
 		 	echo'</td>';
             echo'<td>';
@@ -34,12 +34,12 @@
 		 		'id'    => 'nombre',
 		 		'class' => 'capitalize',
 		 		'value' => set_value('nombre'),
-		 		'style' => 'width:125px'
+		 		//'style' => 'width:125px'
 		 	);
 
 		 	echo form_input($data);
             echo'</td>';
-            echo'<td valing="top">';
+            echo'<td>';
 		 	echo form_label('*Apellido paterno:');
 		 	echo'</td>';
 		 	echo'<td>';
@@ -48,7 +48,7 @@
 		 		'id'    => 'apellido_p',
 		 		'class' => 'capitalize',
 		 		'value' => set_value('apellido_p'),
-		 		'style' => 'width:85px'
+		 		//'style' => 'width:85px'
 		 	);
 
 		 	echo form_input($data);
@@ -70,15 +70,15 @@
             echo '</tr>';
 
 		 echo'<tr>'; 
- 	     echo'<td valing="top">';
+ 	     echo'<td>';
 		 	echo form_label('*Email:');
 		 	echo'</td>';
-            echo'<td>';
+            echo'<td colspan="2">';
 		 	$data = array(
 		 		'name'  => 'email',
 		 		'id'    => 'email',
 		 		'value' => set_value('email'),
-		 		'style' => 'width:200px'
+		 		//'style' => 'width:200px'
 		 	);
 
 		 	echo form_input($data);
@@ -87,7 +87,7 @@
 
 
 		 echo'<tr>'; 
- 	     echo'<td  width="100" valing="top">';
+ 	     echo'<td>';
 		 	echo form_label('*Teléfono:');
 		 	echo'</td>';
             echo'<td>';
@@ -114,37 +114,57 @@
 		 	echo form_input($data);
 		 	echo'</td>';
             echo '</tr>';
+
+            echo'<tr>';
+		 		echo'<td colspan ="100%" class="standOut">';
+		 			echo form_label('Dirección:');
+		 		echo'</td>';
+		 	echo'</tr>';
+
+		 	
             ?>
  <tr>
 	<td>
 		 	<?= form_label('*Estado:'); ?>
 	</td>
-	<td>
+	<td colspan="2">
 	  	 <select name="estado" id="estado" class="hide" onChange="getMunicipalities();"> </select>
+	  	  <div id="wait_estados" class="wait">
+	  	  	<p>Cargando Estados, por favor espere</p>
+	  	  	</div>
 	</td>
 </tr>
 <tr>
 	<td>
 		 	<?= form_label('*Municipio:'); ?>
 	</td>
-	<td> 
+	<td colspan="2">
 		<select  name="municipio" id="municipio" class="hide" onchange="getPostalCodes();"/></select>
+		 <div id="wait_mun" class="wait hide">
+	  	  	<p>Cargando Municipios, por favor espere</p>
+	  	  	</div>
 	</td>
 </tr>
 <tr>
     <td>
     <?= form_label('*Codigo Postal:');?>
     </td>
-    <td>
+    <td colspan="2">
     	<select name="codigo_postal" id="codigo_postal" class="hide" onchange="getColonies();"/></select>
+    	 <div id="wait_cp" class="wait hide">
+	  	  	<p>Cargando Codigos Postales, por favor espere</p>
+	  	  	</div>
     </td>
 </tr>
 <tr>
     <td>
     	<?= form_label('*Colonia:'); ?>
 	</td>
-	<td>
+	<td colspan="2">
 		<select name="colonia" id="colonia" class="hide"/></select>
+		 <div id="wait_col" class="wait hide">
+	  	  	<p>Cargando Colonias, por favor espere</p>
+	  	  	</div>
 	</td>
 </tr>
 
@@ -221,6 +241,7 @@ function getFederalEntities(){
  	 	});
 
  	 	$('#estado').show();
+ 	 	$('#wait_estados').hide();
      	
 	});
 }
@@ -233,6 +254,7 @@ $("#codigo_postal option").remove();
 $('#codigo_postal').hide();
 $("#colonia option").remove();
 $('#colonia').hide();
+$('#wait_mun').show();
 
 
 var url = base_url + "address/getMunicipalities/"+$("#estado").val();
@@ -243,6 +265,7 @@ var url = base_url + "address/getMunicipalities/"+$("#estado").val();
  	 	});
 
      	$('#municipio').show();
+     	$('#wait_mun').hide();
 		
 	});
 	
@@ -254,6 +277,7 @@ $("#codigo_postal option").remove();
 $('#codigo_postal').hide();
 $("#colonia option").remove();
 $('#colonia').hide();
+$('#wait_cp').show();
 
 var url = base_url + "address/getPostalCodes/"+$("#municipio").val();
 	$.getJSON( url, function( data ) {
@@ -263,6 +287,7 @@ var url = base_url + "address/getPostalCodes/"+$("#municipio").val();
  	 	});
 
 		$('#codigo_postal').show();
+		$('#wait_cp').hide();
      		
 	});
 	
@@ -272,6 +297,7 @@ function getColonies(){
 
 $("#colonia option").remove();
 $('#colonia').hide();
+$('#wait_col').show();
 
 var url = base_url + "address/getColonies/"+$("#codigo_postal").val();
 	$.getJSON( url, function( data ) {
@@ -281,6 +307,7 @@ var url = base_url + "address/getColonies/"+$("#codigo_postal").val();
  	 	});
 		
 		$('#colonia').show();
+		$('#wait_col').hide();
 		
 	});
 	

@@ -115,14 +115,17 @@ class Employees extends CI_Controller{
 
 				if($empleado->save($especialidades->all)){
 
-					$usuario->email       = $this->input->post('email');
+					$usuario->usuario     = $this->input->post('email');
 					$usuario->clave       = md5($this->input->post('password'));
 					$usuario->estatus     = 1;
 					$usuario->empleado_id = $empleado->id;
-					$usuario->save();
-					
-					redirect(base_url('employees/index/'));
 
+					if($usuario->save()){
+						redirect(base_url('employees/index/'));	
+					} else {
+						echo $usuario->error->string;
+					}
+					
 				} else {
 
 					echo $empleado->error->string;
@@ -200,7 +203,10 @@ class Employees extends CI_Controller{
 			$empleado->direccion->numero_int        = $this->input->post('numero_int');
 			$empleado->direccion->numero_ext        = $this->input->post('numero_ext');
 
-			if($empleado->save($especialidades->all) && $empleado->direccion->save()){
+			$empleado->usuario->get();
+			$empleado->usuario->usuario = $this->input->post('email');
+
+			if($empleado->save($especialidades->all) && $empleado->direccion->save() && $empleado->usuario->save()){
 
 				redirect(base_url('employees'));
 
@@ -229,6 +235,7 @@ class Employees extends CI_Controller{
 		} else{
 
 			$empleado->estatus = 1;
+			$usuario->estatus  = 1;
 		}
 
 		$empleado->fecha_modificacion = date("Y-m-d H:i:s");
@@ -237,6 +244,43 @@ class Employees extends CI_Controller{
 
 		redirect(base_url('employees'));
 
+	}
+
+	public function password($id_empleado){
+
+		$empleado = new Empleado();
+
+		$data['view']           = 'sistema/empleados/password';
+		$data['return']         = 'employees';
+		$data['cssFiles']       = array('sistema.css');
+		$data['jsFiles']        = array('jquery.js',
+							      	    'jquery-validation/dist/jquery.validate.js',
+								        'jquery-validation/localization/messages_es.js',
+								        'valid_forms.js');		
+
+		if($this->input->post()){
+
+			$empleado->where('id', $id_empleado)->get();
+
+			$empleado->usuario->get();
+
+			if($empleado->usuario->clave == md5($this->input->post('passwordOld'))){
+				$empleado->usuario->clave = md5($this->input->post('password'));
+
+				if($empleado->usuario->save()){
+					redirect(base_url('employees'));
+				} else {
+					echo $empleado->usuario->error->string;
+				}
+			} else {
+					$data['error'] = 'La contraseña anterior no coincide';
+					//$this->load->view('sistema/template',$data);
+			}
+
+		}
+
+		$this->load->view('sistema/template',$data);
+	
 	}
 
 	public function eliminar($id_empleado){

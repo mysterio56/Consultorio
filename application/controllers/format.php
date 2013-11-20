@@ -5,13 +5,13 @@ class Format extends CI_Controller{
 	public function __construct()
     {
     	parent::__construct();
-    	permisos($this->session->userdata('id_user'));
+    	permisos($this->session->userdata('type_user'));
     }
 
 	public function index($page = 1){
 
     	$consultorio = new Consultorio();
-		$aPermisos = permisos($this->session->userdata('id_user'));
+		$aPermisos = permisos($this->session->userdata('type_user'));
 
 		$consultorio->where(array('id' => $this->session->userdata('id_consultorio')))->get();
 
@@ -32,7 +32,7 @@ class Format extends CI_Controller{
         
         $consultorio = new Consultorio();
 			
-			$aPermisos = permisos($this->session->userdata('id_user'));
+			$aPermisos = permisos($this->session->userdata('type_user'));
 			$input_count = 0;
 
 			foreach ($this->input->post() as $input_name => $input) {
@@ -207,7 +207,7 @@ public function eliminar($id_formato){
 
 			$formatos = new Formato();
 			
-			$aPermisos = permisos($this->session->userdata('id_user'));
+			$aPermisos = permisos($this->session->userdata('type_user'));
 			$input_count = 0;
 
 			foreach ($this->input->post() as $input_name => $input) {

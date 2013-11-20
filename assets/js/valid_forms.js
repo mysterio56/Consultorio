@@ -55,6 +55,15 @@ Valid.empleados = function()
                 email:true,
                 minlength: 5
             },
+            password:{
+                required:true,
+                 minlength: 5
+            },
+            passwordcheck:{
+                required:true,
+                 minlength: 5,
+                 equalTo: "#password"
+            },
             telefono:{
                 required:true,
                 number:true,
@@ -81,6 +90,34 @@ Valid.empleados = function()
             },
             tipo_empleado: {
                 selectcheck: true
+            }
+        },
+        errorElement: 'div',
+        wrapper: 'div',
+        errorPlacement: function(error, element) {
+            error.insertAfter(element);
+        }
+    });
+    
+}
+
+Valid.password = function()
+{
+
+    $('#passwordForm').validate({
+        rules:{
+            passwordOld:{
+                required:true,
+                 minlength: 5
+            },
+            password:{
+                required:true,
+                 minlength: 5
+            },
+            passwordcheck:{
+                required:true,
+                 minlength: 5,
+                 equalTo: "#password"
             }
         },
         errorElement: 'div',
