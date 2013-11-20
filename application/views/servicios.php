@@ -1,4 +1,11 @@
 <section class="ac-container">
+
+        <div id="renew">
+            <!--<input id="submit-renew" type="button" value="RENOVAR AHORA" />-->
+            <p>Quedan <strong><?php echo $day = 31; ?></strong> días para renovar su licencia</p>
+            <a class="abutton" href="http://masqweb.com/" target="_blank">Renovar ahora</a>
+        </div>
+
     <div>
         <p class="ac-title">Servicios varios</p>
     </div>
