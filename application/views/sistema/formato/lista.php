@@ -9,7 +9,6 @@
 					<th>Editar</th>
 				<?php endif; ?>
 				<th>Activo</th>
-				<th>Eliminar</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -36,12 +35,6 @@
 									echo '<a href="'.base_url('format/status/'.$formato->id).'">
 											<img src="'.base_url('assets/images/'.$activo.'.png').'" />
 										 </a>';
-										}
-                        echo '<td>';
-								if(in_array($permisos,$aPermisos['Eliminar']) ){
-									echo '<a href="'.base_url('format/eliminar/'.$formato->id).'">
-									  <img src="'.base_url('assets/images/delete.png').'"/>
-                                     </a>';
 
 
 								}else{

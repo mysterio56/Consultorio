@@ -90,6 +90,9 @@ Valid.empleados = function()
             },
             tipo_empleado: {
                 selectcheck: true
+            },
+            calle:{
+                required:true
             }
         },
         errorElement: 'div',
@@ -184,7 +187,11 @@ Valid.paciente = function()
             },
             tipo_empleado: {
                 selectcheck: true
+            },
+            calle:{
+                required:true
             }
+
         },
         errorElement: 'div',
         wrapper: 'div',
@@ -247,7 +254,11 @@ Valid.consultorio = function()
             },
             colonia: {
                 selectcheck: true
+            },
+            calle:{
+                required:true
             }
+
         },
         errorElement: 'div',
         wrapper: 'div',
@@ -355,6 +366,37 @@ Valid.servicio = function()
     
 }
 
+
+
+Valid.auto_complete = function()
+{
+    var availableTags = [
+      "ActionScript",
+      "AppleScript",
+      "Asp",
+      "BASIC",
+      "C",
+      "C++",
+      "Clojure",
+      "COBOL",
+      "ColdFusion",
+      "Erlang",
+      "Fortran",
+      "Groovy",
+      "Haskell",
+      "Java",
+      "JavaScript",
+      "Lisp",
+      "Perl",
+      "PHP",
+      "Python",
+      "Ruby",
+      "Scala",
+      "Scheme"
+    ];
+    $( "#tags" ).autocomplete({
+      source: availableTags
+}
 Valid.producto = function()
 {
 
