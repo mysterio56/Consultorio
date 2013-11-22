@@ -280,16 +280,18 @@ echo '</table>';
 <script>
 
 $(function () {
-
-	 showEspecialidades();
- 
-   $("#tipo_empleado").change(function(){
+showEspecialidades();
+	 $("#tipo_empleado").change(function(){
        showEspecialidades();
-   });
+   	});
 
 	$("input[type=submit]").attr("disabled", "disabled");
 	base_url = "<?= base_url(); ?>";
+
 	getFederalEntities(1);
+
+	//$("#estado").combobox();
+
 });
 
 function trim (myString)
@@ -311,9 +313,11 @@ function showEspecialidades(){
 
 function getFederalEntities(nStart){
 
+	$("input[type=submit]").attr("disabled", "disabled");
+
 	$.getJSON( base_url + "address/getFederalEntities/", function( data ) {
 
-		$('#estado').append('<option value="0">Seleccione un Estado</option>');
+	//	$('#estado').append('<option value="0">Seleccione un Estado</option>');
 
   		$.each( data, function( key, val ) {
 
@@ -325,7 +329,13 @@ function getFederalEntities(nStart){
  	 		getMunicipalities(1);
  	 	}
 
- 	 	$('#estado').show();
+ 	 	//$('#estado').show();
+ 	 	autocom("estado");
+ 	 	 $( "#estado" ).combobox();
+		    $( "#toggle" ).click(function() {
+		      $( "#estado" ).toggle();
+		    });
+ 	 	
      	$('#wait_estados').hide();
 
 	});
@@ -334,18 +344,19 @@ function getFederalEntities(nStart){
 function getMunicipalities(nStart){
 
 $("#municipio option").remove();
-$('#municipio').hide();
+$('.municipio_input').addClass('hide');
 $("#codigo_postal option").remove();
-$('#codigo_postal').hide();
+$('.codigo_postal_input').addClass('hide');
 $("#colonia option").remove();
-$('#colonia').hide();
+$('.colonia_input').addClass('hide');
 $('#wait_mun').show();
 
+if($("#estado").val() != null){
    var url = base_url + "address/getMunicipalities/"+$("#estado").val();
 
 	$.getJSON( url, function( data ) {
 
-	$('#municipio').append('<option value="0">Seleccione un Municipio</option>');
+	//$('#municipio').append('<option value="0">Seleccione un Municipio</option>');
 
     $.each( data, function( key, val ) {
 
@@ -359,26 +370,37 @@ $('#wait_mun').show();
  	 		getPostalCodes(1);
  	 	}
 
-     	$('#municipio').show();
+     	//$('#municipio').show();
+     	$('.municipio_input').removeClass('hide');
+     	$('.municipio_input').val('');
+     	autocom("municipio");
+ 	 	 $( "#municipio" ).combobox();
+		    $( "#toggle" ).click(function() {
+		      $( "#municipio" ).toggle();
+		    });
      	$('#wait_mun').hide();
 		
 	});
+} else {
+	$('#wait_mun').hide();
+	$('#municipio').hide();
+}
 	
 }
 
 function getPostalCodes(nStart){
 
 $("#codigo_postal option").remove();
-$('#codigo_postal').hide();
+$('.codigo_postal_input').addClass('hide');
 $("#colonia option").remove();
-$('#colonia').hide();
+$('.colonia_input').addClass('hide');
 $('#wait_cp').show();
 
 var url = base_url + "address/getPostalCodes/"+$("#municipio").val();
 
 $.getJSON( url, function( data ) {
 		
-$('#codigo_postal').append('<option value="0">Seleccione un Código Postal</option>');
+//$('#codigo_postal').append('<option value="0">Seleccione un Código Postal</option>');
 		
  $.each( data, function( key, val ) {
   			
@@ -391,7 +413,14 @@ $('#codigo_postal').append('<option value="0">Seleccione un Código Postal</opti
  	 		getColonies(1);
  	 	}
 
-		$('#codigo_postal').show();
+		//$('#codigo_postal').show();
+		$('.codigo_postal_input').removeClass('hide');
+     	$('.codigo_postal_input').val('');
+		autocom("codigo_postal");
+ 	 	 $( "#codigo_postal" ).combobox();
+		    $( "#toggle" ).click(function() {
+		      $( "#codigo_postal" ).toggle();
+		    });
 		$('#wait_cp').hide();
      		
 	});
@@ -401,14 +430,14 @@ $('#codigo_postal').append('<option value="0">Seleccione un Código Postal</opti
 function getColonies(nStart){
 
 $("#colonia option").remove();
-$('#colonia').hide();
+$('.colonia_input').addClass('hide');
 $('#wait_col').show();
 
 var url = base_url + "address/getColonies/"+$("#codigo_postal").val();
 
 $.getJSON( url, function( data ) {
 
-$('#colonia').append('<option value="0">Seleccione una Colonia</option>');
+//$('#colonia').append('<option value="0">Seleccione una Colonia</option>');
 		 
 $.each( data, function( key, val ) {
   			
@@ -424,11 +453,160 @@ $('#colonia').append('<option value="' + val.id + '">' + val.name + '</option>')
 
  	 	}
 		
-		$('#colonia').show();
+		//$('#colonia').show();
+		$('.colonia_input').removeClass('hide');
+     	$('.colonia_input').val('');
+		autocom("colonia");
+ 	 	 $( "#colonia" ).combobox();
+		    $( "#toggle" ).click(function() {
+		      $( "#colonia" ).toggle();
+		    });
 		$('#wait_col').hide();
 		
 	});
 	
 }
+
+
+function autocom(select){
+    $.widget( "custom.combobox", {
+      _create: function() {
+        this.wrapper = $( "<span>" )
+          .addClass( "custom-combobox" )
+          .insertAfter( this.element );
+ 
+       this.element.hide();
+        this._createAutocomplete();
+        this._createShowAllButton(select);
+      },
+ 
+      _createAutocomplete: function() {
+        var selected = this.element.children( ":selected" ),
+          value = selected.val() ? selected.text() : "";
+ 
+        this.input = $( "<input>" )
+          .appendTo( this.wrapper )
+          .val( value )
+          .attr( "title", "" )
+          .attr( "id", select+"_id" )
+          .attr( "name", select+"_name" )
+          .attr( "value", "" )
+          .addClass( "custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left auto-input "+select+"_input" )
+          .autocomplete({
+            delay: 0,
+            minLength: 0,
+            source: $.proxy( this, "_source" )
+          })
+          .tooltip({
+            tooltipClass: "ui-state-highlight"
+          });
+ 
+        this._on( this.input, {
+          autocompleteselect: function( event, ui ) {
+            ui.item.option.selected = true;
+            this._trigger( "select", event, {
+              item: ui.item.option
+            });
+            $( "#"+select ).change();
+          },
+ 
+          autocompletechange: function (event, ui) { 
+          	this._removeIfInvalid(event, ui); 
+          	//$( "#estado" ).change();
+          }
+        });
+      },
+ 
+      _createShowAllButton: function(select) {
+        var input = this.input,
+          wasOpen = false;
+ 
+        $( "<a>" )
+
+          .attr( "tabIndex", -1 )
+          .tooltip()
+          .appendTo( this.wrapper )
+          .button({
+            icons: {
+              primary: "ui-icon-triangle-1-s"
+            },
+            text: false
+          })
+          .removeClass( "ui-corner-all" )
+          .addClass( "custom-combobox-toggle ui-corner-right auto-button "+select+"_input" )
+          .mousedown(function() {
+            wasOpen = input.autocomplete( "widget" ).is( ":visible" );
+          })
+          .click(function() {
+            input.focus();
+ 
+            // Close if already visible
+            if ( wasOpen ) {
+              return;
+            }
+ 
+            // Pass empty string as value to search for, displaying all results
+            input.autocomplete( "search", "" );
+          });
+      },
+ 
+      _source: function( request, response ) {
+        var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
+        response( this.element.children( "option" ).map(function() {
+          var text = $( this ).text();
+          if ( this.value && ( !request.term || matcher.test(text) ) )
+            return {
+              label: text,
+              value: text,
+              option: this
+            };
+        }) );
+      },
+ 
+      _removeIfInvalid: function( event, ui ) {
+
+        // Selected an item, nothing to do
+        if ( ui.item ) {
+          return;
+        }
+ 
+        // Search for a match (case-insensitive)
+        var value = this.input.val(),
+          valueLowerCase = value.toLowerCase(),
+          valid = false;
+        this.element.children( "option" ).each(function() {
+          if ( $( this ).text().toLowerCase() === valueLowerCase ) {
+            this.selected = valid = true;
+            return false;
+          }
+        });
+ 
+        // Found a match, nothing to do
+        if ( valid ) {
+          return;
+        }
+ 
+        // Remove invalid value
+        this.input
+          .val( "" )
+          .attr( "title", value + " no coincide con ninguna opción" )
+          .tooltip( "open" );
+        this.element.val( "" );
+        this._delay(function() {
+          this.input.tooltip( "close" ).attr( "title", "" );
+        }, 2500 );
+        this.input.data( "ui-autocomplete" ).term = "";
+      },
+ 
+      _destroy: function() {
+        this.wrapper.remove();
+        this.element.show();
+      }
+    });
+  }
+ 
+  $(function() {
+   
+  });
 
 </script>

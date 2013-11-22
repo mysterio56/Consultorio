@@ -235,9 +235,11 @@ $(function () {
 
 function getFederalEntities(nStart){
 
+	$("input[type=submit]").attr("disabled", "disabled");
+
 	$.getJSON( base_url + "address/getFederalEntities/", function( data ) {
 
-		$('#estado').append('<option value="0">Seleccione un Estado</option>');
+	//	$('#estado').append('<option value="0">Seleccione un Estado</option>');
 
   		$.each( data, function( key, val ) {
 
@@ -264,11 +266,11 @@ function getFederalEntities(nStart){
 function getMunicipalities(nStart){
 
 $("#municipio option").remove();
-$('#municipio').hide();
+$('.municipio_input').addClass('hide');
 $("#codigo_postal option").remove();
-$('#codigo_postal').hide();
+$('.codigo_postal_input').addClass('hide');
 $("#colonia option").remove();
-$('#colonia').hide();
+$('.colonia_input').addClass('hide');
 $('#wait_mun').show();
 
 if($("#estado").val() != null){
@@ -276,7 +278,7 @@ if($("#estado").val() != null){
 
 	$.getJSON( url, function( data ) {
 
-	$('#municipio').append('<option value="0">Seleccione un Municipio</option>');
+	//$('#municipio').append('<option value="0">Seleccione un Municipio</option>');
 
     $.each( data, function( key, val ) {
 
@@ -291,6 +293,8 @@ if($("#estado").val() != null){
  	 	}
 
      	//$('#municipio').show();
+     	$('.municipio_input').removeClass('hide');
+     	$('.municipio_input').val('');
      	autocom("municipio");
  	 	 $( "#municipio" ).combobox();
 		    $( "#toggle" ).click(function() {
@@ -309,16 +313,16 @@ if($("#estado").val() != null){
 function getPostalCodes(nStart){
 
 $("#codigo_postal option").remove();
-$('#codigo_postal').hide();
+$('.codigo_postal_input').addClass('hide');
 $("#colonia option").remove();
-$('#colonia').hide();
+$('.colonia_input').addClass('hide');
 $('#wait_cp').show();
 
 var url = base_url + "address/getPostalCodes/"+$("#municipio").val();
 
 $.getJSON( url, function( data ) {
 		
-$('#codigo_postal').append('<option value="0">Seleccione un Código Postal</option>');
+//$('#codigo_postal').append('<option value="0">Seleccione un Código Postal</option>');
 		
  $.each( data, function( key, val ) {
   			
@@ -332,6 +336,8 @@ $('#codigo_postal').append('<option value="0">Seleccione un Código Postal</opti
  	 	}
 
 		//$('#codigo_postal').show();
+		$('.codigo_postal_input').removeClass('hide');
+     	$('.codigo_postal_input').val('');
 		autocom("codigo_postal");
  	 	 $( "#codigo_postal" ).combobox();
 		    $( "#toggle" ).click(function() {
@@ -346,14 +352,14 @@ $('#codigo_postal').append('<option value="0">Seleccione un Código Postal</opti
 function getColonies(nStart){
 
 $("#colonia option").remove();
-$('#colonia').hide();
+$('.colonia_input').addClass('hide');
 $('#wait_col').show();
 
 var url = base_url + "address/getColonies/"+$("#codigo_postal").val();
 
 $.getJSON( url, function( data ) {
 
-$('#colonia').append('<option value="0">Seleccione una Colonia</option>');
+//$('#colonia').append('<option value="0">Seleccione una Colonia</option>');
 		 
 $.each( data, function( key, val ) {
   			
@@ -370,6 +376,8 @@ $('#colonia').append('<option value="' + val.id + '">' + val.name + '</option>')
  	 	}
 		
 		//$('#colonia').show();
+		$('.colonia_input').removeClass('hide');
+     	$('.colonia_input').val('');
 		autocom("colonia");
  	 	 $( "#colonia" ).combobox();
 		    $( "#toggle" ).click(function() {
@@ -391,7 +399,7 @@ function autocom(select){
  
        this.element.hide();
         this._createAutocomplete();
-        this._createShowAllButton();
+        this._createShowAllButton(select);
       },
  
       _createAutocomplete: function() {
@@ -402,8 +410,10 @@ function autocom(select){
           .appendTo( this.wrapper )
           .val( value )
           .attr( "title", "" )
-          .attr( "id", select )
-          .addClass( "custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left auto-input" )
+          .attr( "id", select+"_id" )
+          .attr( "name", select+"_name" )
+          .attr( "value", "" )
+          .addClass( "custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left auto-input "+select+"_input" )
           .autocomplete({
             delay: 0,
             minLength: 0,
@@ -429,11 +439,12 @@ function autocom(select){
         });
       },
  
-      _createShowAllButton: function() {
+      _createShowAllButton: function(select) {
         var input = this.input,
           wasOpen = false;
  
         $( "<a>" )
+
           .attr( "tabIndex", -1 )
           .tooltip()
           .appendTo( this.wrapper )
@@ -444,7 +455,7 @@ function autocom(select){
             text: false
           })
           .removeClass( "ui-corner-all" )
-          .addClass( "custom-combobox-toggle ui-corner-right auto-button" )
+          .addClass( "custom-combobox-toggle ui-corner-right auto-button "+select+"_input" )
           .mousedown(function() {
             wasOpen = input.autocomplete( "widget" ).is( ":visible" );
           })
@@ -507,7 +518,6 @@ function autocom(select){
           this.input.tooltip( "close" ).attr( "title", "" );
         }, 2500 );
         this.input.data( "ui-autocomplete" ).term = "";
-        
       },
  
       _destroy: function() {

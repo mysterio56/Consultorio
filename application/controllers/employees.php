@@ -72,11 +72,13 @@ class Employees extends CI_Controller{
 									    					 'estatus'        => 1))->get();
 		$data['especialidades'] = $especialidades->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
 									    					   'estatus'        => 1))->get();
-		$data['cssFiles']       = array('sistema.css');
-		$data['jsFiles']        = array('jquery.js',
-							      	    'jquery-validation/dist/jquery.validate.js',
-								        'jquery-validation/localization/messages_es.js',
-								        'valid_forms.js');
+		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
+								  'sistema.css');
+		$data['jsFiles']  = array('jquery.js',
+							      'jquery-ui.js',
+							   	  'jquery-validation/dist/jquery.validate.js',
+								  'jquery-validation/localization/messages_es.js',
+								  'valid_forms.js');
 
 		$this->load->view('sistema/template',$data);
 
@@ -171,11 +173,13 @@ class Employees extends CI_Controller{
 		$data['return']         = 'employees';
 		$data['modulos']        = $modulos->get(); 		
 		$data['view']           = 'sistema/empleados/editar';
-		$data['cssFiles']       = array('sistema.css');
-		$data['jsFiles']        = array('jquery.js',
-							 	        'jquery-validation/dist/jquery.validate.js',
-								        'jquery-validation/localization/messages_es.js',
-								        'valid_forms.js');
+		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
+								  'sistema.css');
+		$data['jsFiles']  = array('jquery.js',
+							      'jquery-ui.js',
+							   	  'jquery-validation/dist/jquery.validate.js',
+								  'jquery-validation/localization/messages_es.js',
+								  'valid_forms.js');
 
 		$this->load->view('sistema/template',$data);
 

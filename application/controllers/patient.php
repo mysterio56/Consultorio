@@ -70,12 +70,13 @@ class Patient extends CI_Controller{
 
     	$data['view']     	  = 'sistema/pacientes/agregar';
 		$data['return']       = 'patient';
-		$data['cssFiles']     = array('sistema.css');
-		$data['jsFiles']      = array('jquery.js',
-							     	  'jquery-validation/dist/jquery.validate.js',
-								      'jquery-validation/localization/messages_es.js',
-								      'valid_forms.js');
-
+		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
+								  'sistema.css');
+		$data['jsFiles']  = array('jquery.js',
+							      'jquery-ui.js',
+							   	  'jquery-validation/dist/jquery.validate.js',
+								  'jquery-validation/localization/messages_es.js',
+								  'valid_forms.js');
 		$this->load->view('sistema/template',$data);
 
 		if($this->input->post()){
