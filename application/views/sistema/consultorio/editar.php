@@ -45,10 +45,10 @@ echo '<table class="table_form">';
 		 		'name'  => 'telefono2',
 		 		'id'    => 'telefono2',
 		 		'value' => set_value('telefono2', $consultorio->telefono2),
-		 		//'style' => 'width:180px'
+		 		'style' => 'width:180px'
 		 	);
 
-		 echo '<td>';
+		 echo '<td width="240">';
 		 	echo form_input($data);
 		 echo '</td>';
 	echo '</tr>';
@@ -71,7 +71,7 @@ echo '<table class="table_form">';
 		echo '<td>';
 			echo form_label('Logo:');
 		echo '</td>';
-		echo '<td>';
+		echo '<td colspan ="2">';
 		 	?>
 
 		 	<input type="file" name="userfile" size="20" />
@@ -126,7 +126,7 @@ echo '<table class="table_form">';
 	<td>
 		<?= form_label('*Estado:'); ?>
 	</td>
-	    <td colspan="2">
+	    <td>
 	  	   <select name="estado" id="estado" class="hide" onChange="getMunicipalities();"> </select>
 	  	   <div id="wait_estados" class="wait">
 				<p>Cargando Estados, por favor espere</p>
@@ -138,7 +138,7 @@ echo '<table class="table_form">';
 	<td>
 		 	<?= form_label('*Municipio:'); ?>
 	</td>
-	<td colspan="2">
+	<td>
 		<select  name="municipio" id="municipio" class="hide" onchange="getPostalCodes();"/></select>
 		<div id="wait_mun" class="wait">
 		<p>Cargando Municipio, por favor espere</p>
@@ -150,7 +150,7 @@ echo '<table class="table_form">';
 	<td>
 		 	<?= form_label('*Codigo Postal:'); ?>
 	</td>
-    <td colspan="2">
+    <td>
     	<select name="codigo_postal" id="codigo_postal" class="hide" onchange="getColonies();"/></select>
     	<div id="wait_cp" class="wait">
 			<p>Cargando Codigo Postal, por favor espere</p>
@@ -162,7 +162,7 @@ echo '<table class="table_form">';
 	<td>
 		 	<?= form_label('*Colonia:'); ?>
 	</td>
-	<td colspan="2">
+	<td>
 		<select name="colonia" id="colonia" class="hide" onchange=""/></select>
 		<div id="wait_col" class="wait">
 		<p>Cargando Colonia, por favor espere</p>
@@ -172,9 +172,49 @@ echo '<table class="table_form">';
 
 <?php
 
+echo '<tr>';
+   echo '<td>';
+        echo form_label('*Calle:');
+   echo '</td>';
+
+          $data = array(
+          'name'  => 'calle',
+          'id'    => 'calle',
+          'value' => set_value('calle',$consultorio->direccion->calle),
+          //'style' => 'width:210px'
+        );
+   echo '<td>';
+        echo form_input($data);
+   echo '</td>';
+ echo '</tr>';
+ echo '<tr>';
+   echo '<td>';
+        echo form_label('Número Exterior:');
+   echo '</td>';
+        $data = array(
+          'name'  => 'numero_ext',
+          'id'    => 'numero_ext',
+          'value' => set_value('numero_ext',$consultorio->direccion->numero_ext),
+          //'style' => 'width:210px'
+        );
+   echo '<td>';
+        echo form_input($data);
+  echo '</td>';
+   echo '<td>';
+        echo form_label('Número interior:');
+   echo '</td>';
+        $data = array(
+          'name'  => 'numero_int',
+          'id'    => 'numero_int',
+          'value' => set_value('numero_int',$consultorio->direccion->numero_int),
+          //'style' => 'width:210px'
+        );
+     echo '<td>';
+        echo form_input($data);
+  echo '</td>';
+
 echo '</tr>';
 echo '</table>';
-
 		 	$data = array(
 		 		'name'  => 'editar',
 		 		'id'    => 'editar',

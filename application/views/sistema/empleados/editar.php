@@ -222,6 +222,47 @@
 
 <?php
 
+echo '<tr>';
+   echo '<td>';
+        echo form_label('*Calle:');
+   echo '</td>';
+
+          $data = array(
+          'name'  => 'calle',
+          'id'    => 'calle',
+          'value' => set_value('calle',$empleado->direccion->calle),
+          //'style' => 'width:210px'
+        );
+   echo '<td>';
+        echo form_input($data);
+   echo '</td>';
+ echo '</tr>';
+ echo '<tr>';
+   echo '<td>';
+        echo form_label('Número Exterior:');
+   echo '</td>';
+        $data = array(
+          'name'  => 'numero_ext',
+          'id'    => 'numero_ext',
+          'value' => set_value('numero_ext',$empleado->direccion->numero_ext),
+          //'style' => 'width:210px'
+        );
+   echo '<td>';
+        echo form_input($data);
+  echo '</td>';
+   echo '<td>';
+        echo form_label('Número interior:');
+   echo '</td>';
+        $data = array(
+          'name'  => 'numero_int',
+          'id'    => 'numero_int',
+          'value' => set_value('numero_int',$empleado->direccion->numero_int),
+          //'style' => 'width:210px'
+        );
+     echo '<td>';
+        echo form_input($data);
+  echo '</td>';
+
 echo '</tr>';
 echo '</table>';
 		 	$data = array(
@@ -239,10 +280,34 @@ echo '</table>';
 <script>
 
 $(function () {
+
+	 showEspecialidades();
+ 
+   $("#tipo_empleado").change(function(){
+       showEspecialidades();
+   });
+
 	$("input[type=submit]").attr("disabled", "disabled");
 	base_url = "<?= base_url(); ?>";
 	getFederalEntities(1);
 });
+
+function trim (myString)
+{
+return myString.replace(/^\s+/g,'').replace(/\s+$/g,'')
+}
+
+function showEspecialidades(){
+   var tipo_empleado = $("#tipo_empleado option:selected").text();
+   tipo_empleado = trim(tipo_empleado);
+     if(tipo_empleado == 'Doctor' || tipo_empleado == 'doctor'){
+       $("#tdEspecialidadesLabel").show();
+       $("#tdEspecialidades").show();
+     } else {
+       $("#tdEspecialidadesLabel").hide();
+       $("#tdEspecialidades").hide();
+     }
+ }
 
 function getFederalEntities(nStart){
 

@@ -212,7 +212,9 @@ class Employees extends CI_Controller{
 
 			} else {
 
-				echo $paciente->error->string;
+				echo $empleado->error->string;
+				echo $empleado->direccion->error->string;
+				echo $empleado->usuario->error->string;
 
 			}
 

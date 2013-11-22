@@ -276,9 +276,31 @@ echo'<tr>';
 ?>
 <script>
 $(function () {
+
+	 $("#tipo_empleado").change(function(){
+       showEspecialidades();
+   	});
+
 	base_url = "<?= base_url(); ?>";
 	getFederalEntities();
-	});
+});
+
+function trim (myString)
+{
+return myString.replace(/^\s+/g,'').replace(/\s+$/g,'')
+}
+
+function showEspecialidades(){
+   var tipo_empleado = $("#tipo_empleado option:selected").text();
+   tipo_empleado = trim(tipo_empleado);
+     if(tipo_empleado == 'Doctor' || tipo_empleado == 'doctor'){
+       $("#tdEspecialidadesLabel").show();
+       $("#tdEspecialidades").show();
+     } else {
+       $("#tdEspecialidadesLabel").hide();
+       $("#tdEspecialidades").hide();
+     }
+ }
 
 function getFederalEntities(){
 
@@ -361,17 +383,6 @@ var url = base_url + "address/getColonies/"+$("#codigo_postal").val();
 		
 	});
 	
-}
-
-function showEspecialidades(){
-	var tipo_empleado = $("#tipo_empleado").val();
-		if(tipo_empleado == 1){
-			$("#tdEspecialidadesLabel").show();
-			$("#tdEspecialidades").show();
-		} else {
-			$("#tdEspecialidadesLabel").hide();
-			$("#tdEspecialidades").hide();
-		}
 }
 
 </script>

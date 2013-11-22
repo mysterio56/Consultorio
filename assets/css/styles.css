@@ -374,6 +374,12 @@ html, body{
   padding-left: 24px;
 }
 
+.ac-container #renew .error{
+  background-image: url(../images/red-arrow.png);
+  color: red;
+  margin: 0;
+}
+
 .ac-container .abutton {
   display: inline-block;
   background: #006699;

@@ -46,12 +46,13 @@ class Paciente extends DataMapper
     function _unique_for_surgery($field, $campo)
     {
 
-        $paciente = new Paciente();
+        $consultorio = new Consultorio();
 
-        $paciente->where(array($campo           => $this->{$field},
-                               "consultorio_id" => CONSULTORIOID))->get();
+        $consultorio->where(array("id" => CONSULTORIOID))->get();
 
-        if(count($paciente->all)){
+        $consultorio->paciente->where($campo,$this->{$field})->get();
+
+        if(count($consultorio->paciente->all)){
             return false;
         } else {
             return true;

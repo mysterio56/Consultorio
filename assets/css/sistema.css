@@ -226,3 +226,14 @@ div .error{
 .table_form input[type='checkbox'] {
     width: 16px;
 }
+
+.auto-button{
+  height: 22px;
+  margin-top: -5px;
+  width: 25px;
+  margin-left: -1px;
+}
+
+.auto-input{
+  width:85% !important;
+}

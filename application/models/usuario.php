@@ -23,8 +23,7 @@ class Usuario extends DataMapper
 
         $usuario = new Usuario();
 
-        $usuario->where(array($campo           => $this->{$field},
-                              "consultorio_id" => CONSULTORIOID))->get();
+        $usuario->where(array($campo => $this->{$field}))->get();
 
         if(count($usuario->all)){
             return false;

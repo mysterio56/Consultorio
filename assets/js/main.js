@@ -48,13 +48,20 @@ Tab.newTab = function(name_tab, url_tab, name_iframe)
         id  : name_iframe,
       }).appendTo('#div'+name_tab);
 
+  } else {
+
+     $.each($('#input'+name_tab), function(key,input){
+        input.checked = true;
+     });
+
+    $("#carousel-tabs").animate({"left":this.tabChange('label'+name_tab)});
+
   }
 
   if (this.arrowsShow() > 609){
      left = 590 - this.arrowsShow();
      $("#carousel-tabs").css("left",left);
   }
-  //alert(this.arrowsShow()+'--'+$("#carousel-tabs").css("left"));
 
   this.change();
 
@@ -101,6 +108,21 @@ var width_lables = 0;
   }
 
   return width_lables;
+}
+
+Tab.tabChange = function(input)
+{
+var width_lables = 0;
+  $( "#carousel-tabs" ).children("label").each(function( index ) {
+     width_lables += parseInt($( this ).css('width'));
+     
+     if(input == this.id){
+        nReturn = (width_lables-parseInt($( this ).css('width'))) * -1 ;
+      }
+
+  });
+
+  return nReturn;
 }
 
 Tab.moveRight = function()
