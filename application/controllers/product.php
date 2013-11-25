@@ -13,9 +13,8 @@ class Product extends CI_Controller{
     	$productos = new Producto();
 		$aPermisos = permisos($this->session->userdata('type_user'));
 
-		$productos->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
-								'estatus <>'     => 2));
-
+		$productos->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
+		$productos->where('estatus <> 2');
 		$productos->order_by('codigo');
     
     	$productos->get_paged_iterated($page, 9);
@@ -39,12 +38,12 @@ class Product extends CI_Controller{
 			 		$productos->like($input_name, $input);
 			 		$input_count++;
 			 	}
-			 } 
+			} 
 
 			if($input_count > 0){
 
-                $productos->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
-									    'estatus <>'     => 2));
+                $productos->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
+									    
 				$productos->order_by('codigo');
 				$productos->get_paged_iterated($page, 8);
 
@@ -201,15 +200,19 @@ public function eliminar($id_producto){
 			$input_count = 0;
 
 			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != ''){
+				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != '' && $input_name != 'estatus'){ 	
 			 		$productos->like($input_name, $input);
 			 		$input_count++;
 			 	}
+			 	if($input_name == 'estatus'){
+			  		$productos->where_in('estatus', $this->input->post('estatus'));
+			  		$input_count++;			  
+			 	}
+
 			 } 
 			if($input_count > 0){
 
-				$productos->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
-								        'estatus <>'     => 2));
+				$productos->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
 
 				$productos->order_by('codigo');
 				$productos->get_paged_iterated($page, 8);

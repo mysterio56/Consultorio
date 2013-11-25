@@ -13,9 +13,9 @@ class Type_employee extends CI_Controller{
     	$tipoEmpleados = new Tipo_empleado();
 		$aPermisos = permisos($this->session->userdata('type_user'));
 
-		$tipoEmpleados->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
-								    'estatus <>'     => 2));
-
+		$tipoEmpleados->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
+								    
+		$tipoEmpleados->where('estatus <> 2');
 		$tipoEmpleados->order_by('codigo');
     
     	$tipoEmpleados->get_paged_iterated($page, 9);
@@ -232,19 +232,24 @@ public function eliminar($id_tipoEmpleado){
 
 			$tipoEmpleados = new Tipo_empleado();
 			
-			$aPermisos = permisos($this->session->userdata('id_user'));
+			$aPermisos = permisos($this->session->userdata('type_user'));
 			$input_count = 0;
 
 			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != ''){
+				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != '' && $input_name != 'estatus'){
 			 		$tipoEmpleados->like($input_name, $input);
 			 		$input_count++;
 			 	}
-			 } 
+			 	 	if($input_name == 'estatus'){
+			  		$tipoEmpleados->where_in('estatus', $this->input->post('estatus'));
+			  		$input_count++;			  
+			 	}
+			}
+			
 			if($input_count > 0){
 
-				$tipoEmpleados->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
-									        'estatus <>'     => 2));
+				$tipoEmpleados->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
+									       
 
 				$tipoEmpleados->order_by('codigo');
 				$tipoEmpleados->get_paged_iterated($page, 8);
@@ -255,10 +260,9 @@ public function eliminar($id_tipoEmpleado){
 				$data['buscar']       = true;
 
 			}
-
 		}
-
-		$this->load->view('sistema/template',$data);
+			$this->load->view('sistema/template',$data);
 
 	}
 }
+

@@ -15,11 +15,9 @@ class Patient extends CI_Controller{
 		$aPermisos = permisos($this->session->userdata('type_user'));
 
 		$consultorio->where(array('id' => $this->session->userdata('id_consultorio')))->get();
-
-		$consultorio->paciente->where('estatus <>', 2);
-
+        $consultorio->paciente->where('estatus <>', 2);
 		$consultorio->paciente->order_by('codigo');
-    
+    	
     	$pacientes = $consultorio->paciente->get_paged_iterated($page, 9);
 
 		$data['permisos']     = $aPermisos['patient'];
@@ -218,20 +216,25 @@ class Patient extends CI_Controller{
 							      'valid_forms.js');
 		if($this->input->post()){
 			$pacientes = new Paciente();
+			$consultorio = new Consultorio();
 			$aPermisos = permisos($this->session->userdata('type_user'));
 			$input_count = 0;
 
 			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != ''){
+				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != '' && $input_name != 'estatus'){
 			 		$pacientes->like($input_name, $input);
 			 		$input_count++;
 			 	}
+			 	if($input_name == 'estatus'){
+			  		$pacientes->where_in('estatus', $this->input->post('estatus'));
+			  		$input_count++;			  
+			 	}
 			 } 
 			if($input_count > 0){
-				$pacientes->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
-									    'estatus <>'     => 2));
+				$consultorio->where(array('id' => $this->session->userdata('id_consultorio')))->get();
+			//print_r($consultorio->nombre); exit();
 				$pacientes->order_by('codigo');
-				$pacientes->get_paged_iterated($page, 8);
+				$pacientes = $consultorio->paciente->get_paged_iterated($page, 9);
 
 				$data['permisos']     = $aPermisos['patient'];
 				$data['paginaActual'] = $page;

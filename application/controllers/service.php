@@ -12,12 +12,11 @@ class Service extends CI_Controller{
 
     	$servicios = new Servicio();
 		$aPermisos = permisos($this->session->userdata('type_user'));
-
-		$servicios->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
-								'estatus <>'     => 2));
-
+				
+		$servicios->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
+		$servicios->where('estatus <> 2');
 		$servicios->order_by('codigo');
-    
+    	
     	$servicios->get_paged_iterated($page, 9);
     	
 
@@ -42,7 +41,7 @@ class Service extends CI_Controller{
 			 } 
 
 			if($input_count > 0){
-				$servicios->where('estatus <>', 2);
+				$servicios->order_by('estatus');
 				$servicios->order_by('codigo');
 				$servicios->get_paged_iterated($page, 8);
 
@@ -202,19 +201,21 @@ public function eliminar($id_servicio){
 			$input_count = 0;
 
 			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != ''){
+				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != '' && $input_name != 'estatus'){
 			 		$servicios->like($input_name, $input);
 			 		$input_count++;
 			 	}
-			 } 
 
-			if($input_count > 0){
+			  	if($input_name == 'estatus'){
+			  		$servicios->where_in('estatus', $this->input->post('estatus'));
+			  		$input_count++;			  
+			 	}
+			}
 
-				$servicios->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
-								        'estatus <>'     => 2)); 
+			 if($input_count > 0){
 
+				$servicios->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
 				$servicios->order_by('codigo');
-
 				$servicios->get_paged_iterated($page, 8);
 
 				$data['permisos']     = $aPermisos['service'];

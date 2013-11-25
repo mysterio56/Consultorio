@@ -17,15 +17,19 @@
 		</thead>
 		<tbody>
 			<?php 
+
 				$nRow = 1;
 				foreach($empleados as $empleado){
-
+				if ($empleado->estatus!=2){
 					if (($nRow % 2) == 0) {
 						$rowClass = "even";
-					} else {
+					} else  {
 						$rowClass = "odd";
 					}
-
+				}
+				else {
+					$rowClass="borrado";
+				}
 
 					echo '<tr class='.$rowClass.'>';
 						echo '<td>'.$empleado->codigo.'</td>';
@@ -33,13 +37,14 @@
 						echo '<td>'.$empleado->email.'</td>';
 						echo '<td>'.$empleado->telefono.'</td>';
 						echo '<td>'.$empleado->celular.'</td>';
-						echo '<td>';
+						echo '<td align="center">';
 
 						if(in_array($permisos,$aPermisos['Editar'])){ 
-
+							if($empleado->estatus!=2){
 							echo '<a href="'.base_url('employees/editar/'.$empleado->id).'">
 									  <img src="'.base_url('assets/images/edit.png').'" title="Editar"/>
 								  </a>';
+								}
 
 						}
 
@@ -55,22 +60,29 @@
 								$activo='inactive';
 								$function='if(Valid.activaregistro()==false)return false';
 							}
+							else if($empleado->estatus==2){
+								$activo='inactive';
+								$function='if(Valid.activaregistro()==false)return false';
+							}
+
 							echo '<a onclick="'.$function.'" href="'.base_url('employees/status/'.$empleado->id).'">
 									<img src="'.base_url('assets/images/'.$activo.'.png').'" title="'.$title.'" />
 								 </a>';
 
-						}else{
+						}
+						else{
 
 							echo '<img src="'.base_url('assets/images/'.$activo.'.png').'" />';
 
 						}
 
 						if(in_array($permisos,$aPermisos['Eliminar'])){ 
-
-							echo '<a onclick="if(Valid.eliminaregistro() ==false)return false" href="'.base_url('employees/eliminar/'.$empleado->id).'">
+							if($empleado->estatus!=2){
+								echo '<a onclick="if(Valid.eliminaregistro() ==false)return false" href="'.base_url('employees/eliminar/'.$empleado->id).'">
 									  <img src="'.base_url('assets/images/delete.png').'" title="Eliminar"/>
-								  </a>'; 
-
+								  </a>';
+							}
+							
 						}
 
 					

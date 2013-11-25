@@ -15,12 +15,16 @@
 			<?php 
 				$nRow = 1;
 				foreach($pacientes as $paciente){
-
+				if($paciente->estatus!=2){
 					if (($nRow % 2) == 0) {
 						$rowClass = "even";
 					} else {
 						$rowClass = "odd";
 					}
+				}
+				else{
+					 $rowClass ="borrado";
+				}
 
 					echo '<tr class='.$rowClass.'>';
 						echo '<td>'.$paciente->codigo.'</td>';
@@ -28,14 +32,15 @@
 						echo '<td>'.$paciente->email.'</td>';
 						echo '<td>'.$paciente->telefono.'</td>';
 						echo '<td>'.$paciente->celular.'</td>';
-						echo '<td>';
+						echo '<td align="center">';
 
 						if(in_array($permisos,$aPermisos['Editar'])){ 
+							if($paciente->estatus!=2){
 
 							echo '<a href="'.base_url('patient/editar/'.$paciente->id).'">
 									  <img src="'.base_url('assets/images/edit.png').'" title="Editar"/>
 								  </a>';
-
+							}						
 						}		
 
 						
@@ -51,6 +56,10 @@
 								$function='if(Valid.activaregistro()==false)return false';
 
 							}
+							else if($paciente->estatus==2){
+								$activo='inactive';
+								$function='if(Valid.activaregistro()==false)return false';
+							}
 							echo '<a onclick="'.$function.'" href="'.base_url('patient/status/'.$paciente->id).'">
 									<img src="'.base_url('assets/images/'.$activo.'.png').'" title="'.$title.'" />
 								 </a>';
@@ -62,11 +71,12 @@
 						}
 
 						if(in_array($permisos,$aPermisos['Eliminar'])){ 
+							if($paciente->estatus!=2){
 
 							echo '<a onclick="if(Valid.eliminaregistro() ==false)return false" href="'.base_url('patient/eliminar/'.$paciente->id).'">
 									  <img src="'.base_url('assets/images/delete.png').'" title="Eliminar"/>
 								  </a>';
-
+						    }
 						}	
 
 						echo '</td>';

@@ -18,50 +18,66 @@
 			<?php 
 				$nRow = 1;
 				foreach($productos as $producto){
-
-					if (($nRow % 2) == 0) {
+				   if($producto->estatus!=2){
+				   	  if (($nRow % 2) == 0) {
 						$rowClass = "even";
-					} else {
+					   } else {
 						$rowClass = "odd";
-					}
+					   }
+				    }else {
+						$rowClass="borrado";
+				    }
+
 
 					echo '<tr class='.$rowClass.'>';
 						echo '<td>'.$producto->codigo.'</td>';
 						echo '<td>'.$producto->nombre.'</td>';
 						
 						if(in_array($permisos,$aPermisos['Editar'])){ 
+							if($producto->estatus!=2){
 							echo '<td><a href="'.base_url('product/editar/'.$producto->id).'">
 									  <img src="'.base_url('assets/images/edit.png').'" /></a></td>';
-						}			  
-						echo '<td>';
-								
+							}	
+						}		  
+												
 								if(in_array($permisos,$aPermisos['Editar']) ){
 									if ($producto->estatus==1){
-									$activo= 'active';
-									$function='if(Valid.desactivaregistro()==false)return false';
-									}										
-								    	else if($producto->estatus==0){
+
+										echo '<td align="center">';
+										$activo= 'active';
+										$function='if(Valid.desactivaregistro()==false)return false';
+									
+									}else if($producto->estatus==0){
+									
+										echo '<td align="center">';
 										$activo= 'inactive';
 										$function='if(Valid.activaregistro()== false)return false';
-										}										
 									
-										echo '<a onclick="'.$function.'" href="'.base_url('product/status/'.$producto->id).'">
+									}else if($producto->estatus==2){
+									
+										echo '<td align="center" colspan="3">';
+										$activo='inactive';
+										$function='if(Valid.activaregistro()==false)return false';	
+									}
+									
+									echo '<a onclick="'.$function.'" href="'.base_url('product/status/'.$producto->id).'">
 											<img src="'.base_url('assets/images/'.$activo.'.png').'" />
 										 </a>';
-								}
-								else{
+								}else{
 									$activo = $especialidad->estatus?'active':'inactive';
 									echo '<img src="'.base_url('assets/images/'.$activo.'.png').'" />';
 								}
-								
-					if(in_array($permisos,$aPermisos['Eliminar']) ){				
-                        echo '<td>';
+
+						echo"</td>";
+					  if(in_array($permisos,$aPermisos['Eliminar']) ){	
+						  if($producto->estatus!=2){			
+                       			echo '<td align="center">';
 								echo '<a onclick="if(Valid.eliminaregistro() ==false)return false" href="'.base_url('product/eliminar/'.$producto->id).'">
 									  <img src="'.base_url('assets/images/delete.png').'"/>
                                      </a>';
-                        echo '</td>';
-								}
-
+                                echo '</td>';
+						}
+					}	
 						
 					echo '</tr>';
 					$nRow++;
