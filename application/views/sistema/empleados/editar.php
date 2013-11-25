@@ -117,18 +117,19 @@
             	echo'</td>';
       
 		 	?>
-             <td>
-			 	<select name="tipo_empleado" id="tipo_empleado">
-			 		<option value="0">Seleccione...</option>
-			 		<?php foreach($tipoEmpleado as $tipo): ?>
-					  <option value="<?= $tipo->id; ?>" 
-					  	      <?= ($empleado->tipo_empleado_id == $tipo->id)?'selected':''; ?> >
-					  	      <?= $tipo->nombre; ?></option>
-					  	  
-					<?php endforeach; ?>
+          <td colspan="2">
 
-			    </select>
-			</td>
+               <div id="wait_tp" class="wait">
+                    <p>Cargando tipo de empleados, por favor espere</p>
+                </div>
+              <div class="select_reload">
+                <select name="tipo_empleado" id="tipo_empleado"></select>
+                  <img src     = "<?= base_url('assets/images/reload.png'); ?>" 
+                       style   = "width:16px; height:16px;cursor:pointer;"
+                       onClick = "getTipoEmpleado();"/>
+              </div>
+         
+           </td>
 		 	<?php
 			echo'</tr>';
 		 	echo '<tr>';
@@ -280,7 +281,9 @@ echo '</table>';
 <script>
 
 $(function () {
-showEspecialidades();
+
+  showEspecialidades();
+
 	 $("#tipo_empleado").change(function(){
        showEspecialidades();
    	});
@@ -288,11 +291,44 @@ showEspecialidades();
 	$("input[type=submit]").attr("disabled", "disabled");
 	base_url = "<?= base_url(); ?>";
 
+  getTipoEmpleado(1);
 	getFederalEntities(1);
 
-	//$("#estado").combobox();
-
 });
+
+function getTipoEmpleado(nStart){
+
+  $('#wait_tp').show();
+  $('.tipo_empleado_input').val('');
+
+  $("#tipo_empleado option").remove();
+
+    $.getJSON( base_url + "type_employee/lista", function( data ) {
+
+  $('#tipo_empleado').append('<option value="0"></option>');
+
+    $.each(data,function (key, val) {
+      
+        $('#tipo_empleado').append('<option value="' + val.id + '">' + val.nombre + '</option>');  
+
+    });
+
+    if(nStart){
+      $('#tipo_empleado').val("<?= $empleado->tipo_empleado_id; ?>");
+    }
+
+      autocom("tipo_empleado");
+     $( "#tipo_empleado" ).combobox();
+        $( "#toggle" ).click(function() {
+          $( "#tipo_empleado" ).toggle();
+        });
+
+    $('#wait_tp').hide();
+    showEspecialidades();
+      
+  });
+
+}
 
 function trim (myString)
 {
@@ -469,6 +505,23 @@ $('#colonia').append('<option value="' + val.id + '">' + val.name + '</option>')
 
 
 function autocom(select){
+
+  var accentMap = {
+    "á": "a",
+      "é": "e",
+      "í": "i",
+      "ó": "o",
+      "ú": "u"
+    };
+
+  var normalize = function( term ) {
+      var ret = "";
+      for ( var i = 0; i < term.length; i++ ) {
+        ret += accentMap[ term.charAt(i) ] || term.charAt(i);
+      }
+      return ret;
+    };
+
     $.widget( "custom.combobox", {
       _create: function() {
         this.wrapper = $( "<span>" )
@@ -554,7 +607,7 @@ function autocom(select){
         var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
         response( this.element.children( "option" ).map(function() {
           var text = $( this ).text();
-          if ( this.value && ( !request.term || matcher.test(text) ) )
+          if ( this.value && ( !request.term || matcher.test(normalize( text )) ) )
             return {
               label: text,
               value: text,

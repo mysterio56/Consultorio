@@ -1,10 +1,13 @@
 <?php $aPermisos = unserialize (PERMISOS); ?>
+<?php $aMeses    = unserialize (MESES); ?>
+
 <section class="datagrid">
 	<table>
 		<thead>
 			<tr>
 				<th>Código</th>
 				<th>Nombre</th>
+				<th>Fecha Alta</th>
 				<?php if(in_array($permisos,$aPermisos['Editar']) ): ?>
 					<th>Editar</th>
 				<?php endif; ?>
@@ -16,7 +19,9 @@
 		</thead>
 		<tbody>
 			<?php 
+			
 				$nRow = 1;
+ 
 				foreach($especialidades as $especialidad){
 				  if($especialidad->estatus!=2){
 					  if (($nRow % 2) == 0) {
@@ -28,8 +33,10 @@
 				  	$rowClass="borrado";
 				  }
 					echo '<tr class='.$rowClass.'>';
-					echo '<td>'.$especialidad->codigo.'</td>';
-					echo '<td>'.$especialidad->nombre.'</td>';
+					
+						echo '<td>'.$especialidad->codigo.'</td>';
+						echo '<td>'.$especialidad->nombre.'</td>';
+						echo '<td>'.date("d", strtotime($especialidad->fecha_alta)) .' / '. $aMeses[date("n", strtotime($especialidad->fecha_alta))-1] .' / '. date('Y').'</td>';
 						
 						if(in_array($permisos,$aPermisos['Editar'])){
 							if($especialidad->estatus!=2){

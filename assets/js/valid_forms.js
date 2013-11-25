@@ -105,6 +105,9 @@ Valid.empleados = function()
             },
             colonia_name:{
                 required:true
+            },
+            tipo_empleado_name:{
+                required:true
             }
         },
         errorElement: 'div',

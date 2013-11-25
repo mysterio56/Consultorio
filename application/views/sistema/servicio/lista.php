@@ -1,10 +1,12 @@
 <?php $aPermisos = unserialize (PERMISOS); ?>
+<?php $aMeses    = unserialize (MESES); ?>
 <section class="datagrid">
 	<table>
 		<thead>
 			<tr>
 				<th>Código</th>
 				<th>Nombre</th>
+				<th>Fecha Alta</th>
 			<?php if(in_array($permisos,$aPermisos['Editar']) ): ?>
 					<th>Editar</th>
 				<?php endif; ?>
@@ -28,10 +30,10 @@
 						  $rowClass="borrado";
 					}
 
-						echo '<tr class='.$rowClass.'>';
-						  echo '<td>'.$servicio->codigo.'</td>';
-						  echo '<td>'.$servicio->nombre.'</td>';
-						
+					echo '<tr class='.$rowClass.'>';
+						echo '<td>'.$servicio->codigo.'</td>';
+						echo '<td>'.$servicio->nombre.'</td>';
+						echo '<td>'.date("d", strtotime($servicio->fecha_alta)) .' / '. $aMeses[date("n", strtotime($servicio->fecha_alta))-1] .' / '. date("Y", strtotime($servicio->fecha_alta)) .'</td>';
 						if(in_array($permisos,$aPermisos['Editar'])){  
 							if($servicio->estatus!=2){
 							echo '<td align="center"><a href="'.base_url('service/editar/'.$servicio->id).'">

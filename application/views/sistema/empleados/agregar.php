@@ -134,13 +134,17 @@ echo '<tr>';
 		echo form_label('*Tipo de empleado:');
 	echo '</td>';
 	?>
-		<td>
-		 	<select name="tipo_empleado" id="tipo_empleado">
-		 		<option value="0">Seleccione...</option>
-		 		<?php foreach($tipoEmpleado as $tipo): ?>
-				  <option value="<?= $tipo->id; ?>"> <?= $tipo->nombre; ?></option>
-				<?php endforeach; ?>
-		    </select>
+		<td colspan="2">
+			 <div id="wait_tp" class="wait">
+	  	  		<p>Cargando tipo de empleados, por favor espere</p>
+	  	 	</div>
+			<div class="select_reload">
+			 	<select name="tipo_empleado" id="tipo_empleado"></select>
+			    <img src     = "<?= base_url('assets/images/reload.png'); ?>" 
+			         style   = "width:16px; height:16px;cursor:pointer;"
+			         onClick = "getTipoEmpleado();"/>
+			</div>
+		    
 		 </td>
 </tr>
 <?php
@@ -203,7 +207,7 @@ echo'<tr>';
     	<select name="codigo_postal" id="codigo_postal" class="hide" onchange="getColonies();"/></select>
     	 <div id="wait_cp" class="wait hide">
 	  	  	<p>Cargando Codigos Postales, por favor espere</p>
-	  	  	</div>
+	  	 </div>
     </td>
 </tr>
 <tr>
@@ -282,12 +286,44 @@ $(function () {
    	});
 
 	base_url = "<?= base_url(); ?>";
+
+	getTipoEmpleado();
 	getFederalEntities();
 });
 
-function trim (myString)
-{
-return myString.replace(/^\s+/g,'').replace(/\s+$/g,'')
+
+function getTipoEmpleado(){
+
+	$('#wait_tp').show();
+
+	$("#tipo_empleado option").remove();
+
+  	$.getJSON( base_url + "type_employee/lista", function( data ) {
+
+	$('#tipo_empleado').append('<option value="0"></option>');
+
+		$.each(data,function (key, val) {
+			
+  			$('#tipo_empleado').append('<option value="' + val.id + '">' + val.nombre + '</option>');  
+
+  		});
+
+  		autocom("tipo_empleado");
+ 	 	 $( "#tipo_empleado" ).combobox();
+		    $( "#toggle" ).click(function() {
+		      $( "#tipo_empleado" ).toggle();
+		    });
+
+		$('#wait_tp').hide();
+ 	 	$('.tipo_empleado_input').val('');
+ 	 	showEspecialidades();
+     	
+	});
+
+}
+
+function trim (myString){
+	return myString.replace(/^\s+/g,'').replace(/\s+$/g,'')
 }
 
 function showEspecialidades(){
@@ -424,6 +460,23 @@ function showEspecialidades(){
 
 
 function autocom(select){
+
+	var accentMap = {
+	  "á": "a",
+      "é": "e",
+      "í": "i",
+      "ó": "o",
+      "ú": "u"
+    };
+
+	var normalize = function( term ) {
+      var ret = "";
+      for ( var i = 0; i < term.length; i++ ) {
+        ret += accentMap[ term.charAt(i) ] || term.charAt(i);
+      }
+      return ret;
+    };
+
     $.widget( "custom.combobox", {
       _create: function() {
         this.wrapper = $( "<span>" )
@@ -509,7 +562,7 @@ function autocom(select){
         var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
         response( this.element.children( "option" ).map(function() {
           var text = $( this ).text();
-          if ( this.value && ( !request.term || matcher.test(text) ) )
+          if ( this.value && ( !request.term || matcher.test(normalize( text )) ) )
             return {
               label: text,
               value: text,
@@ -559,9 +612,5 @@ function autocom(select){
       }
     });
   }
- 
-  $(function() {
-   
-  });
 
 </script>

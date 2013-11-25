@@ -239,5 +239,9 @@ div .error{
 }
 
 .auto-input{
-  width:85% !important;
+  width:auto !important;
+}
+
+.select_reload > * {
+  display: inline-block;
 }

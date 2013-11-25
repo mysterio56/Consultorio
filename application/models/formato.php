@@ -4,9 +4,8 @@ class Formato extends DataMapper
 {
 
     public $table = "formatos";
-    
-    public $has_one = array("consultorio");
-    public $has_many = array("formato");
+   
+    public $has_many = array("consultorio");
 
     public $error_prefix = '<div class = "error">';
     public $error_suffix = '</div>';
@@ -25,12 +24,13 @@ class Formato extends DataMapper
     function _unique_for_surgery($field, $campo)
     {
 
-        $formato = new Formato();
+        $consultorio = new Consultorio();
 
-        $formato->where(array($campo           => $this->{$field},
-                              "consultorio_id" => CONSULTORIOID))->get();
+        $consultorio->where(array("id" => CONSULTORIOID))->get();
 
-        if(count($formato->all)){
+        $consultorio->formato->where($campo,$this->{$field})->get();
+
+        if(count($consultorio->formato->all)){
             return false;
         } else {
             return true;
