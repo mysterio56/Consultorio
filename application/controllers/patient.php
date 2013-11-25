@@ -68,13 +68,12 @@ class Patient extends CI_Controller{
 
     	$data['view']     	  = 'sistema/pacientes/agregar';
 		$data['return']       = 'patient';
-		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
-								  'sistema.css');
-		$data['jsFiles']  = array('jquery.js',
-							      'jquery-ui.js',
-							   	  'jquery-validation/dist/jquery.validate.js',
-								  'jquery-validation/localization/messages_es.js',
-								  'valid_forms.js');
+		$data['cssFiles']     = array('sistema.css');
+		$data['jsFiles']      = array('jquery.js',
+							     	  'jquery-validation/dist/jquery.validate.js',
+								      'jquery-validation/localization/messages_es.js',
+								      'valid_forms.js');
+
 		$this->load->view('sistema/template',$data);
 
 		if($this->input->post()){
@@ -97,24 +96,19 @@ class Patient extends CI_Controller{
 			$direccion->numero_int       = $this->input->post('numero_int');
 			$direccion->numero_ext       = $this->input->post('numero_ext');
 
-			if($direccion->save()){
+			$consultorio->where_in($this->session->userdata('id_consultorio'))->get();
 
-				$paciente->direccion_id = $direccion->id;
-				$consultorio->where_in('id',$this->session->userdata('id_consultorio'))->get();
-				
-				if($paciente->save($consultorio->all)){
+			$direccion->save();
+			$paciente->direccion_id = $direccion->id;
 
-					redirect(base_url('patient'));
+			if($paciente->save($consultorio->all)){
 
-				} else {
-
-					echo $paciente->error->string;
-				
-				}
+				redirect(base_url('patient'));
 
 			} else {
 
-				echo $direccion->error->string;
+				echo $paciente->error->string;
+				
 			}
 
 		}
@@ -131,10 +125,8 @@ class Patient extends CI_Controller{
 		$data['paciente'] = $paciente; 
 		$data['return']   = 'patient'; 		
 		$data['view']     = 'sistema/pacientes/editar';
-		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
-								  'sistema.css');
+		$data['cssFiles'] = array('sistema.css');
 		$data['jsFiles']  = array('jquery.js',
-							      'jquery-ui.js',
 							   	  'jquery-validation/dist/jquery.validate.js',
 								  'jquery-validation/localization/messages_es.js',
 								  'valid_forms.js');
@@ -223,27 +215,30 @@ class Patient extends CI_Controller{
 							      'jquery.ui.datepicker-es.js',
 							      'valid_forms.js');
 		if($this->input->post()){
-			$pacientes = new Paciente();
+			
 			$consultorio = new Consultorio();
+			$consultorio->where(array('id' => $this->session->userdata('id_consultorio')))->get();
+
 			$aPermisos = permisos($this->session->userdata('type_user'));
 			$input_count = 0;
 
 			foreach ($this->input->post() as $input_name => $input) {
 				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != '' && $input_name != 'estatus'){
-			 		$pacientes->like($input_name, $input);
+			 		$consultorio->paciente->like($input_name, $input);
 			 		$input_count++;
 			 	}
-			 	if($input_name == 'estatus'){
-			  		$pacientes->where_in('estatus', $this->input->post('estatus'));
+
+			  	if($input_name == 'estatus'){
+			  		$consultorio->paciente->where_in('estatus', $this->input->post('estatus'));
 			  		$input_count++;			  
 			 	}
-			 } 
-			if($input_count > 0){
-				$consultorio->where(array('id' => $this->session->userdata('id_consultorio')))->get();
-			//print_r($consultorio->nombre); exit();
-				$pacientes->order_by('codigo');
-				$pacientes = $consultorio->paciente->get_paged_iterated($page, 9);
+			}
 
+			 if($input_count > 0){
+
+				$consultorio->paciente->order_by('codigo');
+				$pacientes = $consultorio->paciente->get_paged_iterated($page, 8);
+				
 				$data['permisos']     = $aPermisos['patient'];
 				$data['paginaActual'] = $page;
 				$data['pacientes']	  = $pacientes;
@@ -252,6 +247,8 @@ class Patient extends CI_Controller{
 			}
 
 		}
+
 		$this->load->view('sistema/template',$data);
-	}	
+
+	}
 }

@@ -205,15 +205,20 @@ public function eliminar($id_formato){
 
 		if($this->input->post()){
 
-			$formatos = new Formato();
+			$consultorio= new Consultorio();
+			$consultorio->where(array('id' => $this->session->userdata('id_consultorio')))->get();
 			
 			$aPermisos = permisos($this->session->userdata('type_user'));
 			$input_count = 0;
 
 			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != ''){
-			 		$formatos->like($input_name, $input);
+				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != '' && $input_name != 'estatus'){
+			 		$consultorio->formato->like($input_name, $input);
 			 		$input_count++;
+			 	}
+			 	if($input_name == 'estatus'){
+			  		$consultorio->formato->where_in('estatus', $this->input->post('estatus'));
+			  		$input_count++;			  
 			 	}
 			 } 
 
@@ -222,9 +227,9 @@ public function eliminar($id_formato){
 				$formatos->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
 								        'estatus <>'     => 2)); 
 
-				$formatos->order_by('codigo');
+				$consultorio->formato->order_by('codigo');
 
-				$formatos->get_paged_iterated($page, 8);
+				$formatos = $consultorio->formato->get_paged_iterated($page, 9);
 
 				$data['permisos']     = $aPermisos['format'];
 				$data['paginaActual'] = $page;
