@@ -1,7 +1,3 @@
-<script>
-
-	$(function(){ Valid.eliminaregistro(); });
-</script>
 <?php $aPermisos = unserialize (PERMISOS); ?>
 <section class="datagrid" >
 	<table>

@@ -72,7 +72,7 @@ class Specialism extends CI_Controller{
 			$especialidad->codigo     = $this->input->post('codigo'); 
 			$especialidad->nombre     = $this->input->post('nombre');
 			$especialidad->fecha_alta = date("Y-m-d H:i:s");
-			$empleado->consultorio_id = $this->session->userdata('id_consultorio');
+			$especialidad->consultorio_id = $this->session->userdata('id_consultorio');
 			$especialidad->estatus    = 1;
 
 			if($especialidad->save()){

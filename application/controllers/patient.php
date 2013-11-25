@@ -68,12 +68,13 @@ class Patient extends CI_Controller{
 
     	$data['view']     	  = 'sistema/pacientes/agregar';
 		$data['return']       = 'patient';
-		$data['cssFiles']     = array('sistema.css');
-		$data['jsFiles']      = array('jquery.js',
-							     	  'jquery-validation/dist/jquery.validate.js',
-								      'jquery-validation/localization/messages_es.js',
-								      'valid_forms.js');
-
+		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
+								  'sistema.css');
+		$data['jsFiles']  = array('jquery.js',
+							      'jquery-ui.js',
+							   	  'jquery-validation/dist/jquery.validate.js',
+								  'jquery-validation/localization/messages_es.js',
+								  'valid_forms.js');
 		$this->load->view('sistema/template',$data);
 
 		if($this->input->post()){
@@ -96,19 +97,24 @@ class Patient extends CI_Controller{
 			$direccion->numero_int       = $this->input->post('numero_int');
 			$direccion->numero_ext       = $this->input->post('numero_ext');
 
-			$consultorio->where_in($this->session->userdata('id_consultorio'))->get();
+			if($direccion->save()){
 
-			$direccion->save();
-			$paciente->direccion_id = $direccion->id;
+				$paciente->direccion_id = $direccion->id;
+				$consultorio->where_in('id',$this->session->userdata('id_consultorio'))->get();
+				
+				if($paciente->save($consultorio->all)){
 
-			if($paciente->save($consultorio->all)){
+					redirect(base_url('patient'));
 
-				redirect(base_url('patient'));
+				} else {
+
+					echo $paciente->error->string;
+				
+				}
 
 			} else {
 
-				echo $paciente->error->string;
-				
+				echo $direccion->error->string;
 			}
 
 		}
@@ -125,8 +131,10 @@ class Patient extends CI_Controller{
 		$data['paciente'] = $paciente; 
 		$data['return']   = 'patient'; 		
 		$data['view']     = 'sistema/pacientes/editar';
-		$data['cssFiles'] = array('sistema.css');
+		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
+								  'sistema.css');
 		$data['jsFiles']  = array('jquery.js',
+							      'jquery-ui.js',
 							   	  'jquery-validation/dist/jquery.validate.js',
 								  'jquery-validation/localization/messages_es.js',
 								  'valid_forms.js');
