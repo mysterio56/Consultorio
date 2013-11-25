@@ -7,7 +7,7 @@ class Empleado extends DataMapper
 
 	public $has_one = array("usuario","consultorio","direccion");
 
-	public $has_many = array("especialidad");
+	public $has_many = array("especialidad", "reunion");
 
 	public $error_prefix = '<div class="error">';
     public $error_suffix = '</div>';

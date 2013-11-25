@@ -76,8 +76,18 @@ class Service extends CI_Controller{
 
 			$servicio->codigo         = $this->input->post('codigo'); 
 			$servicio->nombre         = $this->input->post('nombre');
-			$servicio->costo_compra   = str_replace(",","",$this->input->post('costo_c'));
-			$servicio->costo_venta    = str_replace(",","",$this->input->post('costo_v'));
+
+			if ($this->input->post('servicios') == 1) {
+				$servicio->costo_compra = 0.00;
+				$servicio->costo_venta  = str_replace(",","",$this->input->post('costo_v'));
+			}else if($this->input->post('servicios') == 2){
+				$servicio->costo_venta = 0.00;
+				$servicio->costo_compra   = str_replace(",","",$this->input->post('costo_c'));
+			}else if($this->input->post('servicios') == 3){
+				$servicio->costo_venta  = str_replace(",","",$this->input->post('costo_v'));
+				$servicio->costo_compra   = str_replace(",","",$this->input->post('costo_c'));
+			}
+			
 			$servicio->tipo           = $this->input->post('servicios'); 
 			$servicio->consultorio_id = $this->session->userdata('id_consultorio');
 			$servicio->fecha_alta     = date("Y-m-d H:i:s");
@@ -118,8 +128,18 @@ class Service extends CI_Controller{
 
 			$servicio->codigo             = $this->input->post('codigo'); 
 			$servicio->nombre             = $this->input->post('nombre');
-			$servicio->costo_compra       = str_replace(",","",$this->input->post('costo_c'));
-			$servicio->costo_venta        = str_replace(",","",$this->input->post('costo_v'));
+
+			if ($this->input->post('servicios') == 1) {
+				$servicio->costo_compra = 0.00;
+				$servicio->costo_venta  = str_replace(",","",$this->input->post('costo_v'));
+			}else if($this->input->post('servicios') == 2){
+				$servicio->costo_venta = 0.00;
+				$servicio->costo_compra   = str_replace(",","",$this->input->post('costo_c'));
+			}else if($this->input->post('servicios') == 3){
+				$servicio->costo_venta  = str_replace(",","",$this->input->post('costo_v'));
+				$servicio->costo_compra   = str_replace(",","",$this->input->post('costo_c'));
+			}
+			
 			$servicio->tipo               = $this->input->post('servicios'); 
 			$servicio->fecha_modificacion = date("Y-m-d H:i:s");
 

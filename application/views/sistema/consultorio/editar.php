@@ -398,6 +398,23 @@ $('#colonia').append('<option value="' + val.id + '">' + val.name + '</option>')
 
 
 function autocom(select){
+
+	var accentMap = {
+	  "á": "a",
+      "é": "e",
+      "í": "i",
+      "ó": "o",
+      "ú": "u"
+    };
+
+	var normalize = function( term ) {
+      var ret = "";
+      for ( var i = 0; i < term.length; i++ ) {
+        ret += accentMap[ term.charAt(i) ] || term.charAt(i);
+      }
+      return ret;
+    };
+
     $.widget( "custom.combobox", {
       _create: function() {
         this.wrapper = $( "<span>" )
@@ -483,7 +500,7 @@ function autocom(select){
         var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
         response( this.element.children( "option" ).map(function() {
           var text = $( this ).text();
-          if ( this.value && ( !request.term || matcher.test(text) ) )
+          if ( this.value && ( !request.term || matcher.test(normalize( text )) ) )
             return {
               label: text,
               value: text,

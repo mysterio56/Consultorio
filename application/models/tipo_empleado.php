@@ -3,6 +3,8 @@
 class Tipo_empleado extends DataMapper
 {
 
+    public $extensions = array('array');
+
     public $table = "tipo_empleados";
 
     public $has_many = array("modulo");

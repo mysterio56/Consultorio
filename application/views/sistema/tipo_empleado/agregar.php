@@ -70,7 +70,8 @@
 			 		echo form_label('Agregar:');
 			 		$data = array(
 					 		'name'    => 'permisos_'.$modulo->id.'[]',
-					 		'value'   => 4	
+					 		'value'   => 4,
+					 		'checked' => true	
 			 		);
 
 			 		echo form_checkbox($data);
@@ -78,7 +79,8 @@
 		 		echo form_label('Editar:');
 		 		$data = array(
 				 		'name'    => 'permisos_'.$modulo->id.'[]',
-				 		'value'   => 2		
+				 		'value'   => 2,
+				 		'checked' => true		
 		 		);
 
 		 		echo form_checkbox($data);
@@ -87,7 +89,8 @@
 			 		echo form_label('Eliminar:');
 			 		$data = array(
 					 		'name'    => 'permisos_'.$modulo->id.'[]',
-					 		'value'   => 1		
+					 		'value'   => 1,
+					 		'checked' => true		
 			 		);
 
 			 		echo form_checkbox($data);

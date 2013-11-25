@@ -261,4 +261,18 @@ public function eliminar($id_tipoEmpleado){
 		$this->load->view('sistema/template',$data);
 
 	}
+
+	public function lista(){
+
+		$tipoEmpleados = new Tipo_empleado();
+		
+		$tipoEmpleados->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
+								    'estatus'        => 1))->get();
+
+		$aTipoEmpleados = $tipoEmpleados->all_to_array();
+
+		echo json_encode($aTipoEmpleados);
+
+	}
+
 }

@@ -1,14 +1,19 @@
 <?php $aPermisos = unserialize (PERMISOS); ?>
+<?php $aMeses    = unserialize (MESES); ?>
 <section class="datagrid">
 	<table>
 		<thead>
 			<tr>
 				<th>Código</th>
 				<th>Nombre</th>
-			<?php if(in_array($permisos,$aPermisos['Editar']) ): ?>
+				<th>Fecha Alta</th>
+			    <?php if(in_array($permisos,$aPermisos['Editar']) ): ?>
 					<th>Editar</th>
 				<?php endif; ?>
 				<th>Activo</th>
+				<?php if(in_array($permisos,$aPermisos['Eliminar']) ): ?>
+				<th>Eliminar</th>
+				<?php endif;?>
 			</tr>
 		</thead>
 		<tbody>
@@ -25,6 +30,7 @@
 					echo '<tr class='.$rowClass.'>';
 						echo '<td>'.$formato->codigo.'</td>';
 						echo '<td>'.$formato->nombre.'</td>';
+						echo '<td>'.date("d", strtotime($formato->fecha_alta)) .' / '. $aMeses[date("n", strtotime($formato->fecha_alta))-1] .' / '. date("Y", strtotime($formato->fecha_alta)) .'</td>';
 						if(in_array($permisos,array(2,6,7))){ 
 							echo '<td><a href="'.base_url('format/editar/'.$formato->id).'">
 									  <img src="'.base_url('assets/images/edit.png').'" /></a></td>';
@@ -42,6 +48,19 @@
 								}
 
 						echo '</td>';
+
+						if(in_array($permisos,$aPermisos['Eliminar']) ){								
+							
+	                        echo '<td>';
+										echo '<a onclick="if(Valid.eliminaregistro() ==false)return false" href="'.base_url('format/eliminar/'.$formato->id).'">
+										  <img src="'.base_url('assets/images/delete.png').'"/>
+	                                     </a>';
+	                        
+							echo '</td>';
+
+						}
+
+
 					echo '</tr>';
 					$nRow++;
 				}
