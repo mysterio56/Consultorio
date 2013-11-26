@@ -18,6 +18,7 @@ class Reunion extends DataMapper
         'fecha_alta' => array(
             'label' => 'fecha de alta',
             'rules' => array('required')
+            
         )
     );
 
