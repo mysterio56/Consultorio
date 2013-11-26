@@ -332,7 +332,7 @@ class Employees extends CI_Controller{
 			if($input_count > 0){
 
 				$empleados->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
-
+				$empleados->order_by('estatus');
 				$empleados->order_by('codigo');
 				$empleados->get_paged_iterated($page, 8);
 

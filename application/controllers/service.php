@@ -235,6 +235,7 @@ public function eliminar($id_servicio){
 			 if($input_count > 0){
 
 				$servicios->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
+				$servicios->order_by('estatus');
 				$servicios->order_by('codigo');
 				$servicios->get_paged_iterated($page, 8);
 

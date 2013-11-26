@@ -236,6 +236,7 @@ class Patient extends CI_Controller{
 
 			 if($input_count > 0){
 
+				$consultorio->paciente->order_by('estatus');
 				$consultorio->paciente->order_by('codigo');
 				$pacientes = $consultorio->paciente->get_paged_iterated($page, 8);
 				

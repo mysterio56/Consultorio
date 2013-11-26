@@ -250,7 +250,7 @@ public function eliminar($id_tipoEmpleado){
 
 				$tipoEmpleados->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
 									       
-
+				$tipoEmpleados->order_by('estatus');
 				$tipoEmpleados->order_by('codigo');
 				$tipoEmpleados->get_paged_iterated($page, 8);
 

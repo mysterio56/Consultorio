@@ -195,6 +195,7 @@ public function eliminar($id_formato){
 
 		if($this->input->post()){
 
+
 			$consultorio= new Consultorio();
 			$consultorio->where(array('id' => $this->session->userdata('id_consultorio')))->get();
 			
@@ -214,9 +215,7 @@ public function eliminar($id_formato){
 
 			if($input_count > 0){
 
-				$formatos->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
-								        'estatus <>'     => 2)); 
-
+				$consultorio->formato->order_by('estatus');
 				$consultorio->formato->order_by('codigo');
 
 				$formatos = $consultorio->formato->get_paged_iterated($page, 9);
