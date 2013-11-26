@@ -214,6 +214,7 @@ class Patient extends CI_Controller{
 							      'jquery-ui.js',
 							      'jquery.ui.datepicker-es.js',
 							      'valid_forms.js');
+		
 		if($this->input->post()){
 			
 			$consultorio = new Consultorio();
