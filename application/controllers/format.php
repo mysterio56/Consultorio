@@ -11,6 +11,7 @@ class Format extends CI_Controller{
 	public function index($page = 1){
 
     	$consultorio = new Consultorio();
+
 		$aPermisos = permisos($this->session->userdata('type_user'));
 
 		$consultorio->where(array('id' => $this->session->userdata('id_consultorio')))->get();
@@ -21,13 +22,13 @@ class Format extends CI_Controller{
     
     	$formatos = $consultorio->formato->get_paged_iterated($page, 9);
     	
-
     	$data['permisos']      = $aPermisos['format'];
 		$data['paginaActual']  = $page;
 		$data['formatos']      = $formatos;
 		$data['view']          = 'sistema/formato/lista';
 		$data['cssFiles']      = array('sistema.css');
 		$data['jsFiles']       = array('valid_forms.js');
+
 		if($this->input->post()){
         
         $consultorio = new Consultorio();
@@ -61,16 +62,16 @@ class Format extends CI_Controller{
     public function agregar(){
         
         $consultorio = new Consultorio();
-    	$formato = new Formato();
+    	$formato     = new Formato();
 
-    	$data['view']     	  = 'sistema/formato/agregar';
-		$data['return']       = 'format';
-		$data['cssFiles']     = array('sistema.css');
-		$data['jsFiles']      = array('jquery.js',
-							     	  'jquery-validation/dist/jquery.validate.js',
-								      'jquery-validation/localization/messages_es.js',
-								      'autoNumeric.js',
-								      'valid_forms.js');
+    	$data['view']     = 'sistema/formato/agregar';
+		$data['return']   = 'format';
+		$data['cssFiles'] = array('sistema.css');
+		$data['jsFiles']  = array('jquery.js',
+						    	  'jquery-validation/dist/jquery.validate.js',
+							      'jquery-validation/localization/messages_es.js',
+							      'autoNumeric.js',
+							      'valid_forms.js');
 
 		$this->load->view('sistema/template',$data);
 
@@ -78,17 +79,10 @@ class Format extends CI_Controller{
 
 			$formato->codigo         = $this->input->post('codigo'); 
 			$formato->nombre         = $this->input->post('nombre');
-			/*$servicio->costo_compra   = str_replace(",","",$this->input->post('costo_c'));
-			$servicio->costo_venta    = str_replace(",","",$this->input->post('costo_v'));
-			$servicio->tipo           = $this->input->post('servicios'); 
-			$servicio->consultorio_id = $this->session->userdata('id_consultorio');*/
 			$formato->fecha_alta     = date("Y-m-d H:i:s");
 			$formato->estatus        = 1;
 
-			$consultorio->where_in($this->session->userdata('id_consultorio'))->get();
-
-		
-			
+			$consultorio->where_in('id',$this->session->userdata('id_consultorio'))->get();
 
 			if($formato->save($consultorio->all)){
 
@@ -106,20 +100,19 @@ class Format extends CI_Controller{
 
     public function editar($id_formato){
 
-    	$formato = new Formato();
-    	$formato->where('id',$id_formato)->get();
+    	$formato     = new Formato();
 
-		/*$data['formato'] = $formato->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
-											       'id'             => $id_formato))->get();*/
-		$data['formato'] = $formato; 
-		$data['return']       = 'format'; 		
-		$data['view']         = 'sistema/formato/editar';
-		$data['cssFiles']     = array('sistema.css');
-		$data['jsFiles']      = array('jquery.js',
-							   	      'jquery-validation/dist/jquery.validate.js',
-								      'jquery-validation/localization/messages_es.js',
-								      'autoNumeric.js',
-								      'valid_forms.js');
+    	$formato->where('id',$id_formato)->get();
+    
+		$data['formato']  = $formato; 
+		$data['return']   = 'format'; 		
+		$data['view']     = 'sistema/formato/editar';
+		$data['cssFiles'] = array('sistema.css');
+		$data['jsFiles']  = array('jquery.js',
+						   	      'jquery-validation/dist/jquery.validate.js',
+							      'jquery-validation/localization/messages_es.js',
+							      'autoNumeric.js',
+							      'valid_forms.js');
 
 		$this->load->view('sistema/template',$data);
 
@@ -127,9 +120,6 @@ class Format extends CI_Controller{
 
 			$formato->codigo             = $this->input->post('codigo'); 
 			$formato->nombre             = $this->input->post('nombre');
-			/*$formato->costo_compra       = str_replace(",","",$this->input->post('costo_c'));
-			$formato->costo_venta        = str_replace(",","",$this->input->post('costo_v'));
-			$formato->tipo               = $this->input->post('servicios'); */
 			$formato->fecha_modificacion = date("Y-m-d H:i:s");
 
 			if($formato->save()){
@@ -205,26 +195,30 @@ public function eliminar($id_formato){
 
 		if($this->input->post()){
 
-			$formatos = new Formato();
+
+			$consultorio= new Consultorio();
+			$consultorio->where(array('id' => $this->session->userdata('id_consultorio')))->get();
 			
 			$aPermisos = permisos($this->session->userdata('type_user'));
 			$input_count = 0;
 
 			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != ''){
-			 		$formatos->like($input_name, $input);
+				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != '' && $input_name != 'estatus'){
+			 		$consultorio->formato->like($input_name, $input);
 			 		$input_count++;
+			 	}
+			 	if($input_name == 'estatus'){
+			  		$consultorio->formato->where_in('estatus', $this->input->post('estatus'));
+			  		$input_count++;			  
 			 	}
 			 } 
 
 			if($input_count > 0){
 
-				$formatos->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
-								        'estatus <>'     => 2)); 
+				$consultorio->formato->order_by('estatus');
+				$consultorio->formato->order_by('codigo');
 
-				$formatos->order_by('codigo');
-
-				$formatos->get_paged_iterated($page, 8);
+				$formatos = $consultorio->formato->get_paged_iterated($page, 9);
 
 				$data['permisos']     = $aPermisos['format'];
 				$data['paginaActual'] = $page;

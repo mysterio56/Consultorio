@@ -93,6 +93,21 @@ Valid.empleados = function()
             },
             calle:{
                 required:true
+            },
+            estado_name:{
+                required:true
+            },
+            municipio_name:{
+                required:true
+            },
+            codigo_postal_name:{
+                required:true
+            },
+            colonia_name:{
+                required:true
+            },
+            tipo_empleado_name:{
+                required:true
             }
         },
         errorElement: 'div',
@@ -190,6 +205,18 @@ Valid.paciente = function()
             },
             calle:{
                 required:true
+            },
+            estado_name:{
+                required:true
+            },
+            municipio_name:{
+                required:true
+            },
+            codigo_postal_name:{
+                required:true
+            },
+            colonia_name:{
+                required:true
             }
 
         },
@@ -257,8 +284,19 @@ Valid.consultorio = function()
             },
             calle:{
                 required:true
+            },
+            estado_name:{
+                required:true
+            },
+            municipio_name:{
+                required:true
+            },
+            codigo_postal_name:{
+                required:true
+            },
+            colonia_name:{
+                required:true
             }
-
         },
         errorElement: 'div',
         wrapper: 'div',
@@ -367,36 +405,11 @@ Valid.servicio = function()
 }
 
 
-
 Valid.auto_complete = function()
 {
-    var availableTags = [
-      "ActionScript",
-      "AppleScript",
-      "Asp",
-      "BASIC",
-      "C",
-      "C++",
-      "Clojure",
-      "COBOL",
-      "ColdFusion",
-      "Erlang",
-      "Fortran",
-      "Groovy",
-      "Haskell",
-      "Java",
-      "JavaScript",
-      "Lisp",
-      "Perl",
-      "PHP",
-      "Python",
-      "Ruby",
-      "Scala",
-      "Scheme"
-    ];
-    $( "#tags" ).autocomplete({
-      source: availableTags
+    
 }
+
 Valid.producto = function()
 {
 

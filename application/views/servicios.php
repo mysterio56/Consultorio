@@ -1,4 +1,21 @@
 <section class="ac-container">
+<?php
+
+    $warning = false;
+    $days    = 123;
+
+    if($days <= 10 ){
+        $warning = true;
+    }
+    
+?>
+
+        <div id="renew">
+            <!--<input id="submit-renew" type="button" value="RENOVAR AHORA" />-->
+            <p class="<?= $warning?'error':''; ?>" >Quedan <strong><?= $days ?></strong> días para renovar su licencia</p>
+            <a class="abutton" href="http://masqweb.com/" target="_blank">Renovar ahora</a>
+        </div>
+
     <div>
         <p class="ac-title">Servicios varios</p>
     </div>

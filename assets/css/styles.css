@@ -65,43 +65,6 @@ html, body{
   text-decoration: none;
 }
 
-.footer-container #renew-footer{
-  width: 672px;
-  height: 100%;
-  display: inline-block;
-  vertical-align: top;
-  text-align: right;
-}
-
-.footer-container #renew-footer p{
-  background-image: url(../images/white-arrow.png);
-  background-repeat: no-repeat;
-  background-size: 20px 18px;
-  background-position-x: 412px;
-  width: 260px;
-}
-
-.footer-container #submit-footer {
-    width: 103px;
-    height: 22px;
-    background-color: #ccc;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    border-radius:4px;
-    color: #016f93;
-    text-decoration: none;
-    cursor: pointer;
-    border:none;
-    font-size: 11px;
-    margin: 8px;
-}
-
-.footer-container #submit-footer:hover {
-    border: none;
-    background:#a1c5e2;
-    box-shadow: 0px 0px 1px #777;
-}
-
 .footer-container p{
   color:#FFFFFF;
 }
@@ -389,11 +352,50 @@ html, body{
 }
 
 .ac-container input:checked ~ article{
-    height: 295px;
+    height: 240px;
     overflow-x: hidden;
     overflow-y: auto;
 }
 
+.ac-container #renew{
+  height: 55px;
+  display: inline-block;
+  vertical-align: top;
+  text-align: center;
+}
+
+.ac-container #renew p{
+  background-image: url(../images/blue-arrow.png);
+  background-repeat: no-repeat;
+  background-size: 18px 16px;
+  background-position-x: 2px;
+  display: inline-block;
+  color: #0079a1;
+  padding-left: 24px;
+}
+
+.ac-container #renew .error{
+  background-image: url(../images/red-arrow.png);
+  color: red;
+  margin: 0;
+}
+
+.ac-container .abutton {
+  display: inline-block;
+  background: #006699;
+  padding: 4px;
+  text-align: center;
+  border-radius: 5px;
+  color: white;
+  text-decoration: none;
+  margin: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: helvetica;
+  border: none;
+  font-weight: normal;
+  border: solid 1px #4cbade;
+}
 
 /********* Estilos para Tabs *********/
 
@@ -466,11 +468,11 @@ html, body{
 }
 
 #container iframe {
-  height: 400px;
+  height: auto;
+  min-height: 400px;
   width: 665px;
   border:none;
   background-color:#ECECEC;
-  margin-top: -10px;
 }
 
 #container input[type="radio"] {
@@ -539,7 +541,6 @@ html, body{
 
 #content div {
  opacity: 0;
- padding-top: 10px;
  position: absolute;
  z-index: -100;
 }

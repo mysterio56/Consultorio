@@ -61,6 +61,52 @@
 		 	echo form_input($data);
 		 	echo'</td>';
             echo '</tr>';
+
+             echo'<tr>'; 
+ 	        echo'<td  width="50" valing="top">'; 
+ 	        echo form_label('Activo');	
+ 	        echo '<td>';
+		 	$data = array(
+		 		'name'  => 'estatus[]',
+		 		'id'    => 'estatus',
+		 		'class' => 'capitalize',
+		 		'value' => 1,
+		 		'style' => 'width:125px'
+		 	);
+		 	echo form_checkbox($data);
+
+		 	echo '</td>';
+            echo '</tr>';
+
+            echo'<tr>'; 
+ 	        echo'<td  width="50" valing="top">'; 
+ 	        echo form_label('Inactivo');
+ 	        echo '<td>';	
+		 	$data = array(
+		 		'name'  => 'estatus[]',
+		 		'id'    => 'estatus',
+		 		'class' => 'capitalize',
+		 		'value' => 0,
+		 		'style' => 'width:125px'
+		 	);
+		 	echo form_checkbox($data);
+		 	echo '</td>';
+            echo '</tr>';
+
+            echo'<tr>'; 
+ 	        echo'<td  width="50" valing="top">'; 
+ 	        echo form_label('Eliminado');
+ 	        echo '<td>';	
+		 	$data = array(
+		 		'name'  => 'estatus[]',
+		 		'id'    => 'estatus',
+		 		'class' => 'capitalize',
+		 		'value' => 2,
+		 		'style' => 'width:125px'
+		 	);
+		 	echo form_checkbox($data);
+		 	echo '</td>';
+            echo '</tr>';
 		 	
 
 		 	echo'<tr>'; 

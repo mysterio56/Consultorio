@@ -1,10 +1,12 @@
 <?php $aPermisos = unserialize (PERMISOS); ?>
+<?php $aMeses    = unserialize (MESES); ?>
 <section class="datagrid">
 	<table>
 		<thead>
 			<tr>
 				<th>Código</th>
 				<th>Nombre</th>
+				<th>Fecha Alta</th>
 				<?php if(in_array($permisos,$aPermisos['Editar']) ): ?>
 					<th>Editar</th>
 				<?php endif; ?>
@@ -18,48 +20,72 @@
 			<?php 
 				$nRow = 1;
 				foreach($tipoEmpleados as $tipoEmpleado){
+				  	if($tipoEmpleado->estatus!=2){
 
-					if (($nRow % 2) == 0) {
-						$rowClass = "even";
-					} else {
-						$rowClass = "odd";
-					}
+						if (($nRow % 2) == 0) {
+						
+							$rowClass = "even";
+						} else {
+						
+							$rowClass = "odd";
+						}
+				 	}else{
+				  			$rowClass="borrado";
+				  
+				  }	
 
 					echo '<tr class='.$rowClass.'>';
 						echo '<td>'.$tipoEmpleado->codigo.'</td>';
 						echo '<td>'.$tipoEmpleado->nombre.'</td>';
-						
+						echo '<td>'.date("d", strtotime($tipoEmpleado->fecha_alta)) .' / '. $aMeses[date("n", strtotime($tipoEmpleado->fecha_alta))-1] .' / '. date("Y", strtotime($tipoEmpleado->fecha_alta)) .'</td>';
 						if(in_array($permisos,$aPermisos['Editar'])){ 
-							echo '<td><a href="'.base_url('type_employee/editar/'.$tipoEmpleado->id).'">
+							if($tipoEmpleado->estatus!=2){
+							echo '<td align="center"><a href="'.base_url('type_employee/editar/'.$tipoEmpleado->id).'">
 									  <img src="'.base_url('assets/images/edit.png').'" /></a></td>';
+							}
 						}			  
 						
-						echo '<td>';
-								if(in_array($permisos,$aPermisos['Editar']) ){
+							    if(in_array($permisos,$aPermisos['Editar']) ){
 									if($tipoEmpleado->estatus==1){
+										
+										echo'<td align="center">';
 										$activo='active';
 										$function='if(Valid.desactivaregistro()==false)return false';
-									}
-									else if($tipoEmpleado->estatus==0){
+
+									}else if($tipoEmpleado->estatus==0){
+										
+										echo'<td align="center">';
 										$activo='inactive';
 										$function='if(Valid.activaregistro()==false)return false';
+									
+									}else if($tipoEmpleado->estatus==2){
+
+										echo'<td align="center" colspan=3>';
+										$activo='inactive';
+										$function='if(Valid.activaregistro()== false)return false';
+									
 									}
 
 									echo '<a onclick="'.$function.'" href="'.base_url('type_employee/status/'.$tipoEmpleado->id).'">
 											<img src="'.base_url('assets/images/'.$activo.'.png').'" />
-										 </a>';
-								}
-								else{
+									     </a>';
+								}else{
+
 									echo '<img src="'.base_url('assets/images/'.$activo.'.png').'" />';
 								}
-					if(in_array($permisos,$aPermisos['Eliminar']) ){
-                        echo '<td>';
+							echo"</td>";
+						  if(in_array($permisos,$aPermisos['Eliminar']) ){
+                        
+                              if($tipoEmpleado->estatus!=2){
+                        
+                            echo'<td align="center">';
 								
 									echo '<a onclick="if(Valid.eliminaregistro() == false) return false" href="'.base_url('type_employee/eliminar/'.$tipoEmpleado->id).'">
-									  <img src="'.base_url('assets/images/delete.png').'"/>
-                                     </a>';
-						echo '</td>';
-					}
+								            <img src="'.base_url('assets/images/delete.png').'"/>
+                                          </a>';
+						    echo '</td>';
+					      }
+				    }
 
 					echo '</tr>';
 					$nRow++;

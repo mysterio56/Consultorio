@@ -42,6 +42,51 @@
 		 	echo '</td>';
             echo '</tr>';
 
+             echo'<tr>'; 
+ 	        echo'<td  width="50" valing="top">'; 
+ 	        echo form_label('Activo');	
+ 	        echo '<td>';
+		 	$data = array(
+		 		'name'  => 'estatus[]',
+		 		'id'    => 'estatus',
+		 		'class' => 'capitalize',
+		 		'value' => 1,
+		 		'style' => 'width:125px'
+		 	);
+		 	echo form_checkbox($data);
+
+		 	echo '</td>';
+            echo '</tr>';
+
+            echo'<tr>'; 
+ 	        echo'<td  width="50" valing="top">'; 
+ 	        echo form_label('Inactivo');
+ 	        echo '<td>';	
+		 	$data = array(
+		 		'name'  => 'estatus[]',
+		 		'id'    => 'estatus',
+		 		'class' => 'capitalize',
+		 		'value' => 0,
+		 		'style' => 'width:125px'
+		 	);
+		 	echo form_checkbox($data);
+		 	echo '</td>';
+            echo '</tr>';
+
+            echo'<tr>'; 
+ 	        echo'<td  width="50" valing="top">'; 
+ 	        echo form_label('Eliminado');
+ 	        echo '<td>';	
+		 	$data = array(
+		 		'name'  => 'estatus[]',
+		 		'id'    => 'estatus',
+		 		'class' => 'capitalize',
+		 		'value' => 2,
+		 		'style' => 'width:125px'
+		 	);
+		 	echo form_checkbox($data);
+		 	echo '</td>';
+            echo '</tr>';
 
             echo'<tr>'; 
  	        echo'<td  width="100" valing="top">'; 
@@ -52,7 +97,8 @@
 		 		'name'  => 'fecha_alta_value',
 		 		'id'    => 'fecha_alta_value',
 		 		'value' => set_value('fecha_alta_value'),
-		 		'style' => 'width:85px'
+		 		'style' => 'width:85px',
+		 		
 		 	);
 		 	echo '<div>';
 		 	echo form_input($data);

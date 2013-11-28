@@ -14,10 +14,10 @@ class Employees extends CI_Controller{
 		$empleados = new Empleado();
 		$aPermisos = permisos($this->session->userdata('type_user'));
 
-		$empleados->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
-								'estatus <>'     => 2));
-
+		$empleados->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
+		$empleados->where('estatus <> 2');
 		$empleados->order_by('codigo');
+		
 		$empleados->get_paged_iterated($page, 9);
 
 		$data['permisos']     = $aPermisos['employees'];
@@ -72,11 +72,13 @@ class Employees extends CI_Controller{
 									    					 'estatus'        => 1))->get();
 		$data['especialidades'] = $especialidades->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
 									    					   'estatus'        => 1))->get();
-		$data['cssFiles']       = array('sistema.css');
-		$data['jsFiles']        = array('jquery.js',
-							      	    'jquery-validation/dist/jquery.validate.js',
-								        'jquery-validation/localization/messages_es.js',
-								        'valid_forms.js');
+		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
+								  'sistema.css');
+		$data['jsFiles']  = array('jquery.js',
+							      'jquery-ui.js',
+							   	  'jquery-validation/dist/jquery.validate.js',
+								  'jquery-validation/localization/messages_es.js',
+								  'valid_forms.js');
 
 		$this->load->view('sistema/template',$data);
 
@@ -171,11 +173,13 @@ class Employees extends CI_Controller{
 		$data['return']         = 'employees';
 		$data['modulos']        = $modulos->get(); 		
 		$data['view']           = 'sistema/empleados/editar';
-		$data['cssFiles']       = array('sistema.css');
-		$data['jsFiles']        = array('jquery.js',
-							 	        'jquery-validation/dist/jquery.validate.js',
-								        'jquery-validation/localization/messages_es.js',
-								        'valid_forms.js');
+		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
+								  'sistema.css');
+		$data['jsFiles']  = array('jquery.js',
+							      'jquery-ui.js',
+							   	  'jquery-validation/dist/jquery.validate.js',
+								  'jquery-validation/localization/messages_es.js',
+								  'valid_forms.js');
 
 		$this->load->view('sistema/template',$data);
 
@@ -212,7 +216,9 @@ class Employees extends CI_Controller{
 
 			} else {
 
-				echo $paciente->error->string;
+				echo $empleado->error->string;
+				echo $empleado->direccion->error->string;
+				echo $empleado->usuario->error->string;
 
 			}
 
@@ -284,16 +290,12 @@ class Employees extends CI_Controller{
 	}
 
 	public function eliminar($id_empleado){
-
-		$empleado = new Empleado();
+	   	$empleado = new Empleado();
 
 		$empleado->where('id', $id_empleado)->get();
-
 		$empleado->estatus    = 2;
 		$empleado->fecha_baja = date("Y-m-d H:i:s");
-
 		$empleado->save();
-
 		redirect(base_url('employees'));
 
 	}
@@ -317,19 +319,22 @@ class Employees extends CI_Controller{
 			$input_count = 0;
 
 			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != ''){
+				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != '' && $input_name != 'estatus'){
 			 		$empleados->like($input_name, $input);
 			 		$input_count++;
+			 	}
+			 	if($input_name == 'estatus'){
+			  		$empleados->where_in('estatus', $this->input->post('estatus'));
+			  		$input_count++;			  
 			 	}
 			 } 
 			 
 			if($input_count > 0){
 
-				$empleados->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
-									    'estatus <>'     => 2));
-
+				$empleados->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
+				$empleados->order_by('estatus');
 				$empleados->order_by('codigo');
-				$empleados->get_paged_iterated($page, 5);
+				$empleados->get_paged_iterated($page, 8);
 
 				$data['permisos']     = $aPermisos['employees'];
 				$data['paginaActual'] = $page;
@@ -444,4 +449,28 @@ class Employees extends CI_Controller{
 
 	}
 
+	public function lista(){
+
+		$consultorio= new Consultorio();
+							
+		$consultorio->where('id',$this->session->userdata('id_consultorio'))->get();
+		//$consultorio->empleado->where('id',)->get();
+		$consultorio->empleado->select('id,estatus, concat_ws( " " ,codigo, nombre, apellido_m, apellido_p ) as nombre_completo');
+		$consultorio->empleado->where("estatus = 1  and concat_ws( codigo, nombre, apellido_m, apellido_p ) like '%".$_GET['term']."%'")->get();
+
+		$aEmpleado = array();
+
+		foreach($consultorio->empleado->all as $empleado){
+			$empleado->tipo_empleado->like('nombre','doctor')->get();
+			 if($empleado->tipo_empleado->nombre){
+			 	$aEmpleado[] = array("Id"        => $empleado->id, 
+			 					  "label"     => $empleado->nombre_completo,
+			 					  "value"     => $empleado->nombre_completo );
+			 }
+		}
+	
+		echo json_encode($aEmpleado);
+
+	}
 }
+

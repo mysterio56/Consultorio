@@ -57,6 +57,10 @@ border-left: none;
   background-color: #CEECF5;  
 }
 
+.datagrid table tbody tr.borrado{
+  background-color: #848484;
+} 
+
 .datagrid table tfoot td div {
   border-top: 1px solid #006699;
   background: #E1EEF4;
@@ -227,4 +231,19 @@ div .error{
 
 .table_form input[type='checkbox'] {
     width: 16px;
+}
+
+.auto-button{
+  height: 18px;
+  margin-top: -4px;
+  width: 25px;
+  margin-left: -1px;
+}
+
+.auto-input{
+  width:auto !important;
+}
+
+.select_reload > * {
+  display: inline-block;
 }

@@ -15,11 +15,9 @@ class Patient extends CI_Controller{
 		$aPermisos = permisos($this->session->userdata('type_user'));
 
 		$consultorio->where(array('id' => $this->session->userdata('id_consultorio')))->get();
-
-		$consultorio->paciente->where('estatus <>', 2);
-
+        $consultorio->paciente->where('estatus <>', 2);
 		$consultorio->paciente->order_by('codigo');
-    
+    	
     	$pacientes = $consultorio->paciente->get_paged_iterated($page, 9);
 
 		$data['permisos']     = $aPermisos['patient'];
@@ -70,11 +68,13 @@ class Patient extends CI_Controller{
 
     	$data['view']     	  = 'sistema/pacientes/agregar';
 		$data['return']       = 'patient';
-		$data['cssFiles']     = array('sistema.css');
-		$data['jsFiles']      = array('jquery.js',
-							     	  'jquery-validation/dist/jquery.validate.js',
-								      'jquery-validation/localization/messages_es.js',
-								      'valid_forms.js');
+		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
+								  'sistema.css');
+		$data['jsFiles']  = array('jquery.js',
+							      'jquery-ui.js',
+							   	  'jquery-validation/dist/jquery.validate.js',
+								  'jquery-validation/localization/messages_es.js',
+								  'valid_forms.js');
 
 		$this->load->view('sistema/template',$data);
 
@@ -127,8 +127,10 @@ class Patient extends CI_Controller{
 		$data['paciente'] = $paciente; 
 		$data['return']   = 'patient'; 		
 		$data['view']     = 'sistema/pacientes/editar';
-		$data['cssFiles'] = array('sistema.css');
+		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
+								  'sistema.css');
 		$data['jsFiles']  = array('jquery.js',
+							      'jquery-ui.js',
 							   	  'jquery-validation/dist/jquery.validate.js',
 								  'jquery-validation/localization/messages_es.js',
 								  'valid_forms.js');
@@ -216,23 +218,33 @@ class Patient extends CI_Controller{
 							      'jquery-ui.js',
 							      'jquery.ui.datepicker-es.js',
 							      'valid_forms.js');
+		
 		if($this->input->post()){
-			$pacientes = new Paciente();
+			
+			$consultorio = new Consultorio();
+			$consultorio->where(array('id' => $this->session->userdata('id_consultorio')))->get();
+
 			$aPermisos = permisos($this->session->userdata('type_user'));
 			$input_count = 0;
 
 			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != ''){
-			 		$pacientes->like($input_name, $input);
+				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != '' && $input_name != 'estatus'){
+			 		$consultorio->paciente->like($input_name, $input);
 			 		$input_count++;
 			 	}
-			 } 
-			if($input_count > 0){
-				$pacientes->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
-									    'estatus <>'     => 2));
-				$pacientes->order_by('codigo');
-				$pacientes->get_paged_iterated($page, 8);
 
+			  	if($input_name == 'estatus'){
+			  		$consultorio->paciente->where_in('estatus', $this->input->post('estatus'));
+			  		$input_count++;			  
+			 	}
+			}
+
+			 if($input_count > 0){
+
+				$consultorio->paciente->order_by('estatus');
+				$consultorio->paciente->order_by('codigo');
+				$pacientes = $consultorio->paciente->get_paged_iterated($page, 8);
+				
 				$data['permisos']     = $aPermisos['patient'];
 				$data['paginaActual'] = $page;
 				$data['pacientes']	  = $pacientes;
@@ -241,6 +253,28 @@ class Patient extends CI_Controller{
 			}
 
 		}
+
 		$this->load->view('sistema/template',$data);
-	}	
+
+	} 
+
+	public function lista(){
+
+		$consultorio= new Consultorio();
+				
+		$consultorio->where('id',$this->session->userdata('id_consultorio'))->get();
+		$consultorio->paciente->select('id, concat( codigo," ", nombre," ", apellido_m," ",apellido_p ) as nombre_completo');
+		$consultorio->paciente->where('concat( codigo," ",nombre," ",apellido_m," ",apellido_p ) like "%'.$_GET['term'].'%"')->get();
+		
+		$aPaciente = array();
+
+		foreach($consultorio->paciente as $pacient){
+			 $aPaciente[] = array("Id"        => $pacient->id, 
+			 					  "label"     => $pacient->nombre_completo,
+			 					  "value"     => $pacient->nombre_completo );
+		}
+	
+		echo json_encode($aPaciente);
+
+	}
 }

@@ -1,10 +1,12 @@
 <?php $aPermisos = unserialize (PERMISOS); ?>
+<?php $aMeses    = unserialize (MESES); ?>
 <section class="datagrid">
 	<table>
 		<thead>
 			<tr>
 				<th>Código</th>
 				<th>Nombre</th>
+				<th>Fecha Alta</th>
 				<?php if(in_array($permisos,$aPermisos['Editar']) ): ?>
 					<th>Editar</th>
 				<?php endif; ?>
@@ -18,50 +20,66 @@
 			<?php 
 				$nRow = 1;
 				foreach($productos as $producto){
-
-					if (($nRow % 2) == 0) {
+				   if($producto->estatus!=2){
+				   	  if (($nRow % 2) == 0) {
 						$rowClass = "even";
-					} else {
+					   } else {
 						$rowClass = "odd";
-					}
+					   }
+				    }else {
+						$rowClass="borrado";
+				    }
+
 
 					echo '<tr class='.$rowClass.'>';
 						echo '<td>'.$producto->codigo.'</td>';
 						echo '<td>'.$producto->nombre.'</td>';
-						
+						echo '<td>'.date("d", strtotime($producto->fecha_alta)) .' / '. $aMeses[date("n", strtotime($producto->fecha_alta))-1] .' / '. date("Y", strtotime($producto->fecha_alta)) .'</td>';
 						if(in_array($permisos,$aPermisos['Editar'])){ 
+							if($producto->estatus!=2){
 							echo '<td><a href="'.base_url('product/editar/'.$producto->id).'">
 									  <img src="'.base_url('assets/images/edit.png').'" /></a></td>';
-						}			  
-						echo '<td>';
-								
+							}	
+						}		  
+												
 								if(in_array($permisos,$aPermisos['Editar']) ){
 									if ($producto->estatus==1){
-									$activo= 'active';
-									$function='if(Valid.desactivaregistro()==false)return false';
-									}										
-								    	else if($producto->estatus==0){
+
+										echo '<td align="center">';
+										$activo= 'active';
+										$function='if(Valid.desactivaregistro()==false)return false';
+									
+									}else if($producto->estatus==0){
+									
+										echo '<td align="center">';
 										$activo= 'inactive';
 										$function='if(Valid.activaregistro()== false)return false';
-										}										
 									
-										echo '<a onclick="'.$function.'" href="'.base_url('product/status/'.$producto->id).'">
+									}else if($producto->estatus==2){
+									
+										echo '<td align="center" colspan="3">';
+										$activo='inactive';
+										$function='if(Valid.activaregistro()==false)return false';	
+									}
+									
+									echo '<a onclick="'.$function.'" href="'.base_url('product/status/'.$producto->id).'">
 											<img src="'.base_url('assets/images/'.$activo.'.png').'" />
 										 </a>';
-								}
-								else{
+								}else{
 									$activo = $especialidad->estatus?'active':'inactive';
 									echo '<img src="'.base_url('assets/images/'.$activo.'.png').'" />';
 								}
-								
-					if(in_array($permisos,$aPermisos['Eliminar']) ){				
-                        echo '<td>';
+
+						echo"</td>";
+					  if(in_array($permisos,$aPermisos['Eliminar']) ){	
+						  if($producto->estatus!=2){			
+                       			echo '<td align="center">';
 								echo '<a onclick="if(Valid.eliminaregistro() ==false)return false" href="'.base_url('product/eliminar/'.$producto->id).'">
 									  <img src="'.base_url('assets/images/delete.png').'"/>
                                      </a>';
-                        echo '</td>';
-								}
-
+                                echo '</td>';
+						}
+					}	
 						
 					echo '</tr>';
 					$nRow++;

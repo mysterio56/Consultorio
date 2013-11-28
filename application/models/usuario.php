@@ -6,11 +6,14 @@ class Usuario extends DataMapper
     public $table    = "usuarios";
  
     public $has_one  = array("empleado");
+
+    public $error_prefix = '<div class = "error">';
+    public $error_suffix = '</div>';
  
     public $validation = array(
         'usuario' => array(
             'label' => 'Usuario',
-            'rules' => array('valid_email','required', 'trim', 'unique_for_surgery' => 'usuario', 'min_length' => 2, 'max_length' => 45),
+            'rules' => array('valid_email','required', 'trim', 'unique', 'min_length' => 2, 'max_length' => 45),
         ),
         'clave' => array(
             'label' => 'Clave',
@@ -23,8 +26,7 @@ class Usuario extends DataMapper
 
         $usuario = new Usuario();
 
-        $usuario->where(array($campo           => $this->{$field},
-                              "consultorio_id" => CONSULTORIOID))->get();
+        $usuario->where(array($campo => $this->{$field}))->get();
 
         if(count($usuario->all)){
             return false;

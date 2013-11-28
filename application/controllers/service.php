@@ -12,12 +12,11 @@ class Service extends CI_Controller{
 
     	$servicios = new Servicio();
 		$aPermisos = permisos($this->session->userdata('type_user'));
-
-		$servicios->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
-								'estatus <>'     => 2));
-
+				
+		$servicios->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
+		$servicios->where('estatus <> 2');
 		$servicios->order_by('codigo');
-    
+    	
     	$servicios->get_paged_iterated($page, 9);
     	
 
@@ -42,7 +41,7 @@ class Service extends CI_Controller{
 			 } 
 
 			if($input_count > 0){
-				$servicios->where('estatus <>', 2);
+				$servicios->order_by('estatus');
 				$servicios->order_by('codigo');
 				$servicios->get_paged_iterated($page, 8);
 
@@ -76,8 +75,18 @@ class Service extends CI_Controller{
 
 			$servicio->codigo         = $this->input->post('codigo'); 
 			$servicio->nombre         = $this->input->post('nombre');
-			$servicio->costo_compra   = str_replace(",","",$this->input->post('costo_c'));
-			$servicio->costo_venta    = str_replace(",","",$this->input->post('costo_v'));
+
+			if ($this->input->post('servicios') == 1) {
+				$servicio->costo_compra = 0.00;
+				$servicio->costo_venta  = str_replace(",","",$this->input->post('costo_v'));
+			}else if($this->input->post('servicios') == 2){
+				$servicio->costo_venta = 0.00;
+				$servicio->costo_compra   = str_replace(",","",$this->input->post('costo_c'));
+			}else if($this->input->post('servicios') == 3){
+				$servicio->costo_venta  = str_replace(",","",$this->input->post('costo_v'));
+				$servicio->costo_compra   = str_replace(",","",$this->input->post('costo_c'));
+			}
+			
 			$servicio->tipo           = $this->input->post('servicios'); 
 			$servicio->consultorio_id = $this->session->userdata('id_consultorio');
 			$servicio->fecha_alta     = date("Y-m-d H:i:s");
@@ -118,8 +127,18 @@ class Service extends CI_Controller{
 
 			$servicio->codigo             = $this->input->post('codigo'); 
 			$servicio->nombre             = $this->input->post('nombre');
-			$servicio->costo_compra       = str_replace(",","",$this->input->post('costo_c'));
-			$servicio->costo_venta        = str_replace(",","",$this->input->post('costo_v'));
+
+			if ($this->input->post('servicios') == 1) {
+				$servicio->costo_compra = 0.00;
+				$servicio->costo_venta  = str_replace(",","",$this->input->post('costo_v'));
+			}else if($this->input->post('servicios') == 2){
+				$servicio->costo_venta = 0.00;
+				$servicio->costo_compra   = str_replace(",","",$this->input->post('costo_c'));
+			}else if($this->input->post('servicios') == 3){
+				$servicio->costo_venta  = str_replace(",","",$this->input->post('costo_v'));
+				$servicio->costo_compra   = str_replace(",","",$this->input->post('costo_c'));
+			}
+			
 			$servicio->tipo               = $this->input->post('servicios'); 
 			$servicio->fecha_modificacion = date("Y-m-d H:i:s");
 
@@ -202,20 +221,23 @@ public function eliminar($id_servicio){
 			$input_count = 0;
 
 			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != ''){
+				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != '' && $input_name != 'estatus'){
 			 		$servicios->like($input_name, $input);
 			 		$input_count++;
 			 	}
-			 } 
 
-			if($input_count > 0){
+			  	if($input_name == 'estatus'){
+			  		$servicios->where_in('estatus', $this->input->post('estatus'));
+			  		$input_count++;			  
+			 	}
+			}
 
-				$servicios->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
-								        'estatus <>'     => 2)); 
+			 if($input_count > 0){
 
+				$servicios->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
+				$servicios->order_by('estatus');
 				$servicios->order_by('codigo');
-
-				$servicios->get_paged_iterated($page, 8);
+				$servicios->get_paged_iterated($page, 4);
 
 				$data['permisos']     = $aPermisos['service'];
 				$data['paginaActual'] = $page;
@@ -229,4 +251,27 @@ public function eliminar($id_servicio){
 		$this->load->view('sistema/template',$data);
 
 	}
+
+	public function lista(){
+
+		$servicio = new Servicio();
+
+		$servicio->select(' id,estatus, codigo, nombre ');
+		$array = array('codigo' => $_GET['term'], 'nombre' => $_GET['term']);
+		$servicio->or_like($array)->get();
+		
+		$aServicio = array();
+
+		foreach($servicio as $service){
+			 $aServicio[] = array("Id"    => $service->id, 
+			 					  "label" => $service->codigo ." ". $service->nombre,
+			 					  "value" => $service->codigo ." ". $service->nombre);
+		}
+		
+		echo json_encode($aServicio);
+
+	}
 }
+
+
+
