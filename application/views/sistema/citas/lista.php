@@ -1,4 +1,6 @@
 <?php $aPermisos = unserialize (PERMISOS); ?>
+<?php $aMeses    = unserialize (MESES); ?>
+
 <section class="datagrid" >
 	<table>
 		<thead>
@@ -8,7 +10,13 @@
 				<th>Servicio</th>
 				<th>Fecha y hora</th>
 				<th>Estatus</th>
-				<th>Acciones</th>
+				<?php if ($permisosSub): ?>
+					<th>Acciones</th>
+				<?php elseif(in_array($permisos,$aPermisos['Editar'])): ?>
+					<th>Acciones</th>
+				<?php endif; ?>
+
+
 			</tr>
 		</thead>
 		<tbody>
@@ -18,6 +26,7 @@
 
 					$cita->paciente->get();
 					$cita->empleado->get();
+					$cita->servicio->get();
 
 					if (($nRow % 2) == 0) {
 						$rowClass = "even";
@@ -28,10 +37,50 @@
 					echo '<tr class='.$rowClass.'>';
 						echo '<td>'.$cita->paciente->nombre.' '.$cita->paciente->apellido_p .' '.$cita->paciente->apellido_m.'</td>';
 						echo '<td>'.$cita->empleado->nombre.' '.$cita->empleado->apellido_p .' '.$cita->empleado->apellido_m.'</td>';
-					    echo '<td>'.$cita->fecha_hora.'</td>';
-						echo '<td>'.$cita->fecha_hora.'</td>';
-						echo '<td>'.$cita->fecha_hora.'</td>';
-						echo '<td>'.$cita->fecha_hora.'</td>';	
+					    echo '<td>'.$cita->servicio->nombre.'</td>';
+						echo '<td>'.date("d", strtotime($cita->fecha_hora)) .' '. 
+									$aMeses[date("n", strtotime($cita->fecha_hora))-1]. 
+									//.'/'. date("Y", strtotime($cita->fecha_hora)) 
+									' '. date("H:i", strtotime($cita->fecha_hora)).
+							 '</td>';
+						echo '<td>';
+
+						if(in_array($permisos,$aPermisos['Editar'])){ 
+							echo '<img src="'.base_url('assets/images/'.estatus($cita->estatus).'_point.png').'" id="estatus_'.$cita->id.'" style="cursor:pointer" width="25" height="25" onclick="createTooltip('.$cita->id.')">';
+						} else {
+							echo '<img src="'.base_url('assets/images/'.estatus($cita->estatus).'_point.png').'" width="25" height="25" >';
+						}
+
+						echo '</td>';
+
+
+						if ($permisosSub){
+
+							echo '<td>';
+								if(in_array($permisos,$aPermisos['Editar'])){ 
+									echo '<img src="'.base_url('assets/images/edit.png').'" width="25" height="25" >';
+								}
+								if (isset($permisosSub['Histórico'])){
+									echo '<img src="'.base_url('assets/images/history.jpg').'" id="historia_'.$cita->id.'"  width="25" height="25" onclick="createTooltipHistoria('.$cita->id.')">';
+								}
+								if (isset($permisosSub['Adicionales'])){
+									echo '<img src="'.base_url('assets/images/add.png').'" width="25" height="25" >';
+								}
+								if (isset($permisosSub['Costo'])){
+									echo '<img src="'.base_url('assets/images/money.png').'" width="25" height="25" >';
+								}
+							echo '</td>';
+
+						} else {
+
+								if(in_array($permisos,$aPermisos['Editar'])){ 
+									echo '<td>';
+									echo '<img src="'.base_url('assets/images/edit.png').'" width="25" height="25" >';
+									echo '</td>';
+								}
+
+						}	
+
 					echo '</tr>';
 					$nRow++;
 				}
@@ -95,3 +144,64 @@
 	<?php if(in_array($permisos,$aPermisos['Agregar']) ): ?>
 		<a class="abutton" href="<?= base_url('appointment/agregar') ?>">Agregar</a>
 	<?php endif; ?>
+
+<script>
+
+	base_url = "<?= base_url(); ?>";
+
+function createTooltip(id_cita){ 
+
+	new Tip('estatus_'+id_cita, {
+			    title : 'Actualizar estatus',
+				//target: $('estatus').up('li'),
+				ajax: {
+					url: base_url+'appointment/estatus/'+id_cita,
+					options: {
+						onComplete: function(transport) {
+							
+						}
+					}
+				},
+				closeButton: true,
+				hideOn: { element: '.close', event: 'click' },
+				showOn: 'click',
+				width: '120', 
+				hook: { target: 'bottomMiddle', tip: 'topRight' },
+				stem: 'topRight',
+				offset: { x: 6, y: 3 }
+			});
+
+	$('estatus_'+id_cita).prototip.show();
+
+}
+
+
+function createTooltipHistoria(id_cita){ 
+
+	new Tip('historia_'+id_cita, {
+			    title : 'Historia de la cita',
+				//target: $('estatus').up('li'),
+				ajax: {
+					url: base_url+'appointment/historia/'+id_cita,
+					options: {
+						onComplete: function(transport) {
+							
+						}
+					}
+				},
+				closeButton: true,
+				hideOn: { element: '.close', event: 'click' },
+				showOn: 'click',
+				width: '200', 
+				hook: { target: 'bottomMiddle', tip: 'topRight' },
+				stem: 'topRight',
+				offset: { x: 6, y: 3 }
+			});
+
+	$('historia_'+id_cita).prototip.show();
+
+}
+
+	//});
+
+</script>

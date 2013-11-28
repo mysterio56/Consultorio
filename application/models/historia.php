@@ -1,11 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  
-class Reunion extends DataMapper
+class Historia extends DataMapper
 {
 
-	public $table = "citas";
+	public $table = "historico_citas";
 
-	public $has_one = array("paciente","empleado","servicio");
+	public $has_many = array("reunion");
 
 	public $error_prefix = '<div class="error">';
     public $error_suffix = '</div>';

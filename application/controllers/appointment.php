@@ -6,33 +6,41 @@ class Appointment extends CI_Controller{
     {
     	parent::__construct();
     	permisos($this->session->userdata('type_user'));
+    	$this->load->helper("submodulo");
+    	$this->load->helper("estatus");
     }
 
     public function index($page = 1, $estatus_cita = 1){
 
     	$citas = new Reunion();
 
-		$aPermisos = permisos($this->session->userdata('type_user'));
+		$aPermisos    = permisos($this->session->userdata('type_user'));
+		$aPermisosSub = submodulos($this->session->userdata('type_user'),9);
 
-		$citas->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
-							'estatus <>'     => 2));
+		$citas->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
 
 		if($estatus_cita == 1){
+
 			$citas->db->where('YEAR(fecha_hora)' , date("Y"));
 			$citas->db->where('MONTH(fecha_hora)', date("m"));
 			$citas->db->where('DAY(fecha_hora)'  , date("d"));
+
 		}
 
 		$citas->order_by('fecha_hora');
 		$citas->get_paged_iterated($page, 9);
 
 		$data['permisos']      = $aPermisos['appointment'];
+		$data['permisosSub']   = $aPermisosSub;
 		$data['paginaActual']  = $page;
 		$data['estatusActual'] = $estatus_cita;
 		$data['citas']         = $citas;
 		$data['view']          = 'sistema/citas/lista';
-		$data['cssFiles']      = array('sistema.css');
-		$data['jsFiles']       = array('valid_forms.js');
+		$data['cssFiles']      = array('prototip.css',
+									   'sistema.css');
+		$data['jsFiles']       = array('prototip/js/prototip/prototype.js',
+									   'prototip/js/prototip/prototip.js',
+									   'valid_forms.js');
 
 		if($this->input->post()){
 
@@ -64,8 +72,56 @@ class Appointment extends CI_Controller{
 			}
 
 		}
+
 		$this->load->view('sistema/template',$data);
     	
+    }
+
+    public function estatus($cita_id = null){
+
+    	$cita = new Reunion();
+
+    	$cita->where('id', $cita_id)->get();
+
+        $data['estatus_act'] = $cita->estatus;
+
+        if($this->input->post()){
+
+        	$historia = new historia();
+
+        	$historia->cita_id    = $cita_id;
+        	$historia->fecha_hora = $cita->fecha_hora;
+        	$historia->fecha_alta = date("Y-m-d H:i:s");
+			$historia->estatus        = $this->input->post('estatus');	
+
+    		$cita->estatus = $this->input->post('estatus');
+
+    		if($cita->save() && $historia->save()){
+    			redirect(base_url('appointment'));
+    		}
+
+    	} else {
+
+    		$this->load->view('sistema/citas/estatus', $data);
+
+    	}
+
+    }
+
+    public function historia($cita_id = null){
+
+    	$historia= new historia();
+
+    	$historia->where('cita_id', $cita_id)->order_by('fecha_alta', 'DESC')->get();
+    	
+    	//$historia->where('concat(fecha_alta," ",fecha_hora ) like "%'.$_GET['term'].'%" ')->get();
+
+    	$data['view']      = 'sistema/citas/historia';
+		$data['cssFiles']  = array('sistema.css');
+		$data['historial'] = $historia;
+
+		$this->load->view('sistema/citas/historia', $data);
+
     }
 
 }
