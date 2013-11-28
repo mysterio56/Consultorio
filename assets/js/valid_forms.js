@@ -118,6 +118,31 @@ Valid.empleados = function()
     });
     
 }
+Valid.cita = function()
+{
+  $("$citaForm").validate({
+    rules:{
+        paciente:{
+        required:true,
+        }
+        doctor:{
+        required:true,
+        }
+        fecha:{
+        required:true,
+        }
+        servicio:{
+        required:true,
+        }
+    },
+    errorElement: 'div',
+    wrapper: 'div',
+    errorPlacement: function(error, element) {
+        error.insertAfter(element); 
+    }
+});
+
+}
 
 Valid.password = function()
 {

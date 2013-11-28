@@ -150,7 +150,21 @@ class Appointment extends CI_Controller{
 		$citas->empleado_id         = $this->input->post('doctorId'); 
 		$citas->fecha_hora          = $this->input->post('fecha_alt').':00';
 		$citas->servicio_id			= $this->input->post('servicioId');
+
+		$citas->consultorio_id = $this->session->userdata('id_consultorio');
+		$citas->fecha_alta          = date("Y-m-d H:i:s");
+		
+		if($citas->save()){
+
+				redirect(base_url('appointment'));
+
+			} else {
+
+				echo $citas->error->string;
+				
+			}
    }
+
 
 }
 

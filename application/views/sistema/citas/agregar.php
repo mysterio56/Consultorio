@@ -1,5 +1,4 @@
 <?php 
-
 	echo form_open(null);
 	echo '<table class="table_form">';
 	echo '<tr>';
@@ -55,11 +54,6 @@
 			echo '<input type="hidden" name="fecha_alt" id="fecha_alt"/>';
 
 		echo '</td>'; 
-		?>
-
-			<input type="hidden" name="fecha_alta" id="fecha_alta" />
-
-			<?php
 	echo '<tr>';
 		echo '<td>';
 			echo form_label('*Servicio:');
