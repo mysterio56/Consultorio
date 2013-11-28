@@ -5,7 +5,7 @@ class Empleado extends DataMapper
 
 	public $table = "empleados";
 
-	public $has_one = array("usuario","consultorio","direccion");
+	public $has_one = array("usuario","consultorio","direccion","tipo_empleado");
 
 	public $has_many = array("especialidad", "reunion");
 

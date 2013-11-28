@@ -97,7 +97,8 @@
 		 		'name'  => 'fecha_alta_value',
 		 		'id'    => 'fecha_alta_value',
 		 		'value' => set_value('fecha_alta_value'),
-		 		'style' => 'width:85px'
+		 		'style' => 'width:85px',
+		 		
 		 	);
 		 	echo '<div>';
 		 	echo form_input($data);

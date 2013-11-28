@@ -55,14 +55,13 @@
 										$activo='inactive';
 										$function='if(Valid.activaregistro()== false)return false';
 									
-									}else if ($formato->estatus==2) {
+									}else if($formato->estatus ==2){
 										echo '<td align="center" colspan="3">';
 										$activo='inactive';
-										$function='if(Valid.activaregistro()== false)return false';
+										$function='if(Valid.activaregistro()==false)return false';
 									}
 
-
-									echo '<a href="'.base_url('format/status/'.$formato->id).'">
+								   	echo '<a onclick="'.$function.'" href="'.base_url('product/status/'.$formato->id).'">
 											<img src="'.base_url('assets/images/'.$activo.'.png').'" />
 										 </a>';
 
