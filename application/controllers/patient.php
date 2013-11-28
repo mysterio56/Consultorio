@@ -241,6 +241,7 @@ class Patient extends CI_Controller{
 
 			 if($input_count > 0){
 
+				$consultorio->paciente->order_by('estatus');
 				$consultorio->paciente->order_by('codigo');
 				$pacientes = $consultorio->paciente->get_paged_iterated($page, 8);
 				
@@ -254,6 +255,26 @@ class Patient extends CI_Controller{
 		}
 
 		$this->load->view('sistema/template',$data);
+
+	} 
+
+	public function lista(){
+
+		$consultorio= new Consultorio();
+				
+		$consultorio->where('id',$this->session->userdata('id_consultorio'))->get();
+		$consultorio->paciente->select('id, concat( codigo," ", nombre," ", apellido_m," ",apellido_p ) as nombre_completo');
+		$consultorio->paciente->where('concat( codigo," ",nombre," ",apellido_m," ",apellido_p ) like "%'.$_GET['term'].'%"')->get();
+		
+		$aPaciente = array();
+
+		foreach($consultorio->paciente as $pacient){
+			 $aPaciente[] = array("Id"        => $pacient->id, 
+			 					  "label"     => $pacient->nombre_completo,
+			 					  "value"     => $pacient->nombre_completo );
+		}
+	
+		echo json_encode($aPaciente);
 
 	}
 }

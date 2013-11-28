@@ -9,6 +9,8 @@ class Tipo_empleado extends DataMapper
 
     public $has_many = array("modulo", "submodulo");
 
+    public $has_one = array("empleado");
+
     public $error_prefix = '<div class = "error">';
     public $error_suffix = '</div>';
 

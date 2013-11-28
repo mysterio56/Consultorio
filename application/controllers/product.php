@@ -213,7 +213,7 @@ public function eliminar($id_producto){
 			if($input_count > 0){
 
 				$productos->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
-
+				$productos->order_by('estatus');
 				$productos->order_by('codigo');
 				$productos->get_paged_iterated($page, 8);
 

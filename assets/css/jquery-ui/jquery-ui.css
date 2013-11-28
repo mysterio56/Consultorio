@@ -187,6 +187,10 @@
 	border-top: 0;
 	overflow: auto;
 }
+ .ui-autocomplete-loading {
+ 	background: white url('images/loading.gif') right center no-repeat;
+  }
+ 
 .ui-autocomplete {
 	position: absolute;
 	top: 0;

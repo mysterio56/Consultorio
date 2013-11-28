@@ -77,6 +77,7 @@ class Appointment extends CI_Controller{
     	
     }
 
+
     public function estatus($cita_id = null){
 
     	$cita = new Reunion();
@@ -123,5 +124,35 @@ class Appointment extends CI_Controller{
 		$this->load->view('sistema/citas/historia', $data);
 
     }
+
+    public function agregar(){    	
+
+
+    	$data['view']     	  = 'sistema/citas/agregar';
+		$data['return']       = 'appointment';
+		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
+								  'sistema.css');
+		$data['jsFiles']  = array('jquery.js',
+							      'jquery-ui.js',
+							      'jquery.ui.datepicker-es.js',
+							   	  'jquery-validation/dist/jquery.validate.js',
+								  'jquery-validation/localization/messages_es.js',
+								  'valid_forms.js');
+
+	
+
+	$this->load->view('sistema/template',$data);
+
+		if($this->input->post()){
+
+		$citas = new Reunion();
+
+		$citas->paciente_id         = $this->input->post('pacienteId'); 
+		$citas->empleado_id         = $this->input->post('doctorId'); 
+		$citas->fecha_hora          = $this->input->post('fecha');
+		$citas->servicio_id			= $this->input->post('servicioId');
+   }
+
+}
 
 }

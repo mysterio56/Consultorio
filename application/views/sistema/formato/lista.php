@@ -20,25 +20,48 @@
 			<?php 
 				$nRow = 1;
 				foreach($formatos as $formato){
-
+				if($formato->estatus !=2){
 					if (($nRow % 2) == 0) {
 						$rowClass = "even";
 					} else {
 						$rowClass = "odd";
 					}
+				}else{ 
+						$rowClass="borrado";
+				}
 
 					echo '<tr class='.$rowClass.'>';
 						echo '<td>'.$formato->codigo.'</td>';
 						echo '<td>'.$formato->nombre.'</td>';
 						echo '<td>'.date("d", strtotime($formato->fecha_alta)) .' / '. $aMeses[date("n", strtotime($formato->fecha_alta))-1] .' / '. date("Y", strtotime($formato->fecha_alta)) .'</td>';
-						if(in_array($permisos,array(2,6,7))){ 
+						if(in_array($permisos,$aPermisos['Editar'])){  
+						if($formato->estatus !=2){
 							echo '<td><a href="'.base_url('format/editar/'.$formato->id).'">
 									  <img src="'.base_url('assets/images/edit.png').'" /></a></td>';
+						}
 						}			  
 						$activo = $formato->estatus?'active':'inactive';
-						echo '<td>';
+						
 								if(in_array($permisos,$aPermisos['Editar']) ){
-									echo '<a href="'.base_url('format/status/'.$formato->id).'">
+									if ($formato->estatus==1){
+
+										echo '<td align="center">';
+										$activo='active';
+										$function='if(Valid.desactivaregistro()==false)return false';
+									
+									}else if ($formato->estatus==0) {
+
+										echo '<td align="center">';
+										$activo='inactive';
+										$function='if(Valid.activaregistro()== false)return false';
+									
+									}else if($formato->estatus ==2){
+										echo '<td align="center" colspan="3">';
+										$activo='inactive';
+										$function='if(Valid.activaregistro()==false)return false';
+									}
+
+								   	echo '<a onclick="'.$function.'" href="'.base_url('product/status/'.$formato->id).'">
 											<img src="'.base_url('assets/images/'.$activo.'.png').'" />
 										 </a>';
 
@@ -49,7 +72,8 @@
 
 						echo '</td>';
 
-						if(in_array($permisos,$aPermisos['Eliminar']) ){								
+						if(in_array($permisos,$aPermisos['Eliminar']) ){
+							if($formato->estatus !=2){								
 							
 	                        echo '<td>';
 										echo '<a onclick="if(Valid.eliminaregistro() ==false)return false" href="'.base_url('format/eliminar/'.$formato->id).'">
@@ -58,8 +82,8 @@
 	                        
 							echo '</td>';
 
-						}
-
+						    }
+					    }
 
 					echo '</tr>';
 					$nRow++;

@@ -198,9 +198,9 @@ public function eliminar($id_especialidad){
 			if($input_count > 0){
 
 				$especialidades->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
-									    
+				$especialidades->order_by('estatus');					    
 				$especialidades->order_by('codigo');
-				$especialidades->get_paged_iterated($page, 9);
+				$especialidades->get_paged_iterated($page, 6);
 
 				$data['permisos']     = $aPermisos['specialism'];
 				$data['paginaActual'] = $page;

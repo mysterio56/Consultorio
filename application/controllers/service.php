@@ -235,8 +235,9 @@ public function eliminar($id_servicio){
 			 if($input_count > 0){
 
 				$servicios->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
+				$servicios->order_by('estatus');
 				$servicios->order_by('codigo');
-				$servicios->get_paged_iterated($page, 8);
+				$servicios->get_paged_iterated($page, 4);
 
 				$data['permisos']     = $aPermisos['service'];
 				$data['paginaActual'] = $page;
@@ -250,4 +251,27 @@ public function eliminar($id_servicio){
 		$this->load->view('sistema/template',$data);
 
 	}
+
+	public function lista(){
+
+		$servicio = new Servicio();
+
+		$servicio->select(' id,estatus, codigo, nombre ');
+		$array = array('codigo' => $_GET['term'], 'nombre' => $_GET['term']);
+		$servicio->or_like($array)->get();
+		
+		$aServicio = array();
+
+		foreach($servicio as $service){
+			 $aServicio[] = array("Id"    => $service->id, 
+			 					  "label" => $service->codigo ." ". $service->nombre,
+			 					  "value" => $service->codigo ." ". $service->nombre);
+		}
+		
+		echo json_encode($aServicio);
+
+	}
 }
+
+
+
