@@ -522,4 +522,4 @@ Find.fecha_alta_value = function()
 
 jQuery.validator.addMethod('selectcheck', function (value) {
         return (value != '0');
-    }, "Este campo es requerido");
+    }, "Requerido.");
