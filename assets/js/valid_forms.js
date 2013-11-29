@@ -134,7 +134,7 @@ Valid.cita = function()
         servicio:{
         required:true,
         }
-    },
+    }
     errorElement: 'div',
     wrapper: 'div',
     errorPlacement: function(error, element) {
