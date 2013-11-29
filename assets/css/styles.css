@@ -292,6 +292,7 @@ html, body{
 .ac-container input:checked + label:hover:after{
     content: '';
     position: absolute;
+    border-color: #00BFFF
     width: 24px;
     height: 24px;
     right: 13px;

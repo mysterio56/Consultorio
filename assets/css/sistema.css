@@ -143,9 +143,8 @@ div .error{
 
 .error{
   color:red;
+  border-color: red
 }
-
-
 
 /********* Estilos para imagenes de accion *********/
 
@@ -227,10 +226,12 @@ div .error{
 
 .table_form input {
    width: 100%;
+   border-color: #00BFFF;
 }
 
 .table_form input[type='checkbox'] {
     width: 16px;
+    border-color: #00BFFF;
 }
 
 .auto-button{
