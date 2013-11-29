@@ -135,7 +135,7 @@ text-transform:capitalize;
 /********* Estilos para error de validacion en formularios *********/
 
 div .error{
-  color:red;
+  color:orange;
   font-weight: bold;
   font-size: 13px;
   margin: 3px;
