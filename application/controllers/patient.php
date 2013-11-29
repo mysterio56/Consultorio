@@ -263,15 +263,15 @@ class Patient extends CI_Controller{
 		$consultorio= new Consultorio();
 				
 		$consultorio->where('id',$this->session->userdata('id_consultorio'))->get();
-		$consultorio->paciente->select('id, concat( codigo," ", nombre," ", apellido_m," ",apellido_p ) as nombre_completo');
-		$consultorio->paciente->where('concat( codigo," ",nombre," ",apellido_m," ",apellido_p ) like "%'.$_GET['term'].'%"')->get();
+
+		$consultorio->paciente->where('CONCAT( codigo,  "  " , nombre,  " " , apellido_p, " " , apellido_m ) like "%'.$_GET['term'].'%"')->get();
 		
 		$aPaciente = array();
 
 		foreach($consultorio->paciente as $pacient){
 			 $aPaciente[] = array("Id"        => $pacient->id, 
-			 					  "label"     => $pacient->nombre_completo,
-			 					  "value"     => $pacient->nombre_completo );
+			 					  "label"     => $pacient->codigo .' '. $pacient->nombre .' '. $pacient->apellido_p .' '. $pacient->apellido_m,
+			 					  "value"     => $pacient->codigo .' '. $pacient->nombre .' '. $pacient->apellido_p .' '. $pacient->apellido_m,);
 		}
 	
 		echo json_encode($aPaciente);

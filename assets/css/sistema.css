@@ -247,3 +247,50 @@ div .error{
 .select_reload > * {
   display: inline-block;
 }
+
+
+
+.citas .vis-hidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+.citas label {
+
+  display: inline-block;
+background: #006699;
+padding: 4px;
+text-align: center;
+border-radius: 5px;
+color: white;
+text-decoration: none;
+margin: 6px;
+cursor: pointer;
+font-size: 13px;
+font-family: helvetica;
+border: none;
+font-weight: normal;
+border: solid 1px #4cbade;
+}
+
+.citas > input:checked + label {
+display: inline-block;
+background: #4cbade;
+padding: 4px;
+text-align: center;
+border-radius: 5px;
+color: #81F7F3;
+text-decoration: none;
+margin: 6px;
+cursor: pointer;
+font-size: 13px;
+font-family: helvetica;
+border: solid 1px;
+font-weight: normal;
+}

@@ -1,5 +1,4 @@
 <?php 
-
 	echo form_open(null);
 	echo '<table class="table_form">';
 	echo '<tr>';
@@ -51,12 +50,10 @@
 					);
 		echo '<td>';
 			echo form_input($data);
+
+			echo '<input type="hidden" name="fecha_alt" id="fecha_alt"/>';
+
 		echo '</td>'; 
-		?>
-
-			<input type="hidden" name="fecha_alta" id="fecha_alta" />
-
-			<?php
 	echo '<tr>';
 		echo '<td>';
 			echo form_label('*Servicio:');
@@ -122,6 +119,48 @@ $(function () {
             $("#servicioId").val(ui.item ? ui.item.Id : "");
         	}
     	});
+
+    	var myControl=  {
+	create: function(tp_inst, obj, unit, val, min, max, step){
+		$('<input class="ui-timepicker-input" value="'+val+'" style="width:50%">')
+			.appendTo(obj)
+			.spinner({
+				min: min,
+				max: max,
+				step: step,
+				change: function(e,ui){ // key events
+						// don't call if api was used and not key press
+						if(e.originalEvent !== undefined)
+							tp_inst._onTimeChange();
+						tp_inst._onSelectHandler();
+					},
+				spin: function(e,ui){ // spin events
+						tp_inst.control.value(tp_inst, obj, unit, ui.value);
+						tp_inst._onTimeChange();
+						tp_inst._onSelectHandler();
+					}
+			});
+		return obj;
+	},
+	options: function(tp_inst, obj, unit, opts, val){
+		if(typeof(opts) == 'string' && val !== undefined)
+			return obj.find('.ui-timepicker-input').spinner(opts, val);
+		return obj.find('.ui-timepicker-input').spinner(opts);
+	},
+	value: function(tp_inst, obj, unit, val){
+		if(val !== undefined)
+			return obj.find('.ui-timepicker-input').spinner('value', val);
+		return obj.find('.ui-timepicker-input').spinner('value');
+	}
+};
+
+$('#fecha').datetimepicker({
+	controlType: myControl,
+	altField: "#fecha_alt",
+	altFieldTimeOnly: false,
+	altFormat: "yy-mm-dd",
+	altTimeFormat: "HH:mm"
+});
 });	
 
 </script>

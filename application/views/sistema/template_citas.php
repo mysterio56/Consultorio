@@ -1,19 +1,14 @@
 <?php
-    /** funcion para validar que la pagina se habra en un iframe **/
 
-    IframeRedirect();
-
-    define ("PERMISOS", serialize (array("Agregar"  => array(4,5,6,7),
+define ("PERMISOS", serialize (array("Agregar"  => array(4,5,6,7),
                                          "Editar"   => array(2,3,6,7),
                                          "Eliminar" => array(1,3,5,7)
                                          )
                                   )
-           );
+        );
 
-    define ("MESES", serialize (array("Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic")));
+ define ("MESES", serialize (array("Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic")));
 
-    define ("CONSULTORIOID", $this->session->userdata('id_consultorio'));
-    
 	if(isset($cssFiles) && is_array($cssFiles)){
 		foreach($cssFiles as $cssFile) {
         	echo '<link href="'.base_url('assets/css/'.$cssFile).'" rel="stylesheet" type="text/css" />';
@@ -30,34 +25,26 @@
 <div class="subir">
 
 <?php
- if(!isset($return) && $view != 'sistema/consultorio/editar'){
-
+ 
     echo form_open();
-    echo form_label('Código:','codigo');
-    echo form_input(array('name'  => 'codigo' , 
-                          'id'    => 'codigo' , 
-                          'size'  => '20', 
-                          'value' => set_value('codigo')));
+?>
 
-    echo form_label('Nombre:','nombre');
-    echo form_input(array('name'  => 'nombre', 
-                          'id'    => 'nombre', 
-                          'size'  => '20', 
-                          'value' => set_value('nombre')));
-   
+<div class="citas">
+<input id="chk_act" checked="true" type="checkbox" name="estatus_citas[]" class="vis-hidden" value="1" />
+<label for="chk_act">Actuales</label>
 
-    echo form_submit(array('name'  => 'buscar', 
-                           'id'    => 'buscar',
-                           'class' => 'abutton',
-                           'value' => 'Buscar',
-                           'style' => 'margin:0px'));
+<input id="chk_prox" type="checkbox" name="estatus_citas[]" class="vis-hidden" value="2" />
+<label for="chk_prox">Proximas</label>
+
+<input id="chk_pas" type="checkbox" name="estatus_citas[]" class="vis-hidden" value="3" />
+<label for="chk_pas">Pasadas</label>
+</div>
+
+<?php
     echo form_close();
-  }
-
 ?> 
 
 </div>
-
 
 <?php   
     $this->load->view($view);   

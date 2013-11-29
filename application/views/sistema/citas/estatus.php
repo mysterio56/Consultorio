@@ -32,5 +32,4 @@ echo form_open();
 	}
 	echo form_close();
 ?>
-<a href="<?php echo $_SERVER['HTTP_REFERER']; ?>">Volver</a>
 
