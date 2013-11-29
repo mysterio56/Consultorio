@@ -1,5 +1,12 @@
+<script>
+	$(function(){ Valid.cita(); });
+</script>
+
 <?php 
-	echo form_open(null);
+
+  $attributes = array('id' => 'citaForm');
+  	echo form_open(null,$attributes); 
+	
 	echo '<table class="table_form">';
 	echo '<tr>';
 			echo form_label('*Campos Requeridos','campo');
@@ -81,8 +88,11 @@
 		 	);
 
 		 	echo form_submit($data);	
+
 		 	echo '<a href="'.base_url($return).'" class="abutton_cancel">Cancelar</a>';
-			echo form_close();
+		
+		echo form_close();
+
 ?>
 
 <script>
