@@ -5,7 +5,7 @@
 	$attributes = array('id' => 'empleadosForm');
 
 	 	echo form_open(null,$attributes);
-echo '<table class="table_form">';
+    echo '<table class="table_form">';
 	echo '<tr>';
 			echo form_label('*Campos Requeridos','campo');
 		echo '<td>';
