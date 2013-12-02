@@ -118,6 +118,32 @@ Valid.empleados = function()
     });
     
 }
+Valid.cita = function()
+{
+
+    $('#citaForm').validate({
+        rules:{
+            paciente:{
+                required:true,
+            },
+            doctor:{
+                required:true,
+            },
+            fecha:{
+                required:true,
+            },
+            servicio:{
+                required:true,
+            }
+        },
+        errorElement: 'div',
+        wrapper: 'div',
+        errorPlacement: function(error, element) {
+            error.insertAfter(element); 
+        }
+    });
+    
+}
 
 Valid.password = function()
 {
@@ -518,8 +544,9 @@ Find.fecha_alta_value = function()
                 altField:   "#fecha_alta",
                 altFormat:  "yy-mm-dd",
                 dateFormat: "dd M yy"});
-}
+
 
 jQuery.validator.addMethod('selectcheck', function (value) {
         return (value != '0');
     }, "Requerido.");
+}

@@ -9,60 +9,64 @@
 	 	echo '<table class="table_form">';
 	    echo'<tr>'; 
 	    echo form_label('* Campos Requeridos','campo');
-	    echo'<td>'; 
+	    echo'<td width="8%">'; 
 	 		echo form_label('* Código:');
 	 		 echo'</td>';
-	   		 echo'<td>';
+	   		 echo'<td width="28%">';
 		 	$data = array(
 		 		'name'  => 'codigo',
 		 		'id'    => 'codigo',
 		 		'value' => set_value('codigo'),
-		 		//'style' => 'width:80px'
+		 		'style' => 'width:30%'
 		 	);
 
 		 	echo form_input($data);
 		 	echo'</td>';
-            echo '</tr>';
-	
-        echo'<tr>'; 
- 	    echo'<td>'; 
+          
+ 	    echo'<td width="8%">'; 
 		 	echo form_label('*Nombre:');
 		 	echo'</td>';
-            echo'<td>';
+            echo'<td colspan="35%">';
 		 	$data = array(
 		 		'name'  => 'nombre',
 		 		'id'    => 'nombre',
 		 		'class' => 'capitalize',
 		 		'value' => set_value('nombre'),
-		 		//'style' => 'width:125px'
+		 		'style' => 'width:50%'
 		 	);
 
 		 	echo form_input($data);
             echo'</td>';
-            echo'<td>';
+            echo'</tr>';
+
+            echo'<tr>';
+            echo'<td width="8%">';
 		 	echo form_label('*Apellido paterno:');
 		 	echo'</td>';
-		 	echo'<td>';
+
+		 	echo'<td  width="8%">';
 		 	$data = array(
 		 		'name'  => 'apellido_p',
 		 		'id'    => 'apellido_p',
 		 		'class' => 'capitalize',
 		 		'value' => set_value('apellido_p'),
-		 		//'style' => 'width:85px'
+		 		'style' => 'width:70%'
 		 	);
 
 		 	echo form_input($data);
-		 	echo'<td>';
-
-		 	echo form_label('*Apellido materno:');
 		 	echo'</td>';
-		 	echo'<td>';
+
+            echo'<td width="8%">';
+  		 	echo form_label('*Apellido materno:');
+		 	echo'</td>';
+
+		 	echo'<td colspan="35%">';
 		 	$data = array(
 		 		'name'  => 'apellido_m',
 		 		'id'    => 'apellido_m',
 		 		'class' => 'capitalize',
 		 		'value' => set_value('apellido_m'),
-		 		'style' => 'width:85px'
+		 		'style' => 'width:50%'
 		 	);
 
 		 	echo form_input($data);
@@ -70,45 +74,46 @@
             echo '</tr>';
 
 		 echo'<tr>'; 
- 	     echo'<td>';
+ 	     echo'<td width="8%"> ';
 		 	echo form_label('*Email:');
 		 	echo'</td>';
-            echo'<td colspan="2">';
+            echo'<td width="8%">';
 		 	$data = array(
 		 		'name'  => 'email',
 		 		'id'    => 'email',
 		 		'value' => set_value('email'),
-		 		//'style' => 'width:200px'
+		 		'style' => 'width:70%'
 		 	);
 
 		 	echo form_input($data);
 		 	echo'</td>';
-            echo '</tr>';
-
-
-		 echo'<tr>'; 
- 	     echo'<td>';
+          
+ 	     echo'<td width="8%">';
 		 	echo form_label('*Teléfono:');
 		 	echo'</td>';
-            echo'<td>';
+            echo'<td colspan="35%">';
 		 	$data = array(
 		 		'name'  => 'telefono',
 		 		'id'    => 'telefono',
-		 		'value' => set_value('telefono')
+		 		'value' => set_value('telefono'),
+		 		'style' => 'width:50%'
 		 	);
 
 		 	echo form_input($data);
 		 	echo'</td>';
-
-		 	echo'<td>';
+		 	echo'</tr>';
+           
+           echo'</tr>';
+		 	echo'<td width="8%">';
 		 	
-		  	echo form_label('*Celular:');
+		    echo form_label('*Celular:');
 		 	echo'</td>';
-            echo'<td>';
+            echo'<td colspan="35%">';
 		 	$data = array(
 		 		'name'  => 'celular',
 		 		'id'    => 'celular',
-		 		'value' => set_value('celular')
+		 		'value' => set_value('celular'),
+		 		'style' => 'width:20%'
 		 	);
 
 		 	echo form_input($data);
@@ -125,44 +130,44 @@
             ?>
  <tr>
 	<td>
-		 	<?= form_label('*Estado:'); ?>
+	<?= form_label('*Estado:'); ?>
 	</td>
-	<td colspan="2">
-	  	 <select name="estado" id="estado" class="hide" onChange="getMunicipalities();"> </select>
-	  	  <div id="wait_estados" class="wait">
+	<td  colspan="2" width="20%">
+	  	 <select  width="20%" name="estado" id="estado" class="hide" onChange="getMunicipalities();"> </select>
+	  	  <div id="wait_estados" class="wait" width="10%">
 	  	  	<p>Cargando Estados, por favor espere</p>
 	  	  	</div>
 	</td>
-</tr>
-<tr>
+
 	<td>
 		 	<?= form_label('*Municipio:'); ?>
 	</td>
-	<td colspan="2">
+	<td>
 		<select  name="municipio" id="municipio" class="hide" onchange="getPostalCodes();"/></select>
-		 <div id="wait_mun" class="wait hide">
+		 <div id="wait_mun" class="wait hide" width="10%">
 	  	  	<p>Cargando Municipios, por favor espere</p>
 	  	  	</div>
 	</td>
 </tr>
+
+
 <tr>
     <td>
     <?= form_label('*Codigo Postal:');?>
     </td>
-    <td colspan="2">
+    <td  colspan="2" width="20%">
     	<select name="codigo_postal" id="codigo_postal" class="hide" onchange="getColonies();"/></select>
-    	 <div id="wait_cp" class="wait hide">
+    	 <div id="wait_cp" class="wait hide" width="10%">
 	  	  	<p>Cargando Codigos Postales, por favor espere</p>
 	  	  	</div>
     </td>
-</tr>
-<tr>
-    <td>
+
+    <td width="10%">
     	<?= form_label('*Colonia:'); ?>
 	</td>
-	<td colspan="2">
+	<td>
 		<select name="colonia" id="colonia" class="hide"/></select>
-		 <div id="wait_col" class="wait hide">
+		 <div id="wait_col" class="wait hide" width="10%">
 	  	  	<p>Cargando Colonias, por favor espere</p>
 	  	  	</div>
 	</td>
@@ -173,6 +178,7 @@
 	echo '<td>';
 		 	echo form_label('*Calle:');
 	echo '</td>';
+	            echo '<td>';
 
 			 	$data = array(
 		 		'name'  => 'calle',
@@ -180,33 +186,37 @@
 		 		'value' => set_value('calle'),
 		 		//'style' => 'width:210px'
 		 	);
-	echo '<td>';
+	
 		 	echo form_input($data);
 	echo '</td>';
-	echo '</tr>';
-	echo '<tr>';
+	
 	echo '<td>';
 		 	echo form_label('Número Exterior:');
 	echo '</td>';
+	        echo '<td>';
 		 	$data = array(
 		 		'name'  => 'numero_ext',
 		 		'id'    => 'numero_ext',
 		 		'value' => set_value('numero_ext'),
-		 		//'style' => **'width:210px'
+		 		'style' => 'width:40%'
 		 	);
-	echo '<td>';
+	
 		 	echo form_input($data);
 	echo '</td>';
+	echo '</tr>';
+
+echo '<tr>';
 	echo '<td>';
 		 	echo form_label('Número interior:');
 	echo '</td>';
+	        echo '<td>';
 		 	$data = array(
 		 		'name'  => 'numero_int',
 		 		'id'    => 'numero_int',
 		 		'value' => set_value('numero_int'),
-		 		//'style' => 'width:210px'
+		 		'style' => 'width:30%'
 		 	);
-		 	echo '<td>';
+		 	
 		 	echo form_input($data);
 	echo '</td>';
 	echo '</tr>';

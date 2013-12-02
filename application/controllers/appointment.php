@@ -132,13 +132,13 @@ class Appointment extends CI_Controller{
 		$data['return']       = 'appointment';
 		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
 								  'sistema.css');
-		$data['jsFiles']  = array('jquery.js',
+		$data['jsFiles']  = array('valid_forms.js',
+								  'jquery.js',
 							      'jquery-ui.js',
 							      'jquery.ui.datepicker-es.js',
 							   	  'jquery-validation/dist/jquery.validate.js',
 								  'jquery-validation/localization/messages_es.js',
-								  'valid_forms.js',
-            				      'jquery-timepicker.js');
+								  'jquery-timepicker.js');
 
 	$this->load->view('sistema/template',$data);
 
@@ -146,11 +146,26 @@ class Appointment extends CI_Controller{
 
 		$citas = new Reunion();
 
-		$citas->paciente_id         = $this->input->post('pacienteId'); 
-		$citas->empleado_id         = $this->input->post('doctorId'); 
-		$citas->fecha_hora          = $this->input->post('fecha_alt').':00';
-		$citas->servicio_id			= $this->input->post('servicioId');
+		$citas->paciente_id = $this->input->post('pacienteId'); 
+		$citas->empleado_id = $this->input->post('doctorId'); 
+		$citas->fecha_hora  = $this->input->post('fecha_alt').':00';
+		$citas->servicio_id	= $this->input->post('servicioId');
+		$citas->estatus		= 1;
+
+		$citas->consultorio_id = $this->session->userdata('id_consultorio');
+		$citas->fecha_alta          = date("Y-m-d H:i:s");
+		
+		if($citas->save()){
+
+				redirect(base_url('appointment'));
+
+			} else {
+
+				echo $citas->error->string;
+				
+			}
    }
+
 
 }
 

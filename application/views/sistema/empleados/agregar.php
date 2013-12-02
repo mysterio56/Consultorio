@@ -5,80 +5,91 @@
 	$attributes = array('id' => 'empleadosForm');
 
 	 	echo form_open(null,$attributes);
-echo '<table class="table_form">';
+    echo '<table class="table_form">';
 	echo '<tr>';
 			echo form_label('*Campos Requeridos','campo');
-		echo '<td>';
+		echo '<td width="8%">';
 	 		echo form_label('*Código:');
-	 	echo '</td>';
-
+	 	echo'</td>';
+	   		 echo'<td width="28%">';
 		 	$data = array(
 		 		'name'  => 'codigo',
 		 		'id'    => 'codigo',
 		 		'value' => set_value('codigo'),
-		 		//'style' => 'width:100px'
+		 		'style' => 'width:30%'
 		 	);
 
-		 	echo '<td>';
+		 
 		 		echo form_input($data);
-		 	echo '</td>';
-echo '</tr>';
-echo '<tr>';
-	echo '<td>';
+		 		echo'</td>';
+          
+ 	    echo'<td width="8%">'; 
 		 	echo form_label('*Nombre:');
-	echo '</td>';
+	echo'</td>';
+            echo'<td colspan="35%">';
 		 	$data = array(
 		 		'name'  => 'nombre',
 		 		'id'    => 'nombre',
 		 		'class' => 'capitalize',
 		 		'value' => set_value('nombre'),
-		 		//'style' => 'width:100px'
+		 		'style' => 'width:50%'
 		 	);
-	echo '<td>';
+	
 		 	echo form_input($data);
-	echo '</td>';
-	echo '<td>';
+	echo'</td>';
+            echo'</tr>';
+
+            echo'<tr>';
+            echo'<td width="8%">';
 		 	echo form_label('*Apellido Paterno:');
-	echo '</td>';
+	echo'</td>';
+
+		 	echo'<td  width="8%">';
 		 	$data = array(
 		 		'name'  => 'apellido_p',
 		 		'id'    => 'apellido_p',
 		 		'class' => 'capitalize',
 		 		'value' => set_value('apellido_p'),
-		 		//'style' => 'width:100px'
+		 		'style' => 'width:70%'
 		 	);
-	echo '<td>';
+	
 		 	echo form_input($data);
-	echo '</td>';
-	echo '<td>';
+	echo'</td>';
+
+            echo'<td width="8%">';
 		 	echo form_label('*Apellido Materno:');
-	echo '</td>';
+	echo'</td>';
+
+		 	echo'<td colspan="35%">';
 		 	$data = array(
 		 		'name'  => 'apellido_m',
 		 		'id'    => 'apellido_m',
 		 		'class' => 'capitalize',
 		 		'value' => set_value('apellido_m'),
-		 		//'style' => 'width:100px'
+		 		'style' => 'width:50%'
 		 	);
 
-	echo '<td>';
+	
 		 	echo form_input($data);
-	echo '</td>';
-echo '<tr>';
-	echo '<td>';
+	echo'</td>';
+            echo '</tr>';
+
+		 echo'<tr>'; 
+ 	     echo'<td width="8%"> ';
 		 	echo form_label('*Email:');
-	echo '</td>';
+	echo'</td>';
+            echo'<td width="8%">';
 		 	$data = array(
 		 		'name'  => 'email',
 		 		'id'    => 'email',
 		 		'value' => set_value('email'),
 		 		//'style' => 'width:200px'
 		 	);
-	echo '<td colspan="2">';
+	
 		 	echo form_input($data);
 	echo '</td>';
 echo '</tr>';
-echo '<tr>';
+
 	echo '<td>';
 
 		 	echo form_label('*Password:');

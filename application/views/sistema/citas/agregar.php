@@ -1,6 +1,12 @@
+<script>
+	$(function(){ Valid.cita(); });
+</script>
+
 <?php 
 
-	echo form_open(null);
+  $attributes = array('id' => 'citaForm');
+  	echo form_open(null,$attributes); 
+	
 	echo '<table class="table_form">';
 	echo '<tr>';
 			echo form_label('*Campos Requeridos','campo');
@@ -55,11 +61,6 @@
 			echo '<input type="hidden" name="fecha_alt" id="fecha_alt"/>';
 
 		echo '</td>'; 
-		?>
-
-			<input type="hidden" name="fecha_alta" id="fecha_alta" />
-
-			<?php
 	echo '<tr>';
 		echo '<td>';
 			echo form_label('*Servicio:');
@@ -87,8 +88,11 @@
 		 	);
 
 		 	echo form_submit($data);	
+
 		 	echo '<a href="'.base_url($return).'" class="abutton_cancel">Cancelar</a>';
-			echo form_close();
+		
+		echo form_close();
+
 ?>
 
 <script>

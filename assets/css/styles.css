@@ -292,6 +292,7 @@ html, body{
 .ac-container input:checked + label:hover:after{
     content: '';
     position: absolute;
+    border-color: #00BFFF
     width: 24px;
     height: 24px;
     right: 13px;
@@ -322,6 +323,7 @@ html, body{
 
 .ac-container input{
     display: none;
+    color: #0091c0;
 }
 
 .ac-container article{
@@ -339,6 +341,7 @@ html, body{
     transition:
         height 0.5s ease-in-out,
         box-shadow 0.1s linear;
+
     box-shadow: 0px 0px 0px 1px rgba(155,155,155,0.3);
 }
 
