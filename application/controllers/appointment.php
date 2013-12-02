@@ -144,7 +144,8 @@ class Appointment extends CI_Controller{
 
 		if($this->input->post()){
 
-		$citas = new Reunion();
+		$historia = new Historia();	
+		$citas    = new Reunion();
 
 		$citas->paciente_id = $this->input->post('pacienteId'); 
 		$citas->empleado_id = $this->input->post('doctorId'); 
@@ -156,17 +157,87 @@ class Appointment extends CI_Controller{
 		$citas->fecha_alta          = date("Y-m-d H:i:s");
 		
 		if($citas->save()){
+				$historia->cita_id     = $citas->id;
+				$historia->paciente_id = $this->input->post('pacienteId');
+				$historia->empleado_id = $this->input->post('doctorId');
+				$historia->fecha_hora  = $this->input->post('fecha_alt').':00';
+				$historia->servicio_id = $this->input->post('servicioId');
+				$historia->estatus     = 1;
+				$historia->fecha_alta          = date("Y-m-d H:i:s");
+				
+				
 
-				redirect(base_url('appointment'));
+				if($historia->save()){
+					redirect(base_url('appointment'));
+				}else{
+					echo $historia->error->string;
+				}
 
 			} else {
 
 				echo $citas->error->string;
 				
 			}
-   }
+   		}
+	}
 
+	public function editar($id_cita){
 
-}
+		$cita = new Reunion();
+		
+		
+		$cita->where(array( 'id'     => $id_cita,
+							'estatus'=> 1))->get();
+		    	
+
+		$data['cita']     = $cita; 
+		$data['return']   = 'appointment'; 		
+		$data['view']     = 'sistema/citas/editar';
+		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
+								  'sistema.css');
+		$data['jsFiles']  = array('valid_forms.js',
+								  'jquery.js',
+							      'jquery-ui.js',
+							      'jquery.ui.datepicker-es.js',
+							   	  'jquery-validation/dist/jquery.validate.js',
+								  'jquery-validation/localization/messages_es.js',
+								  'jquery-timepicker.js');
+
+		$this->load->view('sistema/template',$data);
+
+	 if($this->input->post()){
+
+		$historia = new Historia();	
+		
+		$cita->empleado_id = $this->input->post('doctorId'); 
+		$cita->fecha_hora  = $this->input->post('fecha_alt');
+		$cita->servicio_id = $this->input->post('servicioId');
+		$cita->estatus	   = 1;
+
+		$cita->consultorio_id = $this->session->userdata('id_consultorio');
+		$cita->fecha_alta          = date("Y-m-d H:i:s");
+		
+		if($cita->save()){
+				
+				$historia->cita_id     = $cita->id;
+				$historia->paciente_id = $this->input->post('pacienteId');
+				$historia->empleado_id = $this->input->post('doctorId');
+				$historia->fecha_hora  = $this->input->post('fecha_alt');
+				$historia->servicio_id = $this->input->post('servicioId');
+				$historia->estatus     = 1;
+				$historia->fecha_alta          = date("Y-m-d H:i:s");
+				if($historia->save()){
+					redirect(base_url('appointment'));
+					}else{
+					echo $historia->error->string;
+					}
+					
+		} else {
+
+				echo $cita->error->string;
+				
+		}
+   		}
+	}
 
 }

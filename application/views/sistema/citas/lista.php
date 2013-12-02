@@ -58,6 +58,7 @@
 
 							echo '<td>';
 								if(in_array($permisos,$aPermisos['Editar'])){ 
+									echo '<a href="'.base_url('appointment/editar/'.$cita->id).'">';
 									echo '<img src="'.base_url('assets/images/edit.png').'" width="25" height="25" >';
 								}
 								if (isset($permisosSub['Histórico'])){
