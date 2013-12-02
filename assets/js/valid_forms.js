@@ -544,8 +544,9 @@ Find.fecha_alta_value = function()
                 altField:   "#fecha_alta",
                 altFormat:  "yy-mm-dd",
                 dateFormat: "dd M yy"});
-}
+
 
 jQuery.validator.addMethod('selectcheck', function (value) {
         return (value != '0');
     }, "Requerido.");
+}

@@ -10,10 +10,10 @@
 	     echo '<table class="table_form">';
          echo'<tr>'; 
          echo form_label('*Campos Requeridos','campo');
- 	     echo'<td>';
+ 	     echo'<td width="25%">';
             echo form_label('*Código:');
 	 		echo'</td>';
-            echo'<td>';
+             echo'<td width="25%">';
 		 	$data = array(
 		 		'name'  => 'codigo',
 		 		'id'    => 'codigo',
@@ -23,13 +23,15 @@
 
             echo form_input($data);
 		 	echo'</td>';
-            echo '</tr>';
+            
 
 
-            echo'<tr>'; 
- 	        echo'<td>';
+           
+ 	       echo'<td width="25%">';
 		 	echo form_label('*Nombre:');
-		 	echo'<td>';
+      echo'</td>';
+
+		  echo'<td width="25%">';
 		 	$data = array(
 		 		'name'  => 'nombre',
 		 		'id'    => 'nombre',
@@ -40,10 +42,12 @@
 
 		 	echo form_input($data);
 		 	echo'</td>';
-            echo'<td>';
+      echo'</tr>';
+            echo'<tr>';
+             echo'<td width="25%">';
 		 	echo form_label('*Apellido Paterno:');
 		 	echo'</td>';
-		 	echo'<td>';
+		 	 echo'<td width="25%">';
 		 	$data = array(
 		 		'name'  => 'apellido_p',
 		 		'id'    => 'apellido_p',
@@ -54,7 +58,7 @@
 
 		 	echo form_input($data);
 		 	echo'</td>';
-            echo'<td>';
+             echo'<td width="25%">';
 		 	echo form_label('*Apellido Materno:');
 		 	echo'<td>';
 		 	$data = array(
@@ -70,10 +74,11 @@
 		 	echo'</td>';
             echo '</tr>';
 
+         echo '<tr>';
             echo'<td>';
 		 	echo form_label('*Email:');
 		 	echo'</td>';
-            echo'<td colspan="2">';
+            echo'<td width="25%">';
 		 	$data = array(
 		 		'name'  => 'email',
 		 		'id'    => 'email',
@@ -83,12 +88,12 @@
 
 		 	echo form_input($data);
 		 	echo'</td>';
-            echo '</tr>';
+            
 
-			echo'<td>';
+			echo'<td width="25%">';
 		 	echo form_label('*Teléfono:');
 		 	echo'</td>';
-            echo'<td>';
+            echo'<td width="25%">';
 		 	$data = array(
 		 		'name'  => 'telefono',
 		 		'id'    => 'telefono',
@@ -97,10 +102,15 @@
 
 		 	echo form_input($data);
 		 	echo'</td>';
-            echo'<td>';
+      echo'</tr>';
+
+
+      echo'<tr>';
+      echo'<td width="25%">';
 		 	echo form_label('*Celular:');
 		 	echo'</td>';
-            echo'<td>';
+
+      echo'<td width="25%">';
 		 	$data = array(
 		 		'name'  => 'celular',
 		 		'id'    => 'celular',
@@ -109,15 +119,13 @@
 
 		 	echo form_input($data);
 		 	echo'</td>';
-            echo '</tr>';
-
-		 	echo'<tr>'; 
+           
             	echo'<td>';
             			echo form_label('*Tipo de empleado:');
             	echo'</td>';
       
 		 	?>
-          <td colspan="2">
+          <td width="25%">
 
                <div id="wait_tp" class="wait">
                     <p>Cargando tipo de empleados, por favor espere</p>
@@ -130,8 +138,9 @@
               </div>
          
            </td>
+         </tr>
 		 	<?php
-			echo'</tr>';
+			
 		 	echo '<tr>';
 	        echo '<td colspan="100%" class="hide standOut" id="tdEspecialidadesLabel">';
 			echo form_label('*Especialidades:');

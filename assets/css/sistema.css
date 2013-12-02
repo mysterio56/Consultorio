@@ -130,12 +130,14 @@ text-transform:capitalize;
 .subir{
   display: inline-block; 
   margin_buttom: 8px;
+     border-color: #00BFFF;
+  
 }
 
 /********* Estilos para error de validacion en formularios *********/
 
 div .error{
-  color:red;
+  color:orange;
   font-weight: bold;
   font-size: 13px;
   margin: 3px;
@@ -143,9 +145,8 @@ div .error{
 
 .error{
   color:red;
+  border-color: red
 }
-
-
 
 /********* Estilos para imagenes de accion *********/
 
@@ -198,6 +199,7 @@ div .error{
 
 .hide {
   display: none;
+  
 }
 
 .show{
@@ -215,6 +217,7 @@ div .error{
   color:#0091c0;
   font-weight: bold;
   font-size: 14px;
+
 }
 
 .standOut{
@@ -223,14 +226,17 @@ div .error{
 
 .table_form select {
    width: 100%;
+      border-color: #00BFFF;
 }
 
 .table_form input {
    width: 100%;
+   border-color: #00BFFF;
 }
 
 .table_form input[type='checkbox'] {
     width: 16px;
+    border-color: #00BFFF;
 }
 
 .auto-button{
@@ -241,7 +247,8 @@ div .error{
 }
 
 .auto-input{
-  width:auto !important;
+  width:78% !important;
+
 }
 
 .select_reload > * {
