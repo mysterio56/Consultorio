@@ -145,7 +145,7 @@ div .error{
 
 .error{
   color:red;
-  border-color: red
+  border-color: red !important; 
 }
 
 /********* Estilos para imagenes de accion *********/
