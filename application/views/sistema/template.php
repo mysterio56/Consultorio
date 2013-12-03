@@ -38,35 +38,31 @@
 
 
     echo form_open();
-    echo '<table class="table_form">';
-    echo'<tr>'; 
-    echo'<td>';
+    
+   
     echo form_label('Código:','codigo');
-    echo'</td>';
-    echo'<td>';
+   
     echo form_input(array('name'  => 'codigo' , 
                           'id'    => 'codigo' , 
                           'size'  => '20', 
-                          'value' => set_value('codigo')));
-    echo'</td>';
-    echo'<td>';
+                          'value' => set_value('codigo'),
+                          'class' => 'color_form'));
+    
     echo form_label('Nombre:','nombre');
-    echo'</td>';
-    echo'<td>';
+   
+
     echo form_input(array('name'  => 'nombre', 
                           'id'    => 'nombre', 
                           'size'  => '20', 
-                          'value' => set_value('nombre')));
-   echo'</td>';
-
-echo'<td>';
+                          'value' => set_value('nombre'),
+                          'class' => 'color_form'));
+  
     echo form_submit(array('name'  => 'buscar', 
                            'id'    => 'buscar',
                            'class' => 'abutton',
                            'value' => 'Buscar',
                            'style' => 'margin:0px'));
-    echo'</td>';
-    echo'</tr>';
+  
     echo form_close();
   }
 

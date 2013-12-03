@@ -239,6 +239,12 @@ div .error{
    border-radius: 5px;
 }
 
+.color_form {
+   
+   border-color: #00BFFF;
+   border-radius: 5px;
+}
+
 .table_form input[type='checkbox'] {
     width: 16px;
     border-color: #00BFFF;
