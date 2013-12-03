@@ -240,4 +240,19 @@ class Appointment extends CI_Controller{
    		}
 	}
 
+	public function adicional(){
+
+		$data['view']     	  = 'sistema/citas/adicional';
+		$data['return']       = 'appointment';
+		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
+								  'sistema.css');
+		$data['jsFiles']  = array('jquery.js',
+							      'jquery-ui.js',
+							      'jquery.ui.datepicker-es.js',
+							   	  'jquery-validation/dist/jquery.validate.js',
+								  'jquery-validation/localization/messages_es.js'
+								  );
+
+	$this->load->view('sistema/template',$data);
+	}
 }

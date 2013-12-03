@@ -60,12 +60,16 @@
 								if(in_array($permisos,$aPermisos['Editar'])){ 
 									echo '<a href="'.base_url('appointment/editar/'.$cita->id).'">';
 									echo '<img src="'.base_url('assets/images/edit.png').'" width="25" height="25" >';
+									echo '</a>';
 								}
+
 								if (isset($permisosSub['Histórico'])){
 									echo '<img src="'.base_url('assets/images/history.jpg').'" id="historia_'.$cita->id.'"  width="25" height="25" onclick="createTooltipHistoria('.$cita->id.')">';
 								}
 								if (isset($permisosSub['Adicionales'])){
+									echo '<a href="'.base_url('appointment/adicional/'.$cita->id).'"/>';
 									echo '<img src="'.base_url('assets/images/add.png').'" width="25" height="25" >';
+									echo '</a>';
 								}
 								if (isset($permisosSub['Costo'])){
 									echo '<img src="'.base_url('assets/images/money.png').'" width="25" height="25" >';
