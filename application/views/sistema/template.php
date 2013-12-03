@@ -9,6 +9,7 @@
                                          )
                                   )
            );
+    $data['cssFiles']      = array('sistema.css');
 
     define ("MESES", serialize (array("Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic")));
 
