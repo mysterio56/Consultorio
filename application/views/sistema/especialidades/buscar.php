@@ -19,7 +19,7 @@
 		 		'name'  => 'codigo',
 		 		'id'    => 'codigo',
 		 		'value' => set_value('codigo'),
-		 		'style' => 'width:80px'
+		 		'style' => 'width:125px'
 		 	);
 		 	echo form_input($data);
 		 	echo'</td>';
@@ -97,7 +97,7 @@
 		 		'name'  => 'fecha_alta_value',
 		 		'id'    => 'fecha_alta_value',
 		 		'value' => set_value('fecha_alta_value'),
-		 		'style' => 'width:85px'
+		 		'style' => 'width:125px'
 		 	);
 
 		 	echo form_input($data);

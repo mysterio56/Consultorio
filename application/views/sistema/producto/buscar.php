@@ -19,7 +19,7 @@
 		 		'name'  => 'codigo',
 		 		'id'    => 'codigo',
 		 		'value' => set_value('codigo'),
-		 		'style' => 'width:80px'
+		 		'style' => 'width:125px'
 		 	);
 		 	echo form_input($data);
 		 	echo'</td>';

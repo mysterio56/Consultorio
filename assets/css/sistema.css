@@ -120,6 +120,7 @@ form > label{
   margin: 5px;
   font-weight: bold;
   font-size: 14px;
+  border-radius: 5px;
 }
 
 form .capitalize
@@ -131,6 +132,7 @@ text-transform:capitalize;
   display: inline-block; 
   margin_buttom: 8px;
      border-color: #00BFFF;
+     border-radius: 5px;
   
 }
 
@@ -217,6 +219,7 @@ div .error{
   color:#0091c0;
   font-weight: bold;
   font-size: 14px;
+  border-radius: 5px;
 
 }
 
@@ -227,16 +230,19 @@ div .error{
 .table_form select {
    width: 100%;
       border-color: #00BFFF;
+      border-radius: 5px;
 }
 
 .table_form input {
    width: 100%;
    border-color: #00BFFF;
+   border-radius: 5px;
 }
 
 .table_form input[type='checkbox'] {
     width: 16px;
     border-color: #00BFFF;
+    border-radius: 5px;
 }
 
 .auto-button{
