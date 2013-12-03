@@ -104,9 +104,10 @@ class Appointment extends CI_Controller{
 		$historia->estatus    = $estatus;
 
 		if($cita->save() && $historia->save()){
-			echo json_encode(array('error'   => false, 
-								   'estatus' => estatus($estatus),
-								   'fecha'   => $cita->fecha_hora));
+			echo json_encode(array('error'    => false, 
+								   'estatus'  => estatus($estatus),
+								   'nEstatus' => $estatus,
+								   'fecha'    => $cita->fecha_hora));
 		}else{
 			echo json_encode(array('error'   => "Hubo un error al intentar modificar el estatus, intente de nuevo", 
 								   'estatus' => estatus($estatus_actual)));
@@ -245,4 +246,19 @@ class Appointment extends CI_Controller{
    		}
 	}
 
+	public function adicional(){
+
+		$data['view']     	  = 'sistema/citas/adicional';
+		$data['return']       = 'appointment';
+		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
+								  'sistema.css');
+		$data['jsFiles']  = array('jquery.js',
+							      'jquery-ui.js',
+							      'jquery.ui.datepicker-es.js',
+							   	  'jquery-validation/dist/jquery.validate.js',
+								  'jquery-validation/localization/messages_es.js'
+								  );
+
+	$this->load->view('sistema/template',$data);
+	}
 }

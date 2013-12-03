@@ -229,4 +229,22 @@ public function eliminar($id_producto){
 		$this->load->view('sistema/template',$data);
 
 	}
+
+	public function lista(){
+
+	$producto = new Producto();
+	$producto->where('CONCAT( codigo," ",nombre) like "%'.$_GET['term'].'%"');
+	$producto->where('status', 1)->get();
+
+	$aProducto = array(); 
+
+	foreach($producto as $product){
+			 $aProducto[] = array("Id"    => $product->id, 
+			 					  "label" => $product->codigo .' '. $product->nombre,
+			 					  "value" => $product->codigo .' '. $product->nombre);
+		}
+		
+		echo json_encode($aProducto);
+
+	}
 }

@@ -38,11 +38,12 @@
 						echo '<td>'.$cita->paciente->nombre.' '.$cita->paciente->apellido_p .' '.$cita->paciente->apellido_m.'</td>';
 						echo '<td>'.$cita->empleado->nombre.' '.$cita->empleado->apellido_p .' '.$cita->empleado->apellido_m.'</td>';
 					    echo '<td>'.$cita->servicio->nombre.'</td>';
-						echo '<td>'.date("d", strtotime($cita->fecha_hora)) .' '. 
+						echo '<td><div id="fecha_'.$cita->id.'" >'
+									.date("d", strtotime($cita->fecha_hora)) .' '. 
 									$aMeses[date("n", strtotime($cita->fecha_hora))-1]. 
 									//.'/'. date("Y", strtotime($cita->fecha_hora)) 
 									' '. date("H:i", strtotime($cita->fecha_hora)).
-							 '</td>';
+							 '</div></td>';
 						echo '<td>';
 
 						if(in_array($permisos,$aPermisos['Editar'])){ 
@@ -61,12 +62,16 @@
 								if(in_array($permisos,$aPermisos['Editar'])){ 
 									echo '<a href="'.base_url('appointment/editar/'.$cita->id).'">';
 									echo '<img src="'.base_url('assets/images/edit.png').'" width="25" height="25" >';
+									echo '</a>';
 								}
+
 								if (isset($permisosSub['Histórico'])){
 									echo '<img src="'.base_url('assets/images/history.jpg').'" id="historia_'.$cita->id.'"  width="25" height="25" onclick="createTooltipHistoria('.$cita->id.')">';
 								}
 								if (isset($permisosSub['Adicionales'])){
+									echo '<a href="'.base_url('appointment/adicional/'.$cita->id).'"/>';
 									echo '<img src="'.base_url('assets/images/add.png').'" width="25" height="25" >';
+									echo '</a>';
 								}
 								if (isset($permisosSub['Costo'])){
 									echo '<img src="'.base_url('assets/images/money.png').'" width="25" height="25" >';
@@ -209,7 +214,12 @@ function createTooltip(id_cita, estatus, fecha){
 				hook: { target: 'bottomMiddle', tip: 'topRight' },
 				stem: 'topRight',
 				offset: { x: 6, y: 3 }
-			});*/ 
+			});*/
+
+		if($('estatus_'+id_cita).prototip){
+			$('estatus_'+id_cita).prototip.remove();
+		}
+
 Tips.hideAll();
 new Tip('estatus_'+id_cita, new Element('div').update(elementEstatus(id_cita,estatus,fecha)), {
 			    title : 'Actualizar estatus',
@@ -317,23 +327,40 @@ function changeEstatus(id_cita, estatus, fecha){
 	var url = base_url + "appointment/estatus/"+id_cita+"/"+estatus+"/"+fecha ;
 
 	jQuery.getJSON( url, function( data ) {
-		console.log(data);
+
 		jQuery('#wait_'+id_cita).hide();
 		jQuery('#estatus_'+id_cita).show();
 		jQuery('#estatus_'+id_cita).attr('src',base_url+"assets/images/"+data.estatus+"_point.png");
 
-		if(data.estatus == 'yellow'){
+		var d = new Date(data.fecha);
 
-		 var d = new Date(data.fecha);
-		 console.log(d.toString());
-        var curr_date = d.getDate();
+				var month=new Array();
+				month[0]  = "Ene";
+				month[1]  = "Feb";
+				month[2]  = "Mar";
+				month[3]  = "Abr";
+				month[4]  = "May";
+				month[5]  = "Jun";
+				month[6]  = "Jul";
+				month[7]  = "Ago";
+				month[8]  = "Sep";
+				month[9]  = "Oct";
+				month[10] = "Nov";
+				month[11] = "Dic";
 
-	    var curr_month = d.getMonth() + 1; //Months are zero based
-	    var curr_year = d.getFullYear();
-	    console.log(curr_date);
-	    console.log(curr_month);
-	    console.log(curr_year);
-}
+		    //console.log(curr_date);
+		    //console.log(month[curr_month]);
+		    //console.log(curr_year);
+		    var date   = d.getDate()+"/"+d.getMonth()+"/"+d.getFullYear()+" "+d.getHours()+":"+d.getMinutes();
+		    var date_g = d.getDate()+" / "+month[d.getMonth()]+" "+d.getHours()+":"+d.getMinutes();
+		    
+		    jQuery('#estatus_'+id_cita).attr('onClick', 'createTooltip('+id_cita+','+data.nEstatus+', "'+date+'")');
+
+
+		if(data.nEstatus == 1){
+			jQuery('#fecha_'+id_cita).html(date_g);
+			//console.log(jQuery('#fecha'+id_cita));
+		}
 
 		if(data.error){
 			alert(data.error);
