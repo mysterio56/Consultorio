@@ -37,9 +37,14 @@ class Appointment extends CI_Controller{
 		$data['citas']         = $citas;
 		$data['view']          = 'sistema/citas/lista';
 		$data['cssFiles']      = array('prototip.css',
-									   'sistema.css');
+									   'sistema.css',
+									   'jquery-ui/jquery-ui.css');
 		$data['jsFiles']       = array('prototip/js/prototip/prototype.js',
 									   'prototip/js/prototip/prototip.js',
+									   'jquery.js',
+							      	   'jquery-ui.js',
+							      	   'jquery.ui.datepicker-es.js',
+							      	   'jquery-timepicker.js',
 									   'valid_forms.js');
 
 		if($this->input->post()){
@@ -78,34 +83,34 @@ class Appointment extends CI_Controller{
     }
 
 
-    public function estatus($cita_id = null){
+    public function estatus($cita_id = null, $estatus = null, $fecha = null){
 
-    	$cita = new Reunion();
+    	$seconds = $fecha / 1000; 
 
-    	$cita->where('id', $cita_id)->get();
+		$cita     = new Reunion();
+		$historia = new Historia();
 
-        $data['estatus_act'] = $cita->estatus;
+		$cita->where('id', $cita_id)->get();
+		$estatus_actual = $cita->estatus;
+		$cita->estatus  = $estatus;
 
-        if($this->input->post()){
+		if($estatus == 1){
+			$cita->fecha_hora = date("Y-m-d H:i:s", $seconds);
+		}
 
-        	$historia = new historia();
+		$historia->cita_id    = $cita_id;
+        $historia->fecha_hora = $cita->fecha_hora;
+        $historia->fecha_alta = date("Y-m-d H:i:s");
+		$historia->estatus    = $estatus;
 
-        	$historia->cita_id    = $cita_id;
-        	$historia->fecha_hora = $cita->fecha_hora;
-        	$historia->fecha_alta = date("Y-m-d H:i:s");
-			$historia->estatus        = $this->input->post('estatus');	
-
-    		$cita->estatus = $this->input->post('estatus');
-
-    		if($cita->save() && $historia->save()){
-    			redirect(base_url('appointment'));
-    		}
-
-    	} else {
-
-    		$this->load->view('sistema/citas/estatus', $data);
-
-    	}
+		if($cita->save() && $historia->save()){
+			echo json_encode(array('error'   => false, 
+								   'estatus' => estatus($estatus),
+								   'fecha'   => $cita->fecha_hora));
+		}else{
+			echo json_encode(array('error'   => "Hubo un error al intentar modificar el estatus, intente de nuevo", 
+								   'estatus' => estatus($estatus_actual)));
+		}
 
     }
 
