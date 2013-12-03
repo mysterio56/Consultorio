@@ -9,38 +9,38 @@
 echo '<table class="table_form">';
 	echo '<tr>';
 		echo form_label('*Campos Requeridos','campo');
-		echo '<td>';
+		echo '<td width="8%">';
 	 		echo form_label('*Código:');
 	 	echo '</td>';
-             echo'<td width="28%">';
+             echo'<td width="8%" CELLSPACING="10">';
 		 	$data = array(
 		 		'name'  => 'codigo',
 		 		'id'    => 'codigo',
 		 		'value' => set_value('codigo',$paciente->codigo),
-		 		//'style' => 'width:100px'
+		 		'style' => 'width:90%'
 		 	);
 
 		 	
 		 		echo form_input($data);
 		 	echo '</td>';
 
-	echo '<td width="28%">';
+	echo '<td width="8%">';
 		 	echo form_label('*Nombre:');
 	echo '</td>';
-	        echo'<td colspan="35%">';
+	        echo'<td colspan="8%">';
 		 	$data = array(
 		 		'name'  => 'nombre',
 		 		'id'    => 'nombre',
 		 		'class' => 'capitalize',
 		 		'value' => set_value('nombre',$paciente->nombre),
-		 		'style' => 'width:50%'
+		 		'style' => 'width:90%'
 		 	);
 	
 		 	echo form_input($data);
 	echo '</td>';
 	echo'</tr>'; 
 	        echo'<tr>'; 
-	         echo '<td>';
+	         echo '<td width="8%">';
 		 	echo form_label('*Apellido Paterno:');
 	         echo '</td>';
 
@@ -50,22 +50,22 @@ echo '<table class="table_form">';
 		 		'id'    => 'apellido_p',
 		 		'class' => 'capitalize',
 		 		'value' => set_value('apellido_p',$paciente->apellido_p),
-		 		//'style' => 'width:100px'
+		 		'style' => 'width:90%'
 		 	);
 	
 		 	echo form_input($data);
 	echo '</td>';
-	         echo '<td>';
+	         echo '<td width="8%">';
 		 	echo form_label('*Apellido Materno:');
 	        echo '</td>';
 
-	        echo'<td colspan="35%">';
+	        echo'<td colspan="8%">';
 		 	$data = array(
 		 		'name'  => 'apellido_m',
 		 		'id'    => 'apellido_m',
 		 		'class' => 'capitalize',
 		 		'value' => set_value('apellido_m',$paciente->apellido_m),
-		 		'style' => 'width:50%'
+		 		'style' => 'width:90%'
 		 	);
 
 	
@@ -74,7 +74,7 @@ echo '<table class="table_form">';
     echo '</tr>';
 
     echo '<tr>';
-    echo '<td>';
+    echo '<td width="8%">';
 		 	echo form_label('*Email:');
 	echo '</td>';
 	        echo'<td width="8%">';
@@ -82,13 +82,13 @@ echo '<table class="table_form">';
 		 		'name'  => 'email',
 		 		'id'    => 'email',
 		 		'value' => set_value('email',$paciente->email),
-		 		//'style' => 'width:200px'
+		 		'style' => 'width:90%'
 		 	);
 	
 		 	echo form_input($data);
 	echo '</td>';
 
-	echo '<td width="8%">';
+	echo '<td width="15%">';
 		 	echo form_label('*Teléfono:');
 	echo '</td>';
 	        echo'<td colspan="35%">';
@@ -96,7 +96,7 @@ echo '<table class="table_form">';
 		 		'name'  => 'telefono',
 		 		'id'    => 'telefono',
 		 		'value' => set_value('telefono',$paciente->telefono),
-		 		'style' => 'width:50%'
+		 		'style' => 'width:88%'
 		 	);
 	
 		 	echo form_input($data);
@@ -104,15 +104,15 @@ echo '<table class="table_form">';
 		 	echo'</tr>';
            
            echo'</tr>';
-		 	echo'<td width="8%">';
+		 	echo'<td width="25%">';
 		 	echo form_label('*Celular:');
 	echo '</td>';
-	         echo'<td colspan="35%">';
+	         echo'<td colspan="25%">';
 		 	$data = array(
 		 		'name'  => 'celular',
 		 		'id'    => 'celular',
 		 		'value' => set_value('celular',$paciente->celular),
-		 		'style' => 'width:20%'
+		 		'style' => 'width:30%'
 		 	);
 	
 		 	echo form_input($data);
@@ -132,9 +132,9 @@ echo'</td>';
 	<td>
 		<?= form_label('*Estado:'); ?>
 	</td>
-	    <td   width="20%">
-	  	   <select  width="20%" name="estado" id="estado" onChange="getMunicipalities();"> </select>
-	  	   <div id="wait_estados" class="wait" width="10%">
+	    <td   width="3%">
+	  	   <select  width="50%" name="estado" id="estado" onChange="getMunicipalities();"> </select>
+	  	   <div id="wait_estados" class="wait">
 				<p>Cargando Estados, por favor espere</p>
 	 		</div>
 	    </td>
@@ -142,31 +142,31 @@ echo'</td>';
 	<td>
 		 	<?= form_label('*Municipio:'); ?>
 	</td>
-	<td >
-		<select  name="municipio" id="municipio" class="hide" onchange="getPostalCodes();"/></select>
-		<div id="wait_mun" class="wait" width="10%">
+	<td width="3%">
+		<select width="50%" name="municipio" id="municipio" class="hide" onchange="getPostalCodes();"/></select>
+		<div id="wait_mun" class="wait">
 		<p>Cargando Municipio, por favor espere</p>
 	 	</div>
 	</td>
 </tr>
 
 <tr>
-	<td>
+	<td width="25%">
 		 	<?= form_label('*Codigo Postal:'); ?>
 	</td>
-    <td  width="20%">
+    <td  width="25%">
     	<select name="codigo_postal" id="codigo_postal" class="hide" onchange="getColonies();"/></select>
-    	<div id="wait_cp" class="wait" width="10%">
+    	<div id="wait_cp" class="wait" width="25%">
 			<p>Cargando Codigo Postal, por favor espere</p>
 	 	</div>
     </td>
 
-	<td width="10%">
+	<td width="25%">
 		 	<?= form_label('*Colonia:'); ?>
 	</td>
-	<td>
+	<td width="25%">
 		<select name="colonia" id="colonia" class="hide" onchange=""/></select>
-		<div id="wait_col" class="wait" width="10%">
+		<div id="wait_col" class="wait" width="25%">
 		<p>Cargando Colonia, por favor espere</p>
 	 	</div>
 	</td>
@@ -198,7 +198,7 @@ echo '<tr>';
           'name'  => 'numero_ext',
           'id'    => 'numero_ext',
           'value' => set_value('numero_ext',$paciente->direccion->numero_ext),
-          'style' => 'width:40%'
+          //'style' => 'width:210px'
         );
   
         echo form_input($data);
@@ -214,7 +214,7 @@ echo '<tr>';
           'name'  => 'numero_int',
           'id'    => 'numero_int',
           'value' => set_value('numero_int',$paciente->direccion->numero_int),
-         'style' => 'width:30%'
+         //'style' => 'width:210px'
         );
      
         echo form_input($data);

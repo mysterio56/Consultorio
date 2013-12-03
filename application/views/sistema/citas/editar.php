@@ -4,6 +4,10 @@
 
 <?php 
 
+$cita->paciente->get();
+$cita->empleado->get();
+$cita->servicio->get();
+
   $attributes = array('id' => 'citaForm');
   	echo form_open(null,$attributes); 
 	
@@ -14,76 +18,76 @@
 			echo form_label('*Campos Requeridos','campo');
 		echo'</td>';
 	echo '</tr>';
+
 	echo '<tr>';
-		echo '<td>';
-	 		echo form_label('*Paciente:');
-	 	
-	 	echo '<td>';
-
-		 	$data = array(
-		 		'name'  => 'paciente',
-		 		'id'    => 'paciente',
-		 		'value' => set_value('paciente'),
-		 		'style' => 'width:150px'
-		 	);
-
-		 	echo form_input($data);
-		 		echo '<input type="hidden" name="pacienteId" id="pacienteId"/>';
-		echo '</td>';
-		echo '</td>';
-				
-		echo  '<td>';
-			echo form_label('*Doctor: ');
 		
 		echo '<td>';
+	
+			echo form_label('Paciente:');
+	
+		echo '<td>';	
+	
+		    echo form_label(' '.$cita->paciente->nombre.' '.$cita->paciente->apellido_p.' '.$cita->paciente->apellido_m);
+			echo '<input type="hidden" name="pacienteId" id="pacienteId"/>';
+	
+	 	echo '</td>';
+	 	echo '</td>';
+	    
+	    echo '<td>';	
+			echo form_label('*Doctor: ');
+		echo '<td>';	
 		$data = array(
 		 		'name'  => 'doctor',
 		 		'id'    => 'doctor',
-		 		'value' => set_value('doctor'),
-		 		'style' => 'width:150px'
+		 		'value' => set_value('doctor',$cita->empleado->nombre.' '.$cita->empleado->apellido_p.' '.$cita->empleado->apellido_m),
+		 		'style' =>'width:150px'
 		 	);
-			echo form_input($data);
-		 	echo '<input type="hidden" name="doctorId" id="doctorId"/>';
-		 	echo '</td>';
-		 	echo '</td>';
+
+		 	echo form_input($data);
+		 		echo '<input type="hidden" name="doctorId" id="doctorId" value= "'.$cita->empleado->id.'"/>';
+		echo '</td>';
+	 	echo '</td>';
+
 	echo '</tr>';
 
 	echo '<tr>';
+
 		echo '<td>';
-			echo form_label('*Fecha y Hora:');
+			echo form_label('*Fecha y Hora');
 		
 		echo '<td>';
 
 		$data=array(
 					'name' =>'fecha' ,
 					'id'   =>'fecha' ,
-					'value'=>set_value('fecha'),
-					'style'=>'width:150px'
+					'value'=>set_value('fecha',$cita->fecha_hora),
+					'style' =>'width:150px'
 					);
-		
+	
 			echo form_input($data);
 
-		echo '<input type="hidden" name="fecha_alt" id="fecha_alt"/>';
+			echo '<input type="hidden" name="fecha_alt" id="fecha_alt" value="'.$cita->fecha_hora.':00'.'"/>';
 
-		echo '</td>';
 		echo '</td>'; 
-	
+		echo '</td>'; 
 
 		echo '<td>';
+	
 			echo form_label('*Servicio:');
+	
 		echo '<td>';
 
 		$data=array(
 					'name' =>'servicio' ,
 					'id'   =>'servicio' ,
-					'value'=>set_value('servicio'),
-					'style'=>'width:150px'
+					'value'=>set_value('servicio',$cita->servicio->nombre),
+					'style' =>'width:150px'
 					);
 		
 			echo form_input($data);
-			echo '<input type="hidden" name="servicioId" id="servicioId"/>';
+			echo '<input type="hidden" name="servicioId" id="servicioId" value="'.$cita->servicio->id.'"/>';
 		echo '</td>'; 
-		echo'</td>';
+
 	echo '</tr>';
 
 	echo'</table>'; 
@@ -103,9 +107,11 @@
 
 ?>
 
+
+
 <script>
 $(function () {
-	
+	 
 	base_url = "<?= base_url(); ?>";
 	
         $( "#paciente" ).autocomplete({
@@ -137,6 +143,9 @@ $(function () {
             $("#servicioId").val(ui.item ? ui.item.Id : "");
         	}
     	});
+    	
+	fecha_ahora = "<?= date('D M d Y H:i:s O'); ?>";
+	fecha_ahora = new Date(fecha_ahora);
 
     	var myControl=  {
 	create: function(tp_inst, obj, unit, val, min, max, step){
@@ -177,7 +186,9 @@ $('#fecha').datetimepicker({
 	altField: "#fecha_alt",
 	altFieldTimeOnly: false,
 	altFormat: "yy-mm-dd",
-	altTimeFormat: "HH:mm"
+	altTimeFormat: "HH:mm",
+	minDate: fecha_ahora,
+
 });
 });	
 
