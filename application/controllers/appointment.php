@@ -335,6 +335,7 @@ class Appointment extends CI_Controller{
 
 	public function adicional(){
 
+
 		$data['view']     	  = 'sistema/citas/adicional';
 		$data['return']       = 'appointment';
 		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
@@ -347,5 +348,21 @@ class Appointment extends CI_Controller{
 								  );
 
 	$this->load->view('sistema/template',$data);
+	
+		if($this->input->post()){
+
+		$ingresos = new Ingresos();
+			
+			$ingresos->producto_id = $this->input->post('producto'); 
+			$ingresos->servicio_id = $this->input->post('servicio');
+			$ingresos->estatus	   = 1;
+			
+			$ingresos->consultorio_id = $this->session->userdata('id_consultorio');
+		    $ingresos->fecha_alta     = date("Y-m-d H:i:s");
+		
+
+
+		}
 	}
+
 }

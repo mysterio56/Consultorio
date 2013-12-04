@@ -268,8 +268,8 @@ class Patient extends CI_Controller{
 				
 		$consultorio->where('id',$this->session->userdata('id_consultorio'))->get();
 
-		$consultorio->paciente->where('CONCAT( codigo,  "  " , nombre,  " " , apellido_p, " " , apellido_m ) like "%'.$_GET['term'].'%"')->get();
-		
+		$consultorio->paciente->where('CONCAT( codigo,  "  " , nombre,  " " , apellido_p, " " , apellido_m ) like "%'.$_GET['term'].'%"');
+		$consultorio->paciente->where('estatus',1)->get();
 		$aPaciente = array();
 
 		foreach($consultorio->paciente as $pacient){
