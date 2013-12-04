@@ -19,7 +19,7 @@ class Paciente extends DataMapper
         ),
         'codigo' => array(
             'label' => 'Código',
-            'rules' => array('required', 'trim', 'unique_for_surgery' => 'codigo' , 'min_length' => 4, 'max_length' => 15),
+            'rules' => array('required', 'trim', 'unique_for_surgery' => 'codigo' , 'min_length' => 1, 'max_length' => 10),
         ),
         'apellido_p' => array(
             'label' => 'Apellido Paterno',

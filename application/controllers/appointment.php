@@ -10,7 +10,7 @@ class Appointment extends CI_Controller{
     	$this->load->helper("estatus");
     }
 
-    public function index($page = 1, $estatus_cita = 1){
+    /*public function index($page = 1, $estatus_cita = 1){
 
     	$citas = new Reunion();
 
@@ -84,8 +84,37 @@ class Appointment extends CI_Controller{
 
 		$this->load->view('sistema/template_citas',$data);
     	
+    }*/
+
+    public function index(){
+
+    	$citas = new Reunion();
+
+		$aPermisos    = permisos($this->session->userdata('type_user'));
+		$aPermisosSub = submodulos($this->session->userdata('type_user'),9);
+
+		$data['permisos'] = $aPermisos['appointment'];    
+		$data['view']          = 'sistema/citas/lista';
+		$data['cssFiles']      = array('prototip.css',
+									   'sistema.css',
+									   'jquery-ui/jquery-ui.css');
+		$data['jsFiles']       = array('prototip/js/prototip/prototype.js',
+									   'prototip/js/prototip/prototip.js',
+									   'jquery.js',
+							      	   'jquery-ui.js',
+							      	   'jquery.ui.datepicker-es.js',
+							      	   'jquery-timepicker.js',
+									   'valid_forms.js');
+
+		$this->load->view('sistema/template_citas',$data);
+    	
     }
 
+    public function grid(){
+
+    	echo json_encode($this->input->post());
+    	
+    }
 
     public function estatus($cita_id = null, $estatus = null, $fecha = null){
 

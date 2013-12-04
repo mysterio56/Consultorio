@@ -36,7 +36,8 @@ Valid.empleados = function()
         rules:{
             codigo:{
                 required:true,
-                 minlength: 4
+                 minlength: 1,
+                 maxlength: 10
             },
             nombre:{
                 required:true,
@@ -183,7 +184,8 @@ Valid.paciente = function()
         rules:{
             codigo:{
                 required:true,
-                minlength: 4
+                minlength: 1,
+                 maxlength: 10
             },
             nombre:{
                 required:true,
@@ -265,7 +267,8 @@ Valid.consultorio = function()
         rules:{
             codigo:{
                 required:true,
-                minlength: 4
+                minlength: 1,
+                 maxlength: 10
             },
             nombre:{
                 required:true,
@@ -340,7 +343,8 @@ Valid.especialidad = function()
         rules:{
             codigo:{
                 required:true,
-                minlength: 4
+                minlength: 1,
+                 maxlength: 10
             },
             nombre:{
                 required:true,
@@ -385,7 +389,8 @@ Valid.tipoEmpleado = function()
         rules:{
             codigo:{
                 required:true,
-                minlength: 4
+                minlength: 1,
+                 maxlength: 10
             },
             nombre:{
                 required:true,
@@ -408,7 +413,8 @@ Valid.servicio = function()
         rules:{
             codigo:{
                 required:true,
-                minlength: 4
+                minlength: 1,
+                 maxlength: 10
             },
             nombre:{
                 required:true,
@@ -443,7 +449,8 @@ Valid.producto = function()
         rules:{
             codigo:{
                 required:true,
-                minlength: 4
+                minlength: 1,
+                 maxlength: 10
             },
             nombre:{
                 required:true,

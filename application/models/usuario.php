@@ -17,7 +17,7 @@ class Usuario extends DataMapper
         ),
         'clave' => array(
             'label' => 'Clave',
-            'rules' => array('required', 'trim', 'alpha_dash', 'min_length' => 5, 'max_length' => 50),
+            'rules' => array('required', 'trim', 'alpha_dash', 'min_length' => 5, 'max_length' => 100),
         )
     );
 

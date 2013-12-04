@@ -15,7 +15,7 @@
 		 	$data = array(
 		 		'name'  => 'codigo',
 		 		'id'    => 'codigo',
-		 		'value' => set_value('codigo'),
+		 		'value' => set_value('codigo', $nCodigo),
 		 		'style' => 'width:90%'
 		 	);
 
@@ -347,9 +347,13 @@ function trim (myString){
 }
 
 function showEspecialidades(){
+
    var tipo_empleado = $("#tipo_empleado option:selected").text();
-   tipo_empleado = trim(tipo_empleado);
-     if(tipo_empleado == 'Doctor' || tipo_empleado == 'doctor'){
+   tipo_empleado     = trim(tipo_empleado);
+
+	var n = tipo_empleado.indexOf("doctor");
+
+     if(n){
        $("#tdEspecialidadesLabel").show();
        $("#tdEspecialidades").show();
      } else {

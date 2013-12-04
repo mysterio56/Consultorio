@@ -16,7 +16,7 @@
 		 	$data = array(
 		 		'name'  => 'codigo',
 		 		'id'    => 'codigo',
-		 		'value' => set_value('codigo'),
+		 		'value' => set_value('codigo', $nCodigo),
 		 		'style' => 'width:90%'
 		 	);
 

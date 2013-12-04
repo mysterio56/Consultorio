@@ -30,13 +30,13 @@ define ("PERMISOS", serialize (array("Agregar"  => array(4,5,6,7),
 ?>
 
 <div class="citas">
-<input id="chk_act" checked="true" type="checkbox" name="estatus_citas[]" class="vis-hidden" value="1" />
+<input id="chk_act" checked="true" type="radio" name="estatus_citas" onchange="grid();" class="vis-hidden" value="1" />
 <label for="chk_act">Actuales</label>
 
-<input id="chk_prox" type="checkbox" name="estatus_citas[]" class="vis-hidden" value="2" />
+<input id="chk_prox" type="radio" name="estatus_citas" onchange = "grid();" class="vis-hidden" value="2" />
 <label for="chk_prox">Proximas</label>
 
-<input id="chk_pas" type="checkbox" name="estatus_citas[]" class="vis-hidden" value="3" />
+<input id="chk_pas" type="radio" name="estatus_citas" onchange = "grid()" class="vis-hidden" value="3" />
 <label for="chk_pas">Pasadas</label>
 </div>
 

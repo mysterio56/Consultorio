@@ -65,9 +65,11 @@ class Employees extends CI_Controller{
 		$tipoEmpleado   = new Tipo_empleado();
 		$especialidades = new Especialidad();
 		$direccion      = new Direccion();
+		$nCodigo        = new Empleado();
 
 		$data['view']           = 'sistema/empleados/agregar';
 		$data['return']         = 'employees';
+		$data['nCodigo']        = $nCodigo->where('consultorio_id',$this->session->userdata('id_consultorio'))->count() + 1;
 		$data['tipoEmpleado']   = $tipoEmpleado->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
 									    					 'estatus'        => 1))->get();
 		$data['especialidades'] = $especialidades->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),

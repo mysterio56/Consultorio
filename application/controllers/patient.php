@@ -66,8 +66,12 @@ class Patient extends CI_Controller{
     	$paciente    = new Paciente();
     	$consultorio = new Consultorio();
 
-    	$data['view']     	  = 'sistema/pacientes/agregar';
-		$data['return']       = 'patient';
+    	$consultorio->where('id', $this->session->userdata('id_consultorio'))->get();
+		$nCodigo = $consultorio->paciente->count() + 1;
+
+    	$data['view']     = 'sistema/pacientes/agregar';
+		$data['return']   = 'patient';
+		$data['nCodigo']  = $nCodigo; 
 		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
 								  'sistema.css');
 		$data['jsFiles']  = array('jquery.js',
@@ -98,7 +102,7 @@ class Patient extends CI_Controller{
 			$direccion->numero_int       = $this->input->post('numero_int');
 			$direccion->numero_ext       = $this->input->post('numero_ext');
 
-			$consultorio->where_in($this->session->userdata('id_consultorio'))->get();
+			$consultorio->where('id',$this->session->userdata('id_consultorio'))->get();
 
 			$direccion->save();
 			$paciente->direccion_id = $direccion->id;
