@@ -51,6 +51,11 @@
 							echo '<img src="'.base_url('assets/images/wait.gif').'" id="wait_'.$cita->id.'" width="25" height="25" style="display:none">';
 						} else {
 							echo '<img src="'.base_url('assets/images/'.estatus($cita->estatus).'_point.png').'" width="25" height="25" >';
+							echo '<img src="'.base_url('assets/images/wait.gif').'" id="wait_'.$cita->id.'" width="25" height="25" style="display:none">';
+						}
+
+						if($cita->estatus==1){
+							echo '<input type="hidden" class="input_cita" value="'.$cita->id.'" />';
 						}
 
 						echo '</td>';
@@ -156,6 +161,16 @@
 
 $.noConflict();
 
+setInterval(function(){
+	changeAutoEstatus();
+},300000);
+
+jQuery(function(){
+
+	changeAutoEstatus();
+	
+});
+
 	var myControl=  {
 		create: function(tp_inst, obj, unit, val, min, max, step){
 			$('<input class="ui-timepicker-input" value="'+val+'" style="width:50%">')
@@ -221,6 +236,7 @@ function createTooltip(id_cita, estatus, fecha){
 		}
 
 Tips.hideAll();
+
 new Tip('estatus_'+id_cita, new Element('div').update(elementEstatus(id_cita,estatus,fecha)), {
 			    title : 'Actualizar estatus',
 				closeButton: true,
@@ -255,8 +271,8 @@ function elementEstatus(id_cita, estatus, fecha){
  	}
 
  	if(estatus != 1){
- 		element += '<input type="text" id="dateChange" value="'+fecha+'" style="display:none;width:120px;">';
- 		element += '<input type="hidden" id="fecha_alt" style="display:none;width:120px;">';
+ 		element += '<input type="text" id="dateChange_'+id_cita+'" value="'+fecha+'" style="display:none;width:120px;">';
+ 		element += '<input type="hidden" id="fecha_alt_'+id_cita+'" style="display:none;width:120px;">';
  	}
 
 	return element;
@@ -265,11 +281,11 @@ function elementEstatus(id_cita, estatus, fecha){
 
 function showDate(id_cita, estatus){
 
-	jQuery('#dateChange').show();
+	jQuery('#dateChange_'+id_cita).show();
 
-	jQuery('#dateChange').datetimepicker({
+	jQuery('#dateChange_'+id_cita).datetimepicker({
 			//controlType: myControl,
-			altField: "#fecha_alt",
+			altField: "#fecha_alt_"+id_cita,
 			altFieldTimeOnly: false,
 			altFormat: "yy-mm-dd",
 			altTimeFormat: "HH:mm",
@@ -280,12 +296,12 @@ function showDate(id_cita, estatus){
 				changeEstatus(id_cita, estatus, dateMS);
 
       		},
-			timeText: '',
-			hourText: 'Hora',
-			minuteText: 'Minuto',
+			timeText:    '',
+			hourText:    'Hora',
+			minuteText:  'Minuto',
 			currentText: 'Fecha actual',
-			closeText: 'Aceptar',
-			minDate: date_now
+			closeText:   'Aceptar',
+			minDate:     date_now
 		});
 }
 
@@ -316,8 +332,6 @@ function createTooltipHistoria(id_cita){
 
 }
 
-	//});
-
 function changeEstatus(id_cita, estatus, fecha){
 
 	Tips.hideAll();
@@ -334,36 +348,36 @@ function changeEstatus(id_cita, estatus, fecha){
 
 		var d = new Date(data.fecha);
 
-				var month=new Array();
-				month[0]  = "Ene";
-				month[1]  = "Feb";
-				month[2]  = "Mar";
-				month[3]  = "Abr";
-				month[4]  = "May";
-				month[5]  = "Jun";
-				month[6]  = "Jul";
-				month[7]  = "Ago";
-				month[8]  = "Sep";
-				month[9]  = "Oct";
-				month[10] = "Nov";
-				month[11] = "Dic";
+		var month=new Array();
+			month[0]  = "Ene";
+			month[1]  = "Feb";
+			month[2]  = "Mar";
+			month[3]  = "Abr";
+			month[4]  = "May";
+			month[5]  = "Jun";
+			month[6]  = "Jul";
+			month[7]  = "Ago";
+			month[8]  = "Sep";
+			month[9]  = "Oct";
+			month[10] = "Nov";
+			month[11] = "Dic";
 
-		    //console.log(curr_date);
-		    //console.log(month[curr_month]);
-		    //console.log(curr_year);
-		    var date   = d.getDate()+"/"+d.getMonth()+"/"+d.getFullYear()+" "+d.getHours()+":"+d.getMinutes();
-		    var date_g = d.getDate()+" / "+month[d.getMonth()]+" "+d.getHours()+":"+d.getMinutes();
+		var date   = ("0" + d.getDate()).slice(-2)+"/"+d.getMonth()+"/"+d.getFullYear()+" "+d.getHours()+":"+("0" + d.getMinutes()).slice(-2);
+		var date_g = ("0" + d.getDate()).slice(-2)+" "+month[d.getMonth()]+" "+d.getHours()+":"+("0" + d.getMinutes()).slice(-2);
 		    
-		    jQuery('#estatus_'+id_cita).attr('onClick', 'createTooltip('+id_cita+','+data.nEstatus+', "'+date+'")');
+		jQuery('#estatus_'+id_cita).attr('onClick', 'createTooltip('+id_cita+','+data.nEstatus+', "'+date+'")');
 
 
 		if(data.nEstatus == 1){
+
 			jQuery('#fecha_'+id_cita).html(date_g);
-			//console.log(jQuery('#fecha'+id_cita));
+
 		}
 
 		if(data.error){
+
 			alert(data.error);
+
 		}
 
 	});
@@ -371,5 +385,37 @@ function changeEstatus(id_cita, estatus, fecha){
 
 }
 
+function changeAutoEstatus(){
+
+	jQuery.each(jQuery('.input_cita') , function(key, input){
+
+		var url = base_url + "appointment/estatusAuto/"+jQuery(input).val();
+
+		jQuery('#wait_'+jQuery(input).val()).show();
+		jQuery('#estatus_'+jQuery(input).val()).hide();
+
+		jQuery.getJSON( url, function( data ) {
+
+ 			jQuery('#wait_'+jQuery(input).val()).hide();
+			jQuery('#estatus_'+jQuery(input).val()).show();
+			jQuery('#estatus_'+jQuery(input).val()).attr('src',base_url+"assets/images/"+data.estatus+"_point.png");
+
+			var d = new Date(data.fecha);
+
+			var date   = ("0" + d.getDate()).slice(-2)+"/"+d.getMonth()+"/"+d.getFullYear()+" "+d.getHours()+":"+("0" + d.getMinutes()).slice(-2);
+
+			jQuery('#estatus_'+jQuery(input).val()).attr('onClick', 'createTooltip('+jQuery(input).val()+','+data.nEstatus+', "'+date+'")');
+
+			if(data.error){
+
+				alert(data.error);
+
+			}
+
+ 		});
+	});
+	
+
+}
 
 </script>

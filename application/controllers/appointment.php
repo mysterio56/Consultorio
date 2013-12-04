@@ -24,10 +24,14 @@ class Appointment extends CI_Controller{
 			$citas->db->where('YEAR(fecha_hora)' , date("Y"));
 			$citas->db->where('MONTH(fecha_hora)', date("m"));
 			$citas->db->where('DAY(fecha_hora)'  , date("d"));
+			$citas->db->order_by(' ABS(TIMESTAMPDIFF( MINUTE, fecha_hora, NOW() ))  ASC'); 
+
+		} else {
+
+			$citas->order_by('fecha_hora');
 
 		}
-
-		$citas->order_by('fecha_hora');
+		
 		$citas->get_paged_iterated($page, 9);
 
 		$data['permisos']      = $aPermisos['appointment'];
@@ -115,6 +119,57 @@ class Appointment extends CI_Controller{
 
     }
 
+    public function estatusAuto($cita_id = null){
+
+    	$this->load->helper('date');
+
+		$cita        = new Reunion();
+		$historia    = new Historia();
+		$consultorio = new Consultorio();
+
+		$cita->where('id', $cita_id)->get();
+		$estatus_actual = $cita->estatus;
+
+		$consultorio->where('id', $this->session->userdata('id_consultorio'))->get();
+		
+		$dateBD = $cita->fecha_hora;
+		$dateBD = strtotime($dateBD);
+		$dateBD = $dateBD+( 60 * $consultorio->tolerancia);
+
+		$now = time();
+
+		if($cita->estatus == 1 && $dateBD < $now){
+
+			$cita->estatus = 3;
+
+			$historia->cita_id    = $cita_id;
+        	$historia->fecha_hora = $cita->fecha_hora;
+        	$historia->fecha_alta = date("Y-m-d H:i:s");
+			$historia->estatus    = 3;
+
+			if($cita->save() && $historia->save()){
+
+				echo json_encode(array('error'    => false, 
+								       'estatus'  => estatus(3),
+								       'nEstatus' => 3,
+								       'fecha'    => $cita->fecha_hora));
+
+			}else{
+
+				echo json_encode(array('error'   => "Hubo un error al intentar modificar el estatus, intente de nuevo", 
+								       'estatus' => estatus($estatus_actual)));
+
+			}
+			
+		} else {
+			echo json_encode(array('error'    => false, 
+								   'estatus'  => estatus($cita->estatus),
+								   'nEstatus' => $cita->estatus,
+								   'fecha'    => $cita->fecha_hora));			
+		}
+
+    }
+
     public function historia($cita_id = null){
 
     	$historia= new historia();
@@ -169,10 +224,8 @@ class Appointment extends CI_Controller{
 				$historia->fecha_hora  = $this->input->post('fecha_alt').':00';
 				$historia->servicio_id = $this->input->post('servicioId');
 				$historia->estatus     = 1;
-				$historia->fecha_alta          = date("Y-m-d H:i:s");
+				$historia->fecha_alta  = date("Y-m-d H:i:s");
 				
-				
-
 				if($historia->save()){
 					redirect(base_url('appointment'));
 				}else{
@@ -211,39 +264,44 @@ class Appointment extends CI_Controller{
 
 		$this->load->view('sistema/template',$data);
 
-	 if($this->input->post()){
+		if($this->input->post()){
 
-		$historia = new Historia();	
-		
-		$cita->empleado_id = $this->input->post('doctorId'); 
-		$cita->fecha_hora  = $this->input->post('fecha_alt');
-		$cita->servicio_id = $this->input->post('servicioId');
-		$cita->estatus	   = 1;
+			$dateAnterior = strtotime($cita->fecha_hora);
+			$dateInput    = strtotime($this->input->post('fecha_alt'));
+			
+			$cita->empleado_id = $this->input->post('doctorId'); 
+			$cita->fecha_hora  = $this->input->post('fecha_alt');
+			$cita->servicio_id = $this->input->post('servicioId');
+			$cita->estatus	   = 1;
 
-		$cita->consultorio_id = $this->session->userdata('id_consultorio');
-		$cita->fecha_alta          = date("Y-m-d H:i:s");
-		
-		if($cita->save()){
+			$cita->consultorio_id = $this->session->userdata('id_consultorio');
+			$cita->fecha_alta          = date("Y-m-d H:i:s");
+			
+			if($cita->save()){
 				
-				$historia->cita_id     = $cita->id;
-				$historia->paciente_id = $this->input->post('pacienteId');
-				$historia->empleado_id = $this->input->post('doctorId');
-				$historia->fecha_hora  = $this->input->post('fecha_alt');
-				$historia->servicio_id = $this->input->post('servicioId');
-				$historia->estatus     = 1;
-				$historia->fecha_alta          = date("Y-m-d H:i:s");
-				if($historia->save()){
-					redirect(base_url('appointment'));
-					}else{
-					echo $historia->error->string;
-					}
+				if ($dateAnterior < $dateInput){
+
+					$historia = new Historia();
+
+					$historia->cita_id     = $cita->id;
+					$historia->paciente_id = $this->input->post('pacienteId');
+					$historia->empleado_id = $this->input->post('doctorId');
+					$historia->fecha_hora  = $this->input->post('fecha_alt');
+					$historia->servicio_id = $this->input->post('servicioId');
+					$historia->estatus     = 1;
+					$historia->fecha_alta  = date("Y-m-d H:i:s");
+					$historia->save();
+
+				}
+
+				redirect(base_url('appointment'));
+						
+			} else {
+
+					echo $cita->error->string;
 					
-		} else {
-
-				echo $cita->error->string;
-				
-		}
-   		}
+			}
+	   	}
 	}
 
 	public function adicional(){

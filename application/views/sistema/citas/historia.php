@@ -25,10 +25,10 @@ $aMeses    = unserialize (MESES);
 					echo '<tr class='.$rowClass.'>';
 						echo '<td><img src="'.base_url('assets/images/'.estatus($historia->estatus).'_point.png').'" width="25" height="25" ></td>';
 
-						echo '<td>'.date("d", strtotime($historia->fecha_alta)) .' '. 
-									$aMeses[date("n", strtotime($historia->fecha_alta))-1]. 
+						echo '<td>'.date("d", strtotime($historia->fecha_hora)) .' '. 
+									$aMeses[date("n", strtotime($historia->fecha_hora))-1]. 
 									//.'/'. date("Y", strtotime($cita->fecha_hora)) 
-									' '. date("H:i", strtotime($historia->fecha_alta)).
+									' '. date("H:i", strtotime($historia->fecha_hora)).
 							 '</td>';
 
 						

@@ -66,7 +66,7 @@ $cita->servicio->get();
 	
 			echo form_input($data);
 
-			echo '<input type="hidden" name="fecha_alt" id="fecha_alt" value="'.$cita->fecha_hora.':00'.'"/>';
+			echo '<input type="hidden" name="fecha_alt" id="fecha_alt" value="'.$cita->fecha_hora.'"/>';
 
 		echo '</td>'; 
 		echo '</td>'; 
