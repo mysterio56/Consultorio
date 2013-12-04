@@ -3,6 +3,8 @@
 class Reunion extends DataMapper
 {
 
+    public $extensions = array('array');
+    
 	public $table = "citas";
 
 	public $has_one = array("paciente","empleado","servicio");

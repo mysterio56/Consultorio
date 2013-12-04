@@ -110,10 +110,71 @@ class Appointment extends CI_Controller{
     	
     }
 
-    public function grid(){
+    public function grid($page = 1){
 
-    	echo json_encode($this->input->post());
-    	
+    	if($this->input->post()){
+
+    		$citas = new Reunion();
+    		$citas->where('consultorio_id' , $this->session->userdata('id_consultorio'));
+
+    		$permisos  = permisos($this->session->userdata('type_user'));
+
+    		$aPermisos = array("Agregar"  => array(4,5,6,7),
+                               "Editar"   => array(2,3,6,7),
+                               "Eliminar" => array(1,3,5,7)
+                               );
+
+    		$aMeses = array("Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic");
+
+    		$permisosSub = submodulos($this->session->userdata('type_user'),9);
+
+    		if($this->input->post('estatus_citas')){
+
+    			switch ($this->input->post('estatus_citas')) {
+				    case 1:
+				        $citas->where('YEAR(fecha_hora)' , date("Y"));
+						$citas->where('MONTH(fecha_hora)', date("m"));
+						$citas->where('DAY(fecha_hora)'  , date("d"));
+						$citas->order_by(' ABS(TIMESTAMPDIFF( MINUTE, fecha_hora, NOW() ))  ASC'); 
+				        break;
+				    case 2:
+				        echo "i es igual a 1";
+				        break;
+				    case 3:
+				        echo "i es igual a 2";
+				        break;
+				}
+
+    		}
+
+    		foreach($citas->get_paged_iterated($page, 9) as $nKey => $cita){
+    			$cita->paciente->get();
+    			$cita->empleado->get();
+    			$cita->servicio->get();	
+
+    			$aCitas[$nKey] = array("id"            => $cita->id,
+    								   "paciente"      => $cita->paciente->nombre." ".$cita->paciente->apellido_p." ".$cita->paciente->apellido_m,
+    								   "doctor"        => $cita->empleado->nombre." ".$cita->empleado->apellido_p." ".$cita->empleado->apellido_m,
+    								   "servicio"      => $cita->servicio->nombre,
+    								   "fecha"         => $cita->fecha_hora,
+    								   "fecha_format"  => date("d", strtotime($cita->fecha_hora)) ." ". 
+    								   					  $aMeses[date("m", strtotime($cita->fecha_hora)) - 1] ." ".
+    								   					  date("H", strtotime($cita->fecha_hora)) .":".
+    								   					  date("i", strtotime($cita->fecha_hora)),
+    								   "fecha_format2" => date("d/m/Y H:i", strtotime($cita->fecha_hora)),
+    								   "estatus"       => estatus($cita->estatus),
+    								   "nEstatus"      => $cita->estatus,
+    								   "editar"        => in_array($permisos['appointment'],$aPermisos['Editar'])?true:false,
+    								   "historia"      => isset($permisosSub['Histórico'])?true:false,
+    								   "costo"         => isset($permisosSub['Costo'])?true:false,
+    								   "adicionales"   => isset($permisosSub['Adicionales'])?true:false
+    								  );  
+    		}
+
+			echo json_encode($aCitas);
+
+    	}
+
     }
 
     public function estatus($cita_id = null, $estatus = null, $fecha = null){
