@@ -241,7 +241,7 @@ public function eliminar($id_servicio){
 
 				$data['permisos']     = $aPermisos['service'];
 				$data['paginaActual'] = $page;
-				$data['servicios']     = $servicios;
+				$data['servicios']    = $servicios;
 				$data['buscar']       = true;
 
 			}
@@ -255,14 +255,12 @@ public function eliminar($id_servicio){
 	public function lista(){
 
 		$servicio = new Servicio();
-		$servicio->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
-		$servicio->where('estatus', 1)->get();
-		
-		$servicio->select(' id, codigo, nombre ');
-		$array = array('codigo' => $_GET['term'], 'nombre' => $_GET['term']);
-		$servicio->or_like($array)->get();
-		
-		
+
+		$servicio->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
+								'tipo'          => 1,
+								'estatus'       => 1));
+
+		$servicio->where('CONCAT( codigo,  "  " , nombre ) like "%'.$_GET['term'].'%"')->get();
 		
 		$aServicio = array();
 
@@ -280,16 +278,12 @@ public function eliminar($id_servicio){
 
 	$servicio = new Servicio();
 	$servicio->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
+	$servicio->where('tipo', 2);
 	$servicio->where('estatus', 1)->get();
-
-	$aServicio = array(); 
-
-	foreach($servicio as $service){
-			 $aServicio[] = array("id"    => $service->id, 
-			 					  "value" => $service->codigo .' '. $service->nombre);
-		}
+	
+	$aServicio = $servicio->all_to_array(); 
 		
-		echo json_encode($aServicio);
+	echo json_encode($aServicio);
 
 	}
 }

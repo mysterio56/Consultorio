@@ -100,11 +100,9 @@ function getServicio(){
 
   	$.getJSON( base_url + "service/lista_add", function( data ) {
 
-	$('#servicio').append('<option value="0"></option>');
-
 		$.each(data,function (key, val) {
 			
-  			$('#servicio').append('<option value="' + val.id + '">' + val.value + '</option>');  
+  			$('#servicio').append('<option value="' + val.id + '">' + val.codigo +' '+val.nombre + '</option>');  
 
   		});
 
@@ -276,6 +274,7 @@ function autocom(select){
   }
 
 </script>
+<div id="resultado">
 <section class="datagrid" >
 	<table>
 		<thead>
@@ -285,4 +284,6 @@ function autocom(select){
 				<th align="center">Costo</th>
 			</tr>
 		</thead>
-		<tbody>
+	</table>
+	</section>
+</div>

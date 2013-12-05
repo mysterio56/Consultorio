@@ -421,9 +421,14 @@ class Appointment extends CI_Controller{
 			$ingresos->consultorio_id = $this->session->userdata('id_consultorio');
 		    $ingresos->fecha_alta     = date("Y-m-d H:i:s");
 		
-
-
-		}
+		   if($ingresos->save()){
+		   		redirect(base_url('appointment'));
+		  } else {
+					echo $ingresos->error->string;
+					
+			}
 	}
+
+}
 
 }
