@@ -14,6 +14,7 @@
 			echo form_label('*Campos Requeridos','campo');
 		echo'</td>';
 	echo '</tr>';
+	
 	echo '<tr>';
 		echo '<td>';
 	 		echo form_label('*Paciente:');

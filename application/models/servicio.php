@@ -3,6 +3,8 @@
 class Servicio extends DataMapper
 {
 
+    public $extensions = array('array');
+
     public $table = "servicios";
     
     public $has_one = array("consultorio");

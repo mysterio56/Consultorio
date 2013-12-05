@@ -63,7 +63,7 @@
                            'value' => 'Buscar',
                            'style' => 'margin:0px'));
   
-    echo form_close();
+  echo form_close();
   }
 
 ?> 
