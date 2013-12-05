@@ -16,7 +16,16 @@
 		<tbody id="tbodyCitas">
 
 		</tbody>
+		<tfoot id="tfootCitas">
+
+		</tfoot>
 	</table>
+
+	<div id="wait_grid" class= "wait_grid" style="display:none">
+		<img src="<?= base_url('assets/images/wait.gif'); ?>" style="width:25px;height:25px;"/>
+		Cargando datos ...
+	</div>
+
 </section>
 
 	<?php if(in_array($permisos,$aPermisos['Agregar']) ): ?>
@@ -27,9 +36,10 @@
 
 <script>
 
-$.noConflict();
-
 base_url = "<?= base_url(); ?>";
+date_now = "<?= date('D M d Y H:i:s O'); ?>";
+date_now = new Date(date_now);
+page     = 1;
 
 setInterval(function(){
 	changeAutoEstatus();
@@ -43,18 +53,26 @@ jQuery(function(){
 
 function grid(){
 
-	jQuery.post( base_url+"appointment/grid", 
-		{ 
-			estatus_citas: jQuery('input[name=estatus_citas]:checked').val()
-		}, 
+	if(jQuery( "input[name=estatus_citas]:checked" ).val()){
+		jQuery("#date_end").datepicker().val("");
+		jQuery("#date_start").datepicker().val("");
+		jQuery( "#l_date_start" ).html( "" );
+		jQuery( "#l_date_end" ).html( "" );
+	}
+
+	Tips.hideAll();
+	jQuery('#tbodyCitas').html("");
+	jQuery('#wait_grid').show();
+
+	var form_data = jQuery('#citasForm').serialize();
+
+	jQuery.post( base_url+"appointment/grid/"+page, form_data , 
 
 		function( data ) {
-
-			jQuery('#tbodyCitas').html("");
-
+console.log(data);
 			if(!data.empty){
 		
-		  		jQuery.each(data,function(key,cita){
+		  		jQuery.each(data.data,function(key,cita){
 
 	                classRow = (key % 2 == 0)?'odd':'even';
 		  			rowCita  = '<tr class="'+classRow+'">';
@@ -116,19 +134,79 @@ function grid(){
 		  			}
 
 		  			jQuery('#tbodyCitas').append(rowCita);
+		  			jQuery('#tfootCitas').html("");
 
 		  		});
+				
+
+				if(data.page_total > 1){
+
+					rowFoot = '<tr><td colspan="100%"><div id="paging"><ul>';
+
+					if(data.has_previous){
+						rowFoot += '<li>';
+						rowFoot += '<a onClick="setPage(1);">';
+						rowFoot += '<span>Inicio</span>';
+						rowFoot += '</a>';
+						rowFoot += '</li>';
+						rowFoot += '<li>';
+						rowFoot += '<a onClick="setPage('+data.previous_page+');">';
+						rowFoot += '<span>Anterior</span>';
+						rowFoot += '</a>';
+						rowFoot += '</li>';
+					}
+
+					for (var i=1;i<=data.page_total;i++)
+					{ 
+
+						if(data.page_actual == i){
+							pagActiva = 'active';
+						} else {
+							pagActiva = '';
+						}
+
+						rowFoot += '<li>';
+						rowFoot += '<a class="'+pagActiva+'" onClick="setPage('+i+')" >';
+						rowFoot += '<span>'+i+'</span>';
+						rowFoot += '</a>';
+					}
+
+					if(data.has_next){
+						rowFoot += '<li>';
+						rowFoot += '<a onClick="setPage('+data.next_page+');">';
+						rowFoot += '<span>Siguente</span>';
+						rowFoot += '</a>';
+						rowFoot += '</li>';
+						rowFoot += '<li>';
+						rowFoot += '<a onClick="setPage('+data.page_total+');">';
+						rowFoot += '<span>Fin</span>';
+						rowFoot += '</a>';
+						rowFoot += '</li>';
+					}
+
+					rowFoot += '</ul></div></td></tr>';
+
+					jQuery('#tfootCitas').append(rowFoot);
+				}
 
 				changeAutoEstatus();
+
 	 		} else {
 
 	 			rowCita = '<tr><td colspan="100%">No hay citas para mostrar </td></tr>';
 	 			jQuery('#tbodyCitas').append(rowCita);
-	 			
+
 	 		}
+
+	 		jQuery('#wait_grid').hide();
 
 		}, "json");
 
+}
+
+function setPage(nPage){
+	page = nPage;
+	grid();
 }
 
 function createTooltip(id_cita, estatus, fecha){ 
