@@ -54,17 +54,19 @@
         $citas = new Reunion();
 
         $citas->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
-                            'estatus'        => 1,
-        $citas->order_by ASC(ABS(TIMETAMPDIFF('MINUTE','fecha_hora',now()))),   
-        $citas->Limit('5'),
-        $citas->get()));
+                            'estatus'        => 1));
+        $citas->order_by('ABS(TIMESTAMPDIFF(MINUTE,fecha_hora,now())) ASC');   
+        $citas->Limit('5');
+        $citas->get();
+        foreach($citas->all as $citas)
 
             
 ?>
 
      </article>
     </div>
-    <div>
+
+<!--.<div>
         <input id="ac-3" name="accordion-1" type="radio" />
         <label for="ac-3"> <img src="<?= base_url('assets/images/black-dot.png'); ?>" /> Caja</label>
         <article>
@@ -94,5 +96,5 @@ Eam no noster noluisse periculis, audire delicata mea in. Expetenda evertitur ut
 Eum lorem quidam legendos cu, ei usu scaevola reformidans. No deserunt conceptam per, an simul dissentiet vituperatoribus eum. Sanctus mediocrem ne duo, nam sonet dicunt splendide ei. Aliquam veritus usu ad, principes intellegat in est, mei nominavi sapientem gubergren no.</p>
         </article>
     </div>
-    <div><!--...--></div>
+    <div></div>.-->
 </section>
