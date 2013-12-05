@@ -138,10 +138,12 @@ class Appointment extends CI_Controller{
 						$citas->order_by(' ABS(TIMESTAMPDIFF( MINUTE, fecha_hora, NOW() ))  ASC'); 
 				        break;
 				    case 2:
-				        echo "i es igual a 1";
+				        $citas->where('DATE(fecha_hora) > CURRENT_DATE');
+             			$citas->order_by(' fecha_hora ', 'ASC'); 
 				        break;
 				    case 3:
-				        echo "i es igual a 2";
+				        $citas->where('DATE(fecha_hora) < CURRENT_DATE');
+            			$citas->order_by(' fecha_hora ', 'DESC' );
 				        break;
 				}
 
