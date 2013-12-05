@@ -78,26 +78,36 @@
     <section class="cita-stilo">
     <div id="div-banner">
         <div id="prox-cita">
-            <div id="head-cita">
-            
-            </div>
             <div id="datetime">
                 <p id="date"><?php echo $date =  $cita->fecha_hora; ?></p>
                 <p id="time"><?php echo $hour = $cita->fecha_hora;  ?></p> 
+            </div>
+            <div id="detail-cita">
+                <div id="detail-1">
+                    <p>Doctor</p>
+                    <p>Paciente</p>
+                </div>
+                <div id="detail-2">
+                    <p><?php echo $doctor  = $cita->empleado->nombre; ?></p>
+                    <p><?php echo $patient = $cita->paciente->nombre; ?></p>
+                </div>
             </div>
             <div id="detail-cita-small">
                 <div id="detail">
                     <p>Doctor <strong><?php echo $doctor    = $cita->empleado->nombre; ?></strong></p>
                     <p>Paciente <strong><?php echo $patient  = $cita->paciente->nombre; ?></strong></p>
+                    <div id="doctors">
+        </div>
+    
                 </div>
             </div>
-        </div>
-        <div id="doctors">
-        </div>
-    </div>
-
+      
+        
+</div>
 </article>
-    </div>
+</section>
+
+</div>
 <?php
 }
 ?>

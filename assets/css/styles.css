@@ -673,21 +673,6 @@ nav li:hover ul {
 
 
 
-
-
-
-
-
-
-.ac-container article p{
-    font-style: italic;
-    
-    line-height: 23px;
-    /*font-size: 14px;*/
-  
-    text-shadow: 1px 1px 1px rgba(255,255,255,0.8);
-}
-
 .cita-stilo #div-banner{
     width: 986px;
     height: 100%;
