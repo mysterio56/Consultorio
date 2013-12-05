@@ -69,7 +69,7 @@ function grid(){
 	jQuery.post( base_url+"appointment/grid/"+page, form_data , 
 
 		function( data ) {
-console.log(data);
+
 			if(!data.empty){
 		
 		  		jQuery.each(data.data,function(key,cita){
