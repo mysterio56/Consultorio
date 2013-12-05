@@ -31,8 +31,14 @@ $.noConflict();
 
 base_url = "<?= base_url(); ?>";
 
+setInterval(function(){
+	changeAutoEstatus();
+},300000);
+
 jQuery(function(){
- 	grid();
+
+	grid();
+	
 });
 
 function grid(){
@@ -43,7 +49,12 @@ function grid(){
 		}, 
 
 		function( data ) {
+			console.log(data);
 
+			jQuery('#tbodyCitas').html("");
+
+			if(!data.empty){
+		
 	  		jQuery.each(data,function(key,cita){
 
                 classRow = (key % 2 == 0)?'odd':'even';
@@ -59,11 +70,15 @@ function grid(){
                     rowCita +=           'src     = "'+base_url+'assets/images/'+cita.estatus+'_point.png"';
 	  				rowCita +=			 'id      = "estatus_'+cita.id+'"';
 	  			    rowCita +=	         'onclick = "createTooltip('+cita.id+' , '+cita.nEstatus+', \''+cita.fecha_format2+'\')" />';
+	  			    rowCita += '<img src="'+base_url+'assets/images/wait.gif" id="wait_'+cita.id+'" width="25" height="25" style="display:none">';
 	  				rowCita += '</td>';
 
 	  			}else{
 
-					rowCita += '<td><img style="width:25px;height:25px;" src="'+base_url+'assets/images/'+cita.estatus+'_point.png"/></td>';
+					rowCita += '<td>';
+					rowCita += '<img style="width:25px;height:25px;" src="'+base_url+'assets/images/'+cita.estatus+'_point.png"/>';
+					rowCita += '<img src="'+base_url+'assets/images/wait.gif" id="wait_'+cita.id+'" width="25" height="25" style="display:none">';
+					rowCita += '</td>';
 
 	  			}
 
@@ -78,10 +93,8 @@ function grid(){
 	  					rowCita += '</a>'; 
  	  				}
 
- 	  				if(cita.historia){
-	  					//rowCita += '<a href="'+base_url+'appointment/editar/'+cita.id+'">'; 		
-	  					//rowCita += '<img src="'+base_url+'assets/images/edit.png" style="width:25px;height:25px;" />';
-	  					//rowCita += '</a>'; 
+ 	  				if(cita.historia){ 		
+	  					rowCita += '<img src="'+base_url+'assets/images/history.jpg" id="historia_'+cita.id+'" onclick="createTooltipHistoria('+cita.id+')" style="width:25px;height:25px;cursor:pointer;" />'; 
  	  				}
 
  	  				if(cita.adicionales){
@@ -90,14 +103,25 @@ function grid(){
 	  					rowCita += '</a>'; 
  	  				}
 
-	  				rowCita +=  '</td>';
+ 	  				if(cita.costo){ 		
+	  					rowCita += '<img src="'+base_url+'assets/images/money.png" style="width:25px;height:25px;cursor:pointer;" />'; 
+ 	  				}
+
+	  				rowCita += '</td>';
 	  			}
 
-	  			rowCita +=  '</tr>';
+	  			rowCita += '</tr>';
+
+	  			if(cita.nEstatus == 1){
+	  				rowCita += '<input type="hidden" class="input_cita" value="'+cita.id+'" />';
+	  			}
 
 	  			jQuery('#tbodyCitas').append(rowCita);
 
 	  		});
+
+		changeAutoEstatus();
+	 	}
 
 		}, "json");
 
@@ -152,5 +176,142 @@ function elementEstatus(id_cita, estatus, fecha){
 	return element;
 
 } 
+
+function createTooltipHistoria(id_cita){ 
+
+	new Tip('historia_'+id_cita, {
+			    title : 'Historia de la cita',
+				//target: $('estatus').up('li'),
+				ajax: {
+					url: base_url+'appointment/historia/'+id_cita,
+					options: {
+						onComplete: function(transport) {
+							
+						}
+					}
+				},
+				closeButton: true,
+				hideOn: { element: '.close', event: 'click' },
+				showOn: 'click',
+				width: '200', 
+				hook: { target: 'bottomMiddle', tip: 'topRight' },
+				stem: 'topRight',
+				offset: { x: 6, y: 3 }
+			});
+
+	$('historia_'+id_cita).prototip.show();
+
+}
+
+function showDate(id_cita, estatus){
+
+	jQuery('#dateChange_'+id_cita).show();
+
+	jQuery('#dateChange_'+id_cita).datetimepicker({
+			//controlType: myControl,
+			altField: "#fecha_alt_"+id_cita,
+			altFieldTimeOnly: false,
+			altFormat: "yy-mm-dd",
+			altTimeFormat: "HH:mm",
+			onClose: function(selectedDate,objDate,objTime) {
+
+				var dateMS = new Date(objDate.selectedYear,objDate.selectedMonth,objDate.selectedDay,objTime.hour,objTime.minute).getTime();
+
+				changeEstatus(id_cita, estatus, dateMS);
+
+      		},
+			timeText:    '',
+			hourText:    'Hora',
+			minuteText:  'Minuto',
+			currentText: 'Fecha actual',
+			closeText:   'Aceptar',
+			minDate:     date_now
+		});
+}
+
+function changeEstatus(id_cita, estatus, fecha){
+
+	Tips.hideAll();
+	jQuery('#wait_'+id_cita).show();
+	jQuery('#estatus_'+id_cita).hide();
+
+	var url = base_url + "appointment/estatus/"+id_cita+"/"+estatus+"/"+fecha ;
+
+	jQuery.getJSON( url, function( data ) {
+
+		jQuery('#wait_'+id_cita).hide();
+		jQuery('#estatus_'+id_cita).show();
+		jQuery('#estatus_'+id_cita).attr('src',base_url+"assets/images/"+data.estatus+"_point.png");
+
+		var d = new Date(data.fecha);
+
+		var month=new Array();
+			month[0]  = "Ene";
+			month[1]  = "Feb";
+			month[2]  = "Mar";
+			month[3]  = "Abr";
+			month[4]  = "May";
+			month[5]  = "Jun";
+			month[6]  = "Jul";
+			month[7]  = "Ago";
+			month[8]  = "Sep";
+			month[9]  = "Oct";
+			month[10] = "Nov";
+			month[11] = "Dic";
+
+		var date   = ("0" + d.getDate()).slice(-2)+"/"+d.getMonth()+"/"+d.getFullYear()+" "+d.getHours()+":"+("0" + d.getMinutes()).slice(-2);
+		var date_g = ("0" + d.getDate()).slice(-2)+" "+month[d.getMonth()]+" "+d.getHours()+":"+("0" + d.getMinutes()).slice(-2);
+		    
+		jQuery('#estatus_'+id_cita).attr('onClick', 'createTooltip('+id_cita+','+data.nEstatus+', "'+date+'")');
+
+
+		if(data.nEstatus == 1){
+
+			jQuery('#fecha_'+id_cita).html(date_g);
+
+		}
+
+		if(data.error){
+
+			alert(data.error);
+
+		}
+
+	});
+	
+}
+
+function changeAutoEstatus(){
+
+	jQuery.each(jQuery('.input_cita') , function(key, input){
+
+		var url = base_url + "appointment/estatusAuto/"+jQuery(input).val();
+
+		jQuery('#wait_'+jQuery(input).val()).show();
+		jQuery('#estatus_'+jQuery(input).val()).hide();
+
+		jQuery.getJSON( url, function( data ) {
+
+ 			jQuery('#wait_'+jQuery(input).val()).hide();
+			jQuery('#estatus_'+jQuery(input).val()).show();
+			jQuery('#estatus_'+jQuery(input).val()).attr('src',base_url+"assets/images/"+data.estatus+"_point.png");
+
+			var d = new Date(data.fecha);
+
+			var date   = ("0" + d.getDate()).slice(-2)+"/"+d.getMonth()+"/"+d.getFullYear()+" "+d.getHours()+":"+("0" + d.getMinutes()).slice(-2);
+
+			jQuery('#estatus_'+jQuery(input).val()).attr('onClick', 'createTooltip('+jQuery(input).val()+','+data.nEstatus+', "'+date+'")');
+
+			if(data.error){
+
+				alert(data.error);
+
+			}
+
+ 		});
+	});
+	
+
+}
 
 </script>

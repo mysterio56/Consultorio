@@ -138,7 +138,8 @@ class Appointment extends CI_Controller{
 						$citas->order_by(' ABS(TIMESTAMPDIFF( MINUTE, fecha_hora, NOW() ))  ASC'); 
 				        break;
 				    case 2:
-				        echo "i es igual a 1";
+						$citas->where('DATE(fecha_hora) > CURRENT_DATE');
+						$citas->order_by(' fecha_hora '); 
 				        break;
 				    case 3:
 				        echo "i es igual a 2";
@@ -147,31 +148,36 @@ class Appointment extends CI_Controller{
 
     		}
 
-    		foreach($citas->get_paged_iterated($page, 9) as $nKey => $cita){
-    			$cita->paciente->get();
-    			$cita->empleado->get();
-    			$cita->servicio->get();	
+    		if($citas->count()){
+	    		foreach($citas->get_paged_iterated($page, 9) as $nKey => $cita){
+	    			$cita->paciente->get();
+	    			$cita->empleado->get();
+	    			$cita->servicio->get();	
 
-    			$aCitas[$nKey] = array("id"            => $cita->id,
-    								   "paciente"      => $cita->paciente->nombre." ".$cita->paciente->apellido_p." ".$cita->paciente->apellido_m,
-    								   "doctor"        => $cita->empleado->nombre." ".$cita->empleado->apellido_p." ".$cita->empleado->apellido_m,
-    								   "servicio"      => $cita->servicio->nombre,
-    								   "fecha"         => $cita->fecha_hora,
-    								   "fecha_format"  => date("d", strtotime($cita->fecha_hora)) ." ". 
-    								   					  $aMeses[date("m", strtotime($cita->fecha_hora)) - 1] ." ".
-    								   					  date("H", strtotime($cita->fecha_hora)) .":".
-    								   					  date("i", strtotime($cita->fecha_hora)),
-    								   "fecha_format2" => date("d/m/Y H:i", strtotime($cita->fecha_hora)),
-    								   "estatus"       => estatus($cita->estatus),
-    								   "nEstatus"      => $cita->estatus,
-    								   "editar"        => in_array($permisos['appointment'],$aPermisos['Editar'])?true:false,
-    								   "historia"      => isset($permisosSub['Histórico'])?true:false,
-    								   "costo"         => isset($permisosSub['Costo'])?true:false,
-    								   "adicionales"   => isset($permisosSub['Adicionales'])?true:false
-    								  );  
-    		}
+	    			$aCitas[$nKey] = array("id"            => $cita->id,
+	    								   "paciente"      => $cita->paciente->nombre." ".$cita->paciente->apellido_p." ".$cita->paciente->apellido_m,
+	    								   "doctor"        => $cita->empleado->nombre." ".$cita->empleado->apellido_p." ".$cita->empleado->apellido_m,
+	    								   "servicio"      => $cita->servicio->nombre,
+	    								   "fecha"         => $cita->fecha_hora,
+	    								   "fecha_format"  => date("d", strtotime($cita->fecha_hora)) ." ". 
+	    								   					  $aMeses[date("m", strtotime($cita->fecha_hora)) - 1] ." ".
+	    								   					  date("H", strtotime($cita->fecha_hora)) .":".
+	    								   					  date("i", strtotime($cita->fecha_hora)),
+	    								   "fecha_format2" => date("d/m/Y H:i", strtotime($cita->fecha_hora)),
+	    								   "estatus"       => estatus($cita->estatus),
+	    								   "nEstatus"      => $cita->estatus,
+	    								   "editar"        => in_array($permisos['appointment'],$aPermisos['Editar'])?true:false,
+	    								   "historia"      => isset($permisosSub['Histórico'])?true:false,
+	    								   "costo"         => isset($permisosSub['Costo'])?true:false,
+	    								   "adicionales"   => isset($permisosSub['Adicionales'])?true:false
+	    								  );  
+	    		}
 
-			echo json_encode($aCitas);
+				echo json_encode($aCitas);
+
+			}
+
+			echo json_encode(array('empty' => true));
 
     	}
 
@@ -252,6 +258,7 @@ class Appointment extends CI_Controller{
 			}
 			
 		} else {
+			
 			echo json_encode(array('error'    => false, 
 								   'estatus'  => estatus($cita->estatus),
 								   'nEstatus' => $cita->estatus,
