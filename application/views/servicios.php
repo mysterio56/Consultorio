@@ -58,10 +58,63 @@
         $citas->order_by('ABS(TIMESTAMPDIFF(MINUTE,fecha_hora,now())) ASC');   
         $citas->Limit('5');
         $citas->get();
-        foreach($citas->all as $citas)
+        foreach($citas->all as $cita){
+            $cita->paciente->get();
+            $cita->empleado->get();
+       }
 
+         ?>   
+
+    <section class="cita-stilo">
+
+            <div id="datetime">
+        
+                <p id="time"><?php echo $hour = $citas->fecha_hora;?></p> 
+                <br>
+            </div>
+            <div id="detail-cita">
+                <div id="detail-1">
+                    <p>Doctor</p>
+                    <p>Paciente</p>
+                </div>
+                <div id="detail-2">
+                    <p><?php echo $doctor  = $cita->empleado->nombre; ?></p>
+                    <p><?php echo $patient = $cita->paciente->nombre; ?></p>
+                </div>
+            </div>
+            <div id="detail-cita-small" class="hide">
+                <div id="detail">
+                    <p>Doctor <strong><?php echo $doctor    = $cita->empleado->nombre; ?></strong></p>
+                    <p>Paciente <strong><?php echo $patient   = $cita->paciente->nombre; ?></strong></p>
+                </div>
+            </div>
+        </div>
+        <div id="doctors">
+        </div>
+    </div>
+</section>
+          
+
+      
+    
             
-?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
      </article>
     </div>
