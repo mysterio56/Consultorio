@@ -139,6 +139,10 @@
 		<?php endif; ?>
 	</table>
 </section>
+<?php if(isset($buscar)): ?>
+	<a href="<?= base_url('product') ?>" class="abutton_cancel">Cancelar</a>
+	<?php endif; ?>
+
 	<?php if(!isset($buscar)): ?>
 	<?php if(in_array($permisos,$aPermisos['Agregar']) ): ?>
 		<a class="abutton" href="<?= base_url('product/agregar') ?>">Agregar</a>

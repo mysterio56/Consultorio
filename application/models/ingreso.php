@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  
-class Empleado extends DataMapper
+class Ingreso extends DataMapper
 {
 	public $table = "ingresos";
 	public $has_many = array("paciente", "reunion","servicio");
@@ -15,8 +15,8 @@ class Empleado extends DataMapper
     		),
 
     		'estatus'=>array(
-    			'label' ='estatus',
-    			'rules' =array('requeride'),
+    			'label' =>'estatus',
+    			'rules' =>array('requeride'),
     		) 
     );
 }

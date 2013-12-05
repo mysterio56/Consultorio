@@ -278,7 +278,7 @@ public function eliminar($id_servicio){
 
 	$servicio = new Servicio();
 	$servicio->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
-	$servicio->where('tipo', 2);
+	$servicio->where('tipo', 1);
 	$servicio->where('estatus', 1)->get();
 	
 	$aServicio = $servicio->all_to_array(); 

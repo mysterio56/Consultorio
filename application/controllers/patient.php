@@ -21,6 +21,7 @@ class Patient extends CI_Controller{
     	$pacientes = $consultorio->paciente->get_paged_iterated($page, 9);
 
 		$data['permisos']     = $aPermisos['patient'];
+
 		$data['paginaActual'] = $page;
 		$data['pacientes']    = $pacientes;
 		$data['view']         = 'sistema/pacientes/lista';

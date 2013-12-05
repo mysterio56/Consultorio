@@ -274,7 +274,7 @@ function autocom(select){
   }
 
 </script>
-<div id="resultado">
+
 <section class="datagrid" >
 	<table>
 		<thead>
@@ -284,6 +284,5 @@ function autocom(select){
 				<th align="center">Costo</th>
 			</tr>
 		</thead>
-	</table>
-	</section>
-</div>
+		</table>
+</section>

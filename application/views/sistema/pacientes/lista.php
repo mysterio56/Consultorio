@@ -138,6 +138,10 @@
 		<?php endif; ?>
 	</table>
 </section>
+<?php if(isset($buscar)): ?>
+	<a href="<?= base_url('patient') ?>" class="abutton_cancel">Cancelar</a>
+	<?php endif; ?>
+
 <?php if(!isset($buscar)): ?>
 
 	<?php if(in_array($permisos,$aPermisos['Agregar']) ): ?>
