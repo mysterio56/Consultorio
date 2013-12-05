@@ -487,7 +487,7 @@ class Appointment extends CI_Controller{
 	
 		if($this->input->post()){
 			$ingreso  = new Ingreso();
-			$servicio->where(array('costo_venta'))->get();
+
 
 		
 			$ingreso->cita_id	  = $cita->id;
