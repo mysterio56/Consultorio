@@ -147,31 +147,99 @@ class Appointment extends CI_Controller{
 
     		}
 
-    		foreach($citas->get_paged_iterated($page, 9) as $nKey => $cita){
+    		if($this->input->post('date_start') && $this->input->post('date_end')){
+
+    			$date_start = explode("/",$this->input->post('date_start'));
+    			$date_start = $date_start[2].'-'.$date_start[1].'-'.$date_start[0];
+
+    			$date_end   = explode("/",$this->input->post('date_end'));
+    			$date_end   = $date_end[2].'-'.$date_end[1].'-'.$date_end[0];
+
+    			$citas->where_between('fecha_hora',"'".$date_start."'","'".$date_end."'");
+    			$citas->order_by(' fecha_hora ', 'ASC ');
+
+    		}
+
+    		if($this->input->post('date_start') && !$this->input->post('date_end')){
+
+    			$date_start = explode("/",$this->input->post('date_start'));
+    			$date_start = $date_start[2].'-'.$date_start[1].'-'.$date_start[0];
+
+    			$citas->where('DATE(fecha_hora)' ,$date_start);
+    			$citas->order_by(' fecha_hora ', 'ASC ');
+    		}
+
+    		if(!$this->input->post('date_start') && $this->input->post('date_end')){
+
+    			$date_end = explode("/",$this->input->post('date_end'));
+    			$date_end = $date_end[2].'-'.$date_end[1].'-'.$date_end[0];
+
+    			$citas->where('DATE(fecha_hora)' ,$date_end);
+    			$citas->order_by(' fecha_hora ', 'ASC ');
+    		}
+
+    		if($this->input->post('pacienteId')){
+
+    			$citas->where('paciente_id' ,$this->input->post('pacienteId'));
+    			$citas->order_by(' fecha_hora ', 'ASC ');
+    		}
+
+    		if($this->input->post('servicioId')){
+
+    			$citas->where('servicio_id' ,$this->input->post('servicioId'));
+    			$citas->order_by(' fecha_hora ', 'ASC ');
+    		}
+
+    		if($this->input->post('doctorId')){
+
+    			$citas->where('empleado_id' ,$this->input->post('doctorId'));
+    			$citas->order_by(' fecha_hora ', 'ASC ');
+    		}
+
+    		$oCitas = $citas->get_paged_iterated($page, 5);
+
+    		foreach( $oCitas as $nKey => $cita){
+
     			$cita->paciente->get();
     			$cita->empleado->get();
     			$cita->servicio->get();	
 
-    			$aCitas[$nKey] = array("id"            => $cita->id,
-    								   "paciente"      => $cita->paciente->nombre." ".$cita->paciente->apellido_p." ".$cita->paciente->apellido_m,
-    								   "doctor"        => $cita->empleado->nombre." ".$cita->empleado->apellido_p." ".$cita->empleado->apellido_m,
-    								   "servicio"      => $cita->servicio->nombre,
-    								   "fecha"         => $cita->fecha_hora,
-    								   "fecha_format"  => date("d", strtotime($cita->fecha_hora)) ." ". 
-    								   					  $aMeses[date("m", strtotime($cita->fecha_hora)) - 1] ." ".
-    								   					  date("H", strtotime($cita->fecha_hora)) .":".
-    								   					  date("i", strtotime($cita->fecha_hora)),
-    								   "fecha_format2" => date("d/m/Y H:i", strtotime($cita->fecha_hora)),
-    								   "estatus"       => estatus($cita->estatus),
-    								   "nEstatus"      => $cita->estatus,
-    								   "editar"        => in_array($permisos['appointment'],$aPermisos['Editar'])?true:false,
-    								   "historia"      => isset($permisosSub['Histórico'])?true:false,
-    								   "costo"         => isset($permisosSub['Costo'])?true:false,
-    								   "adicionales"   => isset($permisosSub['Adicionales'])?true:false
-    								  );  
+		    	$aCitas['data'][$nKey] = array("id"            => $cita->id,
+		    								   "paciente"      => $cita->paciente->nombre." ".$cita->paciente->apellido_p." ".$cita->paciente->apellido_m,
+		    								   "doctor"        => $cita->empleado->nombre." ".$cita->empleado->apellido_p." ".$cita->empleado->apellido_m,
+		    								   "servicio"      => $cita->servicio->nombre,
+		    								   "fecha"         => $cita->fecha_hora,
+		    								   "fecha_format"  => date("d", strtotime($cita->fecha_hora)) ." ". 
+		    								   					  $aMeses[date("m", strtotime($cita->fecha_hora)) - 1] ." ".
+		    								   					  date("H", strtotime($cita->fecha_hora)) .":".
+		    								   					  date("i", strtotime($cita->fecha_hora)),
+		    								   "fecha_format2" => date("d/m/Y H:i", strtotime($cita->fecha_hora)),
+		    								   "estatus"       => estatus($cita->estatus),
+		    								   "nEstatus"      => $cita->estatus,
+		    								   "editar"        => in_array($permisos['appointment'],$aPermisos['Editar'])?true:false,
+		    								   "historia"      => isset($permisosSub['Histórico'])?true:false,
+		    								   "costo"         => isset($permisosSub['Costo'])?true:false,
+		    								   "adicionales"   => isset($permisosSub['Adicionales'])?true:false
+		    								  );  
+				
     		}
 
-			echo json_encode($aCitas);
+    		if(isset($aCitas)){
+
+    			$aCitas['page_total']    = $citas->paged->total_pages;
+    			$aCitas['page_actual']   = $page;
+    			$aCitas['has_previous']  = $citas->paged->has_previous;
+    			$aCitas['has_next']      = $citas->paged->has_next;
+    			$aCitas['previous_page'] = $citas->paged->previous_page;
+    			$aCitas['next_page']     = $citas->paged->next_page;
+
+				echo json_encode($aCitas);
+
+			} else {
+
+				echo json_encode(array('empty' => true)); 
+
+			}
 
     	}
 

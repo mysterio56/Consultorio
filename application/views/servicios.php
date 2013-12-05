@@ -40,13 +40,7 @@
     </script>
    </article>
    </div>
-
-
-    <div>
-        <input id="ac-2" name="accordion-1" type="radio" />
-        <label for="ac-2"><img src="<?= base_url('assets/images/black-dot.png'); ?>" /> Citas</label>
-        <article>
-             <?php
+<?php
            $aMeses = array("Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic");
 
         $citas = new Reunion();
@@ -54,61 +48,60 @@
         $citas->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
                             'estatus'        => 1));
         
-        $citas->order_by('ABS(TIMESTAMPDIFF(MINUTE,fecha_hora,now())) ASC');   
-        $citas->Limit('5');
+        $citas->order_by('TIMESTAMPDIFF(MINUTE,fecha_hora,now()) ASC');   
+        $citas->limit('5');
         $citas->get();
-
-        foreach($citas->all  as  $cita){
-            $cita->paciente->get();
-            $cita->empleado->get();
-
-            $cita->paciente->nombre." ".$cita->paciente->apellido_p." ".$cita->paciente->apellido_m;
-            $cita->empleado->nombre." ".$cita->empleado->apellido_p." ".$cita->empleado->apellido_m;
-            $cita->fecha_hora;
-                              date("d", strtotime($cita->fecha_hora)) ." ". 
-                              $aMeses[date("m", strtotime($cita->fecha_hora)) - 1] ." ".
-                              date("H", strtotime($cita->fecha_hora)) .":".
-                              date("i", strtotime($cita->fecha_hora));
-                              date("d/m/Y H:i", strtotime($cita->fecha_hora));
-                                        
-
          ?>  
-         
+
+   <div>
+        <input id="ac-2" name="accordion-1" type="radio"/>
+        <label for="ac-2"><img src="<?= base_url('assets/images/black-dot.png'); ?>" /> Citas</label>
+        <article>
+         <?php
+
+             foreach($citas->all  as  $cita){
+                $cita->paciente->get();
+                $cita->empleado->get();
+
+                $cita->paciente->nombre." ".$cita->paciente->apellido_p." ".$cita->paciente->apellido_m;
+                $cita->empleado->nombre." ".$cita->empleado->apellido_p." ".$cita->empleado->apellido_m;
+                $cita->fecha_hora;
+                                  date("d", strtotime($cita->fecha_hora)) ." ". 
+                                  $aMeses[date("m", strtotime($cita->fecha_hora)) - 1] ." ".
+                                  date("H", strtotime($cita->fecha_hora)) .":".
+                                  date("i", strtotime($cita->fecha_hora));
+                                  date("d/m/Y H:i", strtotime($cita->fecha_hora));
+                                        
+            
+        ?>
 
     <section class="cita-stilo">
     <div id="div-banner">
         <div id="prox-cita">
+            <div id="head-cita">
+            
+            </div>
             <div id="datetime">
                 <p id="date"><?php echo $date =  $cita->fecha_hora; ?></p>
                 <p id="time"><?php echo $hour = $cita->fecha_hora;  ?></p> 
             </div>
-            <div id="detail-cita">
-                <div id="detail-1">
-                    <p>Doctor</p>
-                    <p>Paciente</p>
-                </div>
-                <div id="detail-2">
-                    <p><?php echo $doctor  = $cita->empleado->nombre; ?></p>
-                    <p><?php echo $patient = $cita->paciente->nombre; ?></p>
-                </div>
-            </div>
-            <div id="detail-cita-small">
+            <div id="">
                 <div id="detail">
                     <p>Doctor <strong><?php echo $doctor    = $cita->empleado->nombre; ?></strong></p>
                     <p>Paciente <strong><?php echo $patient  = $cita->paciente->nombre; ?></strong></p>
-                    <div id="doctors">
-        </div>
-    
                 </div>
             </div>
-      
-        
-</div>
-</article>
+        </div>
+        <div id="doctors">
+        </div>
+    </div>
 </section>
-
-</div>
 <?php
 }
 ?>
+   </article>
+   </div>
+
+
+    
 </section>

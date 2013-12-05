@@ -280,7 +280,13 @@ div .error{
     width: 1px;
 }
 
-.citas label {
+.citas label{
+  color: #00496B;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.citas .radio_citas  {
 
   display: inline-block;
 background: #006699;
@@ -313,3 +319,23 @@ font-family: helvetica;
 border: solid 1px;
 font-weight: normal;
 }
+
+.wait_grid {
+  color: #00496B;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.ico {
+  width:25px;
+  height:25px;
+  cursor:pointer;
+}
+
+.ui-datepicker-trigger{
+    width:25px;
+  height:25px;
+  cursor:pointer;
+}
+
+
