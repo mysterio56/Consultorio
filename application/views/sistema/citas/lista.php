@@ -49,79 +49,83 @@ function grid(){
 		}, 
 
 		function( data ) {
-			console.log(data);
 
 			jQuery('#tbodyCitas').html("");
 
 			if(!data.empty){
 		
-	  		jQuery.each(data,function(key,cita){
+		  		jQuery.each(data,function(key,cita){
 
-                classRow = (key % 2 == 0)?'odd':'even';
-	  			rowCita  = '<tr class="'+classRow+'">';
-	  			rowCita	+= '<td>'+cita.paciente+'</td>';
-	  			rowCita	+= '<td>'+cita.doctor+'</td>';
-	  			rowCita	+= '<td>'+cita.servicio+'</td>';
-	  			rowCita	+= '<td>'+cita.fecha_format+'</td>';
+	                classRow = (key % 2 == 0)?'odd':'even';
+		  			rowCita  = '<tr class="'+classRow+'">';
+		  			rowCita	+= '<td>'+cita.paciente+'</td>';
+		  			rowCita	+= '<td>'+cita.doctor+'</td>';
+		  			rowCita	+= '<td>'+cita.servicio+'</td>';
+		  			rowCita	+= '<td>'+cita.fecha_format+'</td>';
 
-	  			if(cita.editar){
+		  			if(cita.editar){
 
-	  				rowCita += '<td><img style   = "width:25px;height:25px;cursor:pointer;"';
-                    rowCita +=           'src     = "'+base_url+'assets/images/'+cita.estatus+'_point.png"';
-	  				rowCita +=			 'id      = "estatus_'+cita.id+'"';
-	  			    rowCita +=	         'onclick = "createTooltip('+cita.id+' , '+cita.nEstatus+', \''+cita.fecha_format2+'\')" />';
-	  			    rowCita += '<img src="'+base_url+'assets/images/wait.gif" id="wait_'+cita.id+'" width="25" height="25" style="display:none">';
-	  				rowCita += '</td>';
+		  				rowCita += '<td><img style   = "width:25px;height:25px;cursor:pointer;"';
+	                    rowCita +=           'src     = "'+base_url+'assets/images/'+cita.estatus+'_point.png"';
+		  				rowCita +=			 'id      = "estatus_'+cita.id+'"';
+		  			    rowCita +=	         'onclick = "createTooltip('+cita.id+' , '+cita.nEstatus+', \''+cita.fecha_format2+'\')" />';
+		  			    rowCita += '<img src="'+base_url+'assets/images/wait.gif" id="wait_'+cita.id+'" width="25" height="25" style="display:none">';
+		  				rowCita += '</td>';
 
-	  			}else{
+		  			}else{
 
-					rowCita += '<td>';
-					rowCita += '<img style="width:25px;height:25px;" src="'+base_url+'assets/images/'+cita.estatus+'_point.png"/>';
-					rowCita += '<img src="'+base_url+'assets/images/wait.gif" id="wait_'+cita.id+'" width="25" height="25" style="display:none">';
-					rowCita += '</td>';
+						rowCita += '<td>';
+						rowCita += '<img style="width:25px;height:25px;" src="'+base_url+'assets/images/'+cita.estatus+'_point.png"/>';
+						rowCita += '<img src="'+base_url+'assets/images/wait.gif" id="wait_'+cita.id+'" width="25" height="25" style="display:none">';
+						rowCita += '</td>';
 
-	  			}
+		  			}
 
-	  			if(cita.editar || cita.historia || cita.costo || cita.adicionales){
-	  				jQuery('#thAcciones').show();
+		  			if(cita.editar || cita.historia || cita.costo || cita.adicionales){
+		  				jQuery('#thAcciones').show();
 
-	  				rowCita +=  '<td>'; 
+		  				rowCita +=  '<td>'; 
 
-	  				if(cita.editar){
-	  					rowCita += '<a href="'+base_url+'appointment/editar/'+cita.id+'">'; 		
-	  					rowCita += '<img src="'+base_url+'assets/images/edit.png" style="width:25px;height:25px;" />';
-	  					rowCita += '</a>'; 
- 	  				}
+		  				if(cita.editar){
+		  					rowCita += '<a href="'+base_url+'appointment/editar/'+cita.id+'">'; 		
+		  					rowCita += '<img src="'+base_url+'assets/images/edit.png" style="width:25px;height:25px;" />';
+		  					rowCita += '</a>'; 
+	 	  				}
 
- 	  				if(cita.historia){ 		
-	  					rowCita += '<img src="'+base_url+'assets/images/history.jpg" id="historia_'+cita.id+'" onclick="createTooltipHistoria('+cita.id+')" style="width:25px;height:25px;cursor:pointer;" />'; 
- 	  				}
+	 	  				if(cita.historia){ 		
+		  					rowCita += '<img src="'+base_url+'assets/images/history.jpg" id="historia_'+cita.id+'" onclick="createTooltipHistoria('+cita.id+')" style="width:25px;height:25px;cursor:pointer;" />'; 
+	 	  				}
 
- 	  				if(cita.adicionales){
-	  					rowCita += '<a href="'+base_url+'appointment/adicional/'+cita.id+'">'; 		
-	  					rowCita += '<img src="'+base_url+'assets/images/add.png" style="width:25px;height:25px;" />';
-	  					rowCita += '</a>'; 
- 	  				}
+	 	  				if(cita.adicionales){
+		  					rowCita += '<a href="'+base_url+'appointment/adicional/'+cita.id+'">'; 		
+		  					rowCita += '<img src="'+base_url+'assets/images/add.png" style="width:25px;height:25px;" />';
+		  					rowCita += '</a>'; 
+	 	  				}
 
- 	  				if(cita.costo){ 		
-	  					rowCita += '<img src="'+base_url+'assets/images/money.png" style="width:25px;height:25px;cursor:pointer;" />'; 
- 	  				}
+	 	  				if(cita.costo){ 		
+		  					rowCita += '<img src="'+base_url+'assets/images/money.png" style="width:25px;height:25px;cursor:pointer;" />'; 
+	 	  				}
 
-	  				rowCita += '</td>';
-	  			}
+		  				rowCita += '</td>';
+		  			}
 
-	  			rowCita += '</tr>';
+		  			rowCita += '</tr>';
 
-	  			if(cita.nEstatus == 1){
-	  				rowCita += '<input type="hidden" class="input_cita" value="'+cita.id+'" />';
-	  			}
+		  			if(cita.nEstatus == 1){
+		  				rowCita += '<input type="hidden" class="input_cita" value="'+cita.id+'" />';
+		  			}
 
-	  			jQuery('#tbodyCitas').append(rowCita);
+		  			jQuery('#tbodyCitas').append(rowCita);
 
-	  		});
+		  		});
 
-		changeAutoEstatus();
-	 	}
+				changeAutoEstatus();
+	 		} else {
+
+	 			rowCita = '<tr><td colspan="100%">No hay citas para mostrar </td></tr>';
+	 			jQuery('#tbodyCitas').append(rowCita);
+	 			
+	 		}
 
 		}, "json");
 

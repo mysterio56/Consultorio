@@ -139,16 +139,16 @@ class Appointment extends CI_Controller{
 				        break;
 				    case 2:
 						$citas->where('DATE(fecha_hora) > CURRENT_DATE');
-						$citas->order_by(' fecha_hora '); 
+						$citas->order_by(' fecha_hora ', 'ASC'); 
 				        break;
 				    case 3:
-				        echo "i es igual a 2";
+				        $citas->where('DATE(fecha_hora) < CURRENT_DATE');
+						$citas->order_by(' fecha_hora ', 'DESC' ); 
 				        break;
 				}
 
     		}
 
-    		if($citas->count()){
 	    		foreach($citas->get_paged_iterated($page, 9) as $nKey => $cita){
 	    			$cita->paciente->get();
 	    			$cita->empleado->get();
@@ -173,11 +173,11 @@ class Appointment extends CI_Controller{
 	    								  );  
 	    		}
 
-				echo json_encode($aCitas);
-
-			}
-
-			echo json_encode(array('empty' => true));
+	    		if(isset($aCitas)){
+					echo json_encode($aCitas);
+				} else {
+					echo json_encode(array('empty' => true)); 
+				}
 
     	}
 
@@ -258,7 +258,7 @@ class Appointment extends CI_Controller{
 			}
 			
 		} else {
-			
+
 			echo json_encode(array('error'    => false, 
 								   'estatus'  => estatus($cita->estatus),
 								   'nEstatus' => $cita->estatus,
