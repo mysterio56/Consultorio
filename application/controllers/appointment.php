@@ -138,12 +138,10 @@ class Appointment extends CI_Controller{
 						$citas->order_by(' ABS(TIMESTAMPDIFF( MINUTE, fecha_hora, NOW() ))  ASC'); 
 				        break;
 				    case 2:
-						$citas->where('DATE(fecha_hora) > CURRENT_DATE');
-						$citas->order_by(' fecha_hora ', 'ASC'); 
+				        echo "i es igual a 1";
 				        break;
 				    case 3:
-				        $citas->where('DATE(fecha_hora) < CURRENT_DATE');
-						$citas->order_by(' fecha_hora ', 'DESC' ); 
+				        echo "i es igual a 2";
 				        break;
 				}
 
@@ -322,7 +320,6 @@ class Appointment extends CI_Controller{
 			}
 			
 		} else {
-
 			echo json_encode(array('error'    => false, 
 								   'estatus'  => estatus($cita->estatus),
 								   'nEstatus' => $cita->estatus,
@@ -379,6 +376,7 @@ class Appointment extends CI_Controller{
 		$citas->fecha_alta          = date("Y-m-d H:i:s");
 		
 		if($citas->save()){
+
 				$historia->cita_id     = $citas->id;
 				$historia->paciente_id = $this->input->post('pacienteId');
 				$historia->empleado_id = $this->input->post('doctorId');
@@ -465,7 +463,11 @@ class Appointment extends CI_Controller{
 	   	}
 	}
 
-	public function adicional(){
+	public function adicional($id_cita){
+
+		$cita = new Reunion();
+		$cita->where(array( 'id'     => $id_cita,
+							'estatus'=> 1))->get();
 
 		$data['view']     	  = 'sistema/citas/adicional';
 		$data['return']       = 'appointment';
@@ -479,5 +481,29 @@ class Appointment extends CI_Controller{
 								  );
 
 	$this->load->view('sistema/template',$data);
+	
+		if($this->input->post()){
+			$ingreso  = new Ingreso();
+
+		
+			$ingreso->cita_id	  = $cita->id;
+			$ingreso->producto_id = $this->input->post('producto'); 
+			$ingreso->servicio_id = $this->input->post('servicio');
+			
+
+			$ingreso->estatus	   = 1;			
+			$ingreso->consultorio_id = $this->session->userdata('id_consultorio');
+		    $ingreso->fecha_alta     = date("Y-m-d H:i:s");
+			
+
+		   if($ingreso->save()){
+		   		redirect(base_url('appointment'));
+		  } else {
+					echo $ingreso->error->string;
+					
+			}
 	}
+
+}
+
 }

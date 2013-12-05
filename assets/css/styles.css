@@ -670,3 +670,140 @@ nav li:hover ul {
 .header-container #welcome {
   color: #005d7b;
 }
+
+
+
+
+
+
+
+
+
+.ac-container article p{
+    font-style: italic;
+    
+    line-height: 23px;
+    /*font-size: 14px;*/
+  
+    text-shadow: 1px 1px 1px rgba(255,255,255,0.8);
+}
+
+.cita-stilo #div-banner{
+    width: 986px;
+    height: 100%;
+    margin: 0 auto;
+}
+
+.cita-stilo #prox-cita{
+    width: 309px;
+    height: 100%;
+    background-color: #F1F1F1;
+    display: inline-block;
+    vertical-align: top;
+    color: #0079a1;
+}
+
+
+
+
+.cita-stilo #datetime > *{
+    
+    vertical-align: top;
+    text-align: center;
+    padding: 10px;
+}
+
+.cita-stilo #datetime > #time{
+    width: 28%;
+    background-image: url(../images/clock.png);
+    background-repeat: no-repeat;
+    background-position:center left; 
+
+}
+
+.cita-stilo #datetime > #date{
+    width: 70%;
+    
+}
+
+.cita-stilo #detail-cita{
+  width: 100%;
+}
+
+.cita-stilo #head-cita{
+    padding-top: 7px;
+    width: 330px;
+    background-image: url(../images/notes.png);
+    background-repeat: no-repeat;
+    background-position: 77px 5px;
+}
+
+.cita-stilo #detail-cita-small{
+  display: none; 
+  width: 520px;
+}
+
+.cita-stilo #detail-cita-small strong{
+  color:#000 !important;
+  font-size: 11px;
+}
+
+.cita-stilo #detail-cita-small p{
+  font-size: 11px;
+}
+
+.cita-stilo #detail-cita-small > #detail{
+  width: 100%;
+  padding-top: 7px;
+  font-size: 11px
+}
+
+.cita-stilo #detail-cita-small #detail > *{
+  display: inline-block;
+  vertical-align: top;
+}
+
+.cita-stilo #datetime{
+    width: 300px;
+}
+
+.cita-stilo #head-cita > p{
+    text-align: center;
+    font-weight: bold;
+    height: 30px;
+    padding-top: 4px;
+}
+
+.cita-stilo #detail-cita > div{
+    display: inline-block;
+}
+
+.cita-stilo #detail-cita #detail-1{
+    width: 30%;
+    text-align: right;
+    color: #0e81a7;
+}
+
+.cita-stilo #detail-cita #detail-2{
+    width: 68%;
+    text-align: left;
+    color: #000000;
+    font-weight: bold;
+}
+
+.cita-stilo #detail-cita p{
+    padding: 2px;
+    font-size: 11px;
+}
+
+.cita-stilo #doctors{
+    width: 673px;
+    height: 100%;
+    background-color: transparent;
+    display: inline-block;
+    background-image: url(../images/bg_banner.png);
+    background-repeat: no-repeat;
+    background-position:center;
+    background-size: 430px;
+}
+

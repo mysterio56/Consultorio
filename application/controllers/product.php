@@ -230,17 +230,16 @@ public function eliminar($id_producto){
 
 	}
 
-	public function lista(){
+	public function lista_add(){
 
 	$producto = new Producto();
-	$producto->where('CONCAT( codigo," ",nombre) like "%'.$_GET['term'].'%"');
-	$producto->where('status', 1)->get();
+	$producto->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
+	$producto->where('estatus', 1)->get();
 
 	$aProducto = array(); 
 
 	foreach($producto as $product){
-			 $aProducto[] = array("Id"    => $product->id, 
-			 					  "label" => $product->codigo .' '. $product->nombre,
+			 $aProducto[] = array("id"    => $product->id, 
 			 					  "value" => $product->codigo .' '. $product->nombre);
 		}
 		
