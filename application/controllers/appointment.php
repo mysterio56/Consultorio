@@ -419,7 +419,6 @@ class Appointment extends CI_Controller{
 	
 		if($this->input->post()){
 			$ingreso  = new Ingreso();
-			$costos = 0;
 			$servicio->where(array('costo_venta'))->get();
 
 		
