@@ -38,116 +38,67 @@
     }
     (document,"script","twitter-wjs");
     </script>
+   </article>
+   </div>
 
 
-
-
-        </article>
-    </div>
     <div>
         <input id="ac-2" name="accordion-1" type="radio" />
         <label for="ac-2"><img src="<?= base_url('assets/images/black-dot.png'); ?>" /> Citas</label>
         <article>
              <?php
-           
+           $aMeses = array("Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic");
 
         $citas = new Reunion();
 
         $citas->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
                             'estatus'        => 1));
+        
         $citas->order_by('ABS(TIMESTAMPDIFF(MINUTE,fecha_hora,now())) ASC');   
         $citas->Limit('5');
         $citas->get();
-        foreach($citas->all as $cita){
+
+        foreach($citas->all  as  $cita){
             $cita->paciente->get();
             $cita->empleado->get();
-       }
 
-         ?>   
+            $cita->paciente->nombre." ".$cita->paciente->apellido_p." ".$cita->paciente->apellido_m;
+            $cita->empleado->nombre." ".$cita->empleado->apellido_p." ".$cita->empleado->apellido_m;
+            $cita->fecha_hora;
+                              date("d", strtotime($cita->fecha_hora)) ." ". 
+                              $aMeses[date("m", strtotime($cita->fecha_hora)) - 1] ." ".
+                              date("H", strtotime($cita->fecha_hora)) .":".
+                              date("i", strtotime($cita->fecha_hora));
+                              date("d/m/Y H:i", strtotime($cita->fecha_hora));
+                                        
+
+         ?>  
+         
 
     <section class="cita-stilo">
-
+    <div id="div-banner">
+        <div id="prox-cita">
+            <div id="head-cita">
+            
+            </div>
             <div id="datetime">
-        
-                <p id="time"><?php echo $hour = $citas->fecha_hora;?></p> 
-                <br>
+                <p id="date"><?php echo $date =  $cita->fecha_hora; ?></p>
+                <p id="time"><?php echo $hour = $cita->fecha_hora;  ?></p> 
             </div>
-            <div id="detail-cita">
-                <div id="detail-1">
-                    <p>Doctor</p>
-                    <p>Paciente</p>
-                </div>
-                <div id="detail-2">
-                    <p><?php echo $doctor  = $cita->empleado->nombre; ?></p>
-                    <p><?php echo $patient = $cita->paciente->nombre; ?></p>
-                </div>
-            </div>
-            <div id="detail-cita-small" class="hide">
+            <div id="detail-cita-small">
                 <div id="detail">
                     <p>Doctor <strong><?php echo $doctor    = $cita->empleado->nombre; ?></strong></p>
-                    <p>Paciente <strong><?php echo $patient   = $cita->paciente->nombre; ?></strong></p>
+                    <p>Paciente <strong><?php echo $patient  = $cita->paciente->nombre; ?></strong></p>
                 </div>
             </div>
         </div>
         <div id="doctors">
         </div>
     </div>
-</section>
-          
 
-      
-    
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-     </article>
+</article>
     </div>
-
-<!--.<div>
-        <input id="ac-3" name="accordion-1" type="radio" />
-        <label for="ac-3"> <img src="<?= base_url('assets/images/black-dot.png'); ?>" /> Caja</label>
-        <article>
-            <p>Lorem ipsum dolor sit amet, usu quando dicant eu, admodum instructior an per. Te sed dolor fabulas, mel adipisci temporibus ad, eligendi scriptorem referrentur ne sea. Ei nam aliquip reformidans. Option vivendo patrioque te mel, nulla percipit elaboraret vel eu, augue aeterno qualisque an per. Mel ex agam phaedrum, ei nonumy equidem cum.
-
-Quo ex mediocrem theophrastus, id his placerat rationibus. Habeo porro animal sea cu, sed eius legere invidunt ea. Everti melius et nec, eum ullamcorper signiferumque et, vim in simul pertinax. Nec fugit ridens similique at, pro ea affert mnesarchum, ex enim deleniti vix. Patrioque definitionem has te.
-
-No nam clita iudico recusabo, omittam noluisse ei qui. Usu novum exerci at. Ei autem vituperata mea, ex prima integre deterruisset sit. Eu vel omittam noluisse, eu his atqui numquam consulatu, porro affert decore cum et. Sit ea vocibus perpetua, ea eos fabellas electram.
-
-Eam no noster noluisse periculis, audire delicata mea in. Expetenda evertitur ut cum, pro in facilisis salutatus, cu sed duis quando audire. Officiis complectitur at sea. Mea luptatum adolescens ei, eu mea lobortis aliquando. Ex vis cibo consul.
-
-Eum lorem quidam legendos cu, ei usu scaevola reformidans. No deserunt conceptam per, an simul dissentiet vituperatoribus eum. Sanctus mediocrem ne duo, nam sonet dicunt splendide ei. Aliquam veritus usu ad, principes intellegat in est, mei nominavi sapientem gubergren no.</p>
-        </article>
-    </div>
-    <div>
-        <input id="ac-4" name="accordion-1" type="radio" />
-        <label for="ac-4"> <img src="<?= base_url('assets/images/black-dot.png'); ?>" /> Notas</label>
-        <article>
-            <p>Lorem ipsum dolor sit amet, usu quando dicant eu, admodum instructior an per. Te sed dolor fabulas, mel adipisci temporibus ad, eligendi scriptorem referrentur ne sea. Ei nam aliquip reformidans. Option vivendo patrioque te mel, nulla percipit elaboraret vel eu, augue aeterno qualisque an per. Mel ex agam phaedrum, ei nonumy equidem cum.
-
-Quo ex mediocrem theophrastus, id his placerat rationibus. Habeo porro animal sea cu, sed eius legere invidunt ea. Everti melius et nec, eum ullamcorper signiferumque et, vim in simul pertinax. Nec fugit ridens similique at, pro ea affert mnesarchum, ex enim deleniti vix. Patrioque definitionem has te.
-
-No nam clita iudico recusabo, omittam noluisse ei qui. Usu novum exerci at. Ei autem vituperata mea, ex prima integre deterruisset sit. Eu vel omittam noluisse, eu his atqui numquam consulatu, porro affert decore cum et. Sit ea vocibus perpetua, ea eos fabellas electram.
-
-Eam no noster noluisse periculis, audire delicata mea in. Expetenda evertitur ut cum, pro in facilisis salutatus, cu sed duis quando audire. Officiis complectitur at sea. Mea luptatum adolescens ei, eu mea lobortis aliquando. Ex vis cibo consul.
-
-Eum lorem quidam legendos cu, ei usu scaevola reformidans. No deserunt conceptam per, an simul dissentiet vituperatoribus eum. Sanctus mediocrem ne duo, nam sonet dicunt splendide ei. Aliquam veritus usu ad, principes intellegat in est, mei nominavi sapientem gubergren no.</p>
-        </article>
-    </div>
-    <div></div>.-->
+<?php
+}
+?>
 </section>

@@ -679,8 +679,35 @@ nav li:hover ul {
 
 
 
-.cita-stilo #datetime > *{
+.ac-container article p{
+    font-style: italic;
+    
+    line-height: 23px;
+    /*font-size: 14px;*/
+  
+    text-shadow: 1px 1px 1px rgba(255,255,255,0.8);
+}
+
+.cita-stilo #div-banner{
+    width: 986px;
+    height: 100%;
+    margin: 0 auto;
+}
+
+.cita-stilo #prox-cita{
+    width: 309px;
+    height: 100%;
+    background-color: #F1F1F1;
     display: inline-block;
+    vertical-align: top;
+    color: #0079a1;
+}
+
+
+
+
+.cita-stilo #datetime > *{
+    
     vertical-align: top;
     text-align: center;
     padding: 10px;
@@ -691,13 +718,13 @@ nav li:hover ul {
     background-image: url(../images/clock.png);
     background-repeat: no-repeat;
     background-position:center left; 
+
 }
 
 .cita-stilo #datetime > #date{
     width: 70%;
+    
 }
-
-
 
 .cita-stilo #detail-cita{
   width: 100%;
