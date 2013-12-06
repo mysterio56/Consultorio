@@ -41,17 +41,18 @@
    </article>
    </div>
 <?php
-           $aMeses = array("Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic");
+        $aMeses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julil","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
         $citas = new Reunion();
 
         $citas->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
                             'estatus'        => 1));
         
-        $citas->order_by('TIMESTAMPDIFF(MINUTE,fecha_hora,now()) ASC');   
+        $citas->order_by('TIMESTAMPDIFF(MINUTE,fecha_hora,now()) DESC');   
         $citas->limit('5');
         $citas->get();
-         ?>  
+
+?>  
 
    <div>
         <input id="ac-2" name="accordion-1" type="radio"/>
@@ -60,35 +61,29 @@
          <?php
 
              foreach($citas->all  as  $cita){
+
                 $cita->paciente->get();
                 $cita->empleado->get();
 
-                $cita->paciente->nombre." ".$cita->paciente->apellido_p." ".$cita->paciente->apellido_m;
-                $cita->empleado->nombre." ".$cita->empleado->apellido_p." ".$cita->empleado->apellido_m;
-                $cita->fecha_hora;
-                                  date("d", strtotime($cita->fecha_hora)) ." ". 
-                                  $aMeses[date("m", strtotime($cita->fecha_hora)) - 1] ." ".
-                                  date("H", strtotime($cita->fecha_hora)) .":".
-                                  date("i", strtotime($cita->fecha_hora));
-                                  date("d/m/Y H:i", strtotime($cita->fecha_hora));
-                                        
-            
+                $patient = $cita->paciente->nombre." ".$cita->paciente->apellido_p." ".$cita->paciente->apellido_m;
+                $doctor  = $cita->empleado->nombre." ".$cita->empleado->apellido_p." ".$cita->empleado->apellido_m;
+                $date    = date("d", strtotime($cita->fecha_hora)) ." de ". 
+                           $aMeses[date("m", strtotime($cita->fecha_hora)) - 1] ." del ".
+                           date("Y", strtotime($cita->fecha_hora));
+                $hour    = date("H:i", strtotime($cita->fecha_hora));        
         ?>
 
     <section class="cita-stilo">
     <div id="div-banner">
         <div id="prox-cita">
-            <div id="head-cita">
-            
-            </div>
             <div id="datetime">
-                <p id="date"><?php echo $date =  $cita->fecha_hora; ?></p>
-                <p id="time"><?php echo $hour = $cita->fecha_hora;  ?></p> 
+                <p id="date"><?= $date; ?></p>
+                <p id="time"><?= $hour; ?></p> 
             </div>
             <div id="">
                 <div id="detail">
-                    <p>Doctor <strong><?php echo $doctor    = $cita->empleado->nombre; ?></strong></p>
-                    <p>Paciente <strong><?php echo $patient  = $cita->paciente->nombre; ?></strong></p>
+                    <p>Doctor   <strong><?= $doctor; ?></strong></p>
+                    <p>Paciente <strong><?= $patient; ?></strong></p>
                 </div>
             </div>
         </div>

@@ -679,20 +679,32 @@ nav li:hover ul {
     margin: 0 auto;
 }
 
+.cita-stilo p{
+  font-style: italic;
+  color: #0079a1 !important;
+  line-height: 23px;
+  padding-left: 10px;
+  padding: 1px !important;
+  text-shadow: 1px 1px 1px rgba(255,255,255,0.8);
+
+}
+
+.cita-stilo #detail{
+  padding-left: 15px;
+  border-bottom: solid 1px;
+}
+
 .cita-stilo #prox-cita{
     width: 309px;
     height: 100%;
-    background-color: #F1F1F1;
+    background-color: transparent;
     display: inline-block;
     vertical-align: top;
     color: #0079a1;
 }
 
-
-
-
 .cita-stilo #datetime > *{
-    
+    display: inline-block;
     vertical-align: top;
     text-align: center;
     padding: 10px;

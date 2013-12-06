@@ -32,13 +32,13 @@ define ("PERMISOS", serialize (array("Agregar"  => array(4,5,6,7),
 ?>
 
 <div class="citas">
-    <input id="chk_act" checked="true" type="radio" name="estatus_citas" onchange="grid();" class="vis-hidden" value="1" />
+    <input id="chk_act" checked="true" type="radio" name="estatus_citas" onchange="page = 1;grid();" class="vis-hidden" value="1" />
     <label class ="radio_citas" for="chk_act">Actuales</label>
 
-    <input id="chk_prox" type="radio" name="estatus_citas" onchange = "grid();" class="vis-hidden" value="2" />
+    <input id="chk_prox" type="radio" name="estatus_citas" onchange = "page = 1;grid();" class="vis-hidden" value="2" />
     <label class ="radio_citas" for="chk_prox">Proximas</label>
 
-    <input id="chk_pas" type="radio" name="estatus_citas" onchange = "grid()" class="vis-hidden" value="3" />
+    <input id="chk_pas" type="radio" name="estatus_citas" onchange = "page = 1;grid()" class="vis-hidden" value="3" />
     <label class ="radio_citas"  for="chk_pas">Pasadas</label>
 
     <label> Inicio </label> <label id="l_date_start"> </label> <input type="hidden" id="date_start" name="date_start"/>
@@ -50,7 +50,7 @@ define ("PERMISOS", serialize (array("Agregar"  => array(4,5,6,7),
                 'name'  => 'paciente',
                 'id'    => 'paciente',
                 'class' => 'color_form',
-                'style' => 'width:100px'
+                'style' => 'width:130px'
             );
 
     echo form_input($data);
@@ -60,7 +60,7 @@ define ("PERMISOS", serialize (array("Agregar"  => array(4,5,6,7),
                 'name'  => 'doctor',
                 'id'    => 'doctor',
                 'class' => 'color_form',
-                'style' => 'width:100px'
+                'style' => 'width:130px'
             );
 
     echo form_input($data);
@@ -70,7 +70,7 @@ define ("PERMISOS", serialize (array("Agregar"  => array(4,5,6,7),
                 'name'  => 'servicio',
                 'id'    => 'servicio',
                 'class' => 'color_form',
-                'style' => 'width:100px'
+                'style' => 'width:130px'
             );
 
     echo form_input($data);
