@@ -468,8 +468,11 @@ class Appointment extends CI_Controller{
 	public function adicional($id_cita){
 
 		$cita = new Reunion();
+		$servicio = new Servicio();
+
 		$cita->where(array( 'id'     => $id_cita,
 							'estatus'=> 1))->get();
+		
 
 		$data['view']     	  = 'sistema/citas/adicional';
 		$data['return']       = 'appointment';
@@ -487,12 +490,13 @@ class Appointment extends CI_Controller{
 		if($this->input->post()){
 			$ingreso  = new Ingreso();
 
+
 		
 			$ingreso->cita_id	  = $cita->id;
 			$ingreso->producto_id = $this->input->post('producto'); 
 			$ingreso->servicio_id = $this->input->post('servicio');
-			
-
+			$ingreso->costo       = $servicio->costo_venta;
+		
 			$ingreso->estatus	   = 1;			
 			$ingreso->consultorio_id = $this->session->userdata('id_consultorio');
 		    $ingreso->fecha_alta     = date("Y-m-d H:i:s");
