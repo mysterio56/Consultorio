@@ -9,7 +9,7 @@ class Servicio extends DataMapper
     
     public $has_one = array("consultorio");
 
-     public $has_many = array("reunion");
+     public $has_many = array("reunion","ingreso");
 
     public $error_prefix = '<div class = "error">';
     public $error_suffix = '</div>';

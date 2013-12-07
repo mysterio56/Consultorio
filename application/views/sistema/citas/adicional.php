@@ -1,14 +1,18 @@
 <?php
-echo form_open(null); 
+
+  $attributes = array('id' => 'addForm');
+  echo form_open(null,$attributes);
 	
+  echo '<input type="hidden" name="cita_id" value="'.$cita_id.'" />';
+
 	echo '<table class="table_form">';
 	echo '<tr>';
 		echo '<tr>';
-		echo '<td>';
+		echo '<td width="25%">';
 	 		echo form_label('Producto:');
 	 	
 	 	?>
-		<td width="25%">
+		<td>
 			 <div id="wait_tp" class="wait">
 	  	  		<p>Cargando productos, por favor espere</p>
 	  	 	</div>
@@ -42,94 +46,128 @@ echo form_open(null);
 <?php
 		 	echo '</td>';
 	echo '</tr>';
-	echo'</table>'; 
+	echo'</table>';
 
-		 	$data = array(
-		 		'name'  => 'agregar',
-		 		'id'    => 'agregar',
-		 		'class' => 'abutton',
-		 		'value' => 'Agregar'
-		 	);
+		 	echo '<a href="javascript:void(0)" onclick="addGrid();" class="abutton">Agregar</a>';
+      echo '<a href="'.base_url($return).'" class="abutton_cancel">Cancelar</a>';
 
-		 	echo form_submit($data);	
-
-		 	echo '<a href="'.base_url($return).'" class="abutton_cancel">Cancelar</a>';
 echo form_close();
 
 ?>		 	
+
+<section class="datagrid" >
+	<table>
+		<thead>
+			<tr>
+				<th align="center">Código</th>
+				<th align="center">Producto/Servicio</th>
+				<th align="center">Costo</th>
+        <th align="center">Borrar</th>
+			</tr>
+		</thead>
+    <tbody id="tbodyAdd" >
+
+      <?php foreach($ingresos as $key => $ingreso){
+
+          $ingreso->producto->get();
+          $ingreso->servicio->get();
+          $classRow = ($key % 2 == 0)?'odd':'even';
+          echo '<tr class="'.$classRow.'" id="add_'.$ingreso->id.'">';
+            echo '<td>';
+            echo $ingreso->producto_id?$ingreso->producto->codigo:$ingreso->servicio->codigo;
+            echo '</td>';
+            echo '<td>';
+            echo $ingreso->producto_id?$ingreso->producto->nombre:$ingreso->servicio->nombre;
+            echo '</td>';
+            echo '<td>';
+            echo $ingreso->costo;
+            echo '</td>';
+            echo '<td>';
+            echo '<img id="imgDelete_'.$ingreso->id.'" src="'.base_url('assets/images/delete.png').'" onClick="deleteAdd('.$ingreso->id.');"/>';
+            echo '<img id="imgWait_'.$ingreso->id.'" src="'.base_url('assets/images/wait.gif').'" class="ico hide"/>';
+            echo '</td>';
+          echo '</tr>';
+      }
+      ?>
+    </tbody> 
+		</table>
+</section>
+
 <script>
 $(function () {
-	
-	base_url = "<?= base_url(); ?>";
-	getProducto();
-	getServicio();
+  
+  base_url = "<?= base_url(); ?>";
+  getProducto();
+  getServicio();
 
-});	
+}); 
 
 function getProducto(){
 
-	$('#wait_tp').show();
+  $('#wait_tp').show();
 
-	$("#producto option").remove();
+  $("#producto option").remove();
 
-  	$.getJSON( base_url + "product/lista_add", function( data ) {
+    $.getJSON( base_url + "product/lista_add", function( data ) {
 
-	$('#producto').append('<option value="0"></option>');
+  $('#producto').append('<option value="0"></option>');
 
-		$.each(data,function (key, val) {
-			
-  			$('#producto').append('<option value="' + val.id + '">' + val.value + '</option>');  
+    $.each(data,function (key, val) {
+      
+        $('#producto').append('<option value="' + val.id + '">' + val.value + '</option>');  
 
-  		});
+      });
 
-  		autocom("producto");
- 	 	 $( "#producto" ).combobox();
-		    $( "#toggle" ).click(function() {
-		      $( "#producto" ).toggle();
-		    });
+      autocom("producto");
+     $( "#producto" ).combobox();
+        $( "#toggle" ).click(function() {
+          $( "#producto" ).toggle();
+        });
 
-		$('#wait_tp').hide();
- 	 	$('.producto_input').val('');
- 	 	     	
-	});
+    $('#wait_tp').hide();
+    $('.producto_input').val('');
+          
+  });
 
 }
 function getServicio(){
 
-	$("#servicio option").remove();
+  $("#servicio option").remove();
 
-  	$.getJSON( base_url + "service/lista_add", function( data ) {
+    $.getJSON( base_url + "service/lista_add", function( data ) {
 
-		$.each(data,function (key, val) {
-			
-  			$('#servicio').append('<option value="' + val.id + '">' + val.codigo +' '+val.nombre + '</option>');  
+    $('#servicio').append('<option value="0"></option>');
 
-  		});
+    $.each(data,function (key, val) {
+      
+        $('#servicio').append('<option value="' + val.id + '">' + val.codigo +' '+val.nombre + '</option>');  
 
-  		autocom("servicio");
- 	 	 $( "#servicio" ).combobox();
-		    $( "#toggle" ).click(function() {
-		      $( "#servicio" ).toggle();
-		    });
+      });
 
-		$('#wait_tp').hide();
- 	 	$('.servicio_input').val('');
- 	 	     	
-	});
+      autocom("servicio");
+     $( "#servicio" ).combobox();
+        $( "#toggle" ).click(function() {
+          $( "#servicio" ).toggle();
+        });
+
+    $('#wait_tp').hide();
+    $('.servicio_input').val('');
+          
+  });
 
 }
 
 function autocom(select){
 
-	var accentMap = {
-	  "á": "a",
+  var accentMap = {
+    "á": "a",
       "é": "e",
       "í": "i",
       "ó": "o",
       "ú": "u"
     };
 
-	var normalize = function( term ) {
+  var normalize = function( term ) {
       var ret = "";
       for ( var i = 0; i < term.length; i++ ) {
         ret += accentMap[ term.charAt(i) ] || term.charAt(i);
@@ -179,8 +217,8 @@ function autocom(select){
           },
  
           autocompletechange: function (event, ui) { 
-          	this._removeIfInvalid(event, ui); 
-          	//$( "#estado" ).change();
+            this._removeIfInvalid(event, ui); 
+            //$( "#estado" ).change();
           }
         });
       },
@@ -273,16 +311,61 @@ function autocom(select){
     });
   }
 
-</script>
+function addGrid(){
 
-<section class="datagrid" >
-	<table>
-		<thead>
-			<tr>
-				<th align="center">Código</th>
-				<th align="center">Producto/Servicio</th>
-				<th align="center">Costo</th>
-			</tr>
-		</thead>
-		</table>
-</section>
+  if($('#servicio').val() != 0 || $('#producto').val() != 0){
+    var form_data = jQuery('#addForm').serialize();
+
+    jQuery.post( base_url+"appointment/insert_adicional/", form_data , 
+
+      function( data ) {
+        $.each(data, function(key,ingreso){
+            rowAdd  = "<tr id='add_"+ingreso.id+"'>";
+            rowAdd += "<td>"+ingreso.codigo+"</td>";
+            rowAdd += "<td>"+ingreso.nombre+"</td>";
+            rowAdd += "<td>"+ingreso.costo+"</td>";  
+            rowAdd += "<td><img id='imgDelete_"+ingreso.id+"' src='"+base_url+"/assets/images/delete.png' onclick='deleteAdd("+ingreso.id+")'/><img id='imgWait_"+ingreso.id+"' src='"+base_url+"/assets/images/wait.gif' class='ico hide'/></td>";      
+            rowAdd += "</tr>";
+            $('#tbodyAdd').append(rowAdd);
+            $('#servicio').val(0);
+            $('#servicio_id').val("");
+            $('#producto').val(0);
+            $('#producto_id').val("");
+        });
+
+        oddEven();
+
+      }, "json");
+  }
+}
+
+function oddEven(){
+  $.each($('#tbodyAdd').children(),function(key, tr){
+
+          classRow = (key % 2 == 0)?'odd':'even';
+          $(tr).addClass(classRow);
+        });  
+}
+
+function deleteAdd(id_ingreso){
+
+  $('#imgDelete_'+id_ingreso).hide();
+  $('#imgWait_'+id_ingreso).show();
+
+  jQuery.post( base_url+"appointment/delete_adicional/", {idIngreso:id_ingreso} , 
+
+      function( data ) {
+       if(data.addDelete){
+        $('#add_'+id_ingreso).remove();
+        oddEven();
+       }else{
+        $('#imgDelete_'+id_ingreso).show();
+        $('#imgWait_'+id_ingreso).hide();
+        alert("Error en la base de datos");
+       }
+
+      }, "json");
+
+}
+
+</script>

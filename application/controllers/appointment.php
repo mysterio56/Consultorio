@@ -467,15 +467,14 @@ class Appointment extends CI_Controller{
 
 	public function adicional($id_cita){
 
-		$cita = new Reunion();
-		$servicio = new Servicio();
+		$ingresos = new Ingreso();
 
-		$cita->where(array( 'id'     => $id_cita,
-							'estatus'=> 1))->get();
+		$ingresos->where('cita_id', $id_cita)->get(); 
 		
-
-		$data['view']     	  = 'sistema/citas/adicional';
-		$data['return']       = 'appointment';
+		$data['view']     = 'sistema/citas/adicional';
+		$data['return']   = 'appointment';
+		$data['ingresos'] = $ingresos;
+		$data['cita_id']  = $id_cita;
 		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
 								  'sistema.css');
 		$data['jsFiles']  = array('jquery.js',
@@ -486,30 +485,86 @@ class Appointment extends CI_Controller{
 								  );
 
 	$this->load->view('sistema/template',$data);
-	
-		if($this->input->post()){
-			$ingreso  = new Ingreso();
-
-
-		
-			$ingreso->cita_id	  = $cita->id;
-			$ingreso->producto_id = $this->input->post('producto'); 
-			$ingreso->servicio_id = $this->input->post('servicio');
-			$ingreso->costo       = $servicio->costo_venta;
-		
-			$ingreso->estatus	   = 1;			
-			$ingreso->consultorio_id = $this->session->userdata('id_consultorio');
-		    $ingreso->fecha_alta     = date("Y-m-d H:i:s");
-			
-
-		   if($ingreso->save()){
-		   		redirect(base_url('appointment'));
-		  } else {
-					echo $ingreso->error->string;
-					
-			}
-	}
 
 }
+
+	public function insert_adicional(){
+
+		if($this->input->post()){
+
+			$aIngrsos = array();
+
+			if($this->input->post('servicio')){
+
+				$ingreso_serv = new Ingreso();
+				$servicio     = new Servicio();
+
+				$servicio->where('id',$this->input->post('servicio'))->get();
+				
+				$ingreso_serv->cita_id        = $this->input->post('cita_id');
+				$ingreso_serv->estatus	      = 1;			
+				$ingreso_serv->consultorio_id = $this->session->userdata('id_consultorio');
+		   	 	$ingreso_serv->fecha_alta     = date("Y-m-d H:i:s");
+				$ingreso_serv->costo          = $servicio->costo_venta; 
+				$ingreso_serv->servicio_id    = $this->input->post('servicio');
+				
+				if($ingreso_serv->save()){
+					$aIngrsos[] = array("nombre" => $servicio->nombre,
+										"codigo" => $servicio->codigo,
+										"costo"  => $servicio->costo_venta,
+										"id"     => $ingreso_serv->id); 
+				}
+
+			}
+
+			if($this->input->post('producto')){
+
+				$ingreso_prod = new Ingreso();
+				$producto     = new Producto();
+
+				$producto->where('id',$this->input->post('producto'))->get();
+				
+				$ingreso_prod->cita_id        = $this->input->post('cita_id');
+				$ingreso_prod->estatus	      = 1;			
+				$ingreso_prod->consultorio_id = $this->session->userdata('id_consultorio');
+		   	 	$ingreso_prod->fecha_alta     = date("Y-m-d H:i:s");
+				$ingreso_prod->costo          = $producto->costo_venta; 
+				$ingreso_prod->producto_id    = $this->input->post('producto');
+				
+				if($ingreso_prod->save()){
+					$aIngrsos[] = array("nombre" => $producto->nombre,
+										"codigo" => $producto->codigo,
+										"costo"  => $producto->costo_venta,
+										"id"     => $ingreso_prod->id);
+				}	
+
+			}
+
+			if(!empty($aIngrsos)){
+				echo json_encode($aIngrsos);
+			} else {
+				echo json_encode(array("error" => true));
+			}
+		
+			
+		}
+	}
+
+	public function delete_adicional(){
+
+		if($this->input->post()){
+
+			$ingreso = new Ingreso();
+			$ingreso->where('id', $this->input->post('idIngreso'))->get();
+
+			if($ingreso->delete()){
+				echo json_encode(array('addDelete' => true));
+			} else {
+				echo json_encode(array('addDelete' => false));
+			}			
+
+		}
+
+	}
 
 }

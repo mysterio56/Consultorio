@@ -7,6 +7,6 @@ class Consultorio extends DataMapper
 
 	public $has_one  = array("empleado","tipo_consultorio","direccion","producto","servicio","tipo_empleado");
 
-    public $has_many = array("paciente", "especialidad","formato");
+    public $has_many = array("paciente", "especialidad","formato","ingreso");
 
 }
