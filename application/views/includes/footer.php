@@ -18,13 +18,14 @@
 			    }
 			    
 			?>
-
+	<?php if ($this->session->userdata('username')): ?>
         <div id="renew">
             <!--<input id="submit-renew" type="button" value="RENOVAR AHORA" />-->
             <a class="abutton" href="http://masqweb.com/" target="_blank">Renovar ahora</a>
             <br />
             <p class="<?= $warning?'error':''; ?>" >Quedan <strong><?= $days ?></strong> días para renovar su licencia</p>
         </div>
+    <?php endif; ?>
 
 		</div>
 	</footer>

@@ -348,7 +348,6 @@ class Appointment extends CI_Controller{
 
     public function agregar(){    	
 
-
     	$data['view']     	  = 'sistema/citas/agregar';
 		$data['return']       = 'appointment';
 		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
@@ -484,7 +483,7 @@ class Appointment extends CI_Controller{
 								  'jquery-validation/localization/messages_es.js'
 								  );
 
-	$this->load->view('sistema/template',$data);
+		$this->load->view('sistema/template',$data);
 
 }
 

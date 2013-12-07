@@ -71,7 +71,9 @@ echo form_close();
 
           $ingreso->producto->get();
           $ingreso->servicio->get();
+
           $classRow = ($key % 2 == 0)?'odd':'even';
+
           echo '<tr class="'.$classRow.'" id="add_'.$ingreso->id.'">';
             echo '<td>';
             echo $ingreso->producto_id?$ingreso->producto->codigo:$ingreso->servicio->codigo;
@@ -314,11 +316,13 @@ function autocom(select){
 function addGrid(){
 
   if($('#servicio').val() != 0 || $('#producto').val() != 0){
+
     var form_data = jQuery('#addForm').serialize();
 
     jQuery.post( base_url+"appointment/insert_adicional/", form_data , 
 
       function( data ) {
+
         $.each(data, function(key,ingreso){
             rowAdd  = "<tr id='add_"+ingreso.id+"'>";
             rowAdd += "<td>"+ingreso.codigo+"</td>";
@@ -326,6 +330,7 @@ function addGrid(){
             rowAdd += "<td>"+ingreso.costo+"</td>";  
             rowAdd += "<td><img id='imgDelete_"+ingreso.id+"' src='"+base_url+"/assets/images/delete.png' onclick='deleteAdd("+ingreso.id+")'/><img id='imgWait_"+ingreso.id+"' src='"+base_url+"/assets/images/wait.gif' class='ico hide'/></td>";      
             rowAdd += "</tr>";
+
             $('#tbodyAdd').append(rowAdd);
             $('#servicio').val(0);
             $('#servicio_id').val("");
