@@ -154,7 +154,7 @@ Banner.hide = function()
 {
   $('.banner-container').animate({"height": "30px"});
   $('.banner-container').attr({"title": "Da click para expander"});
-  $('#prox-cita').animate({width: "985px"});
+  $('#prox-cita').animate({width: "100%"});
   $('#doctors').hide();
   $('#detail-cita').hide();
   $('#detail-cita-small').show();
@@ -172,11 +172,11 @@ Banner.show = function()
 {
   $('.banner-container').animate({"height": "130px"});
   $('.banner-container').attr({"title": "Da click para ocultar"});
-  $('#prox-cita').animate({width: "309px"});
+  $('#prox-cita').animate({width: "31%"});
   $('#doctors').show();
   $('#detail-cita').show();
   $('#detail-cita-small').css({display: 'none'});
-  $('#head-cita').css({'width':'330px',
+  $('#head-cita').css({'width':'100%',
                        'padding-left': '0px',
                        'padding-top': '7px',
                        'background-position': '77px 5px',

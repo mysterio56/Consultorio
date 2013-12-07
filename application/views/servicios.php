@@ -1,20 +1,5 @@
 <section class="ac-container">
-<?php
 
-    $warning = false;
-    $days    = 123;
-
-    if($days <= 10 ){
-        $warning = true;
-    }
-    
-?>
-
-        <div id="renew">
-            <!--<input id="submit-renew" type="button" value="RENOVAR AHORA" />-->
-            <p class="<?= $warning?'error':''; ?>" >Quedan <strong><?= $days ?></strong> días para renovar su licencia</p>
-            <a class="abutton" href="http://masqweb.com/" target="_blank">Renovar ahora</a>
-        </div>
 
     <div>
         <p class="ac-title">Servicios varios</p>
@@ -25,7 +10,9 @@
         <article>
          <a class="twitter-timeline" 
          href="https://twitter.com/Masqweb" 
-         data-widget-id="408349543822934017">Tweets por @Masqweb
+         data-widget-id="408349543822934017"
+         style="height:auto;width:95%"
+         width="305">Tweets por @Masqweb
         </a>
       <script>!function(d,s,id)
       {
@@ -41,16 +28,7 @@
    </article>
    </div>
 <?php
-        $aMeses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julil","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-
-        $citas = new Reunion();
-
-        $citas->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
-                            'estatus'        => 1));
         
-        $citas->order_by('TIMESTAMPDIFF(MINUTE,fecha_hora,now()) DESC');   
-        $citas->limit('5');
-        $citas->get();
 
 ?>  
 
@@ -60,7 +38,9 @@
         <article>
          <?php
 
-             foreach($citas->all  as  $cita){
+             $aMeses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julil","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+             
+             foreach($citas->all as $cita){
 
                 $cita->paciente->get();
                 $cita->empleado->get();

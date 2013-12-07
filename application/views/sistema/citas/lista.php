@@ -195,6 +195,7 @@ function grid(){
 
 	 			rowCita = '<tr><td colspan="100%">No hay citas para mostrar </td></tr>';
 	 			jQuery('#tbodyCitas').append(rowCita);
+	 			jQuery('#tfootCitas').html("");
 
 	 		}
 

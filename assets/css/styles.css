@@ -45,7 +45,7 @@ html, body{
 }
 
 .footer-container #logo-footer{
-  width: 309px;
+  width: 31%;
   height: 100%;
   display: inline-block;
   vertical-align: top;
@@ -84,12 +84,13 @@ html, body{
 .header-container #header {
     height: 75px;
     margin: 0 auto;
-    width: 986px;
+    width: 73%;
 }
 
 .header-container #logo {
     display: inline-block;
     margin-left: 65px;
+    width: 24%;
 }
 
 .header-container #logo img {
@@ -120,13 +121,13 @@ html, body{
 }
 
 .banner-container #div-banner{
-    width: 986px;
+    width: 73%;
     height: 100%;
     margin: 0 auto;
 }
 
 .banner-container #prox-cita{
-    width: 309px;
+    width: 31%;
     height: 100%;
     background-color: #F1F1F1;
     display: inline-block;
@@ -253,15 +254,16 @@ html, body{
 }
 
 .main-container #div-container{
-    width: 985px;
+    width: 73%;
     margin: 10px auto;
+    height: 96%;
 }
 
 /********* Estilos para Acordeon *********/
 
 .ac-container{
     width: 309px;
-    height: 400px;
+    height: 100%;
     display: inline-block;
     vertical-align: top;
     -moz-border-radius: 10px;
@@ -355,35 +357,38 @@ html, body{
 }
 
 .ac-container input:checked ~ article{
-    height: 240px;
+    height: 256px;
     overflow-x: hidden;
     overflow-y: auto;
 }
 
-.ac-container #renew{
+.footer-container #renew{
   height: 55px;
+  width: 68%;
   display: inline-block;
   vertical-align: top;
-  text-align: center;
+  text-align: right;
+  padding: 9px; 
 }
 
-.ac-container #renew p{
-  background-image: url(../images/blue-arrow.png);
+.footer-container #renew p{
+  background-image: url(../images/white-arrow.png);
   background-repeat: no-repeat;
   background-size: 18px 16px;
   background-position-x: 2px;
   display: inline-block;
-  color: #0079a1;
+  color: #FFFFFF;
   padding-left: 24px;
+  font-size: 14px;
 }
 
-.ac-container #renew .error{
+.footer-container #renew .error{
   background-image: url(../images/red-arrow.png);
   color: red;
   margin: 0;
 }
 
-.ac-container .abutton {
+.footer-container .abutton {
   display: inline-block;
   background: #006699;
   padding: 4px;
@@ -391,7 +396,6 @@ html, body{
   border-radius: 5px;
   color: white;
   text-decoration: none;
-  margin: 6px;
   cursor: pointer;
   font-size: 13px;
   font-family: helvetica;
@@ -407,7 +411,7 @@ html, body{
   display: inline-block;
   vertical-align: top;
   margin-left: 20px;
-  height: 400px;
+  height: 100%;
 }
 
 
