@@ -9,8 +9,6 @@ class Reunion extends DataMapper
 
 	public $has_one = array("paciente","empleado","servicio");
 
-   // public $has_many = array("ingreso");
-
 	public $error_prefix = '<div class="error">';
     public $error_suffix = '</div>';
 

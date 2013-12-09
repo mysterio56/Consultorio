@@ -34,6 +34,8 @@
 
 	<?php endif; ?>
 
+	<a class="abutton_cancel" href="<?= base_url('appointment'); ?>" >Cancelar</a>
+
 <script>
 
 base_url = "<?= base_url(); ?>";
@@ -43,7 +45,7 @@ page     = 1;
 
 setInterval(function(){
 	changeAutoEstatus();
-},300000);
+},180000);
 
 jQuery(function(){
 
@@ -79,22 +81,23 @@ function grid(){
 		  			rowCita	+= '<td>'+cita.paciente+'</td>';
 		  			rowCita	+= '<td>'+cita.doctor+'</td>';
 		  			rowCita	+= '<td>'+cita.servicio+'</td>';
-		  			rowCita	+= '<td>'+cita.fecha_format+'</td>';
+		  			rowCita	+= '<td id="fecha_'+cita.id+'">'+cita.fecha_format+'</td>';
 
 		  			if(cita.editar){
 
-		  				rowCita += '<td><img style   = "width:25px;height:25px;cursor:pointer;"';
+		  				rowCita += '<td><img class    = "ico"';
 	                    rowCita +=           'src     = "'+base_url+'assets/images/'+cita.estatus+'_point.png"';
 		  				rowCita +=			 'id      = "estatus_'+cita.id+'"';
-		  			    rowCita +=	         'onclick = "createTooltip('+cita.id+' , '+cita.nEstatus+', \''+cita.fecha_format2+'\')" />';
-		  			    rowCita += '<img src="'+base_url+'assets/images/wait.gif" id="wait_'+cita.id+'" width="25" height="25" style="display:none">';
+		  			    rowCita +=	         'onclick = "createTooltip('+cita.id+' , '+cita.nEstatus+', \''+cita.fecha_format2+'\')"';
+		  			    rowCita += 			 'title   = "'+getTitle(cita.nEstatus)+'" />';	
+		  			    rowCita += '<img src="'+base_url+'assets/images/wait.gif" id="wait_'+cita.id+'" class="ico" style="display:none">';
 		  				rowCita += '</td>';
 
 		  			}else{
 
 						rowCita += '<td>';
 						rowCita += '<img style="width:25px;height:25px;" src="'+base_url+'assets/images/'+cita.estatus+'_point.png"/>';
-						rowCita += '<img src="'+base_url+'assets/images/wait.gif" id="wait_'+cita.id+'" width="25" height="25" style="display:none">';
+						rowCita += '<img src="'+base_url+'assets/images/wait.gif" id="wait_'+cita.id+'"  style="width:25px;height:25px;display:none">';
 						rowCita += '</td>';
 
 		  			}
@@ -106,22 +109,22 @@ function grid(){
 
 		  				if(cita.editar){
 		  					rowCita += '<a href="'+base_url+'appointment/editar/'+cita.id+'">'; 		
-		  					rowCita += '<img src="'+base_url+'assets/images/edit.png" style="width:25px;height:25px;" />';
+		  					rowCita += '<img src="'+base_url+'assets/images/edit.png" class="ico" title="Editar" />';
 		  					rowCita += '</a>'; 
 	 	  				}
 
 	 	  				if(cita.historia){ 		
-		  					rowCita += '<img src="'+base_url+'assets/images/history.jpg" id="historia_'+cita.id+'" onclick="createTooltipHistoria('+cita.id+')" style="width:25px;height:25px;cursor:pointer;" />'; 
+		  					rowCita += '<img src="'+base_url+'assets/images/history.jpg" id="historia_'+cita.id+'" onclick="createTooltipHistoria('+cita.id+')" class="ico" title="Historial" />'; 
 	 	  				}
 
 	 	  				if(cita.adicionales){
 		  					rowCita += '<a href="'+base_url+'appointment/adicional/'+cita.id+'">'; 		
-		  					rowCita += '<img src="'+base_url+'assets/images/add.png" style="width:25px;height:25px;" />';
+		  					rowCita += '<img src="'+base_url+'assets/images/add.png"  class="ico"  title="Adicionales"/>';
 		  					rowCita += '</a>'; 
 	 	  				}
 
 	 	  				if(cita.costo){ 		
-		  					rowCita += '<img src="'+base_url+'assets/images/money.png" style="width:25px;height:25px;cursor:pointer;" />'; 
+		  					rowCita += '<img src="'+base_url+'assets/images/money.png" id="costo_'+cita.id+'" onclick="createTooltipCosto('+cita.id+')" class="ico" title="Costo" />'; 
 	 	  				}
 
 		  				rowCita += '</td>';
@@ -234,21 +237,43 @@ new Tip('estatus_'+id_cita, new Element('div').update(elementEstatus(id_cita,est
 
 }
 
+function getTitle(estatus){
+
+	switch(parseInt(estatus))
+	{
+	case 1:
+	  return "Pendiente";
+	  break;
+	case 2:
+	  return "Efectiva";
+	  break;
+	case 3:
+	  return "Inasistencia";
+	  break;
+	case 4:
+	  return "Cancelada";
+	  break;
+	}
+
+	return estatus;
+
+}	
+
 function elementEstatus(id_cita, estatus, fecha){
 
 	element = "";
 
  	if (estatus != 1){
- 		element += '<img src="'+base_url+'/assets/images/yellow_point.png" onclick="showDate('+id_cita+',1);" width="25" height="25" style="cursor:pointer"/>'
+ 		element += '<img src="'+base_url+'/assets/images/yellow_point.png" onclick="showDate('+id_cita+',1);" class="ico" title="Pendiente" />'
  	}
  	if (estatus != 2){
- 		element += '<img src="'+base_url+'/assets/images/green_point.png" onclick="changeEstatus('+id_cita+',2)" width="25" height="25" style="cursor:pointer"/>'
+ 		element += '<img src="'+base_url+'/assets/images/green_point.png" onclick="changeEstatus('+id_cita+',2)" class="ico" title="Efectiva" />'
  	}
  	if (estatus != 3){
- 		element += '<img src="'+base_url+'/assets/images/red_point.png" onclick="changeEstatus('+id_cita+',3)" width="25" height="25" style="cursor:pointer"/>'
+ 		element += '<img src="'+base_url+'/assets/images/red_point.png" onclick="changeEstatus('+id_cita+',3)" class="ico" title="Inasistencia"/>'
  	}
  	if (estatus != 4){
- 		element += '<img src="'+base_url+'/assets/images/orange_point.png" onclick="changeEstatus('+id_cita+',4)" width="25" height="25" style="cursor:pointer"/>'
+ 		element += '<img src="'+base_url+'/assets/images/orange_point.png" onclick="changeEstatus('+id_cita+',4)" class="ico" title="Cancelada"/>'
  	}
 
  	if(estatus != 1){
@@ -261,6 +286,8 @@ function elementEstatus(id_cita, estatus, fecha){
 } 
 
 function createTooltipHistoria(id_cita){ 
+
+	Tips.hideAll();
 
 	new Tip('historia_'+id_cita, {
 			    title : 'Historia de la cita',
@@ -283,6 +310,33 @@ function createTooltipHistoria(id_cita){
 			});
 
 	$('historia_'+id_cita).prototip.show();
+
+}
+
+function createTooltipCosto(id_cita){ 
+
+	Tips.hideAll();
+
+	new Tip('costo_'+id_cita, {
+			    title : 'Costo total de la cita',
+				ajax: {
+					url: base_url+'appointment/costo/'+id_cita,
+					options: {
+						onComplete: function(transport) {
+							
+						}
+					}
+				},
+				closeButton: true,
+				hideOn: { element: '.close', event: 'click' },
+				showOn: 'click',
+				width: '200', 
+				hook: { target: 'bottomMiddle', tip: 'topRight' },
+				stem: 'topRight',
+				offset: { x: 6, y: 3 }
+			});
+
+	$('costo_'+id_cita).prototip.show();
 
 }
 
@@ -325,6 +379,7 @@ function changeEstatus(id_cita, estatus, fecha){
 		jQuery('#wait_'+id_cita).hide();
 		jQuery('#estatus_'+id_cita).show();
 		jQuery('#estatus_'+id_cita).attr('src',base_url+"assets/images/"+data.estatus+"_point.png");
+		jQuery('#estatus_'+id_cita).attr('title',getTitle(data.nEstatus));
 
 		var d = new Date(data.fecha);
 
@@ -360,6 +415,9 @@ function changeEstatus(id_cita, estatus, fecha){
 
 		}
 
+		parent.getProxCitas();
+		parent.getProxCitasBanner();
+
 	});
 	
 }
@@ -390,6 +448,9 @@ function changeAutoEstatus(){
 				alert(data.error);
 
 			}
+
+			parent.getProxCitas();
+			parent.getProxCitasBanner();
 
  		});
 	});

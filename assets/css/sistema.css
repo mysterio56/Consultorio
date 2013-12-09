@@ -304,6 +304,24 @@ font-weight: normal;
 border: solid 1px #4cbade;
 }
 
+.citas .radio_cancel  {
+
+  display: inline-block;
+background: #4cbade;
+padding: 4px;
+text-align: center;
+border-radius: 5px;
+color: white;
+text-decoration: none;
+margin: 6px;
+cursor: pointer;
+font-size: 13px;
+font-family: helvetica;
+border: none;
+font-weight: normal;
+border: solid 1px #4cbade;
+}
+
 .citas > input:checked + label {
 display: inline-block;
 background: #4cbade;

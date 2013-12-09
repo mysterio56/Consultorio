@@ -4,23 +4,9 @@
 			<div id="head-cita">
 				<p>PRÓXIMA CITA</p>
 			</div>
-			<?php  if(!empty($prox_cita->all)): ?>
 			<div id="datetime">
-				<?php 
-
-					$prox_cita->paciente->get();
-					$prox_cita->empleado->get();
-
-					$prox_patient = $prox_cita->paciente->nombre.' '.$prox_cita->paciente->apellido_p.' '.$prox_cita->paciente->apellido_m;
-					$prox_doctor  = $prox_cita->empleado->nombre.' '.$prox_cita->empleado->apellido_p.' '.$prox_cita->empleado->apellido_m;
-					$prox_fecha   = date("d", strtotime($prox_cita->fecha_hora)) .' de '.
-									month((date("m", strtotime($prox_cita->fecha_hora))-1), true).' del '.
-									date("Y", strtotime($prox_cita->fecha_hora));
-					$prox_hora    = date("H:i", strtotime($prox_cita->fecha_hora));
-
-				?>
-				<p id="date"><?= $prox_fecha; ?></p>
-				<p id="time"><?= $prox_hora; ?></p>	
+				<p id="date_prox"></p>
+				<p id="time_prox"></p>	
 			</div>
 			<div id="detail-cita">
 				<div id="detail-1">
@@ -28,25 +14,65 @@
 					<p>Paciente</p>
 				</div>
 				<div id="detail-2">
-					<p><?=  $prox_doctor; ?></p>
-					<p><?= $prox_patient; ?></p>
+					<p id="doctor_prox"></p>
+					<p id="paciente_prox"></p>
 				</div>
 			</div>
 			<div id="detail-cita-small" class="hide">
 				<div id="detail">
-					<p>Doctor <strong><?= $prox_doctor; ?></strong></p>
-					<p>Paciente <strong><?= $prox_patient; ?></strong></p>
+					<p>Doctor <strong id="doctor_prox_s"></strong></p>
+					<p>Paciente <strong id="paciente_prox_s"></strong></p>
 				</div>
 			</div>
 
-		<?php else: ?>
-			<div id="proxCitaEmpty" style="padding:7px">
+			<div id="proxCitaEmpty" style="padding:7px;display:none">
 				<p> No hay citas para mostrar </p>
 			</div>
-		<?php endif; ?>
 
 		</div>
-		<div id="doctors">
-		</div>
+		
 	</div>
 </section>
+
+<script>
+    $(function(){
+
+        base_url = "<?= base_url(); ?>";
+        getProxCitasBanner();
+
+        setInterval(function(){
+            getProxCitasBanner();
+        },60000);
+
+    });
+
+    function getProxCitasBanner(){
+
+        $.getJSON( base_url+"appointment/prox_citas", function( data ) {
+    
+            if(!data.empty){
+
+            	$('#proxCitaEmpty').hide();
+            	$('#datetime').show();
+
+            	$('#date_prox').html(data[0].fecha);
+            	$('#time_prox').html(data[0].hora);
+            	$('#doctor_prox').html(data[0].doctor);
+            	$('#paciente_prox').html(data[0].paciente);
+            	$('#doctor_prox_s').html(data[0].doctor);
+            	$('#paciente_prox_s').html(data[0].paciente);
+            	
+            } else {
+
+            	$('#proxCitaEmpty').show();
+            	$('#datetime').hide();
+            	$('#detail-cita').hide();
+            	$('#detail-cita-small').hide();
+       
+            }
+               
+        });
+
+    }
+
+</script>
