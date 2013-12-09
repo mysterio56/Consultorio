@@ -162,7 +162,7 @@ Banner.hide = function()
     $('#detail-cita-small').show();
     $('#detail-cita-small').css({display: 'inline-block'});
   }
-
+  $('#doctors').hide();
   $('#head-cita').css({'width':'150px',
                        'padding-left': '50px',
                        'padding-top': '4px',
@@ -177,7 +177,7 @@ Banner.show = function()
   $('.banner-container').animate({"height": "130px"});
   $('.banner-container').attr({"title": "Da click para ocultar"});
   $('#prox-cita').animate({width: "31%"});
-
+  $('#doctors').show();
   if($("#proxCitaEmpty").css("display") == "none"){
     $('#detail-cita').show();
     $('#detail-cita-small').css({display: 'none'});

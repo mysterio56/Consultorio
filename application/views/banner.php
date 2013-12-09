@@ -24,12 +24,14 @@
 					<p>Paciente <strong id="paciente_prox_s"></strong></p>
 				</div>
 			</div>
-
+			
 			<div id="proxCitaEmpty" style="padding:7px;display:none">
 				<p> No hay citas para mostrar </p>
 			</div>
 
 		</div>
+		<div id="doctors">
+			</div>
 		
 	</div>
 </section>
