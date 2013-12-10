@@ -234,7 +234,7 @@ html, body{
 }
 
 .banner-container #doctors{
-    width: 673px;
+    width: 68%;
     height: 100%;
     background-color: transparent;
     display: inline-block;
@@ -408,7 +408,7 @@ html, body{
 /********* Estilos para Tabs *********/
 
 .tabs-container{
-  width: 655px;
+  width: 65%;
   display: inline-block;
   vertical-align: top;
   margin-left: 20px;
@@ -556,7 +556,7 @@ html, body{
 /********* Estilos para menu_header *********/
 
 #divnav{
-  width: 680px;
+  width: 100%;
   height: 45px;
 }
 
@@ -829,5 +829,13 @@ nav li:hover ul {
   background:transparent; 
   cursor:pointer; 
   width:auto; overflow:visible
+}
+
+#wrapper_login{
+  background-image: url(../images/background_login.jpg);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  min-height: 680px;
+  padding-top: 200px;
 }
 

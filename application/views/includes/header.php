@@ -19,6 +19,7 @@
         ?>
 	</head>
 	<body>
+		<?php if ($this->session->userdata('username')): ?>
 		<header class="header-container">
 			<div id="header">
 				<div id="logo">
@@ -38,6 +39,7 @@
 				</div>
 			</div>
 		</header>
+	<?php endif; ?>
 		
 	<?php if ($this->session->userdata('username')): ?>	
 		<div id="wrapper">

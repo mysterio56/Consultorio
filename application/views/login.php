@@ -2,7 +2,7 @@
 	$(function(){ Valid.login() });
 </script>
 <div id="login_form" 
-	 style="width:400px; margin:0 auto; border-radius:5px; border:1px solid #909090; pading:20px">
+	 style="width:400px; height:200px; margin:0 auto; border-radius:5px; border:1px solid #909090; padding:20px; margin-bottom:210px" >
 
 	 <?php
 
@@ -11,9 +11,9 @@
 	 	}
 
 	    $attributes = array('id' => 'loginForm');
-
+echo'<div class="login">';
 	 	echo form_open(null,$attributes);
-	 	 echo'<div class="login">';
+	 	 
 	 	 echo'<table width="300" height="200" style="background: transparent">';
                echo'<tr>';
 
