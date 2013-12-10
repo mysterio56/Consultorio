@@ -431,16 +431,22 @@ class Appointment extends CI_Controller{
 
 		if($this->input->post()){
 
-			$servicio = new Servicio();
-			$servicio->where('id',$this->input->post('servicioId'))->get();
-
 			$dateAnterior = strtotime($cita->fecha_hora);
 			$dateInput    = strtotime($this->input->post('fecha_alt'));
 			
 			$cita->empleado_id = $this->input->post('doctorId'); 
 			$cita->fecha_hora  = $this->input->post('fecha_alt');
+
+			if($cita->servicio_id != $this->input->post('servicioId')){  
+
+				$servicio = new Servicio();
+				$servicio->where('id',$this->input->post('servicioId'))->get();
+
+				$cita->costo = $servicio->costo_venta;
+
+			}
+
 			$cita->servicio_id = $this->input->post('servicioId');
-			$cita->costo       = $servicio->costo_venta();
 			$cita->estatus	   = 1;
 
 			$cita->consultorio_id = $this->session->userdata('id_consultorio');
