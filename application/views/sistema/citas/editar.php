@@ -188,6 +188,11 @@ $('#fecha').datetimepicker({
 	altFormat: "yy-mm-dd",
 	altTimeFormat: "HH:mm",
 	minDate: fecha_ahora,
+	timeText:    '',
+	hourText:    'Hora',
+	minuteText:  'Minuto',
+	currentText: 'Fecha actual',
+	closeText:   'Aceptar',
 
 });
 });	

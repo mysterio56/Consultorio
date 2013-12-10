@@ -139,6 +139,9 @@ $(function () {
         	}
     	});
 
+    	fecha_ahora = "<?= date('D M d Y H:i:s O'); ?>";
+		fecha_ahora = new Date(fecha_ahora);
+
     	var myControl=  {
 	create: function(tp_inst, obj, unit, val, min, max, step){
 		$('<input class="ui-timepicker-input" value="'+val+'" style="width:50%">')
@@ -178,7 +181,13 @@ $('#fecha').datetimepicker({
 	altField: "#fecha_alt",
 	altFieldTimeOnly: false,
 	altFormat: "yy-mm-dd",
-	altTimeFormat: "HH:mm"
+	altTimeFormat: "HH:mm",
+	minDate: fecha_ahora,
+	timeText:    '',
+	hourText:    'Hora',
+	minuteText:  'Minuto',
+	currentText: 'Fecha actual',
+	closeText:   'Aceptar',
 });
 });	
 

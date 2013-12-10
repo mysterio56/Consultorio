@@ -54,13 +54,14 @@
 
     function getProxCitas(){
 
-        $('#prox_citas').html("");
         $('#wait_prox_citas').show();
 
         $.getJSON( base_url+"appointment/prox_citas/5", function( data ) {
     
             if(!data.empty){
 
+                $('#prox_citas').html("");
+                
                 $.each(data,function(key,cita){
                     
                         prox_cita  = '<section class="cita-stilo">';
