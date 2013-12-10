@@ -188,6 +188,7 @@ function getProducto(){
   });
 
 }
+
 function getServicio(){
 
   $('#wait_serv').show();
