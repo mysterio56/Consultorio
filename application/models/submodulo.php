@@ -3,6 +3,8 @@
 class Submodulo extends DataMapper
 {
  
+ 	public $extensions = array('array');
+ 	
     public $table = "submodulos";
 
     public $has_many = array("tipo_empleado");

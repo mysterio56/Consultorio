@@ -224,6 +224,7 @@ echo '<tr>';
 
 echo '</tr>';
 echo '</table>';
+if(in_array($permisos,$aPermisos['Editar'])){ 
 		 	$data = array(
 		 		'name'  => 'editar',
 		 		'id'    => 'editar',
@@ -232,6 +233,7 @@ echo '</table>';
 		 	);
 
 	 		echo form_submit($data);
+    }
 	 		echo form_close(); 
 	 		
 	?>

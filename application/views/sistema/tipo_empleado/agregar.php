@@ -47,6 +47,7 @@
    echo '</tr>';
 
 		 	foreach($modulos as $modulo){
+
 		 		 echo'<tr>';
 		 	     echo'<td colspan=100%>';
 		 		echo form_label($modulo->nombre.':');
@@ -94,6 +95,22 @@
 			 		);
 
 			 		echo form_checkbox($data);
+
+			 		$submodulos = $modulo->submodulo->get();
+			 		
+			 		foreach($submodulos as $submodulo){
+
+			 			echo form_label($submodulo->nombre);
+
+			 			$data = array(
+					 		'name'    => 'submodulos_'.$modulo->id.'[]',
+					 		'value'   => $submodulo->id,
+					 		'checked' => true		
+			 			);
+		 				
+		 				echo form_checkbox($data);
+
+		 			}	
 			 	}
 
                 echo'</td>';

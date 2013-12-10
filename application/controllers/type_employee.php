@@ -60,6 +60,7 @@ class Type_employee extends CI_Controller{
 
     	$tipoEmpleado = new Tipo_empleado();
     	$modulos      = new Modulo();
+    	$submodulos   = new Submodulo();
     	$oPermisos    = new Permiso();
 
     	$data['view']     	  = 'sistema/tipo_empleado/agregar';
@@ -82,6 +83,7 @@ class Type_employee extends CI_Controller{
 			$tipoEmpleado->estatus        = 1;
 
 			$modulos->where_in('id',$this->input->post('modulos'))->get();
+			
 
 			if($tipoEmpleado->save($modulos->all)){
 
@@ -93,6 +95,9 @@ class Type_employee extends CI_Controller{
 					foreach($this->input->post('permisos_'.$modulo) as $permiso){
 						 $sumPermiso = $sumPermiso + $permiso;
 					}
+
+					$submodulos->where_in('id',$this->input->post('submodulos_'.$modulo))->get();
+					$tipoEmpleado->save($submodulos->all);
 
 					$oPermisos->permiso = $sumPermiso;
 					$oPermisos->save();
@@ -116,10 +121,12 @@ class Type_employee extends CI_Controller{
     	$tipoEmpleado = new Tipo_empleado();
     	$modulos      = new Modulo();
     	$oPermisos    = new Permiso();
+    	$submodulos   = new Submodulo();
 
     	$aPermisos = permisos($this->session->userdata('type_user'));
 
 		$data['tipoEmpleado'] = $tipoEmpleado->where('id',$id_tipoEmpleado)->get();
+		$data['oSubmodulos']  = $tipoEmpleado->submodulo->get();
 		$data['modulos']      = $modulos->where("estatus",1)->get();
 		$data['permisos']     = $oPermisos->where('tipo_empleado_id', $id_tipoEmpleado)->get();
 		$data['printPermiso'] = $aPermisos['type_employee'];
@@ -140,7 +147,11 @@ class Type_employee extends CI_Controller{
 			$tipoEmpleado->fecha_modificacion = date("Y-m-d H:i:s");
 
 			$tipoEmpleado->modulo->get();
+			$tipoEmpleado->submodulo->get();
+
 			$tipoEmpleado->delete($tipoEmpleado->modulo->all);
+			$tipoEmpleado->delete($tipoEmpleado->submodulo->all);
+
 			$modulos->where_in('id',$this->input->post('modulos'))->get();
 
 			if($tipoEmpleado->save($modulos->all)){
@@ -153,6 +164,9 @@ class Type_employee extends CI_Controller{
 					foreach($this->input->post('permisos_'.$modulo) as $permiso){
 						 $sumPermiso = $sumPermiso + $permiso;
 					}
+
+					$submodulos->where_in('id',$this->input->post('submodulos_'.$modulo))->get();
+					$tipoEmpleado->save($submodulos->all);
 
 					$oPermisos->permiso = $sumPermiso;
 					$oPermisos->save();
@@ -171,7 +185,7 @@ class Type_employee extends CI_Controller{
 	}
 
 
-public function eliminar($id_tipoEmpleado){
+	public function eliminar($id_tipoEmpleado){
 
 		$tipoEmpleado = new Tipo_empleado();
 
