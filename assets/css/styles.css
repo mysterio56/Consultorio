@@ -10,6 +10,7 @@
 }
 
 html, body{
+
     height: 100%;
 }
 
@@ -806,5 +807,27 @@ nav li:hover ul {
     background-repeat: no-repeat;
     background-position:center;
     background-size: 430px;
+}
+
+.login form{
+  background:transparent;
+  background-repeat: no-repeat;
+  background-position:center;
+ background-size: 430px;
+}
+
+
+
+.login input {
+  font-family: 'Lucida Grande', Tahoma, Verdana, sans-serif;
+  font-size: 13px;
+}
+
+.button {
+  border:none; 
+  padding:0; 
+  background:transparent; 
+  cursor:pointer; 
+  width:auto; overflow:visible
 }
 

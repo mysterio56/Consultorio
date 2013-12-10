@@ -120,7 +120,6 @@ form > label{
   margin: 5px;
   font-weight: bold;
   font-size: 14px;
-  border-radius: 5px;
 }
 
 form .capitalize
@@ -337,5 +336,4 @@ font-weight: normal;
   height:25px;
   cursor:pointer;
 }
-
 

@@ -38,4 +38,9 @@
 				</div>
 			</div>
 		</header>
-	<div id="wrapper">
+		
+	<?php if ($this->session->userdata('username')): ?>	
+		<div id="wrapper">
+	<?php else: ?>	
+		<div id="wrapper_login">
+	<?php endif; ?>
