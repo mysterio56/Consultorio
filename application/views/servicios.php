@@ -1,11 +1,21 @@
 <section class="ac-container">
 
-
     <div>
         <p class="ac-title">Servicios varios</p>
     </div>
-    <div>
-        <input id="ac-1" name="accordion-1" type="radio" checked/>
+
+   <div>
+        <input id="ac-2" name="accordion-1" type="radio" checked/>
+        <label for="ac-2"><img src="<?= base_url('assets/images/black-dot.png'); ?>" /> Citas</label>
+        <article>
+            <p id="wait_prox_citas" class="hide" ><img src="<?= base_url('assets/images/wait.gif'); ?>" class="ico"> Cargando citas</p>
+            <div id="prox_citas">
+            </div>
+        </article>
+   </div>
+
+   <div>
+        <input id="ac-1" name="accordion-1" type="radio"/>
         <label for="ac-1"><img src="<?= base_url('assets/images/black-dot.png'); ?>" /> Lo nuevo</label>
         <article>
          <a class="twitter-timeline" 
@@ -27,56 +37,61 @@
     </script>
    </article>
    </div>
-<?php
-        
 
-?>  
-
-   <div>
-        <input id="ac-2" name="accordion-1" type="radio"/>
-        <label for="ac-2"><img src="<?= base_url('assets/images/black-dot.png'); ?>" /> Citas</label>
-        <article>
-         <?php
-
-             $aMeses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julil","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-             
-             foreach($citas->all as $cita){
-
-                $cita->paciente->get();
-                $cita->empleado->get();
-
-                $patient = $cita->paciente->nombre." ".$cita->paciente->apellido_p." ".$cita->paciente->apellido_m;
-                $doctor  = $cita->empleado->nombre." ".$cita->empleado->apellido_p." ".$cita->empleado->apellido_m;
-                $date    = date("d", strtotime($cita->fecha_hora)) ." de ". 
-                           $aMeses[date("m", strtotime($cita->fecha_hora)) - 1] ." del ".
-                           date("Y", strtotime($cita->fecha_hora));
-                $hour    = date("H:i", strtotime($cita->fecha_hora));        
-        ?>
-
-    <section class="cita-stilo">
-    <div id="div-banner">
-        <div id="prox-cita">
-            <div id="datetime">
-                <p id="date"><?= $date; ?></p>
-                <p id="time"><?= $hour; ?></p> 
-            </div>
-            <div id="">
-                <div id="detail">
-                    <p>Doctor   <strong><?= $doctor; ?></strong></p>
-                    <p>Paciente <strong><?= $patient; ?></strong></p>
-                </div>
-            </div>
-        </div>
-        <div id="doctors">
-        </div>
-    </div>
 </section>
-<?php
-}
-?>
-   </article>
-   </div>
 
+<script>
+    $(function(){
 
+        base_url = "<?= base_url(); ?>";
+        getProxCitas();
+
+        setInterval(function(){
+            getProxCitas();
+        },60000);
+
+    });
+
+    function getProxCitas(){
+
+        $('#wait_prox_citas').show();
+
+        $.getJSON( base_url+"appointment/prox_citas/5", function( data ) {
     
-</section>
+            if(!data.empty){
+
+                $('#prox_citas').html("");
+                
+                $.each(data,function(key,cita){
+                    
+                        prox_cita  = '<section class="cita-stilo">';
+                        prox_cita +=    '<div id="prox-cita">';
+                        prox_cita +=        '<div id="datetime">';
+                        prox_cita +=            '<p id="date">'+cita.fecha+'</p>'
+                        prox_cita +=            '<p id="time">'+cita.hora+'</p>'
+                        prox_cita +=        '</div>';
+                        prox_cita +=        '<div>';
+                        prox_cita +=            '<div id="detail">';
+                        prox_cita +=                '<p>Doctor   <em style="color:#000"> '+cita.doctor+'</em></p>'
+                        prox_cita +=                '<p>Paciente <em style="color:#000"> '+cita.paciente+'</em></p>'
+                        prox_cita +=            '</div>';
+                        prox_cita +=        '</div>';
+                        prox_cita +=    '</div>';
+                        prox_cita += '</section>';
+
+                        $('#prox_citas').append(prox_cita);   
+               });
+
+            } else {
+
+                $('#prox_citas').append("<p>No hay citas para mostrar</p>");
+
+            }
+
+            $('#wait_prox_citas').hide();
+               
+        });
+
+    }
+
+</script>

@@ -43,7 +43,7 @@ define ("PERMISOS", serialize (array("Agregar"  => array(4,5,6,7),
 
     <label> Inicio </label> <label id="l_date_start"> </label> <input type="hidden" id="date_start" name="date_start"/>
     <label> Fin    </label> <label id="l_date_end"> </label> <input type="hidden" id="date_end" name="date_end"/>
-<br />
+    <br />
 <?php 
     echo form_label('Paciente: '); 
     $data = array(
@@ -80,6 +80,7 @@ define ("PERMISOS", serialize (array("Agregar"  => array(4,5,6,7),
     <input type="hidden" name="doctorId" id="doctorId"/>
     <label class ="radio_citas" onClick="grid();" >Buscar</label>
 
+
 </div>
 
 <?php
@@ -97,6 +98,10 @@ $.noConflict();
 base_url = "<?= base_url(); ?>";
 
 jQuery(function() {
+
+    parent.getProxCitas();
+    parent.getProxCitasBanner();
+
     jQuery("#date_start").datepicker({
             buttonImage: base_url+'assets/images/calendar.png',
             buttonImageOnly: true,

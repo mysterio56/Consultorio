@@ -157,7 +157,7 @@ class Appointment extends CI_Controller{
     			$date_end   = explode("/",$this->input->post('date_end'));
     			$date_end   = $date_end[2].'-'.$date_end[1].'-'.$date_end[0];
 
-    			$citas->where_between('fecha_hora',"'".$date_start."'","'".$date_end."'");
+    			$citas->where("DATE(fecha_hora) between '".$date_start."' and '".$date_end."'");
     			$citas->order_by(' fecha_hora ', 'ASC ');
 
     		}
@@ -279,7 +279,7 @@ class Appointment extends CI_Controller{
 
     }
 
-    public function estatusAuto($cita_id = null){
+    public function estatusAuto($cita_id = null, $nPrint = true){
 
     	$this->load->helper('date');
 
@@ -307,7 +307,7 @@ class Appointment extends CI_Controller{
         	$historia->fecha_alta = date("Y-m-d H:i:s");
 			$historia->estatus    = 3;
 
-			if($cita->save() && $historia->save()){
+			if($cita->save() && $historia->save() && $nPrint){
 
 				echo json_encode(array('error'    => false, 
 								       'estatus'  => estatus(3),
@@ -315,17 +315,20 @@ class Appointment extends CI_Controller{
 								       'fecha'    => $cita->fecha_hora));
 
 			}else{
-
-				echo json_encode(array('error'   => "Hubo un error al intentar modificar el estatus, intente de nuevo", 
-								       'estatus' => estatus($estatus_actual)));
+				if($nPrint){
+					echo json_encode(array('error'   => "Hubo un error al intentar modificar el estatus, intente de nuevo", 
+									       'estatus' => estatus($estatus_actual)));
+				}
 
 			}
 			
 		} else {
+			if($nPrint){
 			echo json_encode(array('error'    => false, 
 								   'estatus'  => estatus($cita->estatus),
 								   'nEstatus' => $cita->estatus,
 								   'fecha'    => $cita->fecha_hora));			
+			}
 		}
 
     }
@@ -367,10 +370,14 @@ class Appointment extends CI_Controller{
 		$historia = new Historia();	
 		$citas    = new Reunion();
 
+		$servicio = new Servicio();
+		$servicio->where('id',$this->input->post('servicioId'))->get();
+
 		$citas->paciente_id = $this->input->post('pacienteId'); 
 		$citas->empleado_id = $this->input->post('doctorId'); 
 		$citas->fecha_hora  = $this->input->post('fecha_alt').':00';
 		$citas->servicio_id	= $this->input->post('servicioId');
+		$citas->costo    	= $servicio->costo_venta;
 		$citas->estatus		= 1;
 
 		$citas->consultorio_id = $this->session->userdata('id_consultorio');
@@ -404,9 +411,7 @@ class Appointment extends CI_Controller{
 
 		$cita = new Reunion();
 		
-		
-		$cita->where(array( 'id'     => $id_cita,
-							'estatus'=> 1))->get();
+		$cita->where(array( 'id' => $id_cita))->get();
 		    	
 
 		$data['cita']     = $cita; 
@@ -431,11 +436,21 @@ class Appointment extends CI_Controller{
 			
 			$cita->empleado_id = $this->input->post('doctorId'); 
 			$cita->fecha_hora  = $this->input->post('fecha_alt');
+
+			if($cita->servicio_id != $this->input->post('servicioId')){  
+
+				$servicio = new Servicio();
+				$servicio->where('id',$this->input->post('servicioId'))->get();
+
+				$cita->costo = $servicio->costo_venta;
+
+			}
+
 			$cita->servicio_id = $this->input->post('servicioId');
 			$cita->estatus	   = 1;
 
 			$cita->consultorio_id = $this->session->userdata('id_consultorio');
-			$cita->fecha_alta          = date("Y-m-d H:i:s");
+			$cita->fecha_alta     = date("Y-m-d H:i:s");
 			
 			if($cita->save()){
 				
@@ -467,13 +482,19 @@ class Appointment extends CI_Controller{
 	public function adicional($id_cita){
 
 		$ingresos = new Ingreso();
+		$cita     = new Reunion();
 
 		$ingresos->where('cita_id', $id_cita)->get(); 
+		$cita->where('id', $id_cita)->get();
+		$servicio = $cita->servicio->get();
+		$costo = $cita->costo;
 		
 		$data['view']     = 'sistema/citas/adicional';
 		$data['return']   = 'appointment';
 		$data['ingresos'] = $ingresos;
 		$data['cita_id']  = $id_cita;
+		$data['costo']    = $costo;
+		$data['servicio'] = $servicio;
 		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
 								  'sistema.css');
 		$data['jsFiles']  = array('jquery.js',
@@ -565,5 +586,69 @@ class Appointment extends CI_Controller{
 		}
 
 	}
+
+	public function costo($cita_id = null){
+
+		$ingresos = new Ingreso();
+		$cita    = new Reunion();
+
+		$ingresos->where('cita_id', $cita_id)->get();
+		$cita->where('id', $cita_id)->get();
+
+		$total = 0;
+
+		foreach ($ingresos->all as $ingreso) {
+			$total = $total + $ingreso->costo;
+		}
+
+		$total = $total + $cita->costo;
+		echo "<strong>$ ".number_format($total, 2, '.', ',')."</strong>";
+
+    }
+
+    public function prox_citas($limit = 1){
+
+		$citas_b = new Reunion();
+
+		$citas_b->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
+							  'estatus'        => 1));
+
+		$citas_b->order_by(' TIMESTAMPDIFF( MINUTE, fecha_hora, NOW() ) DESC'); 
+		$citas_b->limit( 10 )->get();
+
+		foreach($citas_b->all as $cita_b){
+			$this->estatusAuto($cita_b->id,false);
+		}
+
+		$citas = new Reunion();
+
+		$citas->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
+							'estatus'        => 1));
+
+		$citas->order_by(' TIMESTAMPDIFF( MINUTE, fecha_hora, NOW() ) DESC'); 
+		$citas->limit( $limit )->get();
+
+		foreach($citas->all as $cita){
+			
+			$cita->paciente->get();
+			$cita->empleado->get();
+
+			$aCitas[] = array("paciente" => $cita->paciente->nombre." ".$cita->paciente->apellido_p." ".$cita->paciente->apellido_m, 
+							  "doctor"   => $cita->empleado->nombre." ".$cita->empleado->apellido_p." ".$cita->empleado->apellido_m,
+							  "fecha"    => date("d", strtotime($cita->fecha_hora)) ." de ". 
+		    								month(date("m", strtotime($cita->fecha_hora))-1,true) ." del ".
+		    								date("Y", strtotime($cita->fecha_hora)),
+							  "hora"     => date("H:i", strtotime($cita->fecha_hora))
+						);
+		}
+
+		if(isset($aCitas)){
+			echo json_encode($aCitas);
+		} else {
+			echo json_encode(array('empty' => true));
+		}
+
+
+    }
 
 }

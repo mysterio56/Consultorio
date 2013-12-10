@@ -144,10 +144,11 @@ html, body{
     display: inline-block;
     vertical-align: top;
     text-align: center;
-    padding: 10px;
+    padding: 7px;
+    padding-left: 22px;
 }
 
-.banner-container #datetime > #time{
+.banner-container #datetime > #time_prox{
     width: 28%;
     background-image: url(../images/clock.png);
     background-repeat: no-repeat;
@@ -677,6 +678,9 @@ nav li:hover ul {
 }
 
 
+.cita-stilo{
+  margin-top: 13px;
+}
 
 .cita-stilo #div-banner{
     width: 986px;
@@ -839,3 +843,13 @@ nav li:hover ul {
   padding-top: 200px;
 }
 
+.ico {
+  width:25px;
+  height:25px;
+  cursor:pointer;
+}
+
+.hide {
+  display: none;
+  
+}
