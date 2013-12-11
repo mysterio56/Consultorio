@@ -6,7 +6,7 @@
 	$attributes = array('id' => 'pacienteForm');
 
 	 	echo form_open(null,$attributes);
-echo '<table class="table_form">';
+ echo '<table class="table_form" cellspacing="10">';
 	echo '<tr>';
 		echo form_label('*Campos Requeridos','campo');
 		echo '<td width="8%">';
