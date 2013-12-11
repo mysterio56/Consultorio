@@ -57,10 +57,10 @@
         $('#wait_prox_citas').show();
 
         $.getJSON( base_url+"appointment/prox_citas/5", function( data ) {
+
+            $('#prox_citas').html("");
     
             if(!data.empty){
-
-                $('#prox_citas').html("");
                 
                 $.each(data,function(key,cita){
                     
@@ -84,7 +84,7 @@
 
             } else {
 
-                $('#prox_citas').append("<p>No hay citas para mostrar</p>");
+                $('#prox_citas').html("<p>No hay citas para mostrar</p>");
 
             }
 

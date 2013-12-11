@@ -6,7 +6,7 @@
 	$attributes = array('id' => 'consultorioForm');
 
 	 	echo form_open_multipart(null,$attributes);
-echo '<table class="table_form">';
+ echo '<table class="table_form" cellspacing="10">';
 	echo '<tr>';
 	echo form_label('*Campos Requeridos','campo');
 		echo'<td width="25%">';
