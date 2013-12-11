@@ -13,6 +13,7 @@ class Welcome extends CI_Controller{
 
 		$oUsuario      = new Usuario();
 		$oTipoEmpleado = new Tipo_empleado();
+		$oModulos      = new Modulo();
 
 		$oUsuario->where('id',$this->session->userdata('id_user'))->get();
 
@@ -24,6 +25,7 @@ class Welcome extends CI_Controller{
 		$data['logo']       = $empleado->consultorio->nombre_logo;
 		$data['modulos']    = $oTipoEmpleado->modulo->where('modulo_id',0)->get()->all;
 		$data['submodulos'] = $oTipoEmpleado->modulo->where('modulo_id <>',0)->get()->all;
+		$data['allModulos'] = $oModulos->where(array('estatus'=>1,'modulo_id'=>0))->get()->all;
 		$data['title']      = "welcome page";
 		$data['view']       = "welcome";
 		$data['cssFiles']   = array('styles.css');

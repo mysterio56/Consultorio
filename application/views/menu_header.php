@@ -11,58 +11,79 @@
             foreach($submodulos as $submodulo){
               $aSubmodulo[$submodulo->id] = $submodulo->nombre; 
             }
-  
+
             foreach($modulos as $modulo){
+              $aModulos[$modulo->id] = $modulo->nombre; 
+            }
+  
+            foreach($allModulos as $modulo){
+              
+              $modulo->modulo->get();
 
-               $modulo->modulo->get();
+              $asub = array();
+              $val = false;
 
-               $isParent = '';
-
-              foreach($modulo->modulo->all as $submodulo){
-                if(in_array($submodulo->nombre,$aSubmodulo)){
-                    $isParent = 'parent';                  
+              foreach($modulo->modulo->all as $submoduloAll){
+                $asub[$submoduloAll->id]['nombre'] = $submoduloAll->nombre;
+                $asub[$submoduloAll->id]['url'] = $submoduloAll->url;
+                $asub[$submoduloAll->id]['permiso'] = in_array($submoduloAll->nombre,$aSubmodulo)?true:false;
+                if(in_array($submoduloAll->nombre,$aSubmodulo)){
+                   $val = true;
                 }
               }
-
-               echo '<li class="'.$isParent.'"><a href="javascript:void(0)" 
-                           onClick = "Tab.newTab(\''.$modulo->nombre.'\',base_url+\''.$modulo->url.'\', \''.$modulo->url.'\' );">'.$modulo->nombre.'
-                         </a>';
-                         if($isParent == 'parent'){
-                           echo '<ul>';
-                            foreach($modulo->modulo->all as $submodulo){
-                                if(in_array($submodulo->nombre,$aSubmodulo)){
-                                  
-                                      echo '<li>
-                                               <a href="javascript:void(0)"
-                                                   onClick = "Tab.newTab(\''.$submodulo->nombre.'\',base_url+\''.$submodulo->url.'\', \''.$submodulo->url.'\' );">'.$submodulo->nombre.'
-                                                </a>
-                                            </li>';
-                                      
-                                  
-                                }
-                            }
-                            echo '</ul>';
-                         }
-
-               echo '</li>';
+               
+               $aModulosAll[$modulo->id]['submodulo'] = $asub;
+               $aModulosAll[$modulo->id]['nombre']    = $modulo->nombre;
+               $aModulosAll[$modulo->id]['url']   = $modulo->url;
+               $aModulosAll[$modulo->id]['print']   = (in_array($modulo->nombre,$aModulos)||$val)?true:false;
+               $aModulosAll[$modulo->id]['permiso']   = in_array($modulo->nombre,$aModulos)?true:false;
+              
             }
+
+            foreach ($aModulosAll as $key => $modulo) {
+
+              if($modulo['print']){
+
+                if(!empty($modulo['submodulo'])){
+                    $isParent = 'parent';
+                } else {
+                    $isParent = '';
+                }
+
+                echo '<li class="'.$isParent.'">';
+                echo    '<a href="javascript:void(0)"'; 
+
+                  if($modulo['permiso']){
+                    echo 'onClick="Tab.newTab(\''.$modulo['nombre'].'\',\''.base_url($modulo['url']).'\',\''.$modulo['url'].'\');"';
+                  }
+
+                echo     '>';
+                echo     $modulo['nombre'];
+                echo    '</a>';
+        
+
+                if(!empty($modulo['submodulo'])){
+                    echo '<ul>';
+
+                    foreach($modulo['submodulo'] as $submodulo){
+                      if($submodulo['permiso']){
+                        echo '<li>';
+                        echo  '<a href="javascript:void(0)"';
+                        echo 'onClick="Tab.newTab(\''.$submodulo['nombre'].'\',\''.base_url($submodulo['url']).'\',\''.$submodulo['url'].'\');"';
+                        echo  '>';
+                        echo $submodulo['nombre'];
+                        echo '</a>';
+                        echo '</li>';
+                      }
+
+                    }
+                    echo '</ul>';
+                }
+                echo '</li>';
+              }
+
+            }
+
          ?>
-         <!--<li class="parent"><a href="javascript:void(0)">Menu 1</a>
-            <ul>
-               <li><a href="javascript:void(0)" onClick = "Tab.newTab('Submenu 1','http://www.mercadolibre.com.mx/');">Submenu 1</a></li>
-               <li><a href="javascript:void(0)" onClick = "Tab.newTab('Submenu 2','http://www.ibazar.com.mx/');">Submenu 2</a></li>
-               <li><a href="javascript:void(0)" onClick = "Tab.newTab('Submenu 3','http://www.sanborns.com.mx/Paginas/Inicio.aspx');">Submenu 3</a></li>
-               <li><a href="javascript:void(0)" onClick = "Tab.newTab('Submenu 4','http://www.marke.com.mx');">Submenu 4</a></li>
-            </ul>
-         </li>
-         <li><a href="javascript:void(0)" onClick = "Tab.newTab('Menu 2',base_url+'sistema');">Menu 2</a></li>
-         <li><a href="javascript:void(0)" onClick = "Tab.newTab('Menu 3',base_url+'sistema/usuarios');">Menu 3</a></li>
-         <li class="parent"><a href="javascript:void(0)">Menu 4</a>
-            <ul>
-               <li><a href="javascript:void(0)" onClick = "Tab.newTab('Submenu 5','http://masqweb.com');">Submenu 5</a></li>
-               <li><a href="javascript:void(0)" onClick = "Tab.newTab('Submenu 6','http://horeb.org.mx/web/');">Submenu 6</a></li>
-               <li><a href="javascript:void(0)" onClick = "Tab.newTab('Submenu 7','http://www.desarrolloweb.com/');">Submenu 7</a></li>
-            </ul>
-         </li>-->
    </nav>
 </div>
