@@ -7,10 +7,10 @@
 			<tr>
 				<th>Paciente</th>
 				<th>Doctor</th>
-				<th>Servicio</th>
-				<th>Fecha y hora</th>
-				<th>Estatus</th>
-				<th id="thAcciones" style="display:none">Acciones</th>
+				<th style="width:80px;">Servicio</th>
+				<th style="width:80px;">Fecha/hora</th>
+				<th style="width:55px;">Estatus</th>
+				<th id="thAcciones" style="display:none; width:100px;">Acciones</th>
 			</tr>
 		</thead>
 		<tbody id="tbodyCitas">
@@ -78,9 +78,9 @@ function grid(){
 
 	                classRow = (key % 2 == 0)?'odd':'even';
 		  			rowCita  = '<tr class="'+classRow+'">';
-		  			rowCita	+= '<td>'+cita.paciente+'</td>';
-		  			rowCita	+= '<td>'+cita.doctor+'</td>';
-		  			rowCita	+= '<td>'+cita.servicio+'</td>';
+		  			rowCita	+= '<td class ="tdtooltip" tooltip="'+cita.paciente+'">'+cita.paciente+'</td>';
+		  			rowCita	+= '<td class ="tdtooltip" tooltip="'+cita.doctor+'">'+cita.doctor+'</td>';
+		  			rowCita	+= '<td class ="tdtooltip" tooltip="'+cita.servicio+'">'+cita.servicio+'</td>';
 		  			rowCita	+= '<td id="fecha_'+cita.id+'">'+cita.fecha_format+'</td>';
 
 		  			if(cita.editar){
@@ -177,7 +177,7 @@ function grid(){
 					if(data.has_next){
 						rowFoot += '<li>';
 						rowFoot += '<a onClick="setPage('+data.next_page+');">';
-						rowFoot += '<span>Siguente</span>';
+						rowFoot += '<span>Siguiente</span>';
 						rowFoot += '</a>';
 						rowFoot += '</li>';
 						rowFoot += '<li>';
@@ -492,5 +492,4 @@ function changeAutoEstatus(){
 	
 
 }
-
 </script>

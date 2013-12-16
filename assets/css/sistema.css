@@ -1,9 +1,16 @@
+* {
+ font-family: Helvetica, Arial, sans-serif;
+ font-size: 13px;
+}
+
 /********* Estilos para Datagrid *********/
 
 .datagrid table {
   border-collapse: collapse;
   text-align: left;
-  width: 100%; }
+  width: 100%; 
+  table-layout: fixed; 
+}
 
 .datagrid {
     background: #fff;
@@ -28,6 +35,7 @@ font-size: 15px;
 font-weight: bold;
 border-left: 1px solid #0070A8;
 border-bottom: 1px solid #0070A8;
+width: 100%;
 }
 
 .datagrid table thead th:first-child {
@@ -39,7 +47,23 @@ border-left: none;
   border-left: 1px solid #E1EEF4;
   font-size: 12px;
   font-weight: normal;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   }
+
+  .tdtooltip:hover:after{
+    content: attr(tooltip);
+    position: absolute;
+    padding: 3px;
+    margin-top: 20px;
+    margin-left: -70px;
+    border: 1px solid gray;
+    background-color: #CEECF5;
+    font-size: 13px;
+    border-radius: 3px;
+    z-index: 20;
+}
 
 .datagrid table tbody .alt td {
   background: #E1EEF4;
