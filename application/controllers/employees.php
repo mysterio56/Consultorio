@@ -8,57 +8,120 @@ class Employees extends CI_Controller{
     	permisos($this->session->userdata('type_user'));
     }
 
-	public function index($page = 1)
-	{
+	public function index(){
+    
+    	$empleados = new Empleado();
+    	
+    	$aPermisos = permisos($this->session->userdata('type_user'));
 
-		$empleados = new Empleado();
-		$aPermisos = permisos($this->session->userdata('type_user'));
+    	$data['permisos'] = $aPermisos['employees'];
+    	$data['view']	  =	'sistema/empleados/lista';
+    	$data['cssFiles'] = array('sistema.css',
+								  'jquery-ui/jquery-ui.css');
+		$data['jsFiles']  = array('jquery.js',
+							      'jquery-ui.js',
+							      'valid_forms.js');
 
-		$empleados->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
-		$empleados->where('estatus <> 2');
-		$empleados->order_by('codigo');
-		
-		$empleados->get_paged_iterated($page, 9);
 
-		$data['permisos']     = $aPermisos['employees'];
-		$data['paginaActual'] = $page;
-		$data['empleados']    = $empleados;
-		$data['view']         = 'sistema/empleados/lista';
-		$data['cssFiles']     = array('sistema.css');
-		$data['jsFiles']      = array('valid_forms.js');
-		if($this->input->post()){
+    	$this->load->view('sistema/template',$data);
+    }
 
-			$empleados = new Empleado();
+    public function grid($page = 1){
+
+
+    		$empleados = new Empleado();
+
+    	if($this->input->post()){
+
+    		$empleados = new Empleado();
+
+    		$empleados->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
+    		$empleados->where('estatus <> 2');
+
+			$permisos = permisos($this->session->userdata('type_user'));
+
 			
-			$aPermisos = permisos($this->session->userdata('type_user'));
-			$input_count = 0;
+			if($this->input->post('codigo')){
 
-			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != ''){
-			 		$empleados->like($input_name, $input);
-			 		$input_count++;
-			 	}
-			 } 
+    			$empleados->where('codigo',$this->input->post('codigo'));
+    			$empleados->order_by(' codigo ', 'ASC ');
 
-			if($input_count > 0){
+    		}
 
-				$empleados->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
-									    'estatus <>'     => 2));
+    		if($this->input->post('nombre')){
 
-				$empleados->order_by('codigo');
-				$empleados->get_paged_iterated($page, 8);
+    			$empleados->where('nombre',$this->input->post('nombre'));
+    			
+    		}
 
-				$data['permisos']     = $aPermisos['employees'];
-				$data['paginaActual'] = $page;
-				$data['empleados']    = $empleados;
-				$data['buscar']       = true;
+    		if($this->input->post('email')){
+
+    			$empleados->where('email',$this->input->post('email'));
+    			
+    		}
+    		if($this->input->post('telefono')){
+
+    			$empleados->where('telefono',$this->input->post('telefono'));
+    			
+    		}
+
+    		if($this->input->post('celular')){
+
+    			$empleados->where('celular',$this->input->post('celular'));
+    			
+    		}
+
+    		if($this->input->post('fecha_alt')){
+
+    			$empleados->where('fecha_alta',$this->input->post('fecha_alt'));
+    			
+    		}
+
+    		if($this->input->post('buscarId')){
+
+				$empleados->where('id' ,$this->input->post('buscarId'));
+    			
+    		}
+    		
+    		
+    		$oEmpleados = $empleados->get_paged_iterated($page, 5);
+    		
+    		foreach( $oEmpleados as $nKey => $empleado){	
+
+		    	$aEmpleados['data'][$nKey] = array("id"        => $empleado->id,
+		    								   	   "codigo"    => $empleado->codigo,
+		    								   	   "nombre"    => $empleado->nombre." ".$empleado->apellido_p." ".$empleado->apellido_m,
+		    								   	   "email"	   => $empleado->email,
+		    								   	   "telefono"  => $empleado->telefono,
+		    								   	   "celular"   => $empleado->celular,
+		    								   	   "estatus"   => $empleado->estatus,
+		    								   	   "activar"   => in_array($permisos['specialism'],aPermisos('Editar'))?true:false,
+		    								       "editar"    => in_array($permisos['specialism'],aPermisos('Editar'))?true:false,
+		    								       "eliminar"  => in_array($permisos['specialism'],aPermisos('Eliminar'))?true:false
+		    										  );  
+				
+    		}
+
+    		if(isset($aEmpleados)){
+
+    			$aEmpleados['page_total']    = $empleados->paged->total_pages;
+    			$aEmpleados['page_actual']   = $page;
+    			$aEmpleados['has_previous']  = $empleados->paged->has_previous;
+    			$aEmpleados['has_next']      = $empleados->paged->has_next;
+    			$aEmpleados['previous_page'] = $empleados->paged->previous_page;
+    			$aEmpleados['next_page']     = $empleados->paged->next_page;
+
+				echo json_encode($aEmpleados);
+
+			} else {
+
+				echo json_encode(array('empty' => true)); 
 
 			}
 
-		}
-		$this->load->view('sistema/template',$data);
+    	}
 
-	}
+    }
 
 	public function agregar(){
 

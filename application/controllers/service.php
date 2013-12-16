@@ -8,52 +8,103 @@ class Service extends CI_Controller{
     	permisos($this->session->userdata('type_user'));
     }
 
-	public function index($page = 1){
-
+	public function index(){
+    
     	$servicios = new Servicio();
-		$aPermisos = permisos($this->session->userdata('type_user'));
-				
-		$servicios->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
-		$servicios->where('estatus <> 2');
-		$servicios->order_by('codigo');
     	
-    	$servicios->get_paged_iterated($page, 9);
-    	
+    	$aPermisos = permisos($this->session->userdata('type_user'));
 
-    	$data['permisos']      = $aPermisos['service'];
-		$data['paginaActual']  = $page;
-		$data['servicios']     = $servicios;
-		$data['view']          = 'sistema/servicio/lista';
-		$data['cssFiles']      = array('sistema.css');
-		$data['jsFiles']       = array('valid_forms.js');
-		if($this->input->post()){
+    	$data['permisos'] = $aPermisos['service'];
+    	$data['view']	  =	'sistema/servicio/lista';
+    	$data['cssFiles'] = array('sistema.css',
+								  'jquery-ui/jquery-ui.css');
+		$data['jsFiles']  = array('jquery.js',
+							      'jquery-ui.js',
+							      'valid_forms.js');
 
-			$servicios = new Servicio();
+
+    	$this->load->view('sistema/template',$data);
+    }
+
+    public function grid($page = 1){
+
+
+    		$servicios = new Servicio();
+
+    	if($this->input->post()){
+
+    		$servicios = new Servicio();
+
+    		$servicios->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
+    		$servicios->where('estatus <> 2');
+
+			$permisos = permisos($this->session->userdata('type_user'));
+
 			
-			$aPermisos = permisos($this->session->userdata('type_user'));
-			$input_count = 0;
+			if($this->input->post('codigo')){
 
-			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != ''){
-			 		$servicios->like($input_name, $input);
-			 		$input_count++;
-			 	}
-			 } 
+    			$servicios->where('codigo',$this->input->post('codigo'));
+    			$servicios->order_by(' codigo ', 'ASC ');
 
-			if($input_count > 0){
-				$servicios->order_by('estatus');
-				$servicios->order_by('codigo');
-				$servicios->get_paged_iterated($page, 8);
+    		}
 
-				$data['permisos']     = $aPermisos['service'];
-				$data['paginaActual'] = $page;
-				$data['servicios']    = $servicios;
-				$data['buscar']       = true;
+    		if($this->input->post('nombre')){
+
+    			$servicios->where('nombre',$this->input->post('nombre'));
+    			
+    		}
+
+    		if($this->input->post('fecha_alt')){
+
+    			$servicios->where('fecha_alta',$this->input->post('fecha_alt'));
+    			
+    		}
+
+    		if($this->input->post('buscarId')){
+
+				$servicios->where('id' ,$this->input->post('buscarId'));
+    			
+    			
+			}
+    		
+    		$data['buscar']   = true;
+    		$oServicios = $servicios->get_paged_iterated($page, 5);
+    		
+    		foreach( $oServicios as $nKey => $servicio){	
+
+		    	$aServicios['data'][$nKey] = array("id"      	=> $servicio->id,
+		    								   	   "codigo"  	=> $servicio->codigo,
+		    								   	   "nombre"  	=> $servicio->nombre,
+		    								   	   "fecha_alt"  => date("d",strtotime($servicio->fecha_alta))." / ".
+		    								   	   	           month(date("m",strtotime($servicio->fecha_alta))-1,false)." / ".
+		    								   	   	           date("Y",strtotime($servicio->fecha_alta)),
+		    								   	   "estatus"   => $servicio->estatus,
+		    								   	   "activar"   => in_array($permisos['specialism'],aPermisos('Editar'))?true:false,
+		    								       "editar"    => in_array($permisos['specialism'],aPermisos('Editar'))?true:false,
+		    								       "eliminar"  => in_array($permisos['specialism'],aPermisos('Eliminar'))?true:false
+		    										  );  
+				
+    		}
+
+    		if(isset($aServicios)){
+
+    			$aServicios['page_total']    = $servicios->paged->total_pages;
+    			$aServicios['page_actual']   = $page;
+    			$aServicios['has_previous']  = $servicios->paged->has_previous;
+    			$aServicios['has_next']      = $servicios->paged->has_next;
+    			$aServicios['previous_page'] = $servicios->paged->previous_page;
+    			$aServicios['next_page']     = $servicios->paged->next_page;
+
+				echo json_encode($aServicios);
+
+			} else {
+
+				echo json_encode(array('empty' => true)); 
 
 			}
 
-		}
-		$this->load->view('sistema/template',$data);
+    	}
+
     }
 
     public function agregar(){

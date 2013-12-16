@@ -106,18 +106,10 @@
 			?>
 
 			<input type="hidden" name="fecha_alta" id="fecha_alta" />
-
+			</table>
+			<a class="abutton" onclick= "grid();"> Buscar</a>
 			<?php
-			echo'</table>'; 
-
-		 	$data = array(
-		 		'name'  => 'buscar',
-		 		'id'    => 'buscar',
-		 		'class' => 'abutton',
-		 		'value' => 'Buscar'
-		 	);
-
-		 	echo form_submit($data);
+			
 		 	echo '<a href="'.base_url($return).'" class="abutton_cancel">Cancelar</a>';
 	 		echo form_close();
 

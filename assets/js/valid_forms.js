@@ -335,6 +335,21 @@ Valid.consultorio = function()
     });
     
 }
+Valid.busqueda =function()
+{
+    $('#busquedaForm').validate({
+        rules:{
+            codigo:{
+                required:true
+            }
+        },
+        errorElement: 'div',
+        wrapper: 'div',
+        errorPlacement: function(error, element) {
+            error.insertAfter(element);
+        }
+    });
+}
 
 Valid.especialidad = function()
 {

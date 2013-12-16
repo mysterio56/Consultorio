@@ -8,56 +8,102 @@ class Product extends CI_Controller{
     	permisos($this->session->userdata('type_user'));
     }
 
-	public function index($page = 1){
-
+    public function index(){
     	$productos = new Producto();
-		$aPermisos = permisos($this->session->userdata('type_user'));
 
-		$productos->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
-		$productos->where('estatus <> 2');
-		$productos->order_by('codigo');
-    
-    	$productos->get_paged_iterated($page, 9);
+    	$aPermisos = permisos($this->session->userdata('type_user'));
 
-		$data['permisos']      = $aPermisos['product'];
-		$data['paginaActual']  = $page;
-		$data['productos']     = $productos;
-		$data['view']          = 'sistema/producto/lista';
-		$data['cssFiles']      = array('sistema.css');
-		$data['jsFiles']       = array('valid_forms.js');
+    	$data['permisos'] = $aPermisos['product'];
+    	$data['view']	  =	'sistema/producto/lista';
+    	$data['cssFiles'] = array('sistema.css',
+								  'jquery-ui/jquery-ui.css');
+		$data['jsFiles']  = array('jquery.js',
+							      'jquery-ui.js',
+							      'valid_forms.js');
+		
+    	$this->load->view('sistema/template',$data);
+    }
+	
+	public function grid($page = 1){
 
-		if($this->input->post()){
 
-			$productos = new Producto();
+    		$productos = new Producto();
+
+    	if($this->input->post()){
+
+    		$productos = new Producto();
+
+    		$productos->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
+    		$productos->where('estatus <> 2');
+
+			$permisos = permisos($this->session->userdata('type_user'));
+
 			
-			$aPermisos = permisos($this->session->userdata('type_user'));
-			$input_count = 0;
+			if($this->input->post('codigo')){
 
-			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != ''){
-			 		$productos->like($input_name, $input);
-			 		$input_count++;
-			 	}
-			} 
+    			$productos->where('codigo',$this->input->post('codigo'));
+    			$productos->order_by(' codigo ', 'ASC ');
 
-			if($input_count > 0){
+    		}
 
-                $productos->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
-									    
-				$productos->order_by('codigo');
-				$productos->get_paged_iterated($page, 8);
+    		if($this->input->post('nombre')){
 
-				$data['permisos']     = $aPermisos['product'];
-				$data['paginaActual'] = $page;
-				$data['productos']    = $productos;
-				$data['buscar']       = true;
+    			$productos->where('nombre',$this->input->post('nombre'));
+    			
+    		}
+
+    		if($this->input->post('fecha_alt')){
+
+    			$productos->where('fecha_alta',$this->input->post('fecha_alt'));
+    			
+    		}
+
+    		if($this->input->post('buscarId')){
+
+				$productos->where('id' ,$this->input->post('buscarId'));
+    			
+    			
+			}
+    		
+    		$data['buscar']   = true;
+    		$oProductos = $productos->get_paged_iterated($page, 5);
+    		
+    		foreach( $oProductos as $nKey => $producto){	
+
+		    	$aProductos['data'][$nKey] = array("id"      	=> $producto->id,
+		    								   			"codigo"  	=> $producto->codigo,
+		    								   			"nombre"  	=> $producto->nombre,
+		    								   			"fecha_alt" => date("d",strtotime($producto->fecha_alta))."/".
+		    								   				           month(date("m",strtotime($producto->fecha_alta))-1,false)."/".
+		    								   				           date("Y",strtotime($producto->fecha_alta)),
+		    								   			"estatus"   => $producto->estatus,
+		    								   			"activar"   => in_array($permisos['product'],aPermisos('Editar'))?true:false,
+		    								    	    "editar"    => in_array($permisos['product'],aPermisos('Editar'))?true:false,
+		    								    	    "eliminar"  => in_array($permisos['product'],aPermisos('Eliminar'))?true:false
+		    										  );  
+				
+    		}
+
+    		if(isset($aProductos)){
+
+    			$aProductos['page_total']    = $productos->paged->total_pages;
+    			$aProductos['page_actual']   = $page;
+    			$aProductos['has_previous']  = $productos->paged->has_previous;
+    			$aProductos['has_next']      = $productos->paged->has_next;
+    			$aProductos['previous_page'] = $productos->paged->previous_page;
+    			$aProductos['next_page']     = $productos->paged->next_page;
+
+				echo json_encode($aProductos);
+
+			} else {
+
+				echo json_encode(array('empty' => true)); 
 
 			}
 
-		}
-		$this->load->view('sistema/template',$data);
-    }
+    	}
 
+    }
     public function agregar(){
 
     	$producto = new Producto();

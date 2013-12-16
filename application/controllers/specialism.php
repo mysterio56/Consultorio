@@ -7,52 +7,105 @@ class Specialism extends CI_Controller{
     	parent::__construct();
     	permisos($this->session->userdata('type_user'));
     }
-
-    public function index($page = 1){
-
+   
+    public function index(){
+    
     	$especialidades = new Especialidad();
-		$aPermisos = permisos($this->session->userdata('type_user'));
+    	
+    	$aPermisos = permisos($this->session->userdata('type_user'));
 
-		$especialidades->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
-		$especialidades->where('estatus <> 2');
-		$especialidades->order_by('codigo');
-		$especialidades->get_paged_iterated($page, 9);
+    	$data['permisos'] = $aPermisos['specialism'];
+    	$data['view']	  =	'sistema/especialidades/lista';
+    	$data['cssFiles'] = array('sistema.css',
+								  'jquery-ui/jquery-ui.css');
+		$data['jsFiles']  = array('jquery.js',
+							      'jquery-ui.js',
+							      'valid_forms.js');
 
-		$data['permisos']       = $aPermisos['specialism'];
-		$data['paginaActual']   = $page;
-		$data['especialidades'] = $especialidades;
-		$data['view']           = 'sistema/especialidades/lista';
-		$data['cssFiles']       = array('sistema.css');
-		$data['jsFiles']        = array('valid_forms.js');
-		if($this->input->post()){
-			$especialidades = new Especialidad();
-			$aPermisos = permisos($this->session->userdata('type_user'));
-			$input_count = 0;
 
-			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != ''){
-			 		$especialidades->like($input_name, $input);
-			 		$input_count++;
-			 	}
-			 } 
-			if($input_count > 0){
-				$especialidades->where('estatus <>', 2);
-				$especialidades->order_by('codigo');
-				$especialidades->get_paged_iterated($page, 8);
+    	$this->load->view('sistema/template',$data);
+    }
 
-				$data['permisos']     = $aPermisos['specialism'];
-				$data['paginaActual'] = $page;
-				$data['especialidades']= $especialidades;
-				$data['buscar']       = true;
+    public function grid($page = 1){
+
+
+    		$especialidades = new Especialidad();
+
+    	if($this->input->post()){
+
+    		$especialidades = new Especialidad();
+
+    		$especialidades->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
+    		$especialidades->where('estatus <> 2');
+
+			$permisos = permisos($this->session->userdata('type_user'));
+
+			
+			if($this->input->post('codigo')){
+
+    			$especialidades->where('codigo',$this->input->post('codigo'));
+    			$especialidades->order_by(' codigo ', 'ASC ');
+
+    		}
+
+    		if($this->input->post('nombre')){
+
+    			$especialidades->where('nombre',$this->input->post('nombre'));
+    			
+    		}
+
+    		if($this->input->post('fecha_alt')){
+
+    			$especialidades->where('fecha_alta',$this->input->post('fecha_alt'));
+    			
+    		}
+
+    		if($this->input->post('buscarId')){
+
+				$especialidades->where('id' ,$this->input->post('buscarId'));
+    			
+    			
+			}
+    		
+    		$data['buscar']   = true;
+    		$oEspecialidades = $especialidades->get_paged_iterated($page, 5);
+    		
+    		foreach( $oEspecialidades as $nKey => $especialidad){	
+
+		    	$aEspecialidades['data'][$nKey] = array("id"      	=> $especialidad->id,
+		    								   			"codigo"  	=> $especialidad->codigo,
+		    								   			"nombre"  	=> $especialidad->nombre,
+		    								   			"fecha_alt" => date("d",strtotime($especialidad->fecha_alta))."/".
+		    								   				           month(date("m",strtotime($especialidad->fecha_alta)),false)."/".
+		    								   				           date("Y",strtotime($especialidad->fecha_alta)),
+		    								   			"estatus"   => $especialidad->estatus,
+		    								   			"activar"   => in_array($permisos['specialism'],aPermisos('Editar'))?true:false,
+		    								    	    "editar"    => in_array($permisos['specialism'],aPermisos('Editar'))?true:false,
+		    								    	    "eliminar"  => in_array($permisos['specialism'],aPermisos('Eliminar'))?true:false
+		    										  );  
+				
+    		}
+
+    		if(isset($aEspecialidades)){
+
+    			$aEspecialidades['page_total']    = $especialidades->paged->total_pages;
+    			$aEspecialidades['page_actual']   = $page;
+    			$aEspecialidades['has_previous']  = $especialidades->paged->has_previous;
+    			$aEspecialidades['has_next']      = $especialidades->paged->has_next;
+    			$aEspecialidades['previous_page'] = $especialidades->paged->previous_page;
+    			$aEspecialidades['next_page']     = $especialidades->paged->next_page;
+
+				echo json_encode($aEspecialidades);
+
+			} else {
+
+				echo json_encode(array('empty' => true)); 
 
 			}
 
-		}
-
-		$this->load->view('sistema/template',$data);
+    	}
 
     }
-
     public function agregar(){
 
     	$especialidad = new Especialidad();
@@ -214,4 +267,26 @@ public function eliminar($id_especialidad){
 		$this->load->view('sistema/template',$data);
 
 	}
+
+	public function lista(){
+
+		$especialidad = new Especialidad();
+
+		$especialidad->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
+								   'estatus'       => 1));
+
+		$especialidad->where('CONCAT( codigo, "  " , nombre ) like "%'.$_GET['term'].'%"')->get();
+		
+		$aEspecialidad = array();
+
+		foreach($especialidad as $specialism){
+			 $aEspecialidad[] = array("Id"    => $specialism->id, 
+			 					  	  "label" => $specialism->codigo ." ". $specialism->nombre,
+			 					  	  "value" => $specialism->codigo ." ". $specialism->nombre);
+		}
+		
+		echo json_encode($aEspecialidad);
+
+	}
+
 }
