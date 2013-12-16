@@ -59,8 +59,7 @@
 	echo '</tr>';
 	echo'</table>';
 
-		 	echo '<a href="javascript:void(0)" onclick="addGrid();" class="abutton">Agregar</a>';
-      echo '<a href="'.base_url($return).'" class="abutton_cancel">Cancelar</a>';
+		 	echo '<a href="javascript:void(0)" onclick="addGrid();" class="abutton_add">Agregar Adicionales</a>';
 
 echo form_close();
 
@@ -109,9 +108,9 @@ echo form_close();
           }
       ?>
     </tbody> 
-		</table>
+		</table>   
 </section>
-
+ <a href="<?= base_url($return); ?>" class="abutton_cancel">Cancelar</a>
 <script>
 $(function () {
   

@@ -82,8 +82,7 @@ Tab.iframe = function(obj)
 height = $('#'+obj).contents().find("html").height();
 
 $('#'+obj).animate({"height":height});
-console.log(heightDiv);
-console.log(height);
+
 //if(heightDiv < height){
  // $('#'+obj).css("height",1);
 
@@ -158,7 +157,7 @@ Tab.destroyTab = function(destroy_name_tab)
 
   this.arrowsShow();
 
-  console.log($( "#carousel-tabs label:first-child" ).children("label"));
+ 
 
 }
 
@@ -225,7 +224,7 @@ Tab.moveLeft = function()
 function Banner() {
 
   var innerHeight = $( window ).height(); 
-console.log(innerHeight);
+
   if(innerHeight<=656){
 
     setTimeout("Banner.hide();",3000);
