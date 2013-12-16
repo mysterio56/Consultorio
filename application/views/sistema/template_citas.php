@@ -141,7 +141,7 @@ jQuery(function() {
 
         jQuery( "#paciente" ).autocomplete({
             source: base_url + "patient/lista",
-            minLength: 2,
+            minLength: 1,
                 select: function( event, item ) {
                 },
                 change: function(event, ui) {
@@ -151,7 +151,7 @@ jQuery(function() {
 
         jQuery( "#doctor" ).autocomplete({
             source: base_url + "employees/lista",
-            minLength: 2,
+            minLength: 1,
                 select: function( event, item ) {
                 },
                 change: function(event, ui) {
@@ -161,7 +161,7 @@ jQuery(function() {
 
         jQuery( "#servicio" ).autocomplete({
             source: base_url + "service/lista",
-            minLength: 2,
+            minLength: 1,
                 select: function( event, item ) {
                 },
                 change: function(event, ui) {

@@ -66,6 +66,19 @@ function grid(){
 	jQuery('#tbodyCitas').html("");
 	jQuery('#wait_grid').show();
 
+
+	if(!jQuery('#pacienteId').val()){
+		jQuery('#paciente').val("");
+	}
+
+	if(!jQuery('#doctorId').val()){
+		jQuery('#doctor').val("");
+	}
+
+	if(!jQuery('#servicioId').val()){
+		jQuery('#servicio').val("");
+	}
+
 	var form_data = jQuery('#citasForm').serialize();
 
 	jQuery.post( base_url+"appointment/grid/"+page, form_data , 
