@@ -73,17 +73,34 @@ Tab.newTab = function(name_tab, url_tab, name_iframe)
 Tab.iframe = function(obj)
 {
 
-  $('#'+obj).css("height",1);
+  heightDiv = 0;
 
-  height = $('#'+obj).contents().find("html").height();
+  $.each($('.ac-container').children(),function(key,div){
+    heightDiv = heightDiv + $(div).height();
+  });
+
+height = $('#'+obj).contents().find("html").height();
+
+$('#'+obj).animate({"height":height});
+console.log(heightDiv);
+console.log(height);
+//if(heightDiv < height){
+ // $('#'+obj).css("height",1);
 
     if(height<400){
       height = 400;
     }
 
     $('#'+obj).animate({"height":height});
-    $("#wrapper").animate({"height":height+50});
-    $(".main-container").animate({"height":height+46});
+
+   // if(heightDiv < height){
+      $('.ac-container').animate({"min-height":height+30});
+    //}
+    
+    //$("#wrapper").animate({"height":height+50});
+    //$(".main-container").animate({"height":height+46});
+    //$(".main-container").animate({"height":height+46});
+//  }
 
 
 /*$("iframe#"+obj).load(function() {
@@ -206,11 +223,19 @@ Tab.moveLeft = function()
 
 /*** Funciones para la animacion del banner ***/ 
 function Banner() {
-var innerHeight = $( "html" ).height(); 
 
-if(innerHeight<=507){
-  setTimeout("Banner.hide();",3000);
+  var innerHeight = $( window ).height(); 
+console.log(innerHeight);
+  if(innerHeight<=656){
+
+    setTimeout("Banner.hide();",3000);
+
+  }else{
+
+    setTimeout("$('#ac-1').attr('checked', true)",100);
+
   }
+
 }
 
 Banner.hide = function()
