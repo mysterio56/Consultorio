@@ -206,7 +206,11 @@ Tab.moveLeft = function()
 
 /*** Funciones para la animacion del banner ***/ 
 function Banner() {
+var innerHeight = $( "html" ).height(); 
+
+if(innerHeight<=507){
   setTimeout("Banner.hide();",3000);
+  }
 }
 
 Banner.hide = function()
