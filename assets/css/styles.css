@@ -106,6 +106,7 @@ html, body{
     height: 75px;
     margin: 0 auto;
     width: 73%;
+    min-width: 960px;
 }
 
 .header-container #logo {
@@ -143,6 +144,7 @@ html, body{
 
 .banner-container #div-banner{
     width: 73%;
+    min-width: 960px;
     height: 100%;
     margin: 0 auto;
 }
@@ -276,6 +278,7 @@ html, body{
 
 .main-container #div-container{
     width: 73%;
+    min-width: 960px;
     margin: 10px auto;
     height: 100%
 }
