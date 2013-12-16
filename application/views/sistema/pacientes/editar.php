@@ -135,7 +135,7 @@ echo'</td>';
 	    <td   width="3%">
 	  	   <select  width="50%" name="estado" id="estado" onChange="getMunicipalities();"> </select>
 	  	   <div id="wait_estados" class="wait">
-				<p>Cargando Estados, por favor espere</p>
+				<p>Cargando Estados</p>
 	 		</div>
 	    </td>
 
@@ -145,7 +145,7 @@ echo'</td>';
 	<td width="3%">
 		<select width="50%" name="municipio" id="municipio" class="hide" onchange="getPostalCodes();"/></select>
 		<div id="wait_mun" class="wait">
-		<p>Cargando Municipio, por favor espere</p>
+		<p>Cargando Municipio</p>
 	 	</div>
 	</td>
 </tr>
@@ -157,7 +157,7 @@ echo'</td>';
     <td  width="25%">
     	<select name="codigo_postal" id="codigo_postal" class="hide" onchange="getColonies();"/></select>
     	<div id="wait_cp" class="wait" width="25%">
-			<p>Cargando Codigo Postal, por favor espere</p>
+			<p>Cargando Codigo Postal</p>
 	 	</div>
     </td>
 
@@ -167,7 +167,7 @@ echo'</td>';
 	<td width="25%">
 		<select name="colonia" id="colonia" class="hide" onchange=""/></select>
 		<div id="wait_col" class="wait" width="25%">
-		<p>Cargando Colonia, por favor espere</p>
+		<p>Cargando Colonia</p>
 	 	</div>
 	</td>
 </tr>

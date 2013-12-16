@@ -41,8 +41,9 @@
 		</header>
 	<?php endif; ?>
 		
-	<?php if ($this->session->userdata('username')): ?>	
-		<div id="wrapper">
+	<?php if ($this->session->userdata('username')): ?>
+	<?php $this->load->view('banner');	?>		
+	<div id="wrapper" style="min-height:475px">
 	<?php else: ?>	
 		<div id="wrapper_login">
 	<?php endif; ?>

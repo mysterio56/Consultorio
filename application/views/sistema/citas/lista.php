@@ -5,11 +5,11 @@
 	<table>
 		<thead>
 			<tr>
-				<th>Paciente</th>
-				<th>Doctor</th>
+				<th style="width: 124%;">Paciente</th>
+				<th style="width: 124%;">Doctor</th>
 				<th>Servicio</th>
 				<th>Fecha y hora</th>
-				<th>Estatus</th>
+				<th style="width: 50%;">Estatus</th>
 				<th id="thAcciones" style="display:none">Acciones</th>
 			</tr>
 		</thead>
@@ -25,6 +25,8 @@
 		<img src="<?= base_url('assets/images/wait.gif'); ?>" style="width:25px;height:25px;"/>
 		Cargando datos ...
 	</div>
+
+	<div class='marquee'>Lorem ipsum dolor sit amet, consectetur adipiscing elit END.</div>
 
 </section>
 
@@ -493,4 +495,18 @@ function changeAutoEstatus(){
 
 }
 
+$(function(){
+$('.marquee').marquee({
+    //speed in milliseconds of the marquee
+    speed: 15000,
+    //gap in pixels between the tickers
+    gap: 50,
+    //time in milliseconds before the marquee will start animating
+    delayBeforeStart: 0,
+    //'left' or 'right'
+    direction: 'left',
+    //true or false - should the marquee be duplicated to show an effect of continues flow
+    duplicated: true
+});
+});
 </script>

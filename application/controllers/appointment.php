@@ -104,6 +104,7 @@ class Appointment extends CI_Controller{
 							      	   'jquery-ui.js',
 							      	   'jquery.ui.datepicker-es.js',
 							      	   'jquery-timepicker.js',
+							      	   'jquery-marquee.js',
 									   'valid_forms.js');
 
 		$this->load->view('sistema/template_citas',$data);
@@ -198,7 +199,7 @@ class Appointment extends CI_Controller{
     			$citas->order_by(' fecha_hora ', 'ASC ');
     		}
 
-    		$oCitas = $citas->get_paged_iterated($page, 5);
+    		$oCitas = $citas->get_paged_iterated($page, 6);
 
     		foreach( $oCitas as $nKey => $cita){
 

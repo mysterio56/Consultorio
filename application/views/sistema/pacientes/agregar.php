@@ -135,7 +135,7 @@
 	<td>
 	  	 <select  width="50%" name="estado" id="estado" class="hide" onChange="getMunicipalities();"> </select>
 	  	  <div id="wait_estados" class="wait">
-	  	  	<p>Cargando Estados, por favor espere</p>
+	  	  	<p>Cargando Estados</p>
 	  	  	</div>
 	</td>
 
@@ -145,7 +145,7 @@
 	<td>
 		<select  width="50%" name="municipio" id="municipio" class="hide" onchange="getPostalCodes();"/></select>
 		 <div id="wait_mun" class="wait hide">
-	  	  	<p>Cargando Municipios, por favor espere</p>
+	  	  	<p>Cargando Municipios</p>
 	  	  	</div>
 	</td>
 </tr>
@@ -158,7 +158,7 @@
     <td  width="25%">
     	<select name="codigo_postal" id="codigo_postal" class="hide" onchange="getColonies();"/></select>
     	 <div id="wait_cp" class="wait hide" width="25%">
-	  	  	<p>Cargando Codigos Postales, por favor espere</p>
+	  	  	<p>Cargando Codigos Postales</p>
 	  	  	</div>
     </td>
 
@@ -168,7 +168,7 @@
 	<td width="25%">
 		<select name="colonia" id="colonia" class="hide"/></select>
 		 <div id="wait_col" class="wait hide" width="25%">
-	  	  	<p>Cargando Colonias, por favor espere</p>
+	  	  	<p>Cargando Colonias</p>
 	  	  	</div>
 	</td>
 </tr>

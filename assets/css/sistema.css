@@ -1,9 +1,27 @@
+* {
+ font-family: Helvetica, Arial, sans-serif;
+ font-size: 13px;
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+ -moz-box-sizing: border-box;
+ /*behavior: url("../css3-tools/PIE/PIE.htc");
+ behavior: url("../css3-tools/ie-css3.htc");*/
+}
+
+html, body{
+
+    height: 100%;
+}
+
 /********* Estilos para Datagrid *********/
 
 .datagrid table {
   border-collapse: collapse;
   text-align: left;
-  width: 100%; }
+  width: 100%;
+  table-layout: fixed; 
+}
 
 .datagrid {
     background: #fff;
@@ -28,6 +46,7 @@ font-size: 15px;
 font-weight: bold;
 border-left: 1px solid #0070A8;
 border-bottom: 1px solid #0070A8;
+width: 100%;
 }
 
 .datagrid table thead th:first-child {
@@ -39,6 +58,9 @@ border-left: none;
   border-left: 1px solid #E1EEF4;
   font-size: 12px;
   font-weight: normal;
+   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   }
 
 .datagrid table tbody .alt td {
@@ -209,7 +231,7 @@ div .error{
 
 .wait{
   background: url('../images/wait.gif') no-repeat left center;
-  background-size: 30px;
+  background-size: 25px;
   padding-left: 32px; 
 }
 
@@ -354,4 +376,15 @@ font-weight: normal;
   height:25px;
   cursor:pointer;
 }
+
+.marquee {
+  width: 300px; /* the plugin works for responsive layouts so width is not necessary */
+  overflow: hidden;
+  border:1px solid #ccc;
+}
+
+  
+      
+
+
 

@@ -268,17 +268,16 @@ html, body{
 /********* Estilos para Main *********/
 
 .main-container{
-    height: 465px;
+    min-height: 470px;
     background-color: #ECECEC;
     border-top: 1px solid #C1C0C0;
     border-bottom: 1px solid #C1C0C0;
-    margin-bottom: 5px;
 }
 
 .main-container #div-container{
     width: 73%;
     margin: 10px auto;
-    height: 96%;
+    height: 100%
 }
 
 /********* Estilos para Acordeon *********/
@@ -496,8 +495,7 @@ html, body{
 }
 
 #container iframe {
-  height: auto;
-  min-height: 400px;
+  min-height: 425px;
   width: 665px;
   border:none;
   background-color:#ECECEC;
