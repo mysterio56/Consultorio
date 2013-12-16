@@ -104,7 +104,6 @@ class Appointment extends CI_Controller{
 							      	   'jquery-ui.js',
 							      	   'jquery.ui.datepicker-es.js',
 							      	   'jquery-timepicker.js',
-							      	   'jquery-marquee.js',
 									   'valid_forms.js');
 
 		$this->load->view('sistema/template_citas',$data);
