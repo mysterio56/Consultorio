@@ -63,8 +63,14 @@ class Type_employee extends CI_Controller{
     	$submodulos   = new Submodulo();
     	$oPermisos    = new Permiso();
 
+    	$nCodigo = new Tipo_empleado();
+
+    	$nCodigo->where('consultorio_id', $this->session->userdata('id_consultorio'))->get();
+		$nCodigo = $nCodigo->count() + 1;
+
     	$data['view']     	  = 'sistema/tipo_empleado/agregar';
 		$data['return']       = 'type_employee';
+		$data['nCodigo']      = $nCodigo;
 		$data['modulos']      = $modulos->where("estatus",1)->get();
 		$data['cssFiles']     = array('sistema.css');
 		$data['jsFiles']      = array('jquery.js',
@@ -78,6 +84,7 @@ class Type_employee extends CI_Controller{
 
 			$tipoEmpleado->codigo         = $this->input->post('codigo'); 
 			$tipoEmpleado->nombre         = $this->input->post('nombre');
+			$tipoEmpleado->descripcion    = $this->input->post('descripcion');
 			$tipoEmpleado->fecha_alta     = date("Y-m-d H:i:s");
 			$tipoEmpleado->consultorio_id =  $this->session->userdata('id_consultorio');
 			$tipoEmpleado->estatus        = 1;
@@ -144,6 +151,7 @@ class Type_employee extends CI_Controller{
 
 			$tipoEmpleado->codigo             = $this->input->post('codigo'); 
 			$tipoEmpleado->nombre             = $this->input->post('nombre');
+			$tipoEmpleado->descripcion        = $this->input->post('descripcion');
 			$tipoEmpleado->fecha_modificacion = date("Y-m-d H:i:s");
 
 			$tipoEmpleado->modulo->get();

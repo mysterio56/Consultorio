@@ -23,6 +23,18 @@
 		 	 
              echo form_input($data);
       echo'</td>';
+      echo'<td  width="100" valing="top">'; 
+		 	echo form_label('Descripcion:'); 
+		 	echo'</td>';
+            echo'<td rowspan="2">';
+		 	$data = array(
+		 		'name'  => 'descripcion',
+		 		'id'    => 'descripcion',
+		 		'value' => set_value('descripcion',$tipoEmpleado->descripcion),
+		 		'style' => 'width:200px;height:50px'
+		 	);
+   echo form_textarea($data);
+   echo'</td>';
       echo '</tr>';
  		 
 	echo'<tr>'; 

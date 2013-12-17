@@ -58,10 +58,14 @@ class Service extends CI_Controller{
 
     public function agregar(){
 
-    	$servicio = new Servicio();
+    	$nCodigo = new Servicio();
+
+    	$nCodigo->where('consultorio_id', $this->session->userdata('id_consultorio'))->get();
+		$nCodigo = $nCodigo->count() + 1;
 
     	$data['view']     	  = 'sistema/servicio/agregar';
 		$data['return']       = 'service';
+		$data['nCodigo']      = $nCodigo;
 		$data['cssFiles']     = array('sistema.css');
 		$data['jsFiles']      = array('jquery.js',
 							     	  'jquery-validation/dist/jquery.validate.js',
@@ -73,8 +77,11 @@ class Service extends CI_Controller{
 
 		if($this->input->post()){
 
+			$servicio = new Servicio();
+
 			$servicio->codigo         = $this->input->post('codigo'); 
 			$servicio->nombre         = $this->input->post('nombre');
+			$servicio->descripcion    = $this->input->post('descripcion');
 
 			if ($this->input->post('servicios') == 1) {
 				$servicio->costo_compra = 0.00;
@@ -125,8 +132,9 @@ class Service extends CI_Controller{
 
 		if($this->input->post()){
 
-			$servicio->codigo             = $this->input->post('codigo'); 
-			$servicio->nombre             = $this->input->post('nombre');
+			$servicio->codigo      = $this->input->post('codigo'); 
+			$servicio->nombre      = $this->input->post('nombre');
+			$servicio->descripcion = $this->input->post('descripcion');
 
 			if ($this->input->post('servicios') == 1) {
 				$servicio->costo_compra = 0.00;
