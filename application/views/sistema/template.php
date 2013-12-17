@@ -54,7 +54,7 @@
 
   ?>
     <input type="hidden" name="buscarId" id="buscarId"/>
-    <a class="abutton" onclick= "grid();"> Buscar</a>
+    <a id='busqueda' class="abutton" onclick= "grid();"> Buscar</a>
   </div>
   </table>
 

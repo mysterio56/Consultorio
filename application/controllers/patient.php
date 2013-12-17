@@ -70,6 +70,11 @@ class Patient extends CI_Controller{
     			$pacientes->where('celular',$this->input->post('celular'));
     		}
 
+    		if($this->input->post('input_name')){
+
+				$pacientes->where('id' ,$this->input->post('input_name'));
+    		}
+
     		if($this->input->post('buscarId')){
 
 				$pacientes->where('id' ,$this->input->post('buscarId'));
@@ -303,9 +308,8 @@ class Patient extends CI_Controller{
 				$pacientes = $consultorio->paciente->get_paged_iterated($page, 8);
 				
 				$data['permisos']     = $aPermisos['patient'];
-				$data['paginaActual'] = $page;
 				$data['pacientes']	  = $pacientes;
-				$data['buscar']       = true;
+				
 
 			}
 

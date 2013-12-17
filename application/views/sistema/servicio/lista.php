@@ -29,24 +29,31 @@
 	</div>
 
 </section>
-	<?php if(isset($buscar)): ?>
-		<a href="<?= base_url('service') ?>" class="abutton_cancel">Cancelar</a>
+	
+		
+
+ <?php if(in_array($permisos,$aPermisos['Agregar']) ): ?>
+		<a id="agregar" class="abutton" href="<?= base_url('service/agregar') ?>">Agregar</a>
 	<?php endif; ?>
-
-    <?php if(!isset($buscar)): ?>
-		<?php if(in_array($permisos,$aPermisos['Agregar']) ): ?>
-		<a class="abutton" href="<?= base_url('service/agregar') ?>">Agregar</a>
-	<?php endif; ?>
-		<a class="abutton" href="<?= base_url('service/buscar') ?>">Búsqueda Avanzada</a>
-    <?php endif;?>
-
-
+		<a id="busavan" class="abutton" href="<?= base_url('service/buscar') ?>">Búsqueda Avanzada</a>
+		<a id="cancela" display:none href="<?= base_url('service') ?>" class="abutton">Cancelar</a>
+	
 <script>
 
 base_url = "<?= base_url(); ?>";
 page     = 1;
 
 jQuery(function() {
+
+	$('#cancela').hide(); 
+
+	$("#busqueda").click(function(){
+		if($("#buscar").val() != "" ){
+            $('#agregar').hide(); //oculto mediante id
+            $('#busavan').hide(); //muestro mediante clase
+            $('#cancela').show(); 
+           }
+        });
 
       jQuery( "#buscar" ).autocomplete({
             source: base_url + "service/lista",

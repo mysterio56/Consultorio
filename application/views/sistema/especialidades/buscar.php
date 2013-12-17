@@ -1,4 +1,4 @@
-<script>
+  <script>
 	$(function(){ Find.especialidades(); });
 </script>
 <?php
@@ -106,8 +106,10 @@
 			?>
 
 			<input type="hidden" name="fecha_alta" id="fecha_alta" />
+
 			</table>
-			<a class="abutton" onclick= "grid();"> Buscar</a>
+			<a class="abutton" onclick= "grid();"> Buscar</a>	
+			
 			<?php
 			
 		 	echo '<a href="'.base_url($return).'" class="abutton_cancel">Cancelar</a>';
