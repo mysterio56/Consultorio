@@ -32,14 +32,15 @@ define ("PERMISOS", serialize (array("Agregar"  => array(4,5,6,7),
 ?>
 
 <div class="citas">
+
+    <input id="chk_pas" type="radio" name="estatus_citas" onchange = "page = 1;grid()" class="vis-hidden" value="3" />
+    <label class ="radio_citas"  for="chk_pas">Pasadas</label>
+    
     <input id="chk_act" checked="true" type="radio" name="estatus_citas" onchange="page = 1;grid();" class="vis-hidden" value="1" />
     <label class ="radio_citas" for="chk_act">Actuales</label>
 
     <input id="chk_prox" type="radio" name="estatus_citas" onchange = "page = 1;grid();" class="vis-hidden" value="2" />
     <label class ="radio_citas" for="chk_prox">Proximas</label>
-
-    <input id="chk_pas" type="radio" name="estatus_citas" onchange = "page = 1;grid()" class="vis-hidden" value="3" />
-    <label class ="radio_citas"  for="chk_pas">Pasadas</label>
 
     <label> Inicio </label> <label id="l_date_start"> </label> <input type="hidden" id="date_start" name="date_start"/>
     <label> Fin    </label> <label id="l_date_end"> </label> <input type="hidden" id="date_end" name="date_end"/>
