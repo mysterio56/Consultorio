@@ -20,6 +20,10 @@ class Producto extends DataMapper
         'codigo' => array(
             'label' => 'Código',
             'rules' => array('required', 'trim', 'unique_for_surgery' => 'codigo', 'min_length' => 1, 'max_length' => 10),
+        ),
+        'descripcion' => array(
+            'label' => 'Descripcion',
+            'rules' => array('trim', 'max_length' => 100)
         )
     );
 

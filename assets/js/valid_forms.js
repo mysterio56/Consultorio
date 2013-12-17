@@ -349,6 +349,9 @@ Valid.especialidad = function()
             nombre:{
                 required:true,
                 minlength: 2
+            },
+             descripcion:{
+                maxlength: 100
             }
         },
         errorElement: 'div',
@@ -395,6 +398,36 @@ Valid.tipoEmpleado = function()
             nombre:{
                 required:true,
                 minlength: 2
+            },
+             descripcion:{
+                maxlength: 100
+            }
+        },
+        errorElement: 'div',
+        wrapper: 'div',
+        errorPlacement: function(error, element) {
+            error.insertAfter(element); 
+        }
+    });
+    
+}
+
+Valid.formato = function()
+{
+
+    $('#formatoForm').validate({
+        rules:{
+            codigo:{
+                required:true,
+                minlength: 1,
+                maxlength: 10
+            },
+            nombre:{
+                required:true,
+                minlength: 2
+            },
+             descripcion:{
+                maxlength: 100
             }
         },
         errorElement: 'div',
@@ -425,6 +458,9 @@ Valid.servicio = function()
             },
             costo_v:{
                 required:true
+            },
+             descripcion:{
+                maxlength: 100
             }
         },
         errorElement: 'div',
@@ -462,6 +498,9 @@ Valid.producto = function()
             costo_v:{
                 required:true
             },
+             descripcion:{
+                maxlength: 100
+            }
         },
         errorElement: 'div',
         wrapper: 'div',

@@ -1,8 +1,6 @@
 <script>
 
-	$(function(){ Valid.formato(); 
-	 $('.auto').autoNumeric('init');
-	});
+	$(function(){ Valid.formato(); });
 	
 </script>
 	<?php
@@ -20,7 +18,7 @@
              'name'  => 'codigo',
 		 	 'id'    => 'codigo',
 		 	'value' => set_value('codigo',$formato->codigo),
-		 	'style' => 'width:125px'
+		 	'style' => 'width:200px'
 		 	);
 		 	 
              echo form_input($data);
@@ -37,9 +35,24 @@
 		 		'id'    => 'nombre',
 		 		'class' => 'capitalize',
 		 		'value' => set_value('nombre',$formato->nombre),
-		 		'style' => 'width:125px'
+		 		'style' => 'width:200px'
 		 	);
    echo form_input($data);
+   echo'</td>';
+   echo '</tr>'; 
+
+   echo'<tr>'; 
+ 	echo'<td  width="100" valing="top">'; 
+		 	echo form_label('Descripcion:'); 
+		 	echo'</td>';
+            echo'<td>';
+		 	$data = array(
+		 		'name'  => 'descripcion',
+		 		'id'    => 'descripcion',
+		 		'value' => set_value('descripcion',$formato->descripcion),
+		 		'style' => 'width:200px;height:50px'
+		 	);
+   echo form_textarea($data);
    echo'</td>';
    echo '</tr>'; 
    echo'</table>';
