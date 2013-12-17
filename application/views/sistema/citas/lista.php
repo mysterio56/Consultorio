@@ -258,7 +258,7 @@ function getTitle(estatus){
 	  return "Pendiente";
 	  break;
 	case 2:
-	  return "Efectiva";
+	  return "Asistencia";
 	  break;
 	case 3:
 	  return "Inasistencia";
@@ -280,7 +280,7 @@ function elementEstatus(id_cita, estatus, fecha){
  		element += '<img src="'+base_url+'/assets/images/yellow_point.png" onclick="showDate('+id_cita+',1);" class="ico" title="Pendiente" />'
  	}
  	if (estatus != 2){
- 		element += '<img src="'+base_url+'/assets/images/green_point.png" onclick="changeEstatus('+id_cita+',2)" class="ico" title="Efectiva" />'
+ 		element += '<img src="'+base_url+'/assets/images/green_point.png" onclick="changeEstatus('+id_cita+',2)" class="ico" title="Asistencia" />'
  	}
  	if (estatus != 3){
  		element += '<img src="'+base_url+'/assets/images/red_point.png" onclick="changeEstatus('+id_cita+',3)" class="ico" title="Inasistencia"/>'
