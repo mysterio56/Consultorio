@@ -1,8 +1,7 @@
 <script>
 	$(function(){ Valid.login() });
 </script>
-<div id="login_form" 
-	 style="width:480px; height:280px; margin:0 auto; border-radius:5px; border:1px solid #909090; padding:20px" >
+<div id="login_form" >
 
 	 <?php
 
@@ -12,22 +11,29 @@
 
 	    $attributes = array('id' => 'loginForm');
 //
-	 	echo form_open(null,$attributes);
-	 	 
-	 	 echo'<table width="300" height="200" class="login">';
+	 	
+	 	 echo form_open(null,$attributes);
+	 	 echo'<table >';
+			
+			echo '<tr>';
+				echo '<td colspan="100%" align="center">';
+				 	 echo '<a href="http://masqweb.com/" target="_blank"> 
+				 	 			<img style="width: 200px;" src="'.base_url("assets/images/footer-logo.png").'" />
+				 	 	   </a>';
+				echo '</td>';
+			echo '</tr>';
+
                echo'<tr>';
 
-        echo '<td width=20% valing="top">';
+        echo '<td>';
 	 		echo form_label('Usuario : ');
 	 		echo'</td>';
 
-        echo '<td width=20% valing="top">';
+        echo '<td>';
 		 	$data = array(
 		 		'name'  => 'usuario',
 		 		'id'    => 'usuario',
-		 		'value' => set_value('usuario'),
-		 		'class' => 'login',
-		 		'style' => 'width:130%'
+		 		'value' => set_value('usuario')
 		 	);
 
 		 	echo form_input($data);
@@ -35,17 +41,15 @@
         echo '</td>';
 
            echo'<tr>';
-        echo '<td width=20% valing="top">';
-        echo form_label('Password : ');
+        echo '<td>';
+        echo form_label('Clave : ');
            echo'</td>';
 
-        echo '<td width=20% valing="top">';
+        echo '<td>';
 		 	$data = array(
 		 		'name'  =>  'password',
 		 		'id'    => 'password',
-		 		'value' => set_value('password'),
-		 		'class' => 'login',
-		 		'style' => 'width:130%'
+		 		'value' => set_value('password')
 		 	);
 
 		 	echo form_password($data);
@@ -55,11 +59,11 @@
         
            
 		 	$data = array(
-		 		'name'  =>  'login',
+		 		'name'  => 'login',
 		 		'id'    => 'login',
-		 		'value' => 'Login',
+		 		'value' => 'Entrar',
 		 		'class' => 'abutton',
-		 		'style' => 'width:50%'
+		 		'style' => 'font-size: 20px;width:50%'
 		 	);
 
 		 	echo form_submit($data);
