@@ -286,8 +286,20 @@ public function eliminar($id_servicio){
 
 	$servicio = new Servicio();
 	$servicio->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
-	$servicio->where('tipo', 1);
-	$servicio->costo_venta;
+	$servicio->where_in('tipo', array(1,3));
+	$servicio->where('estatus', 1)->get();
+	
+	$aServicio = $servicio->all_to_array(); 
+		
+	echo json_encode($aServicio);
+
+	}
+
+	public function lista_egresos(){
+
+	$servicio = new Servicio();
+	$servicio->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
+	$servicio->where_in('tipo', array(2,3));
 	$servicio->where('estatus', 1)->get();
 	
 	$aServicio = $servicio->all_to_array(); 

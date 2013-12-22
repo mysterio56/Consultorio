@@ -1,11 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  
-class Ingreso extends DataMapper
+class Egreso extends DataMapper
 {
-	public $table = "ingresos";
+	public $table = "egresos";
 
 	public $has_one = array("producto","consultorio","servicio");
-    
+
 	public $error_prefix = '<div class="error">';
     public $error_suffix = '</div>';
     
