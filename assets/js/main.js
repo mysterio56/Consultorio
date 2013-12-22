@@ -231,7 +231,7 @@ function Banner() {
 
   }else{
 
-    setTimeout("$('#ac-1').attr('checked', true)",100);
+    //setTimeout("$('#ac-1').attr('checked', true)",100);
 
   }
 

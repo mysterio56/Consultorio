@@ -53,7 +53,7 @@
                 echo '<li class="'.$isParent.'">';
                 echo    '<a href="javascript:void(0)"'; 
 
-                  if($modulo['permiso']){
+                  if($modulo['permiso'] && $modulo['url'] != ""){
                     echo 'onClick="Tab.newTab(\''.$modulo['nombre'].'\',\''.base_url($modulo['url']).'\',\''.$modulo['url'].'\');"';
                   }
 

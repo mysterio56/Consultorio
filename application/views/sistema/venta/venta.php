@@ -1,15 +1,12 @@
 <?php
 
-  $attributes = array('id' => 'addForm');
+  $attributes = array('id' => 'addSale');
   echo form_open(null,$attributes);
-	
-  echo '<input type="hidden" name="cita_id" value="'.$cita_id.'" />';
-  echo '<input type="hidden" name="estatus" value="'.$estatus.'" />';
 
 	echo '<table class="table_form">';
 	echo '<tr>';
 		echo '<tr>';
-		echo '<td width="25%">';
+		echo '<td>';
 	 		echo form_label('Producto:');
 	 	
 	 	?>
@@ -18,16 +15,18 @@
 	  	  		<p>Cargando productos</p>
 	  	 	</div>
 			<div class="select_reload">
+
 			 	<select name="producto" id="producto"></select>
-			 	<td>
-			    <img src     = "<?= base_url('assets/images/reload.png'); ?>" 
-			         style   = "width:16px; height:16px;cursor:pointer;"
-			         onClick = "getProducto();"/>
+
+        <img src     = "<?= base_url('assets/images/reload.png'); ?>" 
+               style   = "width:16px; height:16px;cursor:pointer;"
+               onClick = "getProducto();"/>
+
+        <label>Cantidad:</label>
+
+        <input name="cantidad_prod" id="cantidad_prod" value="1" style="width:45px"/>
+
 			</div>
-
-      <label>Cantidad:</label>
-
-      <input name="cantidad_prod" id="cantidad_prod" value="1" style="width:45px"/>
 		    
 		 </td>
 </tr>
@@ -37,22 +36,27 @@
 		echo  '<td>';
 			echo form_label('Servicio: ');
 		?>
-		<td width="25%">
+		<td>
+
       <div id="wait_serv" class="wait">
             <p>Cargando servicios</p>
-        </div>
-			    <div class="select_reload">
-			 	<select name="servicio" id="servicio"></select>
-			 	<td>
-			    <img src     = "<?= base_url('assets/images/reload.png'); ?>" 
-			         style   = "width:16px; height:16px;cursor:pointer;"
-			         onClick = "getServicio();"/>
+      </div>
+
+			 <div class="select_reload">
+
+			 	   <select name="servicio" id="servicio"></select>
+
+           <img src     = "<?= base_url('assets/images/reload.png'); ?>" 
+                style   = "width:16px; height:16px;cursor:pointer;"
+                onClick = "getServicio();"/>
+
+			 	   <label>Cantidad:</label>
+        
+           <input name="cantidad_serv" id="cantidad_serv" value="1" style="width:45px"/>
+
+			     
 			</div>
 		    
-      <label>Cantidad:</label>
-
-      <input name="cantidad_serv" id="cantidad_serv" value="1" style="width:45px"/>
-
 		 </td>
 </tr>
 <tr>
@@ -68,7 +72,8 @@
 	echo '</tr>';
 	echo'</table>';
 
-		 	echo '<a href="javascript:void(0)" onclick="addGrid();" class="abutton_add">Agregar Adicionales</a>';
+		 	echo '<a href="javascript:void(0)" onclick="addSale();" class="abutton_add">Agregar</a>';
+      echo '<a href="'.base_url('sale').'"  class="abutton_add"> Nueva Venta</a>';
 
 echo form_close();
 
@@ -85,46 +90,14 @@ echo form_close();
         <th align="center">Borrar</th>
 			</tr>
 		</thead>
-    <tbody id="tbodyAdd" >
 
-      <?php
+    <tbody id="tbodySale" >
 
-          echo  '<tr>';
-          echo  '<td>'.$servicio->codigo.'</td>';
-          echo  '<td>'.$servicio->nombre.'</td>';
-          echo  '<td>1</td>';
-          echo  '<td class="costo" align="right">$ '.$costo.'</td>';
-          echo  '</tr>';
+    </tbody>
 
-          foreach($ingresos as $key => $ingreso){
-
-            $ingreso->producto->get();
-            $ingreso->servicio->get();
-
-            echo '<tr id="add_'.$ingreso->id.'">';
-              echo '<td>';
-              echo $ingreso->producto_id?$ingreso->producto->codigo:$ingreso->servicio->codigo;
-              echo '</td>';
-              echo '<td>';
-              echo $ingreso->producto_id?$ingreso->producto->nombre:$ingreso->servicio->nombre;
-              echo '</td>';
-              echo '<td>';
-              echo $ingreso->sumCantidad;
-              echo '</td>';
-              echo '<td class="costo" align="right">$ ';
-              echo $ingreso->sumCosto;
-              echo '</td>';
-              echo '<td>';
-              echo '<img id="imgDelete_'.$ingreso->id.'" src="'.base_url('assets/images/delete.png').'" onClick="deleteAdd('.$ingreso->id.');"/>';
-              echo '<img id="imgWait_'.$ingreso->id.'" src="'.base_url('assets/images/wait.gif').'" class="ico hide"/>';
-              echo '</td>';
-            echo '</tr>';
-          }
-      ?>
-    </tbody> 
 		</table>   
 </section>
- <a href="<?= base_url($return); ?>" class="abutton_cancel">Cancelar</a>
+
 <script>
 $(function () {
   
@@ -385,30 +358,32 @@ function autocom(select){
     });
   }
 
-function addGrid(){
+function addSale(){
 
   if($('#servicio').val() != 0 || $('#producto').val() != 0){
 
-    var form_data = jQuery('#addForm').serialize();
+    var form_data = jQuery('#addSale').serialize();
 
-    jQuery.post( base_url+"appointment/insert_adicional/", form_data , 
+    jQuery.post( base_url+"sale/insert/", form_data , 
 
       function( data ) {
-
+     
         $.each(data, function(key,ingreso){
             rowAdd  = "<tr id='add_"+ingreso.id+"'>";
             rowAdd += "<td>"+ingreso.codigo+"</td>";
             rowAdd += "<td>"+ingreso.nombre+"</td>";
             rowAdd += "<td>"+ingreso.cantidad+"</td>";
             rowAdd += "<td class='costo' align='right'>$ "+ingreso.costo+"</td>";  
-            rowAdd += "<td><img id='imgDelete_"+ingreso.id+"' src='"+base_url+"/assets/images/delete.png' onclick='deleteAdd("+ingreso.id+")'/><img id='imgWait_"+ingreso.id+"' src='"+base_url+"/assets/images/wait.gif' class='ico hide'/></td>";      
+            rowAdd += "<td><img id='imgDelete_"+ingreso.id+"' src='"+base_url+"/assets/images/delete.png' onclick='deleteSale("+ingreso.id+")'/><img id='imgWait_"+ingreso.id+"' src='"+base_url+"/assets/images/wait.gif' class='ico hide'/></td>";      
             rowAdd += "</tr>";
 
-            $('#tbodyAdd').append(rowAdd);
+            $('#tbodySale').append(rowAdd);
             $('#servicio').val(0);
             $('#servicio_id').val("");
             $('#producto').val(0);
             $('#producto_id').val("");
+            $('#cantidad_prod').val(1);
+            $('#cantidad_serv').val(1);
         });
 
         oddEven();
@@ -419,19 +394,19 @@ function addGrid(){
 }
 
 function oddEven(){
-  $.each($('#tbodyAdd').children(),function(key, tr){
+  $.each($('#tbodySale').children(),function(key, tr){
 
           classRow = (key % 2 == 0)?'odd':'even';
           $(tr).addClass(classRow);
         });  
 }
 
-function deleteAdd(id_ingreso){
+function deleteSale(id_ingreso){
 
   $('#imgDelete_'+id_ingreso).hide();
   $('#imgWait_'+id_ingreso).show();
 
-  jQuery.post( base_url+"appointment/delete_adicional/", {idIngreso:id_ingreso} , 
+  jQuery.post( base_url+"sale/delete/", {idIngreso:id_ingreso} , 
 
       function( data ) {
        if(data.addDelete){

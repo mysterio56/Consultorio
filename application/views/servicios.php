@@ -5,7 +5,7 @@
     </div>
 
    <div>
-        <input id="ac-2" name="accordion-1" type="checkbox" checked/>
+        <input id="ac-2" name="accordion-1" type="radio" checked/>
         <label for="ac-2"><img src="<?= base_url('assets/images/black-dot.png'); ?>" /> Citas</label>
         <article>
             <p id="wait_prox_citas" class="hide" ><img src="<?= base_url('assets/images/wait.gif'); ?>" class="ico"> Cargando citas</p>
@@ -15,7 +15,7 @@
    </div>
 
    <div>
-        <input id="ac-1" name="accordion-1" type="checkbox"/>
+        <input id="ac-1" name="accordion-1" type="radio"/>
         <label for="ac-1"><img src="<?= base_url('assets/images/black-dot.png'); ?>" /> Lo nuevo</label>
         <article>
          <a class="twitter-timeline" 
