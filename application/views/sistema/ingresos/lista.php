@@ -1,7 +1,7 @@
 
 <?php
 
-    $attributes = array('id' => 'ingresosForm');
+    $attributes = array('id' => 'ingresosForm', 'target' => '_blank');
     echo form_open(null,$attributes);
 
 ?>
@@ -24,6 +24,8 @@
             </div>
 
 <br />
+
+ <input type="hidden" name="imprimir" id="imprimir" value="0" />
 
  <label>Ver por: </label>
 
@@ -133,28 +135,13 @@ jQuery(function() {
             }
     });
 
-    $('#imprimir').on("click", function (e) {
-    e.preventDefault(); // avoids calling preview.php
-    $.ajax({
-      type: "POST",
-      cache: false,
-      url: this.href, // preview.php
-      data: $("#postp").serializeArray(), // all form fields
-      success: function (data) {
-        // on success, post (preview) returned data in fancybox
-        $.fancybox(data, {
-          // fancybox API options
-          fitToView: false,
-          width: 905,
-          height: 505,
-          autoSize: false,
-          closeClick: false,
-          openEffect: 'none',
-          closeEffect: 'none'
-        }); // fancybox
-      } // success
-    }); // ajax
-  }); // on
+    $('#imprimir').click( function () {
+
+      // $('#imprimir').val('imprimir');
+       $('#ingresosForm').get(0).setAttribute('action', "<?= base_url('income/gridPS'); ?>" );
+       $('#ingresosForm').submit();
+
+    }); 
 
 
 });

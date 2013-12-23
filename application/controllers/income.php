@@ -157,7 +157,7 @@ class Income extends CI_Controller{
 
     }
 
-    public function gridPS($page = 1, $pdf = null){
+    public function gridPS($page = 1){
 
         $ingresos = new Ingreso();
         $count    = new Ingreso();
@@ -231,8 +231,8 @@ class Income extends CI_Controller{
         $count->where('cita_id IS NULL');
 
         $ingresos->group_by(' servicio_id , producto_id ');
-    
-        if($pdf === null){
+
+        if(!$this->input->post('imprimir')){
 
             $count->group_by(' servicio_id , producto_id ')->get();
 
@@ -295,9 +295,7 @@ class Income extends CI_Controller{
 
             }
         } else {
-
-            return $ingresos->get();
-
+            echo "imprimir";
         }
 
     }
