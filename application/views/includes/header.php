@@ -43,7 +43,7 @@
 		
 	<?php if ($this->session->userdata('username')): ?>
 	<?php $this->load->view('banner');	?>		
-	<div id="wrapper" style="min-height:475px">
+	<div id="wrapper">
 	<?php else: ?>	
 		<div id="wrapper_login">
 	<?php endif; ?>

@@ -12,6 +12,7 @@
 html, body{
 
     height: 100%;
+    background: #ECECEC;
 }
 
 
@@ -52,7 +53,7 @@ div .error{
 
 .error{
   color:red;
-  border-color: red !important; 
+  border-color: red !important;
 }
 
 /********* Estilos para Footer *********/
@@ -63,10 +64,11 @@ div .error{
     -moz-box-shadow:inset 0 0 10px #000000;
     -webkit-box-shadow:inset 0 0 10px #000000;
     box-shadow:inset 0 0 10px #000000;
+    background: #0091c0
 }
 
 .footer-container #footer{
-  width: 985px;
+  width: 965px;
   height: 100%;
   margin: 0 auto;
 }
@@ -75,7 +77,7 @@ div .error{
   width: 31%;
   height: 100%;
   display: inline-block;
-  vertical-align: top;
+  margin-top: 6px;
 }
 
 .footer-container #logo-footer a > *{
@@ -84,8 +86,8 @@ div .error{
 }
 
 .footer-container #logo-footer a > img{
-  width: 95px;
-  height: 60px;
+  width: 85px;
+  /*height: 60px;*/
 }
 
 .footer-container #logo-footer a{
@@ -111,14 +113,15 @@ div .error{
 .header-container #header {
     height: 75px;
     margin: 0 auto;
-    width: 73%;
-    min-width: 960px;
+    /*width: 73%;
+    min-width: 960px;*/
+    width: 960px;
 }
 
 .header-container #logo {
     display: inline-block;
     margin-left: 65px;
-    width: 24%;
+    /*width: 24%;*/
 }
 
 .header-container #logo img {
@@ -142,6 +145,7 @@ div .error{
     -webkit-box-shadow:inset 0 0 10px #000000;
     box-shadow:inset 0 0 10px #000000;
     cursor: pointer;
+    background: #0091c0
 }
 
 .banner-container #show-hide-banner{
@@ -149,10 +153,11 @@ div .error{
 }
 
 .banner-container #div-banner{
-    width: 73%;
-    min-width: 960px;
+    /*width: 73%;
+    min-width: 960px;*/
     height: 100%;
     margin: 0 auto;
+    width: 960px;
 }
 
 .banner-container #prox-cita{
@@ -180,7 +185,7 @@ div .error{
     width: 28%;
     background-image: url(../images/clock.png);
     background-repeat: no-repeat;
-    background-position:center left; 
+    background-position:center left;
 }
 
 .banner-container #datetime > #date{
@@ -205,7 +210,7 @@ div .error{
 }
 
 .banner-container #detail-cita-small{
-  display: none; 
+  display: none;
   width: 52%;
 }
 
@@ -276,17 +281,18 @@ div .error{
 /********* Estilos para Main *********/
 
 .main-container{
-    min-height: 470px;
+    /*min-height: 470px;*/
     background-color: #ECECEC;
     border-top: 1px solid #C1C0C0;
     border-bottom: 1px solid #C1C0C0;
 }
 
 .main-container #div-container{
-    width: 73%;
-    min-width: 960px;
+    /*width: 73%;
+    min-width: 960px;*/
     margin: 10px auto;
-    height: 100%
+    height: 100%;
+    width: 960px;
 }
 
 /********* Estilos para Acordeon *********/
@@ -348,7 +354,7 @@ div .error{
   -moz-border-top-right-radius: 5px;
   -moz-border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  border-top-left-radius: 5px; 
+  border-top-left-radius: 5px;
   border:1px solid #cacaca;
   border-bottom: none;
 }
@@ -504,8 +510,8 @@ div .error{
 }
 
 #container iframe {
-  min-height: 425px;
-  width: 665px;
+  /*min-height: 425px;*/
+  width: 624px;
   border:none;
   background-color:#ECECEC;
 }
@@ -516,9 +522,9 @@ div .error{
 }
 
 #container label {
- background: #f9f9f9; 
+ background: #f9f9f9;
  border-radius: .25em .25em 0 0;
- color: #888; 
+ color: #888;
  cursor: pointer;
  display: block;
  float: left;
@@ -532,13 +538,13 @@ div .error{
 
 #container input:hover + label {
  background: #ddd;
- color: #666; 
+ color: #666;
 }
 
 #container .tabUnChecked {
- background: #f9f9f9; 
+ background: #f9f9f9;
  border-radius: .25em .25em 0 0;
- color: #888; 
+ color: #888;
  cursor: pointer;
  display: block;
  float: left;
@@ -560,7 +566,7 @@ div .error{
 
 #container input:checked + label {
  background: #f1f1f1;
- color: #444; 
+ color: #444;
  position: relative;
  border: 2px solid #8F8F8F;
  z-index: 6;
@@ -748,13 +754,13 @@ nav li:hover ul {
     width: 28%;
     background-image: url(../images/clock.png);
     background-repeat: no-repeat;
-    background-position:center left; 
+    background-position:center left;
 
 }
 
 .cita-stilo #datetime > #date{
     width: 70%;
-    
+
 }
 
 .cita-stilo #detail-cita{
@@ -770,7 +776,7 @@ nav li:hover ul {
 }
 
 .cita-stilo #detail-cita-small{
-  display: none; 
+  display: none;
   width: 520px;
 }
 
@@ -838,14 +844,14 @@ nav li:hover ul {
     background-size: 430px;
 }
 
-#login_form table{  
+#login_form table{
   width: 100%;
   height: 85%;
   font-family: Helvetica, Arial, sans-serif;
   color:white;
 }
 
-#login_form table td{  
+#login_form table td{
   padding: 20px;
 }
 
@@ -855,7 +861,7 @@ nav li:hover ul {
   background-position:center;
   background-size: 430px;
   border-radius: 5px;
-  
+
   color:white;
   font-size: 30px;
 }
@@ -900,12 +906,12 @@ nav li:hover ul {
   top: 50%; /* Buscamos el centro horizontal (relativo) del navegador */
   left: 50%; /* Buscamos el centro vertical (relativo) del navegador */
   width: 600px; /* Definimos el ancho del objeto a centrar */
-  height: 400px; /* Definimos el alto del objeto a centrar */ 
+  height: 400px; /* Definimos el alto del objeto a centrar */
   margin-top: -200px; /* Restamos la mitad de la altura del objeto con un margin-top */
   margin-left: -300px; /* Restamos la mitad de la anchura del objeto con un margin-left */
-  border-radius:5px; 
+  border-radius:5px;
   border:5px solid;
-  border-color:rgba(255,255,255, 0.5); 
+  border-color:rgba(255,255,255, 0.5);
   padding:15px
 }
 
@@ -917,5 +923,5 @@ nav li:hover ul {
 
 .hide {
   display: none;
-  
+
 }
