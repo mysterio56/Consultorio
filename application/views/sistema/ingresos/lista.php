@@ -76,6 +76,10 @@
 
 </section>
 
+ <label class ="abutton" id="imprimir">Imprimir</label>
+ <a href="<?= base_url('income') ?>" class ="abutton_cancel" >Cancelar</a>
+ 
+ 
 <script>
 
 base_url  = "<?= base_url(); ?>";
@@ -129,10 +133,36 @@ jQuery(function() {
             }
     });
 
+    $('#imprimir').on("click", function (e) {
+    e.preventDefault(); // avoids calling preview.php
+    $.ajax({
+      type: "POST",
+      cache: false,
+      url: this.href, // preview.php
+      data: $("#postp").serializeArray(), // all form fields
+      success: function (data) {
+        // on success, post (preview) returned data in fancybox
+        $.fancybox(data, {
+          // fancybox API options
+          fitToView: false,
+          width: 905,
+          height: 505,
+          autoSize: false,
+          closeClick: false,
+          openEffect: 'none',
+          closeEffect: 'none'
+        }); // fancybox
+      } // success
+    }); // ajax
+  }); // on
+
 
 });
 
   function grid(){
+
+    getTotalPS();
+    getTotalCitas();
 
     jQuery('#tbodyIngresos').html("");
     jQuery('#wait_grid').show();
@@ -241,8 +271,32 @@ jQuery(function() {
 
             jQuery('#wait_grid').hide();
 
-
     },'json');
+
+  }
+
+  function imprimir(){
+
+    var form_data = { type     : $('#type').val(),
+                      producto : $('#producto').val(),
+                      servicio : $('#servicio').val(),
+                      date_start : $('#date_start').val(),
+                      date_end : $('#date_end').val()
+                    };
+
+    if($('#type').val()==1){
+      url = "income/generar/";
+    } else {
+      url = "income/gridCitas/"+page;
+    }
+
+    jQuery.post( base_url+url, form_data , 
+
+        function( data ) {
+
+
+
+    });
 
   }
 
@@ -273,7 +327,15 @@ function detail(id,tipo){
     date_end = false;
   }
 
-  window.location = base_url+"income/detail/"+id+"/"+tipo+"/"+date_start+"/"+date_end;
+  if(tipo=="cita"){
+
+    window.location = base_url+"income/detailCita/"+id;
+
+  }else{
+
+    window.location = base_url+"income/detail/"+id+"/"+tipo+"/"+date_start+"/"+date_end;
+
+  }
 
 } 
 

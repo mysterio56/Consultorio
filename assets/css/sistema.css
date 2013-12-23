@@ -139,7 +139,7 @@ border-left: none;
 
 /********* Estilos para Formulario *********/
 
-form > label{
+label{
   color: #0091c0;
   margin: 5px;
   font-weight: bold;

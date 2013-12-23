@@ -35,6 +35,7 @@ class Login extends CI_Controller{
 			}
 
 			$oUsuarios->empleados->consultorio->get(); 
+			$logo = $oUsuarios->empleados->consultorio->nombre_logo;
 
 			if($oUsuarios->empleados->consultorio->estatus != 1){
 		    	$total = 0;
@@ -48,6 +49,7 @@ class Login extends CI_Controller{
 	                              'id_user'         => $oUsuarios->id,
 	                              'type_user'       => $oUsuarios->empleado->tipo_empleado_id,
 	                              'id_consultorio'  => $oUsuarios->empleado->consultorio_id,
+	                              'logo'            => $logo,
 	                              'nombre_completo' => $oUsuarios->empleado->nombre.' '.
 	                              					   $oUsuarios->empleado->apellido_p.' '.
 	                              					   $oUsuarios->empleado->apellido_m);
