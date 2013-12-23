@@ -53,6 +53,18 @@ class Service extends CI_Controller{
     			$servicios->where('nombre',$this->input->post('nombre'));
     			
     		}
+    		if($this->input->post('Codigo')){
+
+    			$servicios->where('codigo like "%'.$_POST['Codigo'].'%"');
+    			$servicios->order_by(' codigo ', 'ASC ');
+
+    		}
+    		
+    		if($this->input->post('Nombre')){
+
+    			$servicios->where('nombre like "%'.$_POST['Nombre'].'%"');
+    			
+    		}
 
     		if($this->input->post('fecha_alt')){
 
@@ -272,16 +284,11 @@ public function eliminar($id_servicio){
 			$input_count = 0;
 
 			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != '' && $input_name != 'estatus'){
+				if($input_name != 'buscar' && $input != '' ){
 			 		$servicios->like($input_name, $input);
 			 		$input_count++;
 			 	}
-
-			  	if($input_name == 'estatus'){
-			  		$servicios->where_in('estatus', $this->input->post('estatus'));
-			  		$input_count++;			  
-			 	}
-			}
+		}
 
 			 if($input_count > 0){
 

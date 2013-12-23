@@ -9,6 +9,7 @@
 				<th align="center">Teléfono</th>
 				<th align="center">Celular</th>
 				<th id="thAcciones" style="display:none" align="center">Acciones</th>
+			
 			</tr>
 		</thead>
 		<tbody id= "tbodypaciente">
@@ -38,6 +39,8 @@ page     = 1;
 
 jQuery(function() {
 
+
+		
 	$('#cancela').hide(); 
 
 	$("#busqueda").click(function(){
@@ -67,6 +70,7 @@ function grid(){
 
 	jQuery('#tbodypaciente').html("");
 	jQuery('#wait_grid').show();
+	
 
 	var form_data = jQuery('#busquedaForm').serialize();
 	jQuery.post( base_url+"patient/grid/"+page, form_data , 
@@ -116,7 +120,7 @@ function grid(){
 		  					
 		  					}
 		  					
-		  					rowPaciente += '<a onclick="'+funcion+'" href="'+base_url+'patient/status/'+paciente.id+'">'; 		
+		  					rowPaciente += '<a id="cambio" onclick="'+funcion+'" href="'+base_url+'patient/status/'+paciente.id+'">'; 		
 		  					rowPaciente += '<img src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
 		  					rowPaciente += '</a>'; 
 		  				    }

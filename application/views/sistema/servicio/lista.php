@@ -29,15 +29,13 @@
 	</div>
 
 </section>
-	
-		
-
- <?php if(in_array($permisos,$aPermisos['Agregar']) ): ?>
+<?php if(in_array($permisos,$aPermisos['Agregar']) ): ?>
 		<a id="agregar" class="abutton" href="<?= base_url('service/agregar') ?>">Agregar</a>
 	<?php endif; ?>
 		<a id="busavan" class="abutton" href="<?= base_url('service/buscar') ?>">Búsqueda Avanzada</a>
 		<a id="cancela" display:none href="<?= base_url('service') ?>" class="abutton">Cancelar</a>
 	
+
 <script>
 
 base_url = "<?= base_url(); ?>";
@@ -80,6 +78,9 @@ function grid(){
 
 	var form_data = jQuery('#busquedaForm').serialize();
 	jQuery.post( base_url+"service/grid/"+page, form_data , 
+
+
+	
 
 		function( data ) {
 
@@ -205,7 +206,7 @@ function grid(){
 
 			}else {
 
-	 			rowservicio = '<tr><td colspan="100%">No existen servicioes </td></tr>';
+	 			rowservicio = '<tr><td colspan="100%">No existen servicios </td></tr>';
 	 			jQuery('#tbodyservicio').append(rowservicio);
 	 			jQuery('#tfootservicio').html("");
 

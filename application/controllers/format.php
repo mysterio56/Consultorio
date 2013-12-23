@@ -58,6 +58,19 @@ class Format extends CI_Controller{
     			
     		}
 
+    		if($this->input->post('Codigo')){
+
+    			$formatos->where('codigo like "%'.$_POST['Codigo'].'%"');
+    			$formatos->order_by(' codigo ', 'ASC ');
+
+    		}
+    		
+    		if($this->input->post('Nombre')){
+
+    			$formatos->where('nombre like "%'.$_POST['Nombre'].'%"');
+    			
+    		}
+
     		if($this->input->post('fecha_alt')){
 
     			$formatos->where('fecha_alta',$this->input->post('fecha_alt'));
@@ -255,13 +268,9 @@ public function eliminar($id_formato){
 			$input_count = 0;
 
 			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != '' && $input_name != 'estatus'){
+				if($input_name != 'buscar' && $input != ''){
 			 		$consultorio->formato->like($input_name, $input);
 			 		$input_count++;
-			 	}
-			 	if($input_name == 'estatus'){
-			  		$consultorio->formato->where_in('estatus', $this->input->post('estatus'));
-			  		$input_count++;			  
 			 	}
 			 } 
 

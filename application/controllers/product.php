@@ -51,6 +51,18 @@ class Product extends CI_Controller{
     			$productos->where('nombre',$this->input->post('nombre'));
     			
     		}
+    		if($this->input->post('Codigo')){
+
+    			$productos->where('codigo like "%'.$_POST['Codigo'].'%"');
+    			$productos->order_by(' codigo ', 'ASC ');
+
+    		}
+    		
+    		if($this->input->post('Nombre')){
+
+    			$productos->where('nombre like "%'.$_POST['Nombre'].'%"');
+    			
+    		}
 
     		if($this->input->post('fecha_alt')){
 
@@ -244,18 +256,13 @@ public function eliminar($id_producto){
 			
 			$aPermisos = permisos($this->session->userdata('type_user'));
 			$input_count = 0;
-
 			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != '' && $input_name != 'estatus'){ 	
+				if($input_name != 'Buscar' && $input != '' ){
 			 		$productos->like($input_name, $input);
 			 		$input_count++;
 			 	}
-			 	if($input_name == 'estatus'){
-			  		$productos->where_in('estatus', $this->input->post('estatus'));
-			  		$input_count++;			  
-			 	}
-
 			 } 
+			 
 			if($input_count > 0){
 
 				$productos->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
@@ -269,7 +276,6 @@ public function eliminar($id_producto){
 				$data['buscar']       = true;
 
 			}
-
 		}
 
 		$this->load->view('sistema/template',$data);

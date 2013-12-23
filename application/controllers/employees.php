@@ -53,27 +53,26 @@ class Employees extends CI_Controller{
     			$empleados->where('nombre',$this->input->post('nombre'));
     			
     		}
+    		if($this->input->post('Codigo')){
 
-    		if($this->input->post('email')){
+    			$empleados->where('codigo like "%'.$_POST['Codigo'].'%"');
+    			$empleados->order_by(' codigo ', 'ASC ');
 
-    			$empleados->where('email',$this->input->post('email'));
+    		}
+    		
+    		if($this->input->post('Nombre')){
+
+    			$empleados->where('nombre like "%'.$_POST['Nombre'].'%"');
     			
     		}
-    		if($this->input->post('telefono')){
+    		if($this->input->post('apellido_p')){
 
-    			$empleados->where('telefono',$this->input->post('telefono'));
+    			$empleados->where('apellido_p like "%'.$_POST['apellido_p'].'%"');
     			
     		}
+    		if($this->input->post('apellido_m')){
 
-    		if($this->input->post('celular')){
-
-    			$empleados->where('celular',$this->input->post('celular'));
-    			
-    		}
-
-    		if($this->input->post('fecha_alt')){
-
-    			$empleados->where('fecha_alta',$this->input->post('fecha_alt'));
+    			$empleados->where('apellido_m like "%'.$_POST['apellido_m'].'%"');
     			
     		}
 
@@ -384,13 +383,9 @@ class Employees extends CI_Controller{
 			$input_count = 0;
 
 			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != '' && $input_name != 'estatus'){
+				if($input_name != 'buscar' && $input != '' ){
 			 		$empleados->like($input_name, $input);
 			 		$input_count++;
-			 	}
-			 	if($input_name == 'estatus'){
-			  		$empleados->where_in('estatus', $this->input->post('estatus'));
-			  		$input_count++;			  
 			 	}
 			 } 
 			 

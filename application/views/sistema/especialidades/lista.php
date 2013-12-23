@@ -1,7 +1,7 @@
 <?php $aPermisos = unserialize (PERMISOS); ?>
 <?php $aMeses    = unserialize (MESES); ?>
 
-<section class="datagrid">
+<section id="especialidad"class="datagrid">
 	<table>
 		<thead>
 			<tr>
@@ -53,6 +53,8 @@ jQuery(function() {
             $('#cancela').show(); 
            }
         });
+
+		
 
       jQuery( "#buscar" ).autocomplete({
             source: base_url + "specialism/lista",
@@ -122,7 +124,7 @@ function grid(){
 		  					
 		  					}
 		  					
-		  					rowEspecialidad += '<a onclick="'+funcion+'" href="'+base_url+'specialism/status/'+especialidad.id+'">'; 		
+		  					rowEspecialidad += '<a id="activar" onclick="'+funcion+'" href="'+base_url+'specialism/status/'+especialidad.id+'">'; 		
 		  					rowEspecialidad += '<img src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
 		  					rowEspecialidad += '</a>'; 
 		  				    }

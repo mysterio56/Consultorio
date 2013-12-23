@@ -518,6 +518,16 @@ Valid.return = function(id_iframe){
 function Find() {
 
 }
+
+Find.producto = function()
+{
+
+    $('#fecha_alta_value')
+            .datepicker({
+                altField:   "#fecha_alta",
+                altFormat:  "yy-mm-dd",
+                dateFormat: "dd M yy"});
+}
     
 
 Find.empleados = function()
@@ -568,7 +578,7 @@ Find.fecha_alta_value = function()
                 dateFormat: "dd M yy"});
 
 
-jQuery.validator.addMethod('selectcheck', function (value) {
+/*jQuery.validator.addMethod('selectcheck', function (value) {
         return (value != '0');
-    }, "Requerido.");
+    }, "Requerido.");*/
 }

@@ -53,6 +53,17 @@ class Type_employee extends CI_Controller{
     			$tipoEmpleados->where('nombre',$this->input->post('nombre'));
     			
     		}
+    		if($this->input->post('Codigo')){
+
+    			$tipoEmpleados->where('codigo like "%'.$_POST['Codigo'].'%"');
+    			$tipoEmpleados->order_by(' codigo ', 'ASC ');
+
+    		}
+			if($this->input->post('Nombre')){
+
+    			$tipoEmpleados->where('nombre like "%'.$_POST['Nombre'].'%"');
+    			
+    		}
 
     		if($this->input->post('fecha_alt')){
 
@@ -285,18 +296,13 @@ public function eliminar($id_tipoEmpleado){
 			$input_count = 0;
 
 			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != '' && $input_name != 'estatus'){
+				if($input_name != 'Buscar' && $input != '' ){
 			 		$tipoEmpleados->like($input_name, $input);
 			 		$input_count++;
 			 	}
-			 	 	if($input_name == 'estatus'){
-			  		$tipoEmpleados->where_in('estatus', $this->input->post('estatus'));
-			  		$input_count++;			  
-			 	}
-			}
-			
+			 } 
+			 
 			if($input_count > 0){
-
 				$tipoEmpleados->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
 									       
 				$tipoEmpleados->order_by('estatus');

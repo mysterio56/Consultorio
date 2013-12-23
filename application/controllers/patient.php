@@ -57,23 +57,29 @@ class Patient extends CI_Controller{
     			$pacientes->where('nombre',$this->input->post('nombre'));
     			
     		}
+    		if($this->input->post('Codigo')){
 
-    		if($this->input->post('email')){
-    			$pacientes->where('email',$this->input->post('email'));
+    			$pacientes->where('codigo like "%'.$_POST['Codigo'].'%"');
+    			$pacientes->order_by(' codigo ', 'ASC ');
+
+    		}
+    		
+    		if($this->input->post('Nombre')){
+
+    			$pacientes->where('nombre like "%'.$_POST['Nombre'].'%"');
+    			
+    		}
+    		if($this->input->post('Apellido_p')){
+
+    			$pacientes->where('apellido_p like "%'.$_POST['Apellido_p'].'%"');
+    			
+    		}
+    		if($this->input->post('Apellido_m')){
+
+    			$pacientes->where('apellido_m like "%'.$_POST['Apellido_m'].'%"');
+    			
     		}
 
-    		if($this->input->post('telefono')){
-    			$pacientes->where('telefono',$this->input->post('telefono'));
-    		}
-
-    		if($this->input->post('celular')){
-    			$pacientes->where('celular',$this->input->post('celular'));
-    		}
-
-    		if($this->input->post('input_name')){
-
-				$pacientes->where('id' ,$this->input->post('input_name'));
-    		}
 
     		if($this->input->post('buscarId')){
 
@@ -284,38 +290,32 @@ class Patient extends CI_Controller{
 		if($this->input->post()){
 			
 			$consultorio = new Consultorio();
+			$pacientes   = new Paciente();
 			$consultorio->where(array('id' => $this->session->userdata('id_consultorio')))->get();
 
 			$aPermisos = permisos($this->session->userdata('type_user'));
-			$input_count = 0;
-
+			$input_count= 0;
 			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != '' && $input_name != 'estatus'){
-			 		$consultorio->paciente->like($input_name, $input);
+				if($input_name != 'buscar' && $input != '' ){
+			 		$consultorio->pacientes->like($input_name, $input);
 			 		$input_count++;
 			 	}
+			 } 
+			 
+			if($input_count > 0){
 
-			  	if($input_name == 'estatus'){
-			  		$consultorio->paciente->where_in('estatus', $this->input->post('estatus'));
-			  		$input_count++;			  
-			 	}
-			}
-
-			 if($input_count > 0){
-
+			
 				$consultorio->paciente->order_by('estatus');
 				$consultorio->paciente->order_by('codigo');
-				$pacientes = $consultorio->paciente->get_paged_iterated($page, 8);
+				$pacientes = $pacientes->get_paged_iterated($page, 5);
+				
 				
 				$data['permisos']     = $aPermisos['patient'];
 				$data['pacientes']	  = $pacientes;
-				
-
 			}
-
 		}
 
-		$this->load->view('sistema/template',$data);
+				$this->load->view('sistema/template',$data);
 
 	} 
 

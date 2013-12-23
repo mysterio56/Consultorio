@@ -47,13 +47,37 @@ class Specialism extends CI_Controller{
     			$especialidades->order_by(' codigo ', 'ASC ');
 
     		}
-
     		if($this->input->post('nombre')){
 
     			$especialidades->where('nombre',$this->input->post('nombre'));
-    			
+    			$especialidades->order_by(' codigo ', 'ASC ');
+
     		}
 
+    		if($this->input->post('Codigo')){
+
+    			$especialidades->where('codigo like "%'.$_POST['Codigo'].'%"');
+    			$especialidades->order_by(' codigo ', 'ASC ');
+
+    		}
+    		
+    		if($this->input->post('estatus')){
+
+    			$especialidades->where_in('estatus',$this->input->post('estatus'));	
+    			   			
+    		}
+
+    		if($this->input->post('Nombre')){
+
+    			$especialidades->where('nombre like "%'.$_POST['Nombre'].'%"');
+    			
+    		}
+			 	    	
+    		if($this->input->post('fecha_alta_value')){
+
+    			$especialidades->where('fecha_alta',$this->input->post('fecha_alta_value'));
+    			
+    		}
     		if($this->input->post('fecha_alt')){
 
     			$especialidades->where('fecha_alta',$this->input->post('fecha_alt'));
@@ -66,8 +90,8 @@ class Specialism extends CI_Controller{
     			
     			
 			}
-    		
-    		$data['buscar']   = true;
+
+
     		$oEspecialidades = $especialidades->get_paged_iterated($page, 5);
     		
     		foreach( $oEspecialidades as $nKey => $especialidad){	
@@ -76,8 +100,9 @@ class Specialism extends CI_Controller{
 		    								   			"codigo"  	=> $especialidad->codigo,
 		    								   			"nombre"  	=> $especialidad->nombre,
 		    								   			"fecha_alt" => date("d",strtotime($especialidad->fecha_alta))."/".
-		    								   				           month(date("m",strtotime($especialidad->fecha_alta)),false)."/".
+		    								   				           month(date("m",strtotime($especialidad->fecha_alta))-1,false)."/".
 		    								   				           date("Y",strtotime($especialidad->fecha_alta)),
+		    								   			"fecha_alta_value"=> $especialidades->fecha_alta,
 		    								   			"estatus"   => $especialidad->estatus,
 		    								   			"activar"   => in_array($permisos['specialism'],aPermisos('Editar'))?true:false,
 		    								    	    "editar"    => in_array($permisos['specialism'],aPermisos('Editar'))?true:false,
@@ -132,6 +157,7 @@ class Specialism extends CI_Controller{
 
 				redirect(base_url('specialism'));
 
+
 			} else {
 
 				echo $especialidad->error->string;
@@ -165,7 +191,7 @@ class Specialism extends CI_Controller{
 
 			if($especialidad->save()){
 
-				redirect(base_url('specialism'));
+				redirect(base_url('specialism',$page));
 				
 			} else {
 
@@ -231,39 +257,30 @@ public function eliminar($id_especialidad){
 							      'jquery.ui.datepicker-es.js',
 							      'valid_forms.js');
 
-		if($this->input->post()){
-
+			if($this->input->post()){
 			$especialidades = new Especialidad();
 			
 			$aPermisos = permisos($this->session->userdata('type_user'));
 			$input_count = 0;
-
 			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != '' && $input_name != 'estatus'){
+				if($input_name != 'Buscar' && $input != '' ){
 			 		$especialidades->like($input_name, $input);
 			 		$input_count++;
 			 	}
-			 	if($input_name == 'estatus'){
-			  		$especialidades->where_in('estatus', $this->input->post('estatus'));
-			  		$input_count++;			  
-			 	}
 			 } 
+			 
 			if($input_count > 0){
 
 				$especialidades->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
 				$especialidades->order_by('estatus');					    
 				$especialidades->order_by('codigo');
-				$especialidades->get_paged_iterated($page, 6);
-
-				$data['permisos']     = $aPermisos['specialism'];
-				$data['paginaActual'] = $page;
+				$oEspecialidades = $especialidades->get_paged_iterated($page, 5);
+				
+				$data['permisos']     = $aPermisos['specialism'];			
 				$data['especialidades']= $especialidades;
-				$data['buscar']       = true;
-
+				
 			}
-
 		}
-
 		$this->load->view('sistema/template',$data);
 
 	}
