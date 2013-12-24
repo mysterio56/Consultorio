@@ -190,9 +190,11 @@ class Income extends CI_Controller{
         if($this->input->post('date_start') && $this->input->post('date_end')){
 
             $date_start = explode("/",$this->input->post('date_start'));
+            $dPdf_start = $date_start[0].' / '.month(($date_start[1]-1),false).' / '.$date_start[2];
             $date_start = $date_start[2].'-'.$date_start[1].'-'.$date_start[0];
 
             $date_end   = explode("/",$this->input->post('date_end'));
+            $dPdf_end   = $date_end[0].' / '.month(($date_end[1]-1),false).' / '.$date_end[2];
             $date_end   = $date_end[2].'-'.$date_end[1].'-'.$date_end[0];
 
             $ingresos->where("DATE(fecha_alta) between '".$date_start."' and '".$date_end."'");
@@ -203,6 +205,7 @@ class Income extends CI_Controller{
         } elseif($this->input->post('date_start') && !$this->input->post('date_end')){
 
             $date_start = explode("/",$this->input->post('date_start'));
+            $dPdf_start = $date_start[0].' / '.month(($date_start[1]-1),false).' / '.$date_start[2];
             $date_start = $date_start[2].'-'.$date_start[1].'-'.$date_start[0];
 
             $ingresos->where('DATE(fecha_alta)' ,$date_start);
@@ -214,6 +217,7 @@ class Income extends CI_Controller{
         } elseif($this->input->post('date_end') && !$this->input->post('date_start')){
 
             $date_end = explode("/",$this->input->post('date_end'));
+            $dPdf_end = $date_end[0].' / '.month(($date_end[1]-1),false).' / '.$date_end[2];
             $date_end = $date_end[2].'-'.$date_end[1].'-'.$date_end[0];
 
             $ingresos->where('DATE(fecha_alta)' ,$date_end);
@@ -295,7 +299,79 @@ class Income extends CI_Controller{
 
             }
         } else {
-            echo "imprimir";
+
+            $ingresos->get();  
+
+            $this->load->library('Pdf');
+            $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+            $pdf->SetCreator(PDF_CREATOR);
+
+            $pdf->SetFont('Helvetica', '', 14, '', true); 
+
+            $pdf->AddPage();
+     
+            $pdf->setTextShadow(array('enabled' => true, 'depth_w' => 0.2, 'depth_h' => 0.2, 'color' => array(196, 196, 196), 'opacity' => 1, 'blend_mode' => 'Normal'));
+            $pdf->setImageScale(0.47);
+
+            if(isset($dPdf_start) && isset($dPdf_end)){
+
+                $fecha = $dPdf_start ." al ". $dPdf_end;                    
+
+            }elseif(isset($dPdf_start) && !isset($dPdf_end)){
+
+                $fecha = $dPdf_start;                    
+
+            }elseif(isset($dPdf_end) && !isset($dPdf_start)){
+
+                $fecha = $dPdf_end;                    
+
+            }else{
+                $fecha = date('d')." / ".month((date('m')-1),false). " / ". date('Y');
+            }    
+
+            $pdf->Image(base_url('assets/images/logos/'.$this->session->userdata('logo').'_logo.png'), 10, 10, 45, 25, '', '', '', false, 300);
+
+            $pdf->writeHTMLCell(0, 0, 60, 15, '<h1 style="font-size:8px;">Ingresos del '.$fecha.'</h1>', 0, 1,  0, true, '', true);
+
+            $html  = $this->_css().' <table class="table">';
+            $html .= '<thead>
+                        <tr>
+                            <th class="th">Producto/Servicio</th>
+                            <th class="th">Cantidad</th>
+                            <th class="th">Total</th>
+                        </tr>
+                    </thead>';
+            $html .= '<tbody>';  
+
+            foreach ($ingresos->all as $key => $ingreso) {
+
+                if ((($key+1) % 2) == 0) {
+                        $rowClass = "even";
+                    } else  {
+                        $rowClass = "odd";
+                    }
+
+                $ingreso->producto->get();
+                $ingreso->servicio->get();
+
+                $nombre = $ingreso->producto_id?$ingreso->producto->nombre:$ingreso->servicio->nombre;
+
+                $html .= '<tr class="'.$rowClass.'">';
+                $html .= '<td class="td">'.$nombre.'</td>';
+                $html .= '<td class="td" align="right">'.$ingreso->sumCantidad.'</td>';
+                $html .= '<td class="td" align="right">$ '.$ingreso->sumCosto.'</td>';
+                $html .= '</tr>';
+            }
+
+            $html .= '</tbody>';
+            $html .= '</table>';
+     
+            $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = 40, $html, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
+
+            $pdf->writeHTMLCell(0, 0, 140, '', '<h1 style="font-size:8px;">Total: <strong>$ '.number_format($this->input->post('inputTotalPS'), 2, '.', ',').'</strong></h1>', 0, 1,  0, true, '', true);
+
+            $nombre_archivo = utf8_decode("Ingresos.pdf");
+            $pdf->Output($nombre_archivo, 'I');
         }
 
     }
@@ -332,9 +408,11 @@ class Income extends CI_Controller{
         if($this->input->post('date_start') && $this->input->post('date_end')){
 
             $date_start = explode("/",$this->input->post('date_start'));
+            $dPdf_start = $date_start[0].' / '.month(($date_start[1]-1),false).' / '.$date_start[2];
             $date_start = $date_start[2].'-'.$date_start[1].'-'.$date_start[0];
 
             $date_end   = explode("/",$this->input->post('date_end'));
+            $dPdf_end   = $date_end[0].' / '.month(($date_end[1]-1),false).' / '.$date_end[2];
             $date_end   = $date_end[2].'-'.$date_end[1].'-'.$date_end[0];
 
             $ingresos->where("DATE(fecha_alta) between '".$date_start."' and '".$date_end."'");
@@ -345,6 +423,7 @@ class Income extends CI_Controller{
         } elseif($this->input->post('date_start') && !$this->input->post('date_end')){
 
             $date_start = explode("/",$this->input->post('date_start'));
+            $dPdf_start = $date_start[0].' / '.month(($date_start[1]-1),false).' / '.$date_start[2];
             $date_start = $date_start[2].'-'.$date_start[1].'-'.$date_start[0];
 
             $ingresos->where('DATE(fecha_alta)' ,$date_start);
@@ -356,6 +435,7 @@ class Income extends CI_Controller{
         } elseif($this->input->post('date_end') && !$this->input->post('date_start')){
 
             $date_end = explode("/",$this->input->post('date_end'));
+            $dPdf_end = $date_end[0].' / '.month(($date_end[1]-1),false).' / '.$date_end[2];
             $date_end = $date_end[2].'-'.$date_end[1].'-'.$date_end[0];
 
             $ingresos->where('DATE(fecha_alta)' ,$date_end);
@@ -377,64 +457,142 @@ class Income extends CI_Controller{
         $count->where('estatus', 2 );
 
         $ingresos->group_by('cita_id');
-        $count->group_by('cita_id')->get();
 
-        $TAMANO_PAGINA = 7;
+        if(!$this->input->post('imprimir')){
 
-        if ($page == 1) { 
-             $inicio = 0;  
-        } 
-        else { 
-            $inicio = ($page - 1) * $TAMANO_PAGINA; 
-        }
+            $count->group_by('cita_id')->get();
 
-        $num_total_registros = count($count->all);
+            $TAMANO_PAGINA = 7;
 
-        $total_paginas = ceil($num_total_registros / $TAMANO_PAGINA); 
+            if ($page == 1) { 
+                 $inicio = 0;  
+            } 
+            else { 
+                $inicio = ($page - 1) * $TAMANO_PAGINA; 
+            }
 
-        $ingresos->limit($TAMANO_PAGINA,$inicio)->get();
+            $num_total_registros = count($count->all);
 
-        foreach($ingresos->all as $ingreso){
-            $ingreso->producto->get();
-            $ingreso->servicio->get();
+            $total_paginas = ceil($num_total_registros / $TAMANO_PAGINA); 
 
-            $aIngresos['data'][] = array("nombre"       => "Consulta",
-                                         "fecha"        => $ingreso->fecha_alta,
-                                         "fecha_format" => date("d", strtotime($ingreso->fecha_alta)) ." ". 
-                                                           month(date("m", strtotime($ingreso->fecha_alta)) - 1,false)." ".
-                                                           date("Y", strtotime($ingreso->fecha_alta))." ".
-                                                           date("H:i", strtotime($ingreso->fecha_alta)),
-                                         "cantidad"     => $ingreso->sumCantidad,
-                                         "total"        => $ingreso->sumCosto,
-                                         "tipo"        => "cita",
-                                         "id"           => $ingreso->cita_id);
-        }
+            $ingresos->limit($TAMANO_PAGINA,$inicio)->get();
 
-       if(isset($aIngresos)){
+            foreach($ingresos->all as $ingreso){
+                $ingreso->producto->get();
+                $ingreso->servicio->get();
 
-                $has_previous = 1;
-                $has_next = 1;
+                $aIngresos['data'][] = array("nombre"       => "Consulta",
+                                             "fecha"        => $ingreso->fecha_alta,
+                                             "fecha_format" => date("d", strtotime($ingreso->fecha_alta)) ." ". 
+                                                               month(date("m", strtotime($ingreso->fecha_alta)) - 1,false)." ".
+                                                               date("Y", strtotime($ingreso->fecha_alta))." ".
+                                                               date("H:i", strtotime($ingreso->fecha_alta)),
+                                             "cantidad"     => $ingreso->sumCantidad,
+                                             "total"        => $ingreso->sumCosto,
+                                             "tipo"        => "cita",
+                                             "id"           => $ingreso->cita_id);
+            }
 
-                if ($page == 1){
-                    $has_previous = 0;
-                }
+           if(isset($aIngresos)){
 
-                if($page == $total_paginas){
-                    $has_next = 0;
-                }
+                    $has_previous = 1;
+                    $has_next = 1;
 
-                $aIngresos['page_total']    = $total_paginas;
-                $aIngresos['page_actual']   = $page;
-                $aIngresos['has_previous']  = $has_previous;
-                $aIngresos['has_next']      = $has_next;
-                $aIngresos['previous_page'] = $page - 1 ;
-                $aIngresos['next_page']     = $page + 1;
+                    if ($page == 1){
+                        $has_previous = 0;
+                    }
 
-            echo json_encode($aIngresos);
+                    if($page == $total_paginas){
+                        $has_next = 0;
+                    }
+
+                    $aIngresos['page_total']    = $total_paginas;
+                    $aIngresos['page_actual']   = $page;
+                    $aIngresos['has_previous']  = $has_previous;
+                    $aIngresos['has_next']      = $has_next;
+                    $aIngresos['previous_page'] = $page - 1 ;
+                    $aIngresos['next_page']     = $page + 1;
+
+                echo json_encode($aIngresos);
+
+            } else {
+
+                echo json_encode(array('empty' => true));
+
+            }
 
         } else {
 
-            echo json_encode(array('empty' => true));
+            $ingresos->get();  
+
+            $this->load->library('Pdf');
+            $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+            $pdf->SetCreator(PDF_CREATOR);
+
+            $pdf->SetFont('Helvetica', '', 14, '', true); 
+
+            $pdf->AddPage();
+     
+            $pdf->setTextShadow(array('enabled' => true, 'depth_w' => 0.2, 'depth_h' => 0.2, 'color' => array(196, 196, 196), 'opacity' => 1, 'blend_mode' => 'Normal'));
+            $pdf->setImageScale(0.47);
+
+            if(isset($dPdf_start) && isset($dPdf_end)){
+
+                $fecha = $dPdf_start ." al ". $dPdf_end;                    
+
+            }elseif(isset($dPdf_start) && !isset($dPdf_end)){
+
+                $fecha = $dPdf_start;                    
+
+            }elseif(isset($dPdf_end) && !isset($dPdf_start)){
+
+                $fecha = $dPdf_end;                    
+
+            }else{
+                $fecha = date('d')." / ".month((date('m')-1),false). " / ". date('Y');
+            }    
+
+            $pdf->Image(base_url('assets/images/logos/'.$this->session->userdata('logo').'_logo.png'), 10, 10, 45, 25, '', '', '', false, 300);
+
+            $pdf->writeHTMLCell(0, 0, 60, 15, '<h1 style="font-size:8px;">Ingresos del '.$fecha.'</h1>', 0, 1,  0, true, '', true);
+
+            $html  = $this->_css().' <table class="table">';
+            $html .= '<thead>
+                        <tr>
+                            <th class="th">Servicio</th>
+                            <th class="th">Cantidad Productos/Servicios</th>
+                            <th class="th">Total</th>
+                        </tr>
+                    </thead>';
+            $html .= '<tbody>';  
+
+            foreach ($ingresos->all as $key => $ingreso) {
+
+                if ((($key+1) % 2) == 0) {
+                        $rowClass = "even";
+                    } else  {
+                        $rowClass = "odd";
+                    }
+
+                $ingreso->producto->get();
+                $ingreso->servicio->get();
+
+                $html .= '<tr class="'.$rowClass.'">';
+                $html .= '<td class="td">Cita</td>';
+                $html .= '<td class="td" align="right">'.$ingreso->sumCantidad.'</td>';
+                $html .= '<td class="td" align="right">$ '.$ingreso->sumCosto.'</td>';
+                $html .= '</tr>';
+            }
+
+            $html .= '</tbody>';
+            $html .= '</table>';
+     
+            $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = 40, $html, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
+
+            $pdf->writeHTMLCell(0, 0, 140, '', '<h1 style="font-size:8px;">Total: <strong>$ '.number_format($this->input->post('inputTotalCita'), 2, '.', ',').'</strong></h1>', 0, 1,  0, true, '', true);
+
+            $nombre_archivo = utf8_decode("Ingresos.pdf");
+            $pdf->Output($nombre_archivo, 'I');
 
         }
 
@@ -488,15 +646,15 @@ class Income extends CI_Controller{
 
         $ingresos->where('cita_id IS NULL')->get_paged_iterated($page,6);
 
-        $data['ingresos']   = $ingresos;
-        $data['id']         = $id;
+        $data['ingresos']     = $ingresos;
+        $data['id']           = $id;
         $data['paginaActual'] = $page;
-        $data['tipo']       = $tipo;
-        $data['date_start'] = $date_start;
-        $data['date_end']   = $date_end;
-        $data['cssFiles']   = array('sistema.css');
-        $data['jsFiles']    = array('jquery.js');
-        $data['view']       = 'sistema/ingresos/detalle';
+        $data['tipo']         = $tipo;
+        $data['date_start']   = $date_start;
+        $data['date_end']     = $date_end;
+        $data['cssFiles']     = array('sistema.css');
+        $data['jsFiles']      = array('jquery.js');
+        $data['view']         = 'sistema/ingresos/detalle';
 
         $this->load->view('sistema/template_simple',$data);
         
@@ -532,92 +690,35 @@ class Income extends CI_Controller{
 
     }
 
-  public function generar() {
+    private function _css(){
+     
+     return " <style> 
 
-        $ingresos = new Ingreso();
-        
-        $ingresos->select(' *, sum(costo) as sumCosto, sum(cantidad) as sumCantidad ' );
-        
-        if($this->input->post('producto') && $this->input->post('servicio')){
-
-            $ingresos->where('(producto_id = '. $this->input->post('producto') . ' or  servicio_id = '. $this->input->post('servicio') .')' );
-    
+        .table {
+          width: 100%; 
         }
 
-        if($this->input->post('producto') && !$this->input->post('servicio')){
-
-            $ingresos->where('producto_id',  $this->input->post('producto'));
-
+        .th {
+        padding: 3px 5px;
+        background-color:#4cbade;
+        color:#005d7b;
+        font-size: 7px;
+        border: 0.5px solid #0070A8;
+        font-weight:bold;
         }
 
-        if($this->input->post('servicio') && !$this->input->post('producto')){
-
-            $ingresos->where('servicio_id',  $this->input->post('servicio'));
-
+        .td {
+        padding: 3px 5px;
+        font-size: 6px;
+        border: 0.5px solid #0070A8;
         }
 
-        if($this->input->post('date_start') && $this->input->post('date_end')){
-
-            $date_start = explode("/",$this->input->post('date_start'));
-            $date_start = $date_start[2].'-'.$date_start[1].'-'.$date_start[0];
-
-            $date_end   = explode("/",$this->input->post('date_end'));
-            $date_end   = $date_end[2].'-'.$date_end[1].'-'.$date_end[0];
-
-            $ingresos->where("DATE(fecha_alta) between '".$date_start."' and '".$date_end."'");
-            $ingresos->order_by(' fecha_alta ', 'ASC ');
-
-        } elseif($this->input->post('date_start') && !$this->input->post('date_end')){
-
-            $date_start = explode("/",$this->input->post('date_start'));
-            $date_start = $date_start[2].'-'.$date_start[1].'-'.$date_start[0];
-
-            $ingresos->where('DATE(fecha_alta)' ,$date_start);
-
-            $ingresos->order_by(' fecha_alta ', 'ASC ');
-
-        } elseif($this->input->post('date_end') && !$this->input->post('date_start')){
-
-            $date_end = explode("/",$this->input->post('date_end'));
-            $date_end = $date_end[2].'-'.$date_end[1].'-'.$date_end[0];
-
-            $ingresos->where('DATE(fecha_alta)' ,$date_end);
-            $ingresos->order_by(' fecha_alta ', 'ASC ');
-
-        } else {
-
-            $ingresos->where('DATE(fecha_alta) = CURRENT_DATE');
-
+        .even {
+            background-color: #CEECF5;  
         }
 
-        $ingresos->where('cita_id IS NULL');
+    </style>";
 
-        $ingresos->group_by(' servicio_id , producto_id ');
-    
-        $ingresos->get();
-
-        $this->load->library('Pdf');
-        $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
-        $pdf->SetCreator(PDF_CREATOR);
-
-        $pdf->SetFont('Helvetica', '', 14, '', true); 
-
-        $pdf->AddPage();
- 
-        $pdf->setTextShadow(array('enabled' => true, 'depth_w' => 0.2, 'depth_h' => 0.2, 'color' => array(196, 196, 196), 'opacity' => 1, 'blend_mode' => 'Normal'));
-        
-        $pdf->Image(base_url('assets/images/logos/'.$this->session->userdata('logo').'_logo.png'), 10, 10, 45, 25, '', '', '', false, 300);
-        
-        $html = '';
-
-        foreach ($ingresos->all as $key => $ingreso) {
-            $html .= '<lable>'.$ingreso->id.'</label>';
-        }
- 
-        $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = 35, $html, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
-
-        $nombre_archivo = utf8_decode("Localidades.pdf");
-        $pdf->Output($nombre_archivo, 'I');
     }
 
 }

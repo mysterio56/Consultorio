@@ -26,6 +26,8 @@
 <br />
 
  <input type="hidden" name="imprimir" id="imprimir" value="0" />
+ <input type="hidden" name="inputTotalPS" id="inputTotalPS" value="0" />
+ <input type="hidden" name="inputTotalCita" id="inputTotalCita" value="0" />
 
  <label>Ver por: </label>
 
@@ -41,9 +43,9 @@
 
     <br />
 
-    <label>Total Producto/Servicio</label> <strong id="totalPS">222</strong>
-    <label>Total Citas</label>             <strong id="totalCitas">222</strong>
-    <label>Total</label>                   <strong id="total">222</strong>
+    <label>Total Producto/Servicio</label> <strong id="totalPS"></strong>
+    <label>Total Citas</label>             <strong id="totalCitas"></strong>
+    <label>Total</label>                   <strong id="total"></strong>
 
 </div>
 
@@ -78,7 +80,7 @@
 
 </section>
 
- <label class ="abutton" id="imprimir">Imprimir</label>
+ <label class ="abutton" id="imprimir" onClick="imprimir();">Imprimir</label>
  <a href="<?= base_url('income') ?>" class ="abutton_cancel" >Cancelar</a>
  
  
@@ -134,15 +136,6 @@ jQuery(function() {
                 jQuery('input[name=estatus_citas]').prop('checked', false);
             }
     });
-
-    $('#imprimir').click( function () {
-
-      // $('#imprimir').val('imprimir');
-       $('#ingresosForm').get(0).setAttribute('action', "<?= base_url('income/gridPS'); ?>" );
-       $('#ingresosForm').submit();
-
-    }); 
-
 
 });
 
@@ -264,27 +257,15 @@ jQuery(function() {
 
   function imprimir(){
 
-    var form_data = { type     : $('#type').val(),
-                      producto : $('#producto').val(),
-                      servicio : $('#servicio').val(),
-                      date_start : $('#date_start').val(),
-                      date_end : $('#date_end').val()
-                    };
+      if($('#type').val()==1){
+        url = "income/gridPS/"+page;
+      } else {
+        url = "income/gridCitas/"+page;
+      }
 
-    if($('#type').val()==1){
-      url = "income/generar/";
-    } else {
-      url = "income/gridCitas/"+page;
-    }
-
-    jQuery.post( base_url+url, form_data , 
-
-        function( data ) {
-
-
-
-    });
-
+      $('#imprimir').val('imprimir');
+      $('#ingresosForm').get(0).setAttribute('action', "<?= base_url(); ?>"+url );
+      $('#ingresosForm').submit();
   }
 
 function setPage(nPage){
@@ -397,6 +378,7 @@ function getTotalCitas(){
         function( data ) {
           if(data!=""){
             $("#totalCitas").html("$ "+data);
+            $("#inputTotalCita").val(data)
             costoCita = data;
           }else{
              $("#totalCitas").html("$ 0.00");
@@ -421,6 +403,7 @@ function getTotalPS(){
 		function( data ) {
       if(data!=""){
 			$("#totalPS").html("$ "+data);
+      $("#inputTotalPS").val(data);
       costoPS = data;
     }else{
       $("#totalPS").html("$ 0.00");
