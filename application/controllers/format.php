@@ -40,7 +40,7 @@ class Format extends CI_Controller{
 
 
     		$consultorio->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
-    		$formatos->where('estatus <> 2');
+    		
 
 			$permisos = permisos($this->session->userdata('type_user'));
 
@@ -71,9 +71,19 @@ class Format extends CI_Controller{
     			
     		}
 
-    		if($this->input->post('fecha_alt')){
+    		if($this->input->post('estatus')){
 
-    			$formatos->where('fecha_alta',$this->input->post('fecha_alt'));
+    			$formatos->where_in('estatus',$this->input->post('estatus'));	
+    			   			
+    		} else {
+
+    			$formatos->where('estatus <> 2');
+    		}
+
+
+    		if($this->input->post('fecha_alta')){
+
+    			$formatos->where('fecha_alta',$this->input->post('fecha_alta'));
     			
     		}
 
@@ -249,6 +259,8 @@ public function eliminar($id_formato){
 
    public function buscar($page = 1){
 
+   		$aPermisos = permisos($this->session->userdata('type_user'));
+		$data['permisos'] = $aPermisos['format'];
 		$data['view']     = 'sistema/formato/buscar';
 		$data['return']   = 'format';
 		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
@@ -258,38 +270,7 @@ public function eliminar($id_formato){
 							      'jquery.ui.datepicker-es.js',
 							      'valid_forms.js');
 
-		if($this->input->post()){
-
-
-			$consultorio= new Consultorio();
-			$consultorio->where(array('id' => $this->session->userdata('id_consultorio')))->get();
-			
-			$aPermisos = permisos($this->session->userdata('type_user'));
-			$input_count = 0;
-
-			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'buscar' && $input != ''){
-			 		$consultorio->formato->like($input_name, $input);
-			 		$input_count++;
-			 	}
-			 } 
-
-			if($input_count > 0){
-
-				$consultorio->formato->order_by('estatus');
-				$consultorio->formato->order_by('codigo');
-
-				$formatos = $consultorio->formato->get_paged_iterated($page, 9);
-
-				$data['permisos']     = $aPermisos['format'];
-				$data['paginaActual'] = $page;
-				$data['formatos']     = $formatos;
-				$data['buscar']       = true;
-
-			}
-
-		}
-
+		
 		$this->load->view('sistema/template',$data);
 
 	}
@@ -301,7 +282,7 @@ public function eliminar($id_formato){
 
 		$consultorio->where(array('id' => $this->session->userdata('id_consultorio')))->get();
 			
-		$formatos->where('CONCAT( codigo, "  " , nombre ) like "%'.$_GET['term'].'%"')->get();
+        $formatos->where('CONCAT( codigo, "  " , nombre ) like "%'.$_GET['term'].'%"')->get();
 		
 		$aFormatos = array();		
 

@@ -1,5 +1,7 @@
-  <script>
-	$(function(){ Find.especialidades(); });
+<?php $aPermisos = unserialize (PERMISOS); ?>
+<script>
+	$(function(){  Find.especialidades(); 
+	});
 </script>
 <?php
 	$attributes = array('id' => 'especialidadesForm');
@@ -7,7 +9,7 @@
 	 	echo form_open(null,$attributes);
 
 	 	if (isset($error_menssage)){
-	 		echo '<div class="error">'.$error_menssage.'</div>';
+	 		echo '<div  class="error">'.$error_menssage.'</div>';
 	 	}
 	 	echo '<table class="table_form">';
 	    echo'<tr>'; 
@@ -106,41 +108,55 @@
 			?>
 			
 			<input type="hidden" name="fecha_alta" id="fecha_alta" />
-            <input type="hidden" name="buscarId" id="buscarId"/>
+         
+           	</table>
+           	 <a name='Buscar' id='Buscar' class="abutton" onclick= "grid();" value='Buscar'> Buscar</a>
 
-			</table>
 			<?php
 			
-		 	$data = array(
-		 		'name'  => 'Buscar',
-		 		'id'    => 'Buscar',
-		 		'class' => 'abutton',
-		 		'value' => 'Buscar'
-		 	);
-
-		 	echo form_submit($data);
-		 	echo '<a href="'.base_url($return).'" class="abutton_cancel">Cancelar</a>';
+		  	echo '<a href="'.base_url($return).'" class="abutton_cancel">Cancelar</a>';
 	 		echo form_close();
 
-	 	if(isset($especialidades)){
-
-	 		$this->load->view('sistema/especialidades/lista');
-
-	 	}
-
 ?>
+<section id="especialidad"class="datagrid">
+	<table>
+		<thead>
+			<tr >
+				<th width="100"align="center">Código</th>
+				<th width="100"align="center">Nombre</th>
+				<th width="100"align="center">Fecha Alta</th>
+					<?php if(in_array($permisos,$aPermisos['Editar']) ): ?>
+				<th width="100"align="center">Editar</th>
+					<?php endif; ?>
+				<th width="100"align="center">Activo</th>
+					<?php if(in_array($permisos,$aPermisos['Eliminar']) ): ?>
+				<th width="100"align="center">Eliminar</th>
+			    	<?php endif;?>
+			</tr>
+		</thead>
+		<tbody id= "tbodyspecialidad">
+
+		</tbody>
+		<tfoot id= "tfootspecialidad">
+			
+		</tfoot>	
+		</table>
+		<div id="wait_grid" class= "wait_grid" style="display:none">
+		<img src="<?= base_url('assets/images/wait.gif'); ?>" style="width:25px;height:25px;"/>
+		Cargando datos ...
+	</div>
+
+</section>
 
 <script>
+
 base_url = "<?= base_url(); ?>";
+page =1;
 
 function grid(){
 
 	jQuery('#tbodyspecialidad').html("");
 	jQuery('#wait_grid').show();
-	jQuery('#agregar').hide(); 
-	jQuery('#busavan').hide();
-
-
 
 
 	var form_data = jQuery('#especialidadesForm').serialize();	

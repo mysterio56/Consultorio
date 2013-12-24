@@ -36,7 +36,7 @@ class Service extends CI_Controller{
     		$servicios = new Servicio();
 
     		$servicios->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
-    		$servicios->where('estatus <> 2');
+    		
 
 			$permisos = permisos($this->session->userdata('type_user'));
 
@@ -66,12 +66,20 @@ class Service extends CI_Controller{
     			
     		}
 
-    		if($this->input->post('fecha_alt')){
+    		if($this->input->post('estatus')){
 
-    			$servicios->where('fecha_alta',$this->input->post('fecha_alt'));
+    			$servicios->where_in('estatus',$this->input->post('estatus'));	
+    			   			
+    		} else {
+
+    			$servicios->where('estatus <> 2');
+    		}
+			
+			if($this->input->post('fecha_alta')){
+
+    			$servicios->where('DATE(fecha_alta) = \''.$this->input->post('fecha_alta').'\'');
     			
     		}
-
     		if($this->input->post('buscarId')){
 
 				$servicios->where('id' ,$this->input->post('buscarId'));
@@ -79,7 +87,6 @@ class Service extends CI_Controller{
     			
 			}
     		
-    		$data['buscar']   = true;
     		$oServicios = $servicios->get_paged_iterated($page, 5);
     		
     		foreach( $oServicios as $nKey => $servicio){	
@@ -267,6 +274,9 @@ public function eliminar($id_servicio){
 
    public function buscar($page = 1){
 
+   		$aPermisos = permisos($this->session->userdata('type_user'));
+
+    	$data['permisos'] = $aPermisos['service'];
 		$data['view']     = 'sistema/servicio/buscar';
 		$data['return']   = 'service';
 		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
@@ -276,36 +286,7 @@ public function eliminar($id_servicio){
 							      'jquery.ui.datepicker-es.js',
 							      'valid_forms.js');
 
-		if($this->input->post()){
-
-			$servicios = new Servicio();
-			
-			$aPermisos = permisos($this->session->userdata('type_user'));
-			$input_count = 0;
-
-			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'buscar' && $input != '' ){
-			 		$servicios->like($input_name, $input);
-			 		$input_count++;
-			 	}
-		}
-
-			 if($input_count > 0){
-
-				$servicios->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
-				$servicios->order_by('estatus');
-				$servicios->order_by('codigo');
-				$servicios->get_paged_iterated($page, 4);
-
-				$data['permisos']     = $aPermisos['service'];
-				$data['paginaActual'] = $page;
-				$data['servicios']    = $servicios;
-				$data['buscar']       = true;
-
-			}
-
-		}
-
+		
 		$this->load->view('sistema/template',$data);
 
 	}

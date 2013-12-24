@@ -1,3 +1,4 @@
+<?php $aPermisos = unserialize (PERMISOS); ?>
 <script>
 	$(function(){ Find.empleados(); });
 </script>
@@ -128,35 +129,57 @@
 			?>
 
 			<input type="hidden" name="fecha_alta" id="fecha_alta" />
+			</table>
+           	 <a name='Buscar' id='Buscar' class="abutton" onclick= "grid();" value='Buscar'> Buscar</a>
 
 			<?php
-			echo'</table>'; 
-
-		 	$data = array(
-		 		'name'  => 'buscar',
-		 		'id'    => 'buscar',
-		 		'class' => 'abutton',
-		 		'value' => 'Buscar'
-		 	);
-
-		 	echo form_submit($data);
-		 	echo '<a href="'.base_url($return).'" class="abutton_cancel">Cancelar</a>';
+			echo '<a href="'.base_url($return).'" class="abutton_cancel">Cancelar</a>';
 	 		echo form_close();
 
-	 	if(isset($empleados)){
-
-	 		$this->load->view('sistema/empleados/lista');
-
-	 	}
 ?>
+<div id="tabla">
+<section class="datagrid">
+	<table>
+		<thead>
+			<tr>
+				<th align="center">Código</th>
+				<th align="center">Nombre</th>
+				<th align="center">Email</th>
+				<th align="center">Teléfono</th>
+				<th align="center">Celular</th>
+				<th id="thAcciones" style="display:none" align="center">Acciones</th>
+			
+			</tr>
+		</thead>
+		<tbody id= "tbodyempleado">
+
+		</tbody>
+		<tfoot id= "tfootempleado">
+			
+		</tfoot>	
+		</table>
+		</div>
+		<div id="wait_grid" class= "wait_grid" style="display:none">
+		<img src="<?= base_url('assets/images/wait.gif'); ?>" style="width:25px;height:25px;"/>
+		Cargando datos ...
+	</div>
+
+</section>
+
+</section>
 <script>
+
+base_url = "<?= base_url(); ?>";
+page     = 1;
+
+$("#tabla").hide();
 
 function grid(){
 
-	jQuery('#tbodyempleado').html("");
+	jQuery('#tbodyservicio').html("");
+	jQuery('#tabla').show(2000);
 	jQuery('#wait_grid').show();
-	jQuery('#agregar').hide(); 
-	jQuery('#busavan').hide();
+	
 
 
 	var form_data = jQuery('#empleadosForm').serialize();

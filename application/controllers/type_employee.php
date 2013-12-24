@@ -64,10 +64,18 @@ class Type_employee extends CI_Controller{
     			$tipoEmpleados->where('nombre like "%'.$_POST['Nombre'].'%"');
     			
     		}
+    		if($this->input->post('estatus')){
 
-    		if($this->input->post('fecha_alt')){
+    			$tipoEmpleados->where_in('estatus',$this->input->post('estatus'));	
+    			   			
+    		} else {
 
-    			$tipoEmpleados->where('fecha_alta',$this->input->post('fecha_alt'));
+    			$tipoEmpleados->where('estatus <> 2');
+    		}
+
+    		if($this->input->post('fecha_alta')){
+
+    			$tipoEmpleados->where('DATE(fecha_alta) = \''.$this->input->post('fecha_alta').'\'');
     			
     		}
 
@@ -279,6 +287,9 @@ public function eliminar($id_tipoEmpleado){
 
    public function buscar($page = 1){
 
+   		$aPermisos = permisos($this->session->userdata('type_user'));
+
+    	$data['permisos'] = $aPermisos['type_employee'];
 		$data['view']     = 'sistema/tipo_empleado/buscar';
 		$data['return']   = 'type_employee';
 		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
@@ -288,35 +299,7 @@ public function eliminar($id_tipoEmpleado){
 							      'jquery.ui.datepicker-es.js',
 							      'valid_forms.js');
 
-		if($this->input->post()){
-
-			$tipoEmpleados = new Tipo_empleado();
-			
-			$aPermisos = permisos($this->session->userdata('type_user'));
-			$input_count = 0;
-
-			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'Buscar' && $input != '' ){
-			 		$tipoEmpleados->like($input_name, $input);
-			 		$input_count++;
-			 	}
-			 } 
-			 
-			if($input_count > 0){
-				$tipoEmpleados->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
-									       
-				$tipoEmpleados->order_by('estatus');
-				$tipoEmpleados->order_by('codigo');
-				$tipoEmpleados->get_paged_iterated($page, 5);
-
-				$data['permisos']     = $aPermisos['type_employee'];
-				$data['paginaActual'] = $page;
-				$data['tipoEmpleados']= $tipoEmpleados;
-				$data['buscar']       = true;
-
-			}
-		}
-			$this->load->view('sistema/template',$data);
+		$this->load->view('sistema/template',$data);
 
 	}
 

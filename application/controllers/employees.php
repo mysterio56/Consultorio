@@ -36,8 +36,7 @@ class Employees extends CI_Controller{
     		$empleados = new Empleado();
 
     		$empleados->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
-    		$empleados->where('estatus <> 2');
-
+    		
 			$permisos = permisos($this->session->userdata('type_user'));
 
 			
@@ -73,6 +72,22 @@ class Employees extends CI_Controller{
     		if($this->input->post('apellido_m')){
 
     			$empleados->where('apellido_m like "%'.$_POST['apellido_m'].'%"');
+    			
+    		}
+
+    		if($this->input->post('estatus')){
+
+    			$empleados->where_in('estatus',$this->input->post('estatus'));	
+    			   			
+    		} else {
+
+    			$empleados->where('estatus <> 2');
+    		}
+
+
+			if($this->input->post('fecha_alta')){
+
+    			$empleados->where('DATE(fecha_alta) = \''.$this->input->post('fecha_alta').'\'');
     			
     		}
 
@@ -366,6 +381,9 @@ class Employees extends CI_Controller{
 
 	public function buscar($page = 1){
 
+		$aPermisos = permisos($this->session->userdata('type_user'));
+
+    	$data['permisos'] = $aPermisos['employees'];
 		$data['view']     = 'sistema/empleados/buscar';
 		$data['return']   = 'employees';
 		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
@@ -374,36 +392,6 @@ class Employees extends CI_Controller{
 							      'jquery-ui.js',
 							      'jquery.ui.datepicker-es.js',
 							      'valid_forms.js');
-
-		if($this->input->post()){
-
-			$empleados = new Empleado();
-			
-			$aPermisos = permisos($this->session->userdata('type_user'));
-			$input_count = 0;
-
-			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'buscar' && $input != '' ){
-			 		$empleados->like($input_name, $input);
-			 		$input_count++;
-			 	}
-			 } 
-			 
-			if($input_count > 0){
-
-				$empleados->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
-				$empleados->order_by('estatus');
-				$empleados->order_by('codigo');
-				$empleados->get_paged_iterated($page, 8);
-
-				$data['permisos']     = $aPermisos['employees'];
-				$data['paginaActual'] = $page;
-				$data['empleados']    = $empleados;
-				$data['buscar']       = true;
-
-			}
-
-		}
 
 		$this->load->view('sistema/template',$data);
 

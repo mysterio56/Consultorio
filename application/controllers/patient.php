@@ -41,11 +41,7 @@ class Patient extends CI_Controller{
 
 			$permisos = permisos($this->session->userdata('type_user'));
     		
-    		$pacientes->where('estatus <> 2');
-
-			
-			
-			if($this->input->post('codigo')){
+    		if($this->input->post('codigo')){
 
     			$pacientes->where('codigo',$this->input->post('codigo'));
     			$pacientes->order_by(' codigo ');
@@ -77,6 +73,21 @@ class Patient extends CI_Controller{
     		if($this->input->post('Apellido_m')){
 
     			$pacientes->where('apellido_m like "%'.$_POST['Apellido_m'].'%"');
+    			
+    		}
+    		if($this->input->post('estatus')){
+
+    			$pacientes->where_in('estatus',$this->input->post('estatus'));	
+    			   			
+    		} else {
+
+    			$pacientes->where('estatus <> 2');
+    		}
+
+
+			if($this->input->post('fecha_alta')){
+
+    			$pacientes->where('DATE(fecha_alta) = \''.$this->input->post('fecha_alta').'\'');
     			
     		}
 
@@ -278,6 +289,9 @@ class Patient extends CI_Controller{
 
 	public function buscar($page = 1){
 
+		$aPermisos = permisos($this->session->userdata('type_user'));
+
+    	$data['permisos'] = $aPermisos['patient'];
 		$data['view']     = 'sistema/pacientes/buscar';
 		$data['return']   = 'patient';
 		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
@@ -287,37 +301,10 @@ class Patient extends CI_Controller{
 							      'jquery.ui.datepicker-es.js',
 							      'valid_forms.js');
 		
-		if($this->input->post()){
-			
-			$consultorio = new Consultorio();
-			$pacientes   = new Paciente();
-			$consultorio->where(array('id' => $this->session->userdata('id_consultorio')))->get();
-
-			$aPermisos = permisos($this->session->userdata('type_user'));
-			$input_count= 0;
-			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'buscar' && $input != '' ){
-			 		$consultorio->pacientes->like($input_name, $input);
-			 		$input_count++;
-			 	}
-			 } 
-			 
-			if($input_count > 0){
-
-			
-				$consultorio->paciente->order_by('estatus');
-				$consultorio->paciente->order_by('codigo');
-				$pacientes = $pacientes->get_paged_iterated($page, 5);
-				
-				
-				$data['permisos']     = $aPermisos['patient'];
-				$data['pacientes']	  = $pacientes;
-			}
-		}
-
-				$this->load->view('sistema/template',$data);
+		$this->load->view('sistema/template',$data);
 
 	} 
+
 
 	public function lista(){
 

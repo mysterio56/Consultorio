@@ -36,7 +36,7 @@ class Specialism extends CI_Controller{
     		$especialidades = new Especialidad();
 
     		$especialidades->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
-    		$especialidades->where('estatus <> 2');
+    		
 
 			$permisos = permisos($this->session->userdata('type_user'));
 
@@ -65,6 +65,9 @@ class Specialism extends CI_Controller{
 
     			$especialidades->where_in('estatus',$this->input->post('estatus'));	
     			   			
+    		} else {
+
+    			$especialidades->where('estatus <> 2');
     		}
 
     		if($this->input->post('Nombre')){
@@ -73,14 +76,9 @@ class Specialism extends CI_Controller{
     			
     		}
 			 	    	
-    		if($this->input->post('fecha_alta_value')){
+    		if($this->input->post('fecha_alta')){
 
-    			$especialidades->where('fecha_alta',$this->input->post('fecha_alta_value'));
-    			
-    		}
-    		if($this->input->post('fecha_alt')){
-
-    			$especialidades->where('fecha_alta',$this->input->post('fecha_alt'));
+    			$especialidades->where('DATE(fecha_alta) = \''.$this->input->post('fecha_alta').'\'');
     			
     		}
 
@@ -248,6 +246,9 @@ public function eliminar($id_especialidad){
 
 	public function buscar($page = 1){
 
+		$aPermisos = permisos($this->session->userdata('type_user'));
+
+    	$data['permisos'] = $aPermisos['specialism'];
 		$data['view']     = 'sistema/especialidades/buscar';
 		$data['return']   = 'specialism';
 		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
@@ -256,32 +257,9 @@ public function eliminar($id_especialidad){
 							      'jquery-ui.js',
 							      'jquery.ui.datepicker-es.js',
 							      'valid_forms.js');
-
-			if($this->input->post()){
-			$especialidades = new Especialidad();
-			
-			$aPermisos = permisos($this->session->userdata('type_user'));
-			$input_count = 0;
-			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'Buscar' && $input != '' ){
-			 		$especialidades->like($input_name, $input);
-			 		$input_count++;
-			 	}
-			 } 
-			 
-			if($input_count > 0){
-
-				$especialidades->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
-				$especialidades->order_by('estatus');					    
-				$especialidades->order_by('codigo');
-				$oEspecialidades = $especialidades->get_paged_iterated($page, 5);
-				
-				$data['permisos']     = $aPermisos['specialism'];			
-				$data['especialidades']= $especialidades;
-				
-			}
-		}
+		
 		$this->load->view('sistema/template',$data);
+	
 
 	}
 

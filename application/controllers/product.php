@@ -34,7 +34,7 @@ class Product extends CI_Controller{
     		$productos = new Producto();
 
     		$productos->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
-    		$productos->where('estatus <> 2');
+    		
 
 			$permisos = permisos($this->session->userdata('type_user'));
 
@@ -64,9 +64,18 @@ class Product extends CI_Controller{
     			
     		}
 
-    		if($this->input->post('fecha_alt')){
+    		if($this->input->post('estatus')){
 
-    			$productos->where('fecha_alta',$this->input->post('fecha_alt'));
+    			$productos->where_in('estatus',$this->input->post('estatus'));	
+    			   			
+    		} else {
+
+    			$productos->where('estatus <> 2');
+    		}
+
+    		if($this->input->post('fecha_alta')){
+
+    			$productos->where('DATE(fecha_alta) = \''.$this->input->post('fecha_alta').'\'');
     			
     		}
 
@@ -77,7 +86,6 @@ class Product extends CI_Controller{
     			
 			}
     		
-    		$data['buscar']   = true;
     		$oProductos = $productos->get_paged_iterated($page, 5);
     		
     		foreach( $oProductos as $nKey => $producto){	
@@ -241,6 +249,9 @@ public function eliminar($id_producto){
 
    public function buscar($page = 1){
 
+   		$aPermisos = permisos($this->session->userdata('type_user'));
+
+    	$data['permisos'] = $aPermisos['product'];
 		$data['view']     = 'sistema/producto/buscar';
 		$data['return']   = 'product';
 		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
@@ -250,34 +261,7 @@ public function eliminar($id_producto){
 							      'jquery.ui.datepicker-es.js',
 							      'valid_forms.js');
 
-		if($this->input->post()){
-
-			$productos = new Producto();
-			
-			$aPermisos = permisos($this->session->userdata('type_user'));
-			$input_count = 0;
-			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'Buscar' && $input != '' ){
-			 		$productos->like($input_name, $input);
-			 		$input_count++;
-			 	}
-			 } 
-			 
-			if($input_count > 0){
-
-				$productos->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
-				$productos->order_by('estatus');
-				$productos->order_by('codigo');
-				$productos->get_paged_iterated($page, 8);
-
-				$data['permisos']     = $aPermisos['product'];
-				$data['paginaActual'] = $page;
-				$data['productos']     = $productos;
-				$data['buscar']       = true;
-
-			}
-		}
-
+		
 		$this->load->view('sistema/template',$data);
 
 	}
