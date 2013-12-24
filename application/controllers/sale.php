@@ -37,7 +37,8 @@ class Sale extends CI_Controller{
 				$ingreso_serv->estatus	      = 1;			
 				$ingreso_serv->consultorio_id = $this->session->userdata('id_consultorio');
 		   	 	$ingreso_serv->fecha_alta     = date("Y-m-d H:i:s");
-				$ingreso_serv->costo          = $servicio->costo_venta * $this->input->post('cantidad_serv');
+				$ingreso_serv->costo          = $this->input->post('costo_serv') * $this->input->post('cantidad_serv');
+				$ingreso_serv->paciente_id    = $this->input->post('pacienteId');
 				$ingreso_serv->cantidad       = $this->input->post('cantidad_serv');
 				$ingreso_serv->servicio_id    = $this->input->post('servicio');
 				
@@ -45,7 +46,7 @@ class Sale extends CI_Controller{
 					$aIngresos[] = array("nombre"   => $servicio->nombre,
 								 	 	 "codigo"   => $servicio->codigo,
 										 "cantidad" => $this->input->post('cantidad_serv'),
-										 "costo"    => $servicio->costo_venta * $this->input->post('cantidad_serv'),
+										 "costo"    => $this->input->post('costo_serv') * $this->input->post('cantidad_serv'),
 										 "id"       => $ingreso_serv->id); 
 				}
 
@@ -61,7 +62,8 @@ class Sale extends CI_Controller{
 				$ingreso_prod->estatus	      = 1;			
 				$ingreso_prod->consultorio_id = $this->session->userdata('id_consultorio');
 		   	 	$ingreso_prod->fecha_alta     = date("Y-m-d H:i:s");
-				$ingreso_prod->costo          = $producto->costo_venta * $this->input->post('cantidad_prod');
+				$ingreso_prod->costo          = $this->input->post('costo_prod') * $this->input->post('cantidad_prod');
+				$ingreso_prod->paciente_id    = $this->input->post('pacienteId');
 				$ingreso_prod->cantidad       = $this->input->post('cantidad_prod');
 				$ingreso_prod->producto_id    = $this->input->post('producto');
 				
@@ -69,7 +71,7 @@ class Sale extends CI_Controller{
 					$aIngresos[] = array("nombre"   => $producto->nombre,
 								 	 	 "codigo"   => $producto->codigo,
 										 "cantidad" => $this->input->post('cantidad_prod'),
-										 "costo"    => $producto->costo_venta * $this->input->post('cantidad_prod'),
+										 "costo"    => $this->input->post('costo_prod') * $this->input->post('cantidad_prod'),
 										 "id"       => $ingreso_prod->id); 
 				}
 

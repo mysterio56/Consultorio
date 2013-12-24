@@ -182,7 +182,8 @@ jQuery(function() {
               rowIngresos += ingreso.total;
               rowIngresos += '</td>';
               rowIngresos += '<td>';
-              rowIngresos += '<img onclick="detail('+ingreso.id+',\''+ingreso.tipo+'\')" src="'+base_url+'/assets/images/detail.png" class="ico" title="detalle"/>'
+              rowIngresos += '<img onclick="detail('+ingreso.id+',\''+ingreso.tipo+'\')" src="'+base_url+'/assets/images/detail.png" class="ico" title="Detalle"/>'
+              rowIngresos += '<img onclick="detail('+ingreso.id+',\''+ingreso.tipo+'\', \'true\')" src="'+base_url+'/assets/images/pdf.png" class="ico" title="Imprimir detalle"/>'
               rowIngresos += '</td>';
               rowIngresos += '</tr>';
 
@@ -273,7 +274,7 @@ function setPage(nPage){
   grid();
 }
 
-function detail(id,tipo){
+function detail(id,tipo,imprimir){
 
   if($('#date_start').val()!=""){
 
@@ -291,17 +292,29 @@ function detail(id,tipo){
     date_end = $('#date_end').val().split("/");
     date_end = new Date(date_end[2],date_end[1]-1,date_end[0],'00','00','00').getTime();
 
-  }else{
+  } else {
+
     date_end = false;
+
   }
 
   if(tipo=="cita"){
+
 
     window.location = base_url+"income/detailCita/"+id;
 
   }else{
 
-    window.location = base_url+"income/detail/"+id+"/"+tipo+"/"+date_start+"/"+date_end;
+    if(imprimir){
+
+      //window.location = base_url+"income/detail/"+id+"/"+tipo+"/"+date_start+"/"+date_end+"/1/imprimir";
+      window.open(base_url+"income/detail/"+id+"/"+tipo+"/"+date_start+"/"+date_end+"/1/imprimir",'_blank'); 
+
+    } else {
+
+      window.location = base_url+"income/detail/"+id+"/"+tipo+"/"+date_start+"/"+date_end;
+
+    }
 
   }
 

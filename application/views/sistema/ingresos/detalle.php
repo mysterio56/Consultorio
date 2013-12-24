@@ -8,6 +8,7 @@
 		<thead>
 			<tr>
 				<th>Fecha/Hora</th>
+				<th>Publico/Paciente</th>
 				<th>Cantidad</th>
 				<th>Costo</th>
 				<th>Total</th>
@@ -23,10 +24,12 @@
 
 				    $ingreso->producto->get();
 				    $ingreso->servicio->get();
+				    $ingreso->paciente->get();
 
-				    $name_PS = $ingreso->producto->id?$ingreso->producto->nombre:$ingreso->servicio->nombre;
-				    $id      = $ingreso->producto->id?$ingreso->producto->id:$ingreso->servicio->id;
-				    $tipo    = $ingreso->producto->id?"producto":"servicio";
+				    $name_PS  = $ingreso->producto->id?$ingreso->producto->nombre:$ingreso->servicio->nombre;
+				    $id       = $ingreso->producto->id?$ingreso->producto->id:$ingreso->servicio->id;
+				    $tipo     = $ingreso->producto->id?"producto":"servicio";
+				    $paciente = $ingreso->paciente_id?$ingreso->paciente->nombre." ".$ingreso->paciente->apellido_p." ".$ingreso->paciente->apellido_m:'Publico';
 
 					if ((($key+1) % 2) == 0) {
 						$rowClass = "even";
@@ -39,6 +42,7 @@
 			   					    month(date("m", strtotime($ingreso->fecha_alta)) - 1,false) ."/".
 			   					    date("Y", strtotime($ingreso->fecha_alta)) ." ".
 			   					    date("H:i", strtotime($ingreso->fecha_alta)).'</td>';
+			   			echo '<td>'.$paciente.'</td>';
 						echo '<td>'.$ingreso->cantidad.'</td>';
 						echo '<td align="right">$ '.number_format(($ingreso->costo/$ingreso->cantidad), 2, '.', ',').'</td>';
 						echo '<td align="right">$ '.number_format(($ingreso->costo), 2, '.', ',').'</td>';
