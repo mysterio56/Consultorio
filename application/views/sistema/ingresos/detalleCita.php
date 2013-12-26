@@ -9,13 +9,10 @@ $cita->paciente->get();
 $cita->empleado->get(); 
 ?>
 
-<label> Servicio: </label><label style="color:black;font-size: 13px;"><?= $cita->servicio->nombre; ?> - $ <?= $cita->costo; ?></label>
 <br />
 <label> Doctor: </label><label style="color:black;font-size: 13px;"><?= $cita->empleado->nombre; ?> <?= $cita->empleado->apellido_p; ?> <?= $cita->empleado->apellido_m; ?> </label>
 <br />
 <label> Paciente: </label><label style="color:black;font-size: 13px;"><?= $cita->paciente->nombre; ?> <?= $cita->paciente->apellido_p; ?> <?= $cita->paciente->apellido_m; ?> </label>
-<br />
-<label> Total: </label><label id="total" style="color:black;font-size: 13px;"><?= $total; ?></label>
 <br />
 <br />
 <section class="datagrid" >
@@ -31,6 +28,8 @@ $cita->empleado->get();
 		<tbody>
 			<?php 
 
+				$total = 0;
+
 				foreach($ingresos->all as $key => $ingreso){
 
 					$val = true;
@@ -41,6 +40,7 @@ $cita->empleado->get();
 						$rowClass = "odd";
 					}
 
+					$total = $total + $ingreso->sumCosto;
 					$ingreso->producto->get();
 					$ingreso->servicio->get();
 
@@ -62,6 +62,8 @@ $cita->empleado->get();
 		</tbody>
 	</table>
 </section>
+
+<label> Total: </label><label id="total" style="color:black;font-size: 13px;">$ <?= number_format($total, 2, '.', ','); ?></label>
 
 <a href="<?= base_url('income') ?>" class ="abutton_cancel" >Cancelar</a>
 

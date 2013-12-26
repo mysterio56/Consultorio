@@ -26,25 +26,15 @@
 <br />
 
  <input type="hidden" name="imprimir" id="imprimir" value="0" />
- <input type="hidden" name="inputTotalPS" id="inputTotalPS" value="0" />
- <input type="hidden" name="inputTotalCita" id="inputTotalCita" value="0" />
-
- <label>Ver por: </label>
-
-    <select name="type" id="type" onChange="grid();" >
-        <option value="1">Producto/Servicio</option>
-        <option value="2">Citas</option>
-    </select>
+ <input type="hidden" name="inputTotal" id="inputTotalPS" value="0" />
 
     <label> Inicio </label> <label id="l_date_start"> </label> <input type="hidden" id="date_start" name="date_start"/>
     <label> Fin    </label> <label id="l_date_end"> </label> <input type="hidden" id="date_end" name="date_end"/>
 
-    <label class ="abutton" onClick="getTotalPS(); getTotalCitas(); grid();" >Buscar</label>
+    <label class ="abutton" onClick="getTotalPS(); grid();" >Buscar</label>
 
     <br />
 
-    <label>Total Producto/Servicio</label> <strong id="totalPS"></strong>
-    <label>Total Citas</label>             <strong id="totalCitas"></strong>
     <label>Total</label>                   <strong id="total"></strong>
 
 </div>
@@ -81,7 +71,7 @@
 </section>
 
  <label class ="abutton" id="imprimir" onClick="imprimir();">Imprimir</label>
- <a href="<?= base_url('income') ?>" class ="abutton_cancel" >Cancelar</a>
+ <a href="<?= base_url('expenses') ?>" class ="abutton_cancel" >Cancelar</a>
  
  
 <script>
@@ -94,10 +84,9 @@ base_url  = "<?= base_url(); ?>";
 
 jQuery(function() {
 
-	getTotalPS();
+	  getTotalPS();
     getProducto();
     getServicio();
-    getTotalCitas();
     grid();
 
     jQuery("#date_start").datepicker({
@@ -142,7 +131,6 @@ jQuery(function() {
   function grid(){
 
     getTotalPS();
-    getTotalCitas();
 
     jQuery('#tbodyIngresos').html("");
     jQuery('#wait_grid').show();
@@ -154,13 +142,7 @@ jQuery(function() {
                       date_end : $('#date_end').val()
                     };
 
-    if($('#type').val()==1){
-      url = "income/gridPS/"+page;
-    } else {
-      url = "income/gridCitas/"+page;
-    }
-
-    jQuery.post( base_url+url, form_data , 
+    jQuery.post( base_url+"expenses/grid/"+page, form_data , 
 
         function( data ) {
 
@@ -256,16 +238,10 @@ jQuery(function() {
 
   }
 
-  function imprimir(){
-
-      if($('#type').val()==1){
-        url = "income/gridPS/"+page;
-      } else {
-        url = "income/gridCitas/"+page;
-      }
+function imprimir(){
 
       $('#imprimir').val('imprimir');
-      $('#ingresosForm').get(0).setAttribute('action', "<?= base_url(); ?>"+url );
+      $('#ingresosForm').get(0).setAttribute('action', "<?= base_url(); ?>"+"expenses/grid" );
       $('#ingresosForm').submit();
   }
 
@@ -298,35 +274,19 @@ function detail(id,tipo,imprimir){
 
   }
 
-  if(tipo=="cita"){
+  if(imprimir){
 
-    if(imprimir){
+    window.open(base_url+"expenses/detail/"+id+"/"+tipo+"/"+date_start+"/"+date_end+"/1/imprimir",'_blank'); 
 
-      window.open(base_url+"income/detailCita/"+id+"/1/imprimir",'_blank');
+  } else {
 
-    } else {
-
-      window.location = base_url+"income/detailCita/"+id;
-
-    }
-
-  }else{
-
-    if(imprimir){
-
-      window.open(base_url+"income/detail/"+id+"/"+tipo+"/"+date_start+"/"+date_end+"/1/imprimir",'_blank'); 
-
-    } else {
-
-      window.location = base_url+"income/detail/"+id+"/"+tipo+"/"+date_start+"/"+date_end;
-
-    }
+    window.location = base_url+"expenses/detail/"+id+"/"+tipo+"/"+date_start+"/"+date_end;
 
   }
 
 } 
 
-    function getProducto(){
+function getProducto(){
 
   $('#wait_tp').show();
 
@@ -361,7 +321,7 @@ function getServicio(){
 
   $("#servicio option").remove();
 
-    $.getJSON( base_url + "service/lista_add", function( data ) {
+    $.getJSON( base_url + "service/lista_egresos", function( data ) {
 
     $('#servicio').append('<option value="0"></option>');
 
@@ -384,30 +344,6 @@ function getServicio(){
 
 }
 
-function getTotalCitas(){
-
-    var form_data = { type     : $('#type').val(),
-                      producto : $('#producto').val(),
-                      servicio : $('#servicio').val(),
-                      date_start : $('#date_start').val(),
-                      date_end : $('#date_end').val()
-                    };
-    jQuery.post( base_url+"income/getTotalCitas", form_data , 
-
-        function( data ) {
-          if(data!=""){
-            $("#totalCitas").html("$ "+data);
-            $("#inputTotalCita").val(data)
-            costoCita = data;
-          }else{
-             $("#totalCitas").html("$ 0.00");
-            costoCita = 0;
-          }
-            getTotal();
-    });
-}
-
-
 function getTotalPS(){
 
 	var form_data = { type     : $('#type').val(),
@@ -417,26 +353,16 @@ function getTotalPS(){
                       date_end : $('#date_end').val()
                     };
 
-	jQuery.post( base_url+"income/getTotal", form_data , 
+	jQuery.post( base_url+"expenses/getTotal", form_data , 
 
 		function( data ) {
       if(data!=""){
-			$("#totalPS").html("$ "+data);
-      $("#inputTotalPS").val(data);
-      costoPS = data;
+			$("#total").html("$ "+data);
+      $("#inputTotal").val(data);
     }else{
-      $("#totalPS").html("$ 0.00");
-      costoPS = 0;
+      $("#total").html("$ 0.00");
     }
-      getTotal();
 	});
-}
-
-function getTotal(){
-
-  total = parseFloat(costoPS) + parseFloat(costoCita);
-    $("#total").html("$ "+total.toFixed(2));
-
 }
 
 function autocom(select){

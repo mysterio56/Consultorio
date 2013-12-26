@@ -29,6 +29,7 @@ class Income extends CI_Controller{
         $ingresos = new Ingreso();
         
         $ingresos->select(' sum(costo) sumCosto ' );
+        $ingresos->where('consultorio_id', $this->session->userdata('id_consultorio'));
         
         if($this->input->post('producto') && $this->input->post('servicio')){
 
@@ -82,7 +83,7 @@ class Income extends CI_Controller{
 
         }
 
-        $ingresos->where('cita_id IS NULL');
+        $ingresos->where(' cita_id IS NULL ');
 
         $ingresos->get();
 
@@ -95,6 +96,7 @@ class Income extends CI_Controller{
         $ingresos = new Ingreso();
         
         $ingresos->select(' sum(costo) sumCosto ' );
+        $ingresos->where('consultorio_id', $this->session->userdata('id_consultorio'));
         
         if($this->input->post('producto') && $this->input->post('servicio')){
 
@@ -164,6 +166,8 @@ class Income extends CI_Controller{
         
         $ingresos->select(' *, sum(costo) as sumCosto, sum(cantidad) as sumCantidad ' );
         $count->select(' id ' );
+        $ingresos->where('consultorio_id', $this->session->userdata('id_consultorio'));
+        $count->where('consultorio_id', $this->session->userdata('id_consultorio'));
         
         if($this->input->post('producto') && $this->input->post('servicio')){
 
@@ -385,6 +389,8 @@ class Income extends CI_Controller{
         
         $ingresos->select(' *, sum(costo) as sumCosto, sum(cantidad) as sumCantidad ' );
         $count->select(' id ' );
+        $ingresos->where('consultorio_id', $this->session->userdata('id_consultorio'));
+        $count->where('consultorio_id', $this->session->userdata('id_consultorio'));
         
         if($this->input->post('producto') && $this->input->post('servicio')){
 
@@ -604,6 +610,8 @@ class Income extends CI_Controller{
 
         $ingresos = new Ingreso();
 
+        $ingresos->where('consultorio_id', $this->session->userdata('id_consultorio'));
+
         if ($tipo == "producto"){
 
             $ingresos->where('producto_id', $id);
@@ -759,31 +767,123 @@ class Income extends CI_Controller{
 
     }
 
-    public function detailCita($id_cita = null ){
+    public function detailCita($id_cita = null, $imprimir = null ){
 
         $ingresos = new Ingreso();
-        $total    = new Ingreso();
         $cita     = new Reunion();
 
         $ingresos->select(' *, sum(cantidad) as sumCantidad, sum(costo) as sumCosto ')->
-                   where(array('cita_id' => $id_cita, 'tipo <>' => 1))->
+                   where(array('cita_id' => $id_cita))->
+                   where('consultorio_id', $this->session->userdata('id_consultorio'))->
                    group_by('producto_id, servicio_id')->
                    get(); 
 
-        $total->select(' sum(costo) as sumCosto ')->
-                   where(array('cita_id' => $id_cita))->
-                   get();            
+        $cita->where('id', $id_cita)->get();            
 
-        $cita->where('id', $id_cita)->get();
+        if(!$imprimir){
 
-        $data['ingresos'] = $ingresos;
-        $data['total']    = $total->sumCosto;
-        $data['cita']     = $cita;
-        $data['cssFiles'] = array('sistema.css');
-        $data['jsFiles']  = array('jquery.js');
-        $data['view']     = 'sistema/ingresos/detalleCita';
+            $data['ingresos'] = $ingresos;
+            $data['cita']     = $cita;
+            $data['cssFiles'] = array('sistema.css');
+            $data['jsFiles']  = array('jquery.js');
+            $data['view']     = 'sistema/ingresos/detalleCita';
 
-        $this->load->view('sistema/template_simple',$data);
+            $this->load->view('sistema/template_simple',$data);
+
+        } else { 
+
+            $this->load->library('Pdf');
+            $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+            $pdf->SetCreator(PDF_CREATOR);
+
+            $pdf->SetFont('Helvetica', '', 14, '', true); 
+
+            $pdf->AddPage();
+     
+            $pdf->setTextShadow(array('enabled' => true, 'depth_w' => 0.2, 'depth_h' => 0.2, 'color' => array(196, 196, 196), 'opacity' => 1, 'blend_mode' => 'Normal'));
+            $pdf->setImageScale(0.47);
+
+            if(isset($dPdf_start) && isset($dPdf_end)){
+
+                $fecha = $dPdf_start ." al ". $dPdf_end;                    
+
+            }elseif(isset($dPdf_start) && !isset($dPdf_end)){
+
+                $fecha = $dPdf_start;                    
+
+            }elseif(isset($dPdf_end) && !isset($dPdf_start)){
+
+                $fecha = $dPdf_end;                    
+
+            }else{
+
+                $fecha = date('d')." / ".month((date('m')-1),false). " / ". date('Y');
+
+            }    
+
+            $pdf->Image(base_url('assets/images/logos/'.$this->session->userdata('logo').'_logo.png'), 10, 10, 45, 25, '', '', '', false, 300);
+
+            $pdf->writeHTMLCell(0, 0, 60, 7, '<h1 style="font-size:8px;">Ingresos por Cita</h1>', 0, 1,  0, true, '', true);
+
+            $pdf->writeHTMLCell(0, 0, 60, 16, '<h1 style="font-size:8px;">Fecha:</h1>', 0, 1,  0, true, '', true);
+            $pdf->writeHTMLCell(0, 0, 60, 23, '<h1 style="font-size:8px;">Doctor:</h1>', 0, 1,  0, true, '', true);
+            $pdf->writeHTMLCell(0, 0, 60, 30, '<h1 style="font-size:8px;">Paciente:</h1>', 0, 1,  0, true, '', true);
+
+            $pdf->writeHTMLCell(0, 0, 90, 16, '<h1 style="font-size:8px;">'.$cita->fecha_hora.'</h1>', 0, 1,  0, true, '', true);
+
+            $cita->paciente->get();
+            $cita->empleado->get();
+
+            $pdf->writeHTMLCell(0, 0, 90, 23, '<h1 style="font-size:8px;">'.$cita->empleado->nombre.' '.$cita->empleado->apellido_p.' '.$cita->empleado->apellido_m.'</h1>', 0, 1,  0, true, '', true);
+            $pdf->writeHTMLCell(0, 0, 90, 30, '<h1 style="font-size:8px;">'.$cita->paciente->nombre.' '.$cita->paciente->apellido_p.' '.$cita->paciente->apellido_m.'</h1>', 0, 1,  0, true, '', true);
+
+            $totalCita = 0; 
+            $html  = $this->_css().' <table class="table">';
+            $html .= '<thead>
+                        <tr>
+                            <th class="th">Producto/Servicio</th>
+                            <th class="th">Cantidad</th>
+                            <th class="th">Costo</th>
+                            <th class="th">Total</th>
+                        </tr>
+                    </thead>';
+            $html .= '<tbody>';  
+
+            foreach ($ingresos->all as $key => $ingreso) {
+
+                $totalCita = $totalCita + $ingreso->sumCosto;
+
+                if ((($key+1) % 2) == 0) {
+                        $rowClass = "even";
+                    } else  {
+                        $rowClass = "odd";
+                    }
+
+                $ingreso->producto->get();
+                $ingreso->servicio->get();
+                $ingreso->paciente->get();
+
+                $nombre   = $ingreso->producto_id?$ingreso->producto->nombre:$ingreso->servicio->nombre;
+
+                $html .= '<tr class="'.$rowClass.'">';
+                $html .= '<td class="td">'.$nombre.'</td>';
+                $html .= '<td class="td" align="right">'.$ingreso->sumCantidad.'</td>';
+                $html .= '<td class="td" align="right">$ '.number_format(($ingreso->sumCosto/$ingreso->sumCantidad), 2, '.', ',').'</td>';
+                $html .= '<td class="td" align="right">$ '.number_format($ingreso->sumCosto, 2, '.', ',').'</td>';
+                $html .= '</tr>';
+            }
+
+            $html .= '</tbody>';
+            $html .= '</table>';
+
+            $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = 40, $html, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
+
+            $pdf->writeHTMLCell(0, 0, 140, '', '<h1 style="font-size:8px;">Total: <strong>$ '.number_format($totalCita, 2, '.', ',').'</strong></h1>', 0, 1,  0, true, '', true);
+
+            $nombre_archivo = utf8_decode("Ingresos.pdf");
+            $pdf->Output($nombre_archivo, 'I');
+
+        } 
         
 
     }
