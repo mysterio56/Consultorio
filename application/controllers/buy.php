@@ -62,7 +62,7 @@ class Buy extends CI_Controller{
 				$egreso_prod->consultorio_id = $this->session->userdata('id_consultorio');
 		   	 	$egreso_prod->fecha_alta     = date("Y-m-d H:i:s");
 				$egreso_prod->costo          = $producto->costo_compra * $this->input->post('cantidad_prod');
-				$egreso_prod->cantidad       = $this->input->post('cantidad_serv');
+				$egreso_prod->cantidad       = $this->input->post('cantidad_prod');
 				$egreso_prod->producto_id    = $this->input->post('producto');
 				
 				if($egreso_prod->save()){

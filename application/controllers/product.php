@@ -248,7 +248,8 @@ public function eliminar($id_producto){
 
 	foreach($producto as $product){
 			 $aProducto[] = array("id"    => $product->id, 
-			 					  "value" => $product->codigo .' '. $product->nombre);
+			 					  "value" => $product->codigo .' '. $product->nombre,
+			 					  "costo" => $product->costo_venta);
 		}
 		
 		echo json_encode($aProducto);

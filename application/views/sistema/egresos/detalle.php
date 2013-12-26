@@ -8,7 +8,6 @@
 		<thead>
 			<tr>
 				<th>Fecha/Hora</th>
-				<th>Publico/Paciente</th>
 				<th>Cantidad</th>
 				<th>Costo</th>
 				<th>Total</th>
@@ -20,16 +19,15 @@
 			$date_start_url = strtotime($date_start)*1000;
 			$date_end_url   = strtotime($date_end)*1000;
 
-				foreach($ingresos as $key => $ingreso){
+				foreach($egresos as $key => $egreso){
 
-				    $ingreso->producto->get();
-				    $ingreso->servicio->get();
-				    $ingreso->paciente->get();
+				    $egreso->producto->get();
+				    $egreso->servicio->get();
+				    //$egreso->paciente->get();
 
-				    $name_PS  = $ingreso->producto->id?$ingreso->producto->nombre:$ingreso->servicio->nombre;
-				    $id       = $ingreso->producto->id?$ingreso->producto->id:$ingreso->servicio->id;
-				    $tipo     = $ingreso->producto->id?"producto":"servicio";
-				    $paciente = $ingreso->paciente_id?$ingreso->paciente->nombre." ".$ingreso->paciente->apellido_p." ".$ingreso->paciente->apellido_m:'Publico';
+				    $name_PS  = $egreso->producto->id?$egreso->producto->nombre:$egreso->servicio->nombre;
+				    $id       = $egreso->producto->id?$egreso->producto->id:$egreso->servicio->id;
+				    $tipo     = $egreso->producto->id?"producto":"servicio";
 
 					if ((($key+1) % 2) == 0) {
 						$rowClass = "even";
@@ -38,40 +36,39 @@
 					}
 
 					echo '<tr class='.$rowClass.'>';
-						echo '<td>'.date("d", strtotime($ingreso->fecha_alta)) ."/". 
-			   					    month(date("m", strtotime($ingreso->fecha_alta)) - 1,false) ."/".
-			   					    date("Y", strtotime($ingreso->fecha_alta)) ." ".
-			   					    date("H:i", strtotime($ingreso->fecha_alta)).'</td>';
-			   			echo '<td>'.$paciente.'</td>';
-						echo '<td>'.$ingreso->cantidad.'</td>';
-						echo '<td align="right">$ '.number_format(($ingreso->costo/$ingreso->cantidad), 2, '.', ',').'</td>';
-						echo '<td align="right">$ '.number_format(($ingreso->costo), 2, '.', ',').'</td>';
+						echo '<td>'.date("d", strtotime($egreso->fecha_alta)) ."/". 
+			   					    month(date("m", strtotime($egreso->fecha_alta)) - 1,false) ."/".
+			   					    date("Y", strtotime($egreso->fecha_alta)) ." ".
+			   					    date("H:i", strtotime($egreso->fecha_alta)).'</td>';
+						echo '<td>'.$egreso->cantidad.'</td>';
+						echo '<td align="right">$ '.number_format(($egreso->costo/$egreso->cantidad), 2, '.', ',').'</td>';
+						echo '<td align="right">$ '.number_format(($egreso->costo), 2, '.', ',').'</td>';
 						
 					echo '</tr>';
 				}
 			?>
 		</tbody>
-		<?php if($ingresos->paged->total_pages > 1): ?>
+		<?php if($egresos->paged->total_pages > 1): ?>
 			<tfoot>
 				<tr>
 					<td colspan="100%">
 						<div id="paging">
 							<ul>
-								<?php if($ingresos->paged->has_previous): ?>
+								<?php if($egresos->paged->has_previous): ?>
 									<li>
-										<a href="<?= base_url('income/detail/'.$id.'/'.$tipo.'/'.$date_start_url.'/'.$date_end_url.'/1'); ?>">
+										<a href="<?= base_url('expenses/detail/'.$id.'/'.$tipo.'/'.$date_start_url.'/'.$date_end_url.'/1'); ?>">
 											<span>Inicio</span>
 										</a>
 									</li>
 									<li>
-										<a href="<?= base_url('income/detail/'.$id.'/'.$tipo.'/'.$date_start_url.'/'.$date_end_url.'/'.$ingresos->paged->previous_page); ?>">
+										<a href="<?= base_url('expenses/detail/'.$id.'/'.$tipo.'/'.$date_start_url.'/'.$date_end_url.'/'.$egresos->paged->previous_page); ?>">
 											<span>Anterior</span>
 										</a>
 									</li>
 								<?php endif; ?>
 
 								<?php 
-									for($x = 1; $x <= $ingresos->paged->total_pages; $x++): 
+									for($x = 1; $x <= $egresos->paged->total_pages; $x++): 
 										if($paginaActual == $x){
 											$pagActiva = 'active';
 										} else {
@@ -80,20 +77,20 @@
 								?>
 											<li>
 												
-												<a href="<?= base_url('income/detail/'.$id.'/'.$tipo.'/'.$date_start_url.'/'.$date_end_url.'/'.$x); ?>" class="<?= $pagActiva ?>">
+												<a href="<?= base_url('expenses/detail/'.$id.'/'.$tipo.'/'.$date_start_url.'/'.$date_end_url.'/'.$x); ?>" class="<?= $pagActiva ?>">
 													<span><?= $x; ?></span>
 												</a>
 											</li>
 								<?php endfor; ?>
 
-								<?php if($ingresos->paged->has_next): ?>
+								<?php if($egresos->paged->has_next): ?>
 									<li>
-										<a href="<?= base_url('income/detail/'.$id.'/'.$tipo.'/'.$date_start_url.'/'.$date_end_url.'/'.$ingresos->paged->next_page); ?>">
+										<a href="<?= base_url('expenses/detail/'.$id.'/'.$tipo.'/'.$date_start_url.'/'.$date_end_url.'/'.$egresos->paged->next_page); ?>">
 											<span>Siguiente</span>
 										</a>
 									</li>
 									<li>
-										<a href="<?= base_url('income/detail/'.$id.'/'.$tipo.'/'.$date_start_url.'/'.$date_end_url.'/'.$ingresos->paged->total_pages); ?>">
+										<a href="<?= base_url('expenses/detail/'.$id.'/'.$tipo.'/'.$date_start_url.'/'.$date_end_url.'/'.$egresos->paged->total_pages); ?>">
 											<span>Fin</span>
 										</a>
 									</li>
@@ -106,7 +103,7 @@
 	</table>
 </section>
 
-<a href="<?= base_url('income') ?>" class ="abutton_cancel" >Cancelar</a>
+<a href="<?= base_url('expenses') ?>" class ="abutton_cancel" >Cancelar</a>
 
 <script>
 	$(function(){
@@ -145,7 +142,7 @@
 
     }
 
-	jQuery.post( base_url+"income/getTotal", form_data , 
+	jQuery.post( base_url+"expenses/getTotal", form_data , 
 
 		function( data ) {
 

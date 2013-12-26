@@ -19,12 +19,14 @@
 			 	<select name="producto" id="producto"></select>
 
         <img src     = "<?= base_url('assets/images/reload.png'); ?>" 
-               style   = "width:16px; height:16px;cursor:pointer;"
+               style   = "width:16px; height:16px;cursor:pointer;margin-left:-13px;"
                onClick = "getProducto();"/>
 
         <label>Cantidad:</label>
-
         <input name="cantidad_prod" id="cantidad_prod" value="1" style="width:45px"/>
+
+        <label>Costo: $</label>
+        <input name="costo_prod" id="costo_prod" style="width:70px"/>
 
 			</div>
 		    
@@ -47,18 +49,35 @@
 			 	   <select name="servicio" id="servicio"></select>
 
            <img src     = "<?= base_url('assets/images/reload.png'); ?>" 
-                style   = "width:16px; height:16px;cursor:pointer;"
+                style   = "width:16px; height:16px;cursor:pointer;margin-left: -13px;"
                 onClick = "getServicio();"/>
 
 			 	   <label>Cantidad:</label>
-        
            <input name="cantidad_serv" id="cantidad_serv" value="1" style="width:45px"/>
+
+           <label>Costo: $</label>
+           <input name="costo_serv" id="costo_serv" style="width:70px"/>
 
 			     
 			</div>
 		    
 		 </td>
 </tr>
+<tr>
+  <td><label>Paciente</label></td>
+  <td>
+
+    <?php $data = array(
+        'name'  => 'paciente',
+        'id'    => 'paciente',
+        'value' => set_value('paciente'),
+        'style' => 'width:150px'
+      );
+
+      echo form_input($data);
+        echo '<input type="hidden" name="pacienteId" id="pacienteId"/>';?>
+  </td>
+  </tr>
 <tr>
   <td>
     <?= form_label('Total: '); ?>
@@ -99,13 +118,25 @@ echo form_close();
 </section>
 
 <script>
+base_url = "<?= base_url(); ?>";
 $(function () {
   
-  base_url = "<?= base_url(); ?>";
+  
   getProducto();
   getServicio();
   getTotal();
   oddEven();
+
+  $('#producto').change(function(){
+      costo = $( "#producto option:selected" ).attr('costo');
+      $('#costo_prod').val(costo);
+  });
+
+  $('#servicio').change(function(){
+      costo = $( "#servicio option:selected" ).attr('costo');
+      $('#costo_serv').val(costo);
+  });
+
 }); 
 
 function getTotal(){
@@ -158,7 +189,7 @@ function getProducto(){
 
     $.each(data,function (key, val) {
       
-        $('#producto').append('<option value="' + val.id + '">' + val.value + '</option>');  
+        $('#producto').append('<option id="option_prod" costo="' + val.costo + '" value="' + val.id + '">' + val.value + '</option>');  
 
       });
 
@@ -187,7 +218,7 @@ function getServicio(){
 
     $.each(data,function (key, val) {
       
-        $('#servicio').append('<option value="' + val.id + '">' + val.codigo +' '+val.nombre + '</option>');  
+        $('#servicio').append('<option costo="' + val.costo_venta + '" value="' + val.id + '">' + val.codigo +' '+val.nombre + '</option>');  
 
       });
 
@@ -384,6 +415,8 @@ function addSale(){
             $('#producto_id').val("");
             $('#cantidad_prod').val(1);
             $('#cantidad_serv').val(1);
+            $('#costo_prod').val("");
+            $('#costo_serv').val("");
         });
 
         oddEven();
@@ -424,5 +457,15 @@ function deleteSale(id_ingreso){
       }, "json");
 
 }
+
+$( "#paciente" ).autocomplete({
+        source: base_url + "patient/lista",
+        minLength: 2,
+          select: function( event, item ) {
+          },
+          change: function(event, ui) {
+            $("#pacienteId").val(ui.item ? ui.item.Id : "");
+          }
+      });
 
 </script>

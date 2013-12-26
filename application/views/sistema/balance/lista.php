@@ -32,8 +32,8 @@
  <label>Ver por: </label>
 
     <select name="type" id="type" onChange="grid();" >
-        <option value="1">Producto/Servicio</option>
-        <option value="2">Citas</option>
+        <option value="1">Producto</option>
+        <option value="2">Servicio</option>
     </select>
 
     <label> Inicio </label> <label id="l_date_start"> </label> <input type="hidden" id="date_start" name="date_start"/>
@@ -56,27 +56,27 @@
 ?> 
 
 <section class="datagrid" >
-	<table>
-		<thead>
-			<tr>
-				<th>Producto/Servicio</th>
-				<th>Fecha</th>
-				<th>Total</th>
-				<th>Detalle</th>
-			</tr>
-		</thead>
-		<tbody id="tbodyIngresos">
+  <table>
+    <thead>
+      <tr>
+        <th>Producto/Servicio</th>
+        <th>Fecha</th>
+        <th>Total</th>
+        <th>Detalle</th>
+      </tr>
+    </thead>
+    <tbody id="tbodyIngresos">
 
-		</tbody>
-		<tfoot id="tfootIngresos">
+    </tbody>
+    <tfoot id="tfootIngresos">
 
-		</tfoot>
-	</table>
+    </tfoot>
+  </table>
 
-	<div id="wait_grid" class= "wait_grid" style="display:none">
-		<img src="<?= base_url('assets/images/wait.gif'); ?>" style="width:25px;height:25px;"/>
-		Cargando datos ...
-	</div>
+  <div id="wait_grid" class= "wait_grid" style="display:none">
+    <img src="<?= base_url('assets/images/wait.gif'); ?>" style="width:25px;height:25px;"/>
+    Cargando datos ...
+  </div>
 
 </section>
 
@@ -94,7 +94,7 @@ base_url  = "<?= base_url(); ?>";
 
 jQuery(function() {
 
-	getTotalPS();
+  getTotalPS();
     getProducto();
     getServicio();
     getTotalCitas();
@@ -410,18 +410,18 @@ function getTotalCitas(){
 
 function getTotalPS(){
 
-	var form_data = { type     : $('#type').val(),
+  var form_data = { type     : $('#type').val(),
                       producto : $('#producto').val(),
                       servicio : $('#servicio').val(),
                       date_start : $('#date_start').val(),
                       date_end : $('#date_end').val()
                     };
 
-	jQuery.post( base_url+"income/getTotal", form_data , 
+  jQuery.post( base_url+"income/getTotal", form_data , 
 
-		function( data ) {
+    function( data ) {
       if(data!=""){
-			$("#totalPS").html("$ "+data);
+      $("#totalPS").html("$ "+data);
       $("#inputTotalPS").val(data);
       costoPS = data;
     }else{
@@ -429,7 +429,7 @@ function getTotalPS(){
       costoPS = 0;
     }
       getTotal();
-	});
+  });
 }
 
 function getTotal(){

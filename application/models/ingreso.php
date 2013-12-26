@@ -4,7 +4,7 @@ class Ingreso extends DataMapper
 {
 	public $table = "ingresos";
 
-	public $has_one = array("producto","consultorio","servicio");
+	public $has_one = array("producto","consultorio","servicio","paciente");
     
 	public $error_prefix = '<div class="error">';
     public $error_suffix = '</div>';
