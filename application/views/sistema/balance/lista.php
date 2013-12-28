@@ -1,4 +1,8 @@
-
+<style>
+.ui-datepicker-calendar {
+    display: none;
+    }
+</style>
 <?php
 
     $attributes = array('id' => 'ingresosForm', 'target' => '_blank');
@@ -6,6 +10,7 @@
 
 ?>
    
+    <div id="divProducto" style="margin-bottom:-15px">        
     <label>Producto: </label>
    <div id="wait_tp" class="wait">
                 <p>Cargando productos</p>
@@ -14,37 +19,42 @@
                 <select name="producto" id="producto"></select>
                 
             </div>
-    <label>Servicio: </label>
+          </div>
+
+    <div id="divServicio" class="hide" style="margin-bottom:-15px">        
+      <label>Servicio: </label>
             <div id="wait_serv" class="wait">
             <p>Cargando servicios</p>
         </div>
                 <div class="select_reload" style="display:inline-block">
                 <select name="servicio" id="servicio"></select>
-                <td>
             </div>
+    </div>
 
 <br />
 
  <input type="hidden" name="imprimir" id="imprimir" value="0" />
- <input type="hidden" name="inputTotalPS" id="inputTotalPS" value="0" />
- <input type="hidden" name="inputTotalCita" id="inputTotalCita" value="0" />
+ <input type="hidden" name="inputTotalProducto" id="inputTotalProducto" value="0" />
+ <input type="hidden" name="inputTotalServicio" id="inputTotalServicio" value="0" />
 
  <label>Ver por: </label>
 
-    <select name="type" id="type" onChange="grid();" >
+    <select name="type" id="type" onChange="typeShow(); grid();" >
         <option value="1">Producto</option>
         <option value="2">Servicio</option>
     </select>
 
-    <label> Inicio </label> <label id="l_date_start"> </label> <input type="hidden" id="date_start" name="date_start"/>
-    <label> Fin    </label> <label id="l_date_end"> </label> <input type="hidden" id="date_end" name="date_end"/>
+    <label> Mes Inicio </label> <label id="l_date_start"> </label> <input type="hidden" id="date_start" name="date_start"/>
+    <input type="hidden" id="date_start_alt"/>
+    <label> Mes Fin    </label> <label id="l_date_end"> </label> <input type="hidden" id="date_end" name="date_end"/>
+    <input type="hidden" id="date_end_alt"/>
 
-    <label class ="abutton" onClick="getTotalPS(); getTotalCitas(); grid();" >Buscar</label>
+    <label class ="abutton" onClick="getTotalProducto(); getTotalServicio(); grid();" >Buscar</label>
 
     <br />
 
-    <label>Total Producto/Servicio</label> <strong id="totalPS"></strong>
-    <label>Total Citas</label>             <strong id="totalCitas"></strong>
+    <label>Total Producto</label> <strong id="totalProducto"></strong>
+    <label>Total Servicio</label>             <strong id="totalServicio"></strong>
     <label>Total</label>                   <strong id="total"></strong>
 
 </div>
@@ -60,15 +70,16 @@
     <thead>
       <tr>
         <th>Producto/Servicio</th>
-        <th>Fecha</th>
-        <th>Total</th>
+        <th>Egreso</th>
+        <th>Ingreso</th>
+        <th>Balance</th>
         <th>Detalle</th>
       </tr>
     </thead>
-    <tbody id="tbodyIngresos">
+    <tbody id="tbodyBalance">
 
     </tbody>
-    <tfoot id="tfootIngresos">
+    <tfoot id="tfootBalance">
 
     </tfoot>
   </table>
@@ -81,70 +92,100 @@
 </section>
 
  <label class ="abutton" id="imprimir" onClick="imprimir();">Imprimir</label>
- <a href="<?= base_url('income') ?>" class ="abutton_cancel" >Cancelar</a>
+ <a href="<?= base_url('balance_sheet') ?>" class ="abutton_cancel" >Cancelar</a>
  
  
 <script>
 
 base_url  = "<?= base_url(); ?>";
 page      = 1;
-costoCita = 0;
-costoPS   = 0;
+costoServicio = 0;
+costoProducto = 0;
 base_url  = "<?= base_url(); ?>";
 
 jQuery(function() {
 
-  getTotalPS();
+  
     getProducto();
     getServicio();
-    getTotalCitas();
     grid();
-
-    jQuery("#date_start").datepicker({
-            buttonImage: base_url+'assets/images/calendar.png',
-            buttonImageOnly: true,
-            changeMonth: true,
-            changeYear: true,
-            showOn: 'both',
-            onClose: function(selectedDate,objDate) {
-
-                var date2 = jQuery("#date_start").datepicker('getDate', '+1d'); 
-                date2.setDate(date2.getDate()+1);
-
-                jQuery( "#date_end" ).datepicker( "option", "minDate", date2 );
-
-                jQuery( "#l_date_start" ).html( selectedDate );
-                jQuery('input[name=estatus_citas]').prop('checked', false);
-            }
-
-    });
-
-    jQuery("#date_end").datepicker({
-            buttonImage: base_url+'assets/images/calendar.png',
-            buttonImageOnly: true,
-            changeMonth: true,
-            changeYear: true,
-            showOn: 'both',
-            onClose: function(selectedDate,objDate) {
-
-                var date2 = jQuery("#date_end").datepicker('getDate', '-1d'); 
-                date2.setDate(date2.getDate()-1);
-
-                jQuery( "#date_start" ).datepicker( "option", "maxDate", date2 );
-
-                jQuery( "#l_date_end" ).html( selectedDate );
-                jQuery('input[name=estatus_citas]').prop('checked', false);
-            }
-    });
+    getTotalProducto();
+    getTotalServicio();
 
 });
 
+jQuery("#date_start").datepicker({
+            buttonImage: base_url+'assets/images/calendar.png',
+            buttonImageOnly: true,
+            changeMonth: true,
+            changeYear: true,
+            showOn: 'both',
+            dateFormat: 'M yy',
+            showButtonPanel: true,
+            altField: "#date_start_alt",
+            altFormat: "yy-mm",
+            onClose: function(selectedDate,objDate) {
+
+               var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+
+                $("#date_start").datepicker('setDate', new Date(year, month, 1));
+                
+                jQuery( "#l_date_start" ).html( jQuery("#date_start").datepicker().val() );
+                var val_end = jQuery( "#date_end_alt" ).val();
+                jQuery( "#date_end" ).datepicker( "option", "minDate", new Date(year, month, 1) );
+                jQuery( "#date_end_alt" ).val(val_end);
+            }
+
+    });
+
+      jQuery("#date_end").datepicker({
+            buttonImage: base_url+'assets/images/calendar.png',
+            buttonImageOnly: true,
+            changeMonth: true,
+            changeYear: true,
+            showOn: 'both',
+            dateFormat: 'M yy',
+            showButtonPanel: true,
+            altField: "#date_end_alt",
+            altFormat: "yy-mm",
+            onClose: function(selectedDate,objDate,s) {
+
+                var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+
+                $("#date_end").datepicker('setDate', new Date(year, month, 1));
+                
+                jQuery( "#l_date_end" ).html( jQuery("#date_end").datepicker().val() );
+                var val_start = jQuery( "#date_start_alt" ).val();
+                jQuery( "#date_start" ).datepicker( "option", "maxDate", new Date(year, month, 1) );
+                jQuery( "#date_start_alt" ).val(val_start);
+            }
+    });
+
+  function typeShow(){
+    type = $('#type option:selected').val();
+
+    if(type == 1){
+
+      $('#divServicio').hide();
+      $('#divProducto').show();
+
+    } else {
+
+      $('#divProducto').hide();
+      $('#divServicio').show();
+
+    }
+
+  }
+
   function grid(){
 
-    getTotalPS();
-    getTotalCitas();
+    getTotalProducto();
+    getTotalServicio();
 
-    jQuery('#tbodyIngresos').html("");
+    jQuery('#tbodyBalance').html("");
     jQuery('#wait_grid').show();
 
     var form_data = { type     : $('#type').val(),
@@ -155,9 +196,9 @@ jQuery(function() {
                     };
 
     if($('#type').val()==1){
-      url = "income/gridPS/"+page;
+      url = "balance_sheet/gridProducto/"+page;
     } else {
-      url = "income/gridCitas/"+page;
+      url = "balance_sheet/gridServicio/"+page;
     }
 
     jQuery.post( base_url+url, form_data , 
@@ -166,31 +207,38 @@ jQuery(function() {
 
           if(!data.empty){
 
-            rowIngresos  = '';
+            rowBalance  = '';
 
-            $.each(data.data, function(key, ingreso){
+            $.each(data.data, function(key, balance){
 
               classRow = (key % 2 == 0)?'odd':'even';
-              rowIngresos += '<tr class="'+classRow+'">';
-              rowIngresos += '<td>';
-              rowIngresos += ingreso.nombre;
-              rowIngresos += '</td>';
-              rowIngresos += '<td>';
-              rowIngresos += ingreso.fecha_format;
-              rowIngresos += '</td>';
-              rowIngresos += '<td>';
-              rowIngresos += ingreso.total;
-              rowIngresos += '</td>';
-              rowIngresos += '<td>';
-              rowIngresos += '<img onclick="detail('+ingreso.id+',\''+ingreso.tipo+'\')" src="'+base_url+'/assets/images/detail.png" class="ico" title="Detalle"/>'
-              rowIngresos += '<img onclick="detail('+ingreso.id+',\''+ingreso.tipo+'\', \'true\')" src="'+base_url+'/assets/images/pdf.png" class="ico" title="Imprimir detalle"/>'
-              rowIngresos += '</td>';
-              rowIngresos += '</tr>';
+              rowBalance += '<tr class="'+classRow+'">';
+              rowBalance += '<td>';
+              rowBalance += balance.nombre;
+              rowBalance += '</td>';
+              rowBalance += '<td>';
+              rowBalance += balance.egreso;
+              rowBalance += '</td>';
+              rowBalance += '<td>';
+              rowBalance += balance.ingreso;
+              rowBalance += '</td>';
+              rowBalance += '<td>';
+              rowBalance += balance.total;
+              rowBalance += '</td>';
+              rowBalance += '<td>';
+              if(balance.egreso > 0){
+                rowBalance += '<label class="abutton_balance" title="Detalle Egreso">E</label>';
+              }
+              if(balance.ingreso > 0){
+                rowBalance += '<label class="abutton_balance" title="Detalle Ingresos">I</label>';
+              }   
+              rowBalance += '</td>';
+              rowBalance += '</tr>';
 
             });
 
-            $('#tbodyIngresos').append(rowIngresos);
-            $('#tfootIngresos').html("");
+            $('#tbodyBalance').append(rowBalance);
+            $('#tfootBalance').html("");
 
             if(data.page_total > 1){
 
@@ -239,15 +287,15 @@ jQuery(function() {
 
               rowFoot += '</ul></div></td></tr>';
 
-              jQuery('#tfootIngresos').append(rowFoot);
+              jQuery('#tfootBalance').append(rowFoot);
 
             }
 
           }else{
 
-            rowCita = '<tr><td colspan="100%">No hay Ingresos para mostrar </td></tr>';
-            jQuery('#tbodyIngresos').append(rowCita);
-            jQuery('#tfootIngresos').html("");
+            rowBalance = '<tr><td colspan="100%">No hay Ingresos para mostrar </td></tr>';
+            jQuery('#tbodyBalance').append(rowBalance);
+            jQuery('#tfootBalance').html("");
           }
 
             jQuery('#wait_grid').hide();
@@ -384,49 +432,51 @@ function getServicio(){
 
 }
 
-function getTotalCitas(){
-
-    var form_data = { type     : $('#type').val(),
-                      producto : $('#producto').val(),
-                      servicio : $('#servicio').val(),
-                      date_start : $('#date_start').val(),
-                      date_end : $('#date_end').val()
-                    };
-    jQuery.post( base_url+"income/getTotalCitas", form_data , 
-
-        function( data ) {
-          if(data!=""){
-            $("#totalCitas").html("$ "+data);
-            $("#inputTotalCita").val(data)
-            costoCita = data;
-          }else{
-             $("#totalCitas").html("$ 0.00");
-            costoCita = 0;
-          }
-            getTotal();
-    });
-}
-
-
-function getTotalPS(){
+function getTotalProducto(){
 
   var form_data = { type     : $('#type').val(),
                       producto : $('#producto').val(),
                       servicio : $('#servicio').val(),
-                      date_start : $('#date_start').val(),
-                      date_end : $('#date_end').val()
+                      date_start : $('#date_start_alt').val(),
+                      date_end : $('#date_end_alt').val()
                     };
 
-  jQuery.post( base_url+"income/getTotal", form_data , 
+  jQuery.post( base_url+"balance_sheet/getTotalProducto", form_data , 
 
     function( data ) {
+
       if(data!=""){
-      $("#totalPS").html("$ "+data);
-      $("#inputTotalPS").val(data);
-      costoPS = data;
+      $("#totalProducto").html("$ "+data);
+      $("#inputTotalProducto").val(data);
+      costoProducto = data;
     }else{
       $("#totalPS").html("$ 0.00");
-      costoPS = 0;
+      costoProducto = 0;
+    }
+      getTotal();
+  });
+}
+
+function getTotalServicio(){
+
+  var form_data = { type     : $('#type').val(),
+                      producto : $('#producto').val(),
+                      servicio : $('#servicio').val(),
+                      date_start : $('#date_start_alt').val(),
+                      date_end : $('#date_end_alt').val()
+                    };
+
+  jQuery.post( base_url+"balance_sheet/getTotalServicio", form_data , 
+
+    function( data ) {
+
+      if(data!=""){
+      $("#totalServicio").html("$ "+data);
+      $("#inputTotalServicio").val(data);
+      costoServicio = data;
+    }else{
+      $("#totalServicio").html("$ 0.00");
+      costoServicio = 0;
     }
       getTotal();
   });
@@ -434,7 +484,7 @@ function getTotalPS(){
 
 function getTotal(){
 
-  total = parseFloat(costoPS) + parseFloat(costoCita);
+  total = parseFloat(costoProducto) + parseFloat(costoServicio);
     $("#total").html("$ "+total.toFixed(2));
 
 }

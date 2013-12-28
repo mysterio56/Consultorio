@@ -34,10 +34,10 @@ class Buy extends CI_Controller{
 
 				$servicio->where('id',$this->input->post('servicio'))->get();
 				
-				$egreso_serv->estatus	      = 1;			
+				$egreso_serv->estatus	     = 1;			
 				$egreso_serv->consultorio_id = $this->session->userdata('id_consultorio');
 		   	 	$egreso_serv->fecha_alta     = date("Y-m-d H:i:s");
-				$egreso_serv->costo          = $servicio->costo_compra * $this->input->post('cantidad_serv');
+				$egreso_serv->costo          = $this->input->post('costo_serv') * $this->input->post('cantidad_serv');
 				$egreso_serv->cantidad       = $this->input->post('cantidad_serv');
 				$egreso_serv->servicio_id    = $this->input->post('servicio');
 				
@@ -45,7 +45,7 @@ class Buy extends CI_Controller{
 					$aEgresos[] = array("nombre"   => $servicio->nombre,
 								 	 	 "codigo"   => $servicio->codigo,
 										 "cantidad" => $this->input->post('cantidad_serv'),
-										 "costo"    => $servicio->costo_compra * $this->input->post('cantidad_serv'),
+										 "costo"    => $this->input->post('costo_serv') * $this->input->post('cantidad_serv'),
 										 "id"       => $egreso_serv->id); 
 				}
 
@@ -58,18 +58,18 @@ class Buy extends CI_Controller{
 
 				$producto->where('id',$this->input->post('producto'))->get();
 				
-				$egreso_prod->estatus	      = 1;			
+				$egreso_prod->estatus	     = 1;			
 				$egreso_prod->consultorio_id = $this->session->userdata('id_consultorio');
 		   	 	$egreso_prod->fecha_alta     = date("Y-m-d H:i:s");
-				$egreso_prod->costo          = $producto->costo_compra * $this->input->post('cantidad_prod');
+				$egreso_prod->costo          = $this->input->post('costo_prod') * $this->input->post('cantidad_prod');
 				$egreso_prod->cantidad       = $this->input->post('cantidad_prod');
 				$egreso_prod->producto_id    = $this->input->post('producto');
 				
 				if($egreso_prod->save()){
-					$aEgresos[] = array("nombre"   => $producto->nombre,
+					$aEgresos[] = array("nombre"    => $producto->nombre,
 								 	 	 "codigo"   => $producto->codigo,
 										 "cantidad" => $this->input->post('cantidad_prod'),
-										 "costo"    => $producto->costo_compra * $this->input->post('cantidad_prod'),
+										 "costo"    => $this->input->post('costo_prod') * $this->input->post('cantidad_prod'),
 										 "id"       => $egreso_prod->id); 
 				}
 

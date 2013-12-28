@@ -205,6 +205,22 @@ div .error{
    border: solid 1px #4cbade;
 }
 
+.abutton_balance {
+  display: inline-block;
+  background: #006699;
+  text-align: center;
+  border-radius: 5px;
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: helvetica;
+  border: none;
+  font-weight: normal;
+  border: solid 1px #4cbade;
+  width: 25px;
+}
+
 .abutton_add {
   display: inline-block;
   background: #04B404;

@@ -34,7 +34,7 @@ class Sale extends CI_Controller{
 
 				$servicio->where('id',$this->input->post('servicio'))->get();
 				
-				$ingreso_serv->estatus	      = 1;			
+				$ingreso_serv->estatus	      = 2;			
 				$ingreso_serv->consultorio_id = $this->session->userdata('id_consultorio');
 		   	 	$ingreso_serv->fecha_alta     = date("Y-m-d H:i:s");
 				$ingreso_serv->costo          = $this->input->post('costo_serv') * $this->input->post('cantidad_serv');
@@ -59,7 +59,7 @@ class Sale extends CI_Controller{
 
 				$producto->where('id',$this->input->post('producto'))->get();
 				
-				$ingreso_prod->estatus	      = 1;			
+				$ingreso_prod->estatus	      = 2;			
 				$ingreso_prod->consultorio_id = $this->session->userdata('id_consultorio');
 		   	 	$ingreso_prod->fecha_alta     = date("Y-m-d H:i:s");
 				$ingreso_prod->costo          = $this->input->post('costo_prod') * $this->input->post('cantidad_prod');
