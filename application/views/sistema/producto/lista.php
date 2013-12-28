@@ -4,15 +4,15 @@
 	<table>
 		<thead>
 			<tr>
-				<th align="center">Código</th>
-				<th align="center">Nombre</th>
-				<th align="center">Fecha Alta</th>
+				<th width="6">Código</th>
+				<th width="auto">Nombre</th>
+				<th width="auto">Fecha Alta</th>
 				<?php if(in_array($permisos,$aPermisos['Editar']) ): ?>
-					<th align="center">Editar</th>
+					<th width="6">Editar</th>
 				<?php endif; ?>
-				<th align="center">Activo</th>
+				<th width="6">Activo</th>
 				<?php if(in_array($permisos,$aPermisos['Eliminar']) ): ?>
-					<th align="center">Eliminar</th>
+					<th width="6">Eliminar</th>
 				<?php endif; ?>	
 				</tr>
 		</thead>
@@ -85,9 +85,9 @@ function grid(){
 
 	                classRow = (key % 2 == 0)?'odd':'even';
 		  			rowproducto  = '<tr class="'+classRow+'">';
-		  			rowproducto	+= '<td align="center">'+producto.codigo+'</td>';
-		  			rowproducto	+= '<td align="center">'+producto.nombre+'</td>';
-		  			rowproducto	+= '<td align="center">'+producto.fecha_alt+'</td>';
+		  			rowproducto	+= '<td>'+producto.codigo+'</td>';
+		  			rowproducto	+= '<td>'+producto.nombre+'</td>';
+		  			rowproducto	+= '<td>'+producto.fecha_alt+'</td>';
 		  			
 		  			if(producto.editar||producto.activar||producto.eliminar){
 		  				

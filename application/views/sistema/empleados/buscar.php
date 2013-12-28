@@ -174,10 +174,21 @@ page     = 1;
 
 $("#tabla").hide();
 
+	$("#Buscar").click(function(){
+		if($("#Codigo").val() != "" ){
+             $('#tabla').show(); 
+           }else if ($("#Nombre").val() != ""){
+           	 $('#tabla').show(); 
+           }else if($("#fecha_alta_value").val() != ""){
+           	 $('#tabla').show();
+           }else if($("input:checked").prop("checked")){
+           	 $('#tabla').show();
+           }
+        });
+
 function grid(){
 
-	jQuery('#tbodyservicio').html("");
-	jQuery('#tabla').show(2000);
+	jQuery('#tbodyempleado').html("");
 	jQuery('#wait_grid').show();
 	
 
@@ -193,11 +204,11 @@ function grid(){
 
 	                classRow = (key % 2 == 0)?'odd':'even';
 		  			rowEmpleado  = '<tr class="'+classRow+'">';
-		  			rowEmpleado	+= '<td align="center">'+empleado.codigo+'</td>';
-		  			rowEmpleado	+= '<td align="center">'+empleado.nombre+'</td>';
-		  			rowEmpleado	+= '<td align="center">'+empleado.email+'</td>';
-		  			rowEmpleado	+= '<td align="center">'+empleado.telefono+'</td>';
-		  			rowEmpleado	+= '<td align="center">'+empleado.celular+'</td>';
+		  			rowEmpleado	+= '<td>'+empleado.codigo+'</td>';
+		  			rowEmpleado	+= '<td>'+empleado.nombre+'</td>';
+		  			rowEmpleado	+= '<td>'+empleado.email+'</td>';
+		  			rowEmpleado	+= '<td>'+empleado.telefono+'</td>';
+		  			rowEmpleado	+= '<td>'+empleado.celular+'</td>';
 		  					  			
 		  			if(empleado.editar||empleado.activar||empleado.eliminar){
 
@@ -310,7 +321,7 @@ function grid(){
 
 			}else {
 
-	 			rowEmpleado = '<tr><td colspan="100%">No hay registro de lo que Busca </td></tr>';
+	 			rowEmpleado = '<tr><td colspan="100%">No se encuentra lo que busca</td></tr>';
 	 			jQuery('#tbodyempleado').append(rowEmpleado);
 	 			jQuery('#tfootempleado').html("");
 

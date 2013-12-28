@@ -198,7 +198,7 @@ class Appointment extends CI_Controller{
     			$citas->order_by(' fecha_hora ', 'ASC ');
     		}
 
-    		$oCitas = $citas->get_paged_iterated($page, 5);
+    		$oCitas = $citas->get_paged_iterated($page, 4);
 
     		foreach( $oCitas as $nKey => $cita){
 

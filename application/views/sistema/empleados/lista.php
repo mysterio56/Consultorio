@@ -3,11 +3,11 @@
 	<table>
 		<thead>
 			<tr>
-				<th align="center">Código</th>
-				<th align="center">Nombre</th>
-				<th align="center">Email</th>
-				<th align="center">Teléfono</th>
-				<th align="center">Celular</th>
+				<th>Código</th>
+				<th>Nombre</th>
+				<th>Email</th>
+				<th>Teléfono</th>
+				<th>Celular</th>
 				<th id="thAcciones" style="display:none" align="center">Acciones</th>
 			</tr>
 		</thead>
@@ -77,17 +77,17 @@ function grid(){
 
 	                classRow = (key % 2 == 0)?'odd':'even';
 		  			rowEmpleado  = '<tr class="'+classRow+'">';
-		  			rowEmpleado	+= '<td align="center">'+empleado.codigo+'</td>';
-		  			rowEmpleado	+= '<td align="center">'+empleado.nombre+'</td>';
-		  			rowEmpleado	+= '<td align="center">'+empleado.email+'</td>';
-		  			rowEmpleado	+= '<td align="center">'+empleado.telefono+'</td>';
-		  			rowEmpleado	+= '<td align="center">'+empleado.celular+'</td>';
+		  			rowEmpleado	+= '<td>'+empleado.codigo+'</td>';
+		  			rowEmpleado	+= '<td>'+empleado.nombre+'</td>';
+		  			rowEmpleado	+= '<td>'+empleado.email+'</td>';
+		  			rowEmpleado	+= '<td>'+empleado.telefono+'</td>';
+		  			rowEmpleado	+= '<td>'+empleado.celular+'</td>';
 		  					  			
 		  			if(empleado.editar||empleado.activar||empleado.eliminar){
 
 		  				jQuery('#thAcciones').show();		  				
 		  				
-		  				rowEmpleado +=  '<td align="center">'; 
+		  				rowEmpleado +=  '<td>'; 
 
 		  				if(empleado.editar){
 		  					rowEmpleado += '<a href="'+base_url+'employees/editar/'+empleado.id+'">'; 		

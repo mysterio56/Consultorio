@@ -138,16 +138,17 @@
 
 	 	
 ?>
+<div id="tabla">
 <section class="datagrid">
 	<table>
 		<thead>
 			<tr>
-				<th align="center">Código</th>
-				<th align="center">Nombre</th>
-				<th align="center">Email</th>
-				<th align="center">Teléfono</th>
-				<th align="center">Celular</th>
-				<th id="thAcciones" style="display:none" align="center">Acciones</th>
+				<th width="4%">Código</th>
+				<th width="100%">Nombre</th>
+				<th width="100%">Email</th>
+				<th width="6%">Teléfono</th>
+				<th width="6%">Celular</th>
+				<th id="thAcciones" style="display:none" width="6%">Acciones</th>
 			
 			</tr>
 		</thead>
@@ -158,6 +159,7 @@
 			
 		</tfoot>	
 		</table>
+		</div>
 		<div id="wait_grid" class= "wait_grid" style="display:none">
 		<img src="<?= base_url('assets/images/wait.gif'); ?>" style="width:25px;height:25px;"/>
 		Cargando datos ...
@@ -169,6 +171,20 @@
 
 base_url = "<?= base_url(); ?>";
 page     = 1;
+
+$("#tabla").hide();
+
+	$("#Buscar").click(function(){
+		if($("#Codigo").val() != "" ){
+             $('#tabla').show(); 
+           }else if ($("#Nombre").val() != ""){
+           	 $('#tabla').show(); 
+           }else if($("#fecha_alta_value").val() != ""){
+           	 $('#tabla').show();
+           }else if($("input:checked").prop("checked")){
+           	 $('#tabla').show();
+           }
+        });
 
 function grid(){
 
@@ -187,11 +203,11 @@ function grid(){
 
 	                classRow = (key % 2 == 0)?'odd':'even';
 		  			rowPaciente  = '<tr class="'+classRow+'">';
-		  			rowPaciente	+= '<td align="center">'+paciente.codigo+'</td>';
-		  			rowPaciente	+= '<td align="center">'+paciente.nombre+'</td>';
-		  			rowPaciente	+= '<td align="center">'+paciente.email+'</td>';
-		  			rowPaciente	+= '<td align="center">'+paciente.telefono+'</td>';
-		  			rowPaciente	+= '<td align="center">'+paciente.celular+'</td>';
+		  			rowPaciente	+= '<td>'+paciente.codigo+'</td>';
+		  			rowPaciente	+= '<td>'+paciente.nombre+'</td>';
+		  			rowPaciente	+= '<td>'+paciente.email+'</td>';
+		  			rowPaciente	+= '<td>'+paciente.telefono+'</td>';
+		  			rowPaciente	+= '<td>'+paciente.celular+'</td>';
 		  					  			
 		  			if(paciente.editar||paciente.activar||paciente.eliminar){
 

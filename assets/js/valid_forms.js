@@ -339,7 +339,7 @@ Valid.busqueda =function()
 {
     $('#busquedaForm').validate({
         rules:{
-            codigo:{
+            buscar:{
                 required:true
             }
         },

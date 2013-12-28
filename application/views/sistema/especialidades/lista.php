@@ -5,15 +5,15 @@
 	<table>
 		<thead>
 			<tr>
-				<th align="center">Código</th>
-				<th align="center">Nombre</th>
-				<th align="center">Fecha Alta</th>
+				<th width="6">Código</th>
+				<th width="auto">Nombre</th>
+				<th width="auto">Fecha Alta</th>
 					<?php if(in_array($permisos,$aPermisos['Editar']) ): ?>
-				<th align="center">Editar</th>
+				<th width="6">Editar</th>
 					<?php endif; ?>
-				<th align="center">Activo</th>
+				<th width="6">Activo</th>
 					<?php if(in_array($permisos,$aPermisos['Eliminar']) ): ?>
-				<th align="center">Eliminar</th>
+				<th width="7">Eliminar</th>
 			    	<?php endif;?>
 			</tr>
 		</thead>
@@ -90,20 +90,20 @@ function grid(){
 
 	                classRow = (key % 2 == 0)?'odd':'even';
 		  			rowEspecialidad  = '<tr class="'+classRow+'">';
-		  			rowEspecialidad	+= '<td align="center">'+especialidad.codigo+'</td>';
-		  			rowEspecialidad	+= '<td align="center">'+especialidad.nombre+'</td>';
-		  			rowEspecialidad	+= '<td align="center">'+especialidad.fecha_alt+'</td>';
+		  			rowEspecialidad	+= '<td>'+especialidad.codigo+'</td>';
+		  			rowEspecialidad	+= '<td>'+especialidad.nombre+'</td>';
+		  			rowEspecialidad	+= '<td>'+especialidad.fecha_alt+'</td>';
 		  			
 		  			if(especialidad.editar||especialidad.activar||especialidad.eliminar){
 		  				
-		  				rowEspecialidad +=  '<td align="center">'; 
+		  				rowEspecialidad +=  '<td>'; 
 
 		  				if(especialidad.editar){
 		  					rowEspecialidad += '<a href="'+base_url+'specialism/editar/'+especialidad.id+'">'; 		
 		  					rowEspecialidad += '<img src="'+base_url+'assets/images/edit.png" style="width:25px;height:25px;" />';
 		  					rowEspecialidad += '</a>'; 
 		  				}
-		  				rowEspecialidad +=  '<td align="center">';
+		  				rowEspecialidad +=  '<td>';
 
 		  				if(especialidad.activar){	
 		  				
@@ -129,7 +129,7 @@ function grid(){
 		  					rowEspecialidad += '</a>'; 
 		  				    }
 		  						  			  				    
-	 	  				rowEspecialidad +=  '<td align="center">'; 
+	 	  				rowEspecialidad +=  '<td>'; 
 
 	 	  				if(especialidad.eliminar){
 

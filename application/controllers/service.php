@@ -164,7 +164,7 @@ class Service extends CI_Controller{
 
 			if($servicio->save()){
 
-				redirect(base_url('service'));
+				reload(base_url('service'));
 
 			} else {
 
@@ -252,6 +252,8 @@ public function eliminar($id_servicio){
 		$servicio = new Servicio();
 
 		$servicio->where('id', $id_servicio)->get();
+		$estatus_actual = $servicio->estatus;
+		$servicio->estatus = $estatus;
 
 		if($servicio->estatus == 1){
 
@@ -266,8 +268,10 @@ public function eliminar($id_servicio){
 		}
 		
 		$servicio->save();
+			redirect(base_url('service'));
+		
 
-		redirect(base_url('service'));
+	
 
 	}
 

@@ -4,15 +4,15 @@
 	<table>
 		<thead>
 			<tr>
-				<th align="center">Código</th>
-				<th align="center">Nombre</th>
-				<th align="center">Fecha Alta</th>
+				<th width="5">Código</th>
+				<th width="auto">Nombre</th>
+				<th width="auto">Fecha Alta</th>
 			<?php if(in_array($permisos,$aPermisos['Editar']) ): ?>
-					<th align="center">Editar</th>
+					<th width="6">Editar</th>
 				<?php endif; ?>
-				<th align="center">Activo</th>
+				<th width="6">Activo</th>
 				<?php if(in_array($permisos,$aPermisos['Eliminar']) ): ?>
-				<th align="center">Eliminar</th>
+				<th width="6">Eliminar</th>
 				<?php endif;?>
 			</tr>
 		</thead>
@@ -75,13 +75,12 @@ function grid(){
 
 	jQuery('#tbodyservicio').html("");
 	jQuery('#wait_grid').show();
+	
 
 	var form_data = jQuery('#busquedaForm').serialize();
 	jQuery.post( base_url+"service/grid/"+page, form_data , 
 
-
-	
-
+	 
 		function( data ) {
 
 			if(!data.empty){
@@ -90,9 +89,9 @@ function grid(){
 
 	                classRow = (key % 2 == 0)?'odd':'even';
 		  			rowservicio  = '<tr class="'+classRow+'">';
-		  			rowservicio	+= '<td align="center">'+servicio.codigo+'</td>';
-		  			rowservicio	+= '<td align="center">'+servicio.nombre+'</td>';
-		  			rowservicio	+= '<td align="center">'+servicio.fecha_alt+'</td>';
+		  			rowservicio	+= '<td>'+servicio.codigo+'</td>';
+		  			rowservicio	+= '<td>'+servicio.nombre+'</td>';
+		  			rowservicio	+= '<td>'+servicio.fecha_alt+'</td>';
 		  			
 		  			if(servicio.editar||servicio.activar||servicio.eliminar){
 		  				
@@ -206,7 +205,7 @@ function grid(){
 
 			}else {
 
-	 			rowservicio = '<tr><td colspan="100%">No existen servicios </td></tr>';
+	 			rowservicio = '<tr><td colspan="100%">No se encuantra lo que Busca </td></tr>';
 	 			jQuery('#tbodyservicio').append(rowservicio);
 	 			jQuery('#tfootservicio').html("");
 
@@ -222,4 +221,6 @@ function setPage(nPage){
 	page = nPage;
 	grid();
 }
+
+
 </script>

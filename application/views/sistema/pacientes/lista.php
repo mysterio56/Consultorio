@@ -3,12 +3,12 @@
 	<table>
 		<thead>
 			<tr>
-				<th align="center">Código</th>
-				<th align="center">Nombre</th>
-				<th align="center">Email</th>
-				<th align="center">Teléfono</th>
-				<th align="center">Celular</th>
-				<th id="thAcciones" style="display:none" align="center">Acciones</th>
+				<th width="40">Código</th>
+				<th width="auto">Nombre</th>
+				<th width="auto">Email</th>
+				<th width="40">Teléfono</th>
+				<th width="40">Celular</th>
+				<th width="30" id="thAcciones" style="display:none" align="center">Acciones</th>
 			
 			</tr>
 		</thead>
@@ -83,11 +83,11 @@ function grid(){
 
 	                classRow = (key % 2 == 0)?'odd':'even';
 		  			rowPaciente  = '<tr class="'+classRow+'">';
-		  			rowPaciente	+= '<td align="center">'+paciente.codigo+'</td>';
-		  			rowPaciente	+= '<td align="center">'+paciente.nombre+'</td>';
-		  			rowPaciente	+= '<td align="center">'+paciente.email+'</td>';
-		  			rowPaciente	+= '<td align="center">'+paciente.telefono+'</td>';
-		  			rowPaciente	+= '<td align="center">'+paciente.celular+'</td>';
+		  			rowPaciente	+= '<td>'+paciente.codigo+'</td>';
+		  			rowPaciente	+= '<td>'+paciente.nombre+'</td>';
+		  			rowPaciente	+= '<td>'+paciente.email+'</td>';
+		  			rowPaciente	+= '<td>'+paciente.telefono+'</td>';
+		  			rowPaciente	+= '<td>'+paciente.celular+'</td>';
 		  					  			
 		  			if(paciente.editar||paciente.activar||paciente.eliminar){
 

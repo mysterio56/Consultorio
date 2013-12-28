@@ -116,6 +116,7 @@
 			echo form_close(); 
 
 	 	
+	 	
 ?>
 
 <div id="tabla">
@@ -123,15 +124,15 @@
 	<table>
 		<thead>
 			<tr>
-				<th width="100" align="center">Código</th>
-				<th width="100" align="center">Nombre</th>
-				<th width="100" align="center">Fecha Alta</th>
+				<th>Código</th>
+				<th width="60%">Nombre</th>
+				<th width="90%">Fecha Alta</th>
 			<?php if(in_array($permisos,$aPermisos['Editar']) ): ?>
-					<th width="100" align="center">Editar</th>
+					<th  width="40%">Editar</th>
 				<?php endif; ?>
-				<th width="100" align="center">Activo</th>
+				<th  width="40%">Activo</th>
 				<?php if(in_array($permisos,$aPermisos['Eliminar']) ): ?>
-				<th width="100" align="center">Eliminar</th>
+				<th  width="40%">Eliminar</th>
 				<?php endif;?>
 			</tr>
 		</thead>
@@ -154,22 +155,31 @@
 
 base_url = "<?= base_url(); ?>";
 page =1;
-$("#tabla").hide();
+
+	$("#tabla").hide();
+
+	$("#Buscar").click(function(){
+		if($("#Codigo").val() != "" ){
+             $('#tabla').show(); 
+           }else if ($("#Nombre").val() != ""){
+           	 $('#tabla').show(); 
+           }else if($("#fecha_alta_value").val() != ""){
+           	 $('#tabla').show();
+           }else if($("input:checked").prop("checked")){
+           	 $('#tabla').show();
+           }
+        });
 
 function grid(){
 
 	jQuery('#tbodyservicio').html("");
-	jQuery('#tabla').show(2000);
 	jQuery('#wait_grid').show();
 	
-	 
 
 	var form_data = jQuery('#servicioForm').serialize();
 	jQuery.post( base_url+"service/grid/"+page, form_data , 
 
 	 
-	
-
 		function( data ) {
 
 			if(!data.empty){
@@ -178,9 +188,9 @@ function grid(){
 
 	                classRow = (key % 2 == 0)?'odd':'even';
 		  			rowservicio  = '<tr class="'+classRow+'">';
-		  			rowservicio	+= '<td align="center">'+servicio.codigo+'</td>';
-		  			rowservicio	+= '<td align="center">'+servicio.nombre+'</td>';
-		  			rowservicio	+= '<td align="center">'+servicio.fecha_alt+'</td>';
+		  			rowservicio	+= '<td>'+servicio.codigo+'</td>';
+		  			rowservicio	+= '<td>'+servicio.nombre+'</td>';
+		  			rowservicio	+= '<td>'+servicio.fecha_alt+'</td>';
 		  			
 		  			if(servicio.editar||servicio.activar||servicio.eliminar){
 		  				
@@ -310,4 +320,6 @@ function setPage(nPage){
 	page = nPage;
 	grid();
 }
+
+
 </script>

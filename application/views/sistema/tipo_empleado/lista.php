@@ -4,15 +4,15 @@
 	<table>
 		<thead>
 			<tr>
-				<th align="center">Código</th>
-				<th align="center">Nombre</th>
-				<th align="center">Fecha Alta</th>
+				<th width="5">Código</th>
+				<th width="auto">Nombre</th>
+				<th width="auto">Fecha Alta</th>
 					<?php if(in_array($permisos,$aPermisos['Editar']) ): ?>
-				<th align="center">Editar</th>
+				<th width="6">Editar</th>
 					<?php endif; ?>
-				<th align="center">Activo</th>
+				<th width="6">Activo</th>
 					<?php if(in_array($permisos,$aPermisos['Eliminar']) ): ?>
-				<th align="center">Eliminar</th>
+				<th width="6">Eliminar</th>
 			    	<?php endif;?>
 			</tr>
 		</thead>
@@ -88,9 +88,9 @@ function grid(){
 
 	                classRow = (key % 2 == 0)?'odd':'even';
 		  			rowtipoempleado  = '<tr class="'+classRow+'">';
-		  			rowtipoempleado	+= '<td align="center">'+tipoempleado.codigo+'</td>';
-		  			rowtipoempleado	+= '<td align="center">'+tipoempleado.nombre+'</td>';
-		  			rowtipoempleado	+= '<td align="center">'+tipoempleado.fecha_alt+'</td>';
+		  			rowtipoempleado	+= '<td>'+tipoempleado.codigo+'</td>';
+		  			rowtipoempleado	+= '<td>'+tipoempleado.nombre+'</td>';
+		  			rowtipoempleado	+= '<td>'+tipoempleado.fecha_alt+'</td>';
 		  			
 		  			if(tipoempleado.editar||tipoempleado.activar||tipoempleado.eliminar){
 		  				

@@ -118,20 +118,24 @@
 	 		echo form_close();
 
 ?>
-<section id="especialidad"class="datagrid">
+<div id="tabla">
+<section class="datagrid">
 	<table>
 		<thead>
-			<tr >
-				<th width="100"align="center">Código</th>
-				<th width="100"align="center">Nombre</th>
-				<th width="100"align="center">Fecha Alta</th>
-					<?php if(in_array($permisos,$aPermisos['Editar']) ): ?>
-				<th width="100"align="center">Editar</th>
-					<?php endif; ?>
-				<th width="100"align="center">Activo</th>
-					<?php if(in_array($permisos,$aPermisos['Eliminar']) ): ?>
-				<th width="100"align="center">Eliminar</th>
-			    	<?php endif;?>
+			<tr>
+				<th >Código</th>
+				<th width="60%">Nombre</th>
+				<th width="90%">Fecha Alta</th>
+			    <?php if(in_array($permisos,$aPermisos['Editar']) ): ?>
+				<th width="40%">Editar</th>
+				<?php endif; ?>
+
+				<th width="40%">Activo</th>
+				<?php if(in_array($permisos,$aPermisos['Eliminar']) ): ?>
+
+				<th width="40%">Eliminar</th>
+				<?php endif;?>
+
 			</tr>
 		</thead>
 		<tbody id= "tbodyspecialidad">
@@ -141,6 +145,7 @@
 			
 		</tfoot>	
 		</table>
+		</div>
 		<div id="wait_grid" class= "wait_grid" style="display:none">
 		<img src="<?= base_url('assets/images/wait.gif'); ?>" style="width:25px;height:25px;"/>
 		Cargando datos ...
@@ -148,10 +153,25 @@
 
 </section>
 
-<script>
+<script >
 
 base_url = "<?= base_url(); ?>";
 page =1;
+
+	$("#tabla").hide();
+
+	$("#Buscar").click(function(){
+		if($("#Codigo").val() != "" ){
+             $('#tabla').show(); 
+           }else if ($("#Nombre").val() != ""){
+           	 $('#tabla').show(); 
+           }else if($("#fecha_alta_value").val() != ""){
+           	 $('#tabla').show();
+           }else if($("input:checked").prop("checked")){
+           	 $('#tabla').show();
+           }
+        });
+
 
 function grid(){
 
@@ -171,9 +191,9 @@ function grid(){
 
 	                classRow = (key % 2 == 0)?'odd':'even';
 		  			rowEspecialidad  = '<tr class="'+classRow+'">';
-		  			rowEspecialidad	+= '<td align="center">'+especialidad.codigo+'</td>';
-		  			rowEspecialidad	+= '<td align="center">'+especialidad.nombre+'</td>';
-		  			rowEspecialidad	+= '<td align="center">'+especialidad.fecha_alt+'</td>';
+		  			rowEspecialidad	+= '<td>'+especialidad.codigo+'</td>';
+		  			rowEspecialidad	+= '<td>'+especialidad.nombre+'</td>';
+		  			rowEspecialidad	+= '<td>'+especialidad.fecha_alt+'</td>';
 		  			
 		  			if(especialidad.editar||especialidad.activar||especialidad.eliminar){
 		  				
@@ -287,7 +307,7 @@ function grid(){
 
 			}else {
 
-	 			rowEspecialidad = '<tr><td colspan="100%">No existe ninguno con lo que busca </td></tr>';
+	 			rowEspecialidad = '<tr><td colspan="100%">No existe lo que esta buscando... </td></tr>';
 	 			jQuery('#tbodyspecialidad').append(rowEspecialidad);
 	 			jQuery('#tfootspecialidad').html("");
 
