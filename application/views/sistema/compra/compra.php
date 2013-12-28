@@ -19,12 +19,14 @@
 			 	<select name="producto" id="producto"></select>
 
         <img src     = "<?= base_url('assets/images/reload.png'); ?>" 
-               style   = "width:16px; height:16px;cursor:pointer;"
+               style   = "width:16px; height:16px;cursor:pointer;margin-left:-13px;"
                onClick = "getProducto();"/>
 
         <label>Cantidad:</label>
-
         <input name="cantidad_prod" id="cantidad_prod" value="1" style="width:45px"/>
+
+        <label>Costo: $</label>
+        <input name="costo_prod" id="costo_prod" style="width:70px"/>
 
 			</div>
 		    
@@ -47,13 +49,14 @@
 			 	   <select name="servicio" id="servicio"></select>
 
            <img src     = "<?= base_url('assets/images/reload.png'); ?>" 
-                style   = "width:16px; height:16px;cursor:pointer;"
+                style   = "width:16px; height:16px;cursor:pointer;margin-left:-13px;"
                 onClick = "getServicio();"/>
 
 			 	   <label>Cantidad:</label>
-        
            <input name="cantidad_serv" id="cantidad_serv" value="1" style="width:45px"/>
 
+          <label>Costo: $</label>
+          <input name="costo_serv" id="costo_serv" style="width:70px"/>
 			     
 			</div>
 		    
@@ -106,6 +109,17 @@ $(function () {
   getServicio();
   getTotal();
   oddEven();
+
+  $('#producto').change(function(){
+      costo = $( "#producto option:selected" ).attr('costo');
+      $('#costo_prod').val(costo);
+  });
+
+  $('#servicio').change(function(){
+      costo = $( "#servicio option:selected" ).attr('costo');
+      $('#costo_serv').val(costo);
+  });
+
 }); 
 
 function getTotal(){
@@ -158,7 +172,7 @@ function getProducto(){
 
     $.each(data,function (key, val) {
       
-        $('#producto').append('<option value="' + val.id + '">' + val.value + '</option>');  
+        $('#producto').append('<option costo="'+val.costo_compra+'" value="' + val.id + '">' + val.value + '</option>');  
 
       });
 
@@ -187,7 +201,7 @@ function getServicio(){
 
     $.each(data,function (key, val) {
       
-        $('#servicio').append('<option value="' + val.id + '">' + val.codigo +' '+val.nombre + '</option>');  
+        $('#servicio').append('<option costo="'+ val.costo_compra +'" value="' + val.id + '">' + val.codigo +' '+val.nombre + '</option>');  
 
       });
 
@@ -384,6 +398,8 @@ function addBuy(){
             $('#producto_id').val("");
             $('#cantidad_prod').val(1);
             $('#cantidad_serv').val(1);
+            $('#costo_prod').val("");
+            $('#costo_serv').val("");
         });
 
         oddEven();

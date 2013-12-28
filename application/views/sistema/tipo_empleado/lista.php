@@ -70,8 +70,13 @@
 											<img src="'.base_url('assets/images/'.$activo.'.png').'" />
 									     </a>';
 								}else{
-
+									if($tipoEmpleado->estatus==1){
+										$activo='active';
+									} else {
+										$activo='inactive';
+									}
 									echo '<img src="'.base_url('assets/images/'.$activo.'.png').'" />';
+
 								}
 							echo"</td>";
 						  if(in_array($permisos,$aPermisos['Eliminar']) ){

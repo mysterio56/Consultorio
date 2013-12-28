@@ -65,6 +65,8 @@
              			$aChecked[$tipo_empleado_modulo->id] = $tipo_empleado_modulo->id;
              }
 
+             $aCheckedSub = array();
+
              foreach($oSubmodulos as $tipo_empleado_submodulo){
              			$aCheckedSub[$tipo_empleado_submodulo->id] = $tipo_empleado_submodulo->id;
              }
