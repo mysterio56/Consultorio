@@ -190,8 +190,6 @@ function grid(){
 
 	jQuery('#tbodyempleado').html("");
 	jQuery('#wait_grid').show();
-	
-
 
 	var form_data = jQuery('#empleadosForm').serialize();
 	jQuery.post( base_url+"employees/grid/"+page, form_data , 
@@ -203,7 +201,7 @@ function grid(){
 		  		jQuery.each(data.data,function(key,empleado){
 
 	                classRow = (key % 2 == 0)?'odd':'even';
-		  			rowEmpleado  = '<tr class="'+classRow+'">';
+		  			rowEmpleado  = '<tr class="'+classRow+'" id="tr_employees_'+empleado.id+'" >';
 		  			rowEmpleado	+= '<td>'+empleado.codigo+'</td>';
 		  			rowEmpleado	+= '<td>'+empleado.nombre+'</td>';
 		  			rowEmpleado	+= '<td>'+empleado.email+'</td>';
@@ -214,7 +212,7 @@ function grid(){
 
 		  				jQuery('#thAcciones').show();		  				
 		  				
-		  				rowEmpleado +=  '<td align="center">'; 
+		  				rowEmpleado +=  '<td>'; 
 
 		  				if(empleado.editar){
 		  					rowEmpleado += '<a href="'+base_url+'employees/editar/'+empleado.id+'">'; 		
@@ -227,32 +225,31 @@ function grid(){
 		  					if(empleado.estatus == 1){
 		  					
 		  						activo  ='active';
-		  						funcion ='if(Valid.desactivaregistro()==false)return false';
-		  				
-		  					}else if(empleado.estatus == 0){
+		  						
+		  					}else{
 		  					
 		  						activo ='inactive';
-		  						funcion='if(Valid.activaregistro()==false)return false';
-		  				
-		  					}else if(empleado.estatus == 2){
-		  					
-		  						activo ='active';
-		  						funcion='if(Valid.activaregistro()==false)return false';
-		  					
+		  						 					
 		  					}
 		  					
-		  					rowEmpleado += '<a onclick="'+funcion+'" href="'+base_url+'employees/status/'+empleado.id+'">'; 		
-		  					rowEmpleado += '<img src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
-		  					rowEmpleado += '</a>'; 
+		  					funcion = 'Valid.changeStatus(\''+base_url+'employees/status/'+empleado.id+'\',\''+base_url+'\',\'employees\',\''+empleado.id+'\');';
+		  					 		
+		  					rowEmpleado += '<img id="employees_'+empleado.id+'" onclick="'+funcion+'" src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
+		  					rowEmpleado += '<img src="'+base_url+'assets/images/wait.gif" id="wait_'+empleado.id+'" width="25" height="25" style="display:none">';
+		  				 
+		  				    }else{
+		  				    rowEmpleado += '<img src="'+base_url+'assets/images/active.png'+'"style="width:25px;height:25px;" />';
 		  				    }
 		  						  			  				    
 	 	  				if(empleado.eliminar){
 
 	 	  					if(empleado.estatus!=2){
                        
-		  					rowEmpleado += '<a onclick="if(Valid.eliminaregistro() ==false)return false" href="'+base_url+'employees/eliminar/'+empleado.id+'">'; 		
-		  					rowEmpleado += '<img src="'+base_url+'assets/images/delete.png" style="width:25px;height:25px;" />';
-		  					rowEmpleado += '</a>'; 
+		  					funcion_delete = 'Valid.eliminaregistro(\''+base_url+'employees/eliminar/'+empleado.id+'\',\'employees\',\''+empleado.id+'\');';
+	 		
+		  					rowEmpleado += '<img id="employees_delete_'+empleado.id+'"  onclick="'+funcion_delete+'" src="'+base_url+'assets/images/delete.png" style="width:25px;height:25px;" />';
+		  					rowEmpleado += '<img src="'+base_url+'assets/images/wait.gif" id="wait_delete_'+empleado.id+'" width="25" height="25" style="display:none">';
+		  				 
 	 	  					}
 	 	  				}
 
@@ -321,7 +318,7 @@ function grid(){
 
 			}else {
 
-	 			rowEmpleado = '<tr><td colspan="100%">No se encuentra lo que busca</td></tr>';
+	 			rowEmpleado = '<tr><td colspan="100%">No existen empleadoes </td></tr>';
 	 			jQuery('#tbodyempleado').append(rowEmpleado);
 	 			jQuery('#tfootempleado').html("");
 

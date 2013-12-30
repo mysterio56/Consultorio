@@ -95,12 +95,11 @@ class Service extends CI_Controller{
 		    								   	   "codigo"  	=> $servicio->codigo,
 		    								   	   "nombre"  	=> $servicio->nombre,
 		    								   	   "fecha_alt"  => date("d",strtotime($servicio->fecha_alta))." / ".
-		    								   	   	           month(date("m",strtotime($servicio->fecha_alta))-1,false)." / ".
-		    								   	   	           date("Y",strtotime($servicio->fecha_alta)),
+		    								   	   	               month(date("m",strtotime($servicio->fecha_alta))-1,false)." / ".
+		    								   	   	               date("Y",strtotime($servicio->fecha_alta)),
 		    								   	   "estatus"   => $servicio->estatus,
-		    								   	   "activar"   => in_array($permisos['specialism'],aPermisos('Editar'))?true:false,
-		    								       "editar"    => in_array($permisos['specialism'],aPermisos('Editar'))?true:false,
-		    								       "eliminar"  => in_array($permisos['specialism'],aPermisos('Eliminar'))?true:false
+		    								   	   "editar"    => in_array($permisos['service'],aPermisos('Editar'))?true:false,
+		    								       "eliminar"  => in_array($permisos['service'],aPermisos('Eliminar'))?true:false
 		    										  );  
 				
     		}
@@ -237,9 +236,11 @@ public function eliminar($id_servicio){
 
 		if($servicio->save()){
 
-			redirect(base_url('service'));
+			echo json_encode(array('error'=>false,'id' => $id_servicio));
+
 		} else {
-			echo $servicio->error->string;
+
+			echo json_encode(array('error'=>true));
 
 		}
 
@@ -252,27 +253,29 @@ public function eliminar($id_servicio){
 		$servicio = new Servicio();
 
 		$servicio->where('id', $id_servicio)->get();
+
 		$estatus_actual = $servicio->estatus;
-		$servicio->estatus = $estatus;
 
 		if($servicio->estatus == 1){
 
 			$servicio->estatus    = 0;
-			$servicio->fecha_modificacion = '0000-00-00 00:00:00';
+			$status = 0;
 	
-		} else{
+		} else {
 
-			$servicio->fecha_modificacion = date("Y-m-d H:i:s");
+			$status = 1;
 			$servicio->estatus    = 1;
 
 		}
-		
-		$servicio->save();
-			redirect(base_url('service'));
-		
 
+		$servicio->fecha_modificacion = date("Y-m-d H:i:s");
+		
+		if($servicio->save()){
+			echo json_encode(array('estatus'=>$status,'id'=>$id_servicio));
+		} else {
+			echo json_encode(array('error'=>true,'estatus'=>$estatus_actual,'id'=>$id_servicio));
+		}
 	
-
 	}
 
 

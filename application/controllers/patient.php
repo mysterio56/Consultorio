@@ -29,13 +29,12 @@ class Patient extends CI_Controller{
     public function grid($page = 1){
 
 
-    		$pacientes = new Paciente();
+    		$consultorio = new Consultorio();
 
 
     	if($this->input->post()){
 
-    		$pacientes = new Paciente();
-			$consultorio = new Consultorio();
+    		$consultorio = new Consultorio();
 
     		$consultorio->where(array('id' => $this->session->userdata('id_consultorio')))->get();
 
@@ -43,61 +42,66 @@ class Patient extends CI_Controller{
     		
     		if($this->input->post('codigo')){
 
-    			$pacientes->where('codigo',$this->input->post('codigo'));
-    			$pacientes->order_by(' codigo ');
+    			$consultorio->pacientes->where('codigo',$this->input->post('codigo'));
+    			$consultorio->pacientes->order_by(' codigo ');
 
     		}
 
     		if($this->input->post('nombre')){
 
-    			$pacientes->where('nombre',$this->input->post('nombre'));
-    			
+    			$consultorio->pacientes->where('nombre',$this->input->post('nombre'));
+    			$consultorio->pacientes->order_by(' codigo ');
     		}
     		if($this->input->post('Codigo')){
 
-    			$pacientes->where('codigo like "%'.$_POST['Codigo'].'%"');
-    			$pacientes->order_by(' codigo ', 'ASC ');
+    			$consultorio->pacientes->where('codigo like "%'.$_POST['Codigo'].'%"');
+    			$consultorio->pacientes->order_by(' codigo ', 'ASC ');
 
     		}
     		
     		if($this->input->post('Nombre')){
 
-    			$pacientes->where('nombre like "%'.$_POST['Nombre'].'%"');
-    			
+    			$consultorio->pacientes->where('nombre like "%'.$_POST['Nombre'].'%"');
+    			$consultorio->pacientes->order_by(' codigo ');
     		}
     		if($this->input->post('Apellido_p')){
 
-    			$pacientes->where('apellido_p like "%'.$_POST['Apellido_p'].'%"');
-    			
+    			$consultorio->pacientes->where('apellido_p like "%'.$_POST['Apellido_p'].'%"');
+    			$consultorio->pacientes->order_by(' codigo ');
     		}
     		if($this->input->post('Apellido_m')){
 
-    			$pacientes->where('apellido_m like "%'.$_POST['Apellido_m'].'%"');
-    			
+    			$consultorio->pacientes->where('apellido_m like "%'.$_POST['Apellido_m'].'%"');
+    			$consultorio->pacientes->order_by(' codigo ');
     		}
     		if($this->input->post('estatus')){
 
-    			$pacientes->where_in('estatus',$this->input->post('estatus'));	
+    			$consultorio->pacientes->where_in('estatus',$this->input->post('estatus'));	
+    			$consultorio->pacientes->order_by(' estatus ');
+    			$consultorio->pacientes->order_by(' codigo ');
     			   			
     		} else {
 
-    			$pacientes->where('estatus <> 2');
+    			$consultorio->pacientes->where('estatus <> 2');
     		}
 
 
 			if($this->input->post('fecha_alta')){
 
-    			$pacientes->where('DATE(fecha_alta) = \''.$this->input->post('fecha_alta').'\'');
+    			$consultorio->pacientes->where('DATE(fecha_alta) = \''.$this->input->post('fecha_alta').'\'');
+    			$consultorio->pacientes->order_by(' codigo ');
     			
     		}
 
 
     		if($this->input->post('buscarId')){
 
-				$pacientes->where('id' ,$this->input->post('buscarId'));
+				$consultorio->pacientes->where('id' ,$this->input->post('buscarId'));
+    			$consultorio->pacientes->order_by(' codigo ');
+    			
     		}
     		
-    		$oPacientes = $pacientes->get_paged_iterated($page, 5);
+    		$oPacientes = $consultorio->pacientes->get_paged_iterated($page, 5);
     		
     		foreach( $oPacientes as $nKey => $paciente){	
 
@@ -117,12 +121,12 @@ class Patient extends CI_Controller{
 
     		if(isset($aPacientes)){
 
-    			$aPacientes['page_total']    = $pacientes->paged->total_pages;
+    			$aPacientes['page_total']    = $consultorio->pacientes->paged->total_pages;
     			$aPacientes['page_actual']   = $page;
-    			$aPacientes['has_previous']  = $pacientes->paged->has_previous;
-    			$aPacientes['has_next']      = $pacientes->paged->has_next;
-    			$aPacientes['previous_page'] = $pacientes->paged->previous_page;
-    			$aPacientes['next_page']     = $pacientes->paged->next_page;
+    			$aPacientes['has_previous']  = $consultorio->pacientes->paged->has_previous;
+    			$aPacientes['has_next']      = $consultorio->pacientes->paged->has_next;
+    			$aPacientes['previous_page'] = $consultorio->pacientes->paged->previous_page;
+    			$aPacientes['next_page']     = $consultorio->pacientes->paged->next_page;
 
 				echo json_encode($aPacientes);
 
@@ -254,21 +258,28 @@ class Patient extends CI_Controller{
 		$paciente = new Paciente();
 
 		$paciente->where('id', $id_paciente)->get();
+		$estatus_actual = $paciente->estatus;
 
 		if($paciente->estatus == 1){
 
 			$paciente->estatus = 0;
+			$status=0;
+
 	
 		} else{
 
 			$paciente->estatus = 1;
-
+			$status=1;
 		}
 
 		$paciente->fecha_modificacion = date("Y-m-d H:i:s");
-		$paciente->save();
+		if($paciente->save()){
 
-		redirect(base_url('patient'));
+			echo json_encode(array('estatus' =>$status ,'id'=>$id_paciente));
+		}else{
+
+			echo json_encode(array('error' =>true ,'estatus'=>$estatus_actual,'id'=>$id_paciente));
+		}
 
 	}
 
@@ -281,9 +292,13 @@ class Patient extends CI_Controller{
 		$paciente->estatus    = 2;
 		$paciente->fecha_baja = date("Y-m-d H:i:s");
 
-		$paciente->save();
+		if($paciente->save()){
 
-		redirect(base_url('patient'));
+			echo json_encode(array('error'=>false, 'id'=>$id_paciente));
+		}else{
+
+			echo json_encode(array('error' =>true ));
+		}
 
 	}
 

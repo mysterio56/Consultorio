@@ -50,8 +50,10 @@ class Employees extends CI_Controller{
     		if($this->input->post('nombre')){
 
     			$empleados->where('nombre',$this->input->post('nombre'));
-    			
+    			$empleados->order_by(' codigo ', 'ASC ');
+
     		}
+
     		if($this->input->post('Codigo')){
 
     			$empleados->where('codigo like "%'.$_POST['Codigo'].'%"');
@@ -62,23 +64,28 @@ class Employees extends CI_Controller{
     		if($this->input->post('Nombre')){
 
     			$empleados->where('nombre like "%'.$_POST['Nombre'].'%"');
-    			
+    			$empleados->order_by(' codigo ', 'ASC ');
     		}
+
     		if($this->input->post('apellido_p')){
 
     			$empleados->where('apellido_p like "%'.$_POST['apellido_p'].'%"');
-    			
+    			$empleados->order_by(' codigo ', 'ASC ');
+
     		}
+
     		if($this->input->post('apellido_m')){
 
     			$empleados->where('apellido_m like "%'.$_POST['apellido_m'].'%"');
-    			
+    			$empleados->order_by(' codigo ', 'ASC ');
+
     		}
 
     		if($this->input->post('estatus')){
 
     			$empleados->where_in('estatus',$this->input->post('estatus'));	
-    			   			
+    			$empleados->order_by(' estatus ');
+    			$empleados->order_by(' codigo ', 'ASC ');   			
     		} else {
 
     			$empleados->where('estatus <> 2');
@@ -88,13 +95,13 @@ class Employees extends CI_Controller{
 			if($this->input->post('fecha_alta')){
 
     			$empleados->where('DATE(fecha_alta) = \''.$this->input->post('fecha_alta').'\'');
-    			
+    			$empleados->order_by(' codigo ', 'ASC ');
     		}
 
     		if($this->input->post('buscarId')){
 
 				$empleados->where('id' ,$this->input->post('buscarId'));
-    			
+    			$empleados->order_by(' codigo ', 'ASC ');
     		}
     		
     		
@@ -109,9 +116,9 @@ class Employees extends CI_Controller{
 		    								   	   "telefono"  => $empleado->telefono,
 		    								   	   "celular"   => $empleado->celular,
 		    								   	   "estatus"   => $empleado->estatus,
-		    								   	   "activar"   => in_array($permisos['specialism'],aPermisos('Editar'))?true:false,
-		    								       "editar"    => in_array($permisos['specialism'],aPermisos('Editar'))?true:false,
-		    								       "eliminar"  => in_array($permisos['specialism'],aPermisos('Eliminar'))?true:false
+		    								   	   "activar"   => in_array($permisos['employees'],aPermisos('Editar'))?true:false,
+		    								       "editar"    => in_array($permisos['employees'],aPermisos('Editar'))?true:false,
+		    								       "eliminar"  => in_array($permisos['employees'],aPermisos('Eliminar'))?true:false
 		    										  );  
 				
     		}
@@ -312,23 +319,31 @@ class Employees extends CI_Controller{
 		$empleado->where('id', $id_empleado)->get();
 		$usuario = $empleado->usuario->get();
 
+		$estatus_actual=$empleado->estatus;
+
 		if($empleado->estatus == 1){
 
 			$empleado->estatus = 0;
 			$usuario->estatus  = 0;
+			$status = 0;
 	
 		} else{
 
 			$empleado->estatus = 1;
 			$usuario->estatus  = 1;
+			$status=1;
 		}
 
 		$empleado->fecha_modificacion = date("Y-m-d H:i:s");
-		$empleado->save();
-		$usuario->save();
+		
+		if($empleado->save() &&	$usuario->save()){
 
-		redirect(base_url('employees'));
+			echo json_encode(array('estatus'=>$status, 'id'=>$id_empleado));
+		}else{
 
+			echo json_encode(array('error'=>true,'estatus'=>$estatus_actual,'id'=>$id_empleado));
+		}
+	
 	}
 
 	public function password($id_empleado){
@@ -374,9 +389,16 @@ class Employees extends CI_Controller{
 		$empleado->where('id', $id_empleado)->get();
 		$empleado->estatus    = 2;
 		$empleado->fecha_baja = date("Y-m-d H:i:s");
-		$empleado->save();
-		redirect(base_url('employees'));
+		
+		if($empleado->save()){
 
+			echo json_encode(array('error' =>false ,'id'=>$id_empleado));
+		}else{
+
+			echo json_encode(array('error' => true ));
+		}
+
+		
 	}
 
 	public function buscar($page = 1){

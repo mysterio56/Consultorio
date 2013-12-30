@@ -7,11 +7,11 @@
 				<th width="5">Código</th>
 				<th width="auto">Nombre</th>
 				<th width="auto">Fecha Alta</th>
-			<?php if(in_array($permisos,$aPermisos['Editar']) ): ?>
+			<?php if(in_array($permisos,$aPermisos['Editar'])): ?>
 					<th width="6">Editar</th>
 				<?php endif; ?>
 				<th width="6">Activo</th>
-				<?php if(in_array($permisos,$aPermisos['Eliminar']) ): ?>
+				<?php if(in_array($permisos,$aPermisos['Eliminar'])):?>
 				<th width="6">Eliminar</th>
 				<?php endif;?>
 			</tr>
@@ -76,10 +76,8 @@ function grid(){
 	jQuery('#tbodyservicio').html("");
 	jQuery('#wait_grid').show();
 	
-
 	var form_data = jQuery('#busquedaForm').serialize();
 	jQuery.post( base_url+"service/grid/"+page, form_data , 
-
 	 
 		function( data ) {
 
@@ -88,12 +86,12 @@ function grid(){
 		  		jQuery.each(data.data,function(key,servicio){
 
 	                classRow = (key % 2 == 0)?'odd':'even';
-		  			rowservicio  = '<tr class="'+classRow+'">';
+		  			rowservicio  = '<tr class="'+classRow+'" id="tr_service_'+servicio.id+'" >';
 		  			rowservicio	+= '<td>'+servicio.codigo+'</td>';
 		  			rowservicio	+= '<td>'+servicio.nombre+'</td>';
 		  			rowservicio	+= '<td>'+servicio.fecha_alt+'</td>';
 		  			
-		  			if(servicio.editar||servicio.activar||servicio.eliminar){
+		  			if(servicio.editar||servicio.eliminar){
 		  				
 		  				rowservicio +=  '<td align="center">'; 
 
@@ -101,47 +99,49 @@ function grid(){
 		  					rowservicio += '<a href="'+base_url+'service/editar/'+servicio.id+'">'; 		
 		  					rowservicio += '<img src="'+base_url+'assets/images/edit.png" style="width:25px;height:25px;" />';
 		  					rowservicio += '</a>'; 
-		  				}
+		  				
+
 		  				rowservicio +=  '<td align="center">';
 
-		  				if(servicio.activar){	
-		  				
+		  					  				
 		  					if(servicio.estatus == 1){
 		  					
 		  						activo  ='active';
-		  						funcion ='if(Valid.desactivaregistro()==false)return false';
-		  				
-		  					}else if(servicio.estatus == 0){
+		  						
+		  					}else{
 		  					
 		  						activo ='inactive';
-		  						funcion='if(Valid.activaregistro()==false)return false';
 		  				
-		  					}else if(servicio.estatus == 2){
-		  					
-		  						activo ='active';
-		  						funcion='if(Valid.activaregistro()==false)return false';
-		  					
 		  					}
-		  					
-		  					rowservicio += '<a onclick="'+funcion+'" href="'+base_url+'service/status/'+servicio.id+'">'; 		
-		  					rowservicio += '<img src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
-		  					rowservicio += '</a>'; 
+
+		  					funcion = 'Valid.changeStatus(\''+base_url+'service/status/'+servicio.id+'\',\''+base_url+'\',\'service\',\''+servicio.id+'\');';
+		  					 		
+		  					rowservicio += '<img id="service_'+servicio.id+'" onclick="'+funcion+'" src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
+		  					rowservicio += '<img src="'+base_url+'assets/images/wait.gif" id="wait_'+servicio.id+'" width="25" height="25" style="display:none">';
+		  				 
+		  				    }else{
+		  				    	rowservicio += '<img src="'+base_url+'assets/images/active.png'+'"style="width:25px;height:25px;" />';
 		  				    }
+
 		  						  			  				    
-	 	  				rowservicio +=  '<td align="center">'; 
+	 	  				
 
 	 	  				if(servicio.eliminar){
-
+	 	  					rowservicio +=  '<td align="center">'; 
+	 	  					
 	 	  					if(servicio.estatus!=2){
-                       
-		  					rowservicio += '<a onclick="if(Valid.eliminaregistro() ==false)return false" href="'+base_url+'service/eliminar/'+servicio.id+'">'; 		
-		  					rowservicio += '<img src="'+base_url+'assets/images/delete.png" style="width:25px;height:25px;" />';
-		  					rowservicio += '</a>'; 
+                       		
+                       		funcion_delete = 'Valid.eliminaregistro(\''+base_url+'service/eliminar/'+servicio.id+'\',\'service\',\''+servicio.id+'\');';
+	 		
+		  					rowservicio += '<img id="service_delete_'+servicio.id+'"  onclick="'+funcion_delete+'" src="'+base_url+'assets/images/delete.png" style="width:25px;height:25px;" />';
+		  					rowservicio += '<img src="'+base_url+'assets/images/wait.gif" id="wait_delete_'+servicio.id+'" width="25" height="25" style="display:none">';
+		  				 
 	 	  					}
+	 	  					rowservicio += '</td>';
 	 	  				}
 
 
-	 	  				rowservicio += '</td>';
+	 	  				
 		  			}
 
 		  			rowservicio += '</tr>';

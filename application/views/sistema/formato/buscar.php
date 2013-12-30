@@ -181,12 +181,12 @@ function grid(){
 		  		jQuery.each(data.data,function(key,formato){
 
 	                classRow = (key % 2 == 0)?'odd':'even';
-		  			rowformato  = '<tr class="'+classRow+'">';
+		  			rowformato  = '<tr class="'+classRow+'" id="tr_format_'+formato.id+'" >';
 		  			rowformato	+= '<td>'+formato.codigo+'</td>';
 		  			rowformato	+= '<td>'+formato.nombre+'</td>';
 		  			rowformato	+= '<td>'+formato.fecha_alt+'</td>';
 		  			
-		  			if(formato.editar||formato.activar||formato.eliminar){
+		  			if(formato.editar||formato.eliminar){
 		  				
 		  				rowformato +=  '<td align="center">'; 
 
@@ -194,47 +194,45 @@ function grid(){
 		  					rowformato += '<a href="'+base_url+'format/editar/'+formato.id+'">'; 		
 		  					rowformato += '<img src="'+base_url+'assets/images/edit.png" style="width:25px;height:25px;" />';
 		  					rowformato += '</a>'; 
-		  				}
 		  				rowformato +=  '<td align="center">';
 
-		  				if(formato.activar){	
 		  				
 		  					if(formato.estatus == 1){
 		  					
 		  						activo  ='active';
-		  						funcion ='if(Valid.desactivaregistro()==false)return false';
-		  				
-		  					}else if(formato.estatus == 0){
+		  						
+		  					}else{
 		  					
 		  						activo ='inactive';
-		  						funcion='if(Valid.activaregistro()==false)return false';
 		  				
-		  					}else if(formato.estatus == 2){
-		  					
-		  						activo ='active';
-		  						funcion='if(Valid.activaregistro()==false)return false';
-		  					
 		  					}
-		  					
-		  					rowformato += '<a onclick="'+funcion+'" href="'+base_url+'format/status/'+formato.id+'">'; 		
-		  					rowformato += '<img src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
-		  					rowformato += '</a>'; 
-		  				    }
-		  						  			  				    
-	 	  				rowformato +=  '<td align="center">'; 
 
+		  					funcion = 'Valid.changeStatus(\''+base_url+'format/status/'+formato.id+'\',\''+base_url+'\',\'format\',\''+formato.id+'\');';
+		  					 		
+		  					rowformato += '<img id="format_'+formato.id+'" onclick="'+funcion+'" src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
+		  					rowformato += '<img src="'+base_url+'assets/images/wait.gif" id="wait_'+formato.id+'" width="25" height="25" style="display:none">';
+		  				 
+		  				}else{
+
+		  					rowformato += '<img src="'+base_url+'assets/images/active.png'+'"style="width:25px;height:25px;" />';
+		  				}	    
+	 	  				
 	 	  				if(formato.eliminar){
+	 	  					rowformato +=  '<td align="center">'; 
 
 	 	  					if(formato.estatus!=2){
-                       
-		  					rowformato += '<a onclick="if(Valid.eliminaregistro() ==false)return false" href="'+base_url+'format/eliminar/'+formato.id+'">'; 		
-		  					rowformato += '<img src="'+base_url+'assets/images/delete.png" style="width:25px;height:25px;" />';
-		  					rowformato += '</a>'; 
+                       		
+                       		funcion_delete = 'Valid.eliminaregistro(\''+base_url+'format/eliminar/'+formato.id+'\',\'format\',\''+formato.id+'\');';
+	 		
+		  					rowformato += '<img id="format_delete_'+formato.id+'"  onclick="'+funcion_delete+'" src="'+base_url+'assets/images/delete.png" style="width:25px;height:25px;" />';
+		  					rowformato += '<img src="'+base_url+'assets/images/wait.gif" id="wait_delete_'+formato.id+'" width="25" height="25" style="display:none">';
+		  				 
 	 	  					}
+
+	 	  					rowformato += '</td>';
 	 	  				}
 
-
-	 	  				rowformato += '</td>';
+	 	  				
 		  			}
 
 		  			rowformato += '</tr>';

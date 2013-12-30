@@ -49,8 +49,10 @@ class Product extends CI_Controller{
     		if($this->input->post('nombre')){
 
     			$productos->where('nombre',$this->input->post('nombre'));
-    			
+    			$productos->order_by(' codigo ', 'ASC ');
+
     		}
+
     		if($this->input->post('Codigo')){
 
     			$productos->where('codigo like "%'.$_POST['Codigo'].'%"');
@@ -61,13 +63,15 @@ class Product extends CI_Controller{
     		if($this->input->post('Nombre')){
 
     			$productos->where('nombre like "%'.$_POST['Nombre'].'%"');
-    			
+    			$productos->order_by(' codigo ', 'ASC ');
+
     		}
 
     		if($this->input->post('estatus')){
 
-    			$productos->where_in('estatus',$this->input->post('estatus'));	
-    			   			
+    			$productos->where_in('estatus',$this->input->post('estatus'));
+    			$productos->order_by(' estatus');	
+    			$productos->order_by(' codigo ', 'ASC ');   			
     		} else {
 
     			$productos->where('estatus <> 2');
@@ -76,13 +80,13 @@ class Product extends CI_Controller{
     		if($this->input->post('fecha_alta')){
 
     			$productos->where('DATE(fecha_alta) = \''.$this->input->post('fecha_alta').'\'');
-    			
+    			$productos->order_by(' codigo ', 'ASC ');
     		}
 
     		if($this->input->post('buscarId')){
 
 				$productos->where('id' ,$this->input->post('buscarId'));
-    			
+    			$productos->order_by(' codigo ', 'ASC ');
     			
 			}
     		
@@ -91,15 +95,14 @@ class Product extends CI_Controller{
     		foreach( $oProductos as $nKey => $producto){	
 
 		    	$aProductos['data'][$nKey] = array("id"      	=> $producto->id,
-		    								   			"codigo"  	=> $producto->codigo,
-		    								   			"nombre"  	=> $producto->nombre,
-		    								   			"fecha_alt" => date("d",strtotime($producto->fecha_alta))."/".
+		    								       "codigo"  	=> $producto->codigo,
+		    								       "nombre"  	=> $producto->nombre,
+		    								       "fecha_alt" => date("d",strtotime($producto->fecha_alta))."/".
 		    								   				           month(date("m",strtotime($producto->fecha_alta))-1,false)."/".
 		    								   				           date("Y",strtotime($producto->fecha_alta)),
-		    								   			"estatus"   => $producto->estatus,
-		    								   			"activar"   => in_array($permisos['product'],aPermisos('Editar'))?true:false,
-		    								    	    "editar"    => in_array($permisos['product'],aPermisos('Editar'))?true:false,
-		    								    	    "eliminar"  => in_array($permisos['product'],aPermisos('Eliminar'))?true:false
+		    								       "estatus"   => $producto->estatus,
+		    								       "editar"    => in_array($permisos['product'],aPermisos('Editar'))?true:false,
+		    								       "eliminar"  => in_array($permisos['product'],aPermisos('Eliminar'))?true:false
 		    										  );  
 				
     		}
@@ -213,10 +216,9 @@ public function eliminar($id_producto){
 
 		if($producto->save()){
 
-			redirect(base_url('product'));
-		} else {
-			echo $producto->error->string;
-
+			echo json_encode(array('error' =>false ,'id'=>$id_producto));
+		}else{
+			echo json_encode(array('error' =>true));
 		}
 
 	}
@@ -228,21 +230,28 @@ public function eliminar($id_producto){
 
 		$producto->where('id', $id_producto)->get();
 
+		$estatus_actual= $producto->estatus;
+
 		if($producto->estatus == 1){
 
 			$producto->estatus    = 0;
-			$producto->fecha_baja = '0000-00-00 00:00:00';
-	
+			$status=0;
+
 		} else{
 
-			$producto->fecha_baja = date("Y-m-d H:i:s");
 			$producto->estatus    = 1;
-
+			$status=1;
 		}
-		
-		$producto->save();
 
-		redirect(base_url('product'));
+		$producto->fecha_baja = date("Y-m-d H:i:s");
+		
+		if($producto->save()){
+			echo json_encode(array('estatus' =>$status ,'id'=>$id_producto ));
+
+		}else{
+
+			echo json_encode(array('error' =>true ,'estatus'=>$estatus_actual,'id'=>$id_producto));
+		}
 
 	}
 

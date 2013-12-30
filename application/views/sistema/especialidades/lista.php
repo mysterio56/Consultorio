@@ -89,7 +89,7 @@ function grid(){
 		  		jQuery.each(data.data,function(key,especialidad){
 
 	                classRow = (key % 2 == 0)?'odd':'even';
-		  			rowEspecialidad  = '<tr class="'+classRow+'">';
+		  			rowEspecialidad  = '<tr class="'+classRow+'" id="tr_specialism_'+especialidad.id+'" >';
 		  			rowEspecialidad	+= '<td>'+especialidad.codigo+'</td>';
 		  			rowEspecialidad	+= '<td>'+especialidad.nombre+'</td>';
 		  			rowEspecialidad	+= '<td>'+especialidad.fecha_alt+'</td>';
@@ -102,47 +102,45 @@ function grid(){
 		  					rowEspecialidad += '<a href="'+base_url+'specialism/editar/'+especialidad.id+'">'; 		
 		  					rowEspecialidad += '<img src="'+base_url+'assets/images/edit.png" style="width:25px;height:25px;" />';
 		  					rowEspecialidad += '</a>'; 
-		  				}
+		  			
 		  				rowEspecialidad +=  '<td>';
 
-		  				if(especialidad.activar){	
-		  				
+		  					  				
 		  					if(especialidad.estatus == 1){
 		  					
 		  						activo  ='active';
-		  						funcion ='if(Valid.desactivaregistro()==false)return false';
-		  				
-		  					}else if(especialidad.estatus == 0){
+		  						
+		  					}else {
 		  					
 		  						activo ='inactive';
-		  						funcion='if(Valid.activaregistro()==false)return false';
-		  				
-		  					}else if(especialidad.estatus == 2){
-		  					
-		  						activo ='active';
-		  						funcion='if(Valid.activaregistro()==false)return false';
-		  					
+		  								  					
 		  					}
-		  					
-		  					rowEspecialidad += '<a id="activar" onclick="'+funcion+'" href="'+base_url+'specialism/status/'+especialidad.id+'">'; 		
-		  					rowEspecialidad += '<img src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
-		  					rowEspecialidad += '</a>'; 
+		  					funcion = 'Valid.changeStatus(\''+base_url+'specialism/status/'+especialidad.id+'\',\''+base_url+'\',\'specialism\',\''+especialidad.id+'\');';
+		  					 		
+		  					rowEspecialidad += '<img id="specialism_'+especialidad.id+'" onclick="'+funcion+'" src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
+		  					rowEspecialidad += '<img src="'+base_url+'assets/images/wait.gif" id="wait_'+especialidad.id+'" width="25" height="25" style="display:none">';
+		  				 
+		  				    }else{
+		  				    	rowEspecialidad += '<img src="'+base_url+'assets/images/active.png'+'"style="width:25px;height:25px;" />';
 		  				    }
 		  						  			  				    
-	 	  				rowEspecialidad +=  '<td>'; 
-
+	 	  				
 	 	  				if(especialidad.eliminar){
+	 	  					rowEspecialidad +=  '<td>'; 
 
 	 	  					if(especialidad.estatus!=2){
                        
-		  					rowEspecialidad += '<a onclick="if(Valid.eliminaregistro() ==false)return false" href="'+base_url+'specialism/eliminar/'+especialidad.id+'">'; 		
-		  					rowEspecialidad += '<img src="'+base_url+'assets/images/delete.png" style="width:25px;height:25px;" />';
-		  					rowEspecialidad += '</a>'; 
+		  					funcion_delete = 'Valid.eliminaregistro(\''+base_url+'specialism/eliminar/'+especialidad.id+'\',\'specialism\',\''+especialidad.id+'\');';
+	 		
+		  					rowEspecialidad += '<img id="specialism_delete_'+especialidad.id+'"  onclick="'+funcion_delete+'" src="'+base_url+'assets/images/delete.png" style="width:25px;height:25px;" />';
+		  					rowEspecialidad += '<img src="'+base_url+'assets/images/wait.gif" id="wait_delete_'+especialidad.id+'" width="25" height="25" style="display:none">';
+		  				 
 	 	  					}
+	 	  				   rowEspecialidad += '</td>';
 	 	  				}
 
 
-	 	  				rowEspecialidad += '</td>';
+	 	  				
 		  			}
 
 		  			rowEspecialidad += '</tr>';

@@ -87,7 +87,7 @@ function grid(){
 		  		jQuery.each(data.data,function(key,tipoempleado){
 
 	                classRow = (key % 2 == 0)?'odd':'even';
-		  			rowtipoempleado  = '<tr class="'+classRow+'">';
+		  			rowtipoempleado  = '<tr class="'+classRow+'" id="tr_type_employee_'+tipoempleado.id+'" >';
 		  			rowtipoempleado	+= '<td>'+tipoempleado.codigo+'</td>';
 		  			rowtipoempleado	+= '<td>'+tipoempleado.nombre+'</td>';
 		  			rowtipoempleado	+= '<td>'+tipoempleado.fecha_alt+'</td>';
@@ -100,48 +100,43 @@ function grid(){
 		  					rowtipoempleado += '<a href="'+base_url+'type_employee/editar/'+tipoempleado.id+'">'; 		
 		  					rowtipoempleado += '<img src="'+base_url+'assets/images/edit.png" style="width:25px;height:25px;" />';
 		  					rowtipoempleado += '</a>'; 
-		  				}
+		  				
 		  				rowtipoempleado +=  '<td align="center">';
 
-		  				if(tipoempleado.activar){	
-		  				
+		  					  				
 		  					if(tipoempleado.estatus == 1){
 		  					
 		  						activo  ='active';
-		  						funcion ='if(Valid.desactivaregistro()==false)return false';
-		  				
-		  					}else if(tipoempleado.estatus == 0){
+		  					}else{
 		  					
 		  						activo ='inactive';
-		  						funcion='if(Valid.activaregistro()==false)return false';
-		  				
-		  					}else if(tipoempleado.estatus == 2){
-		  					
-		  						activo ='active';
-		  						funcion='if(Valid.activaregistro()==false)return false';
-		  					
 		  					}
 		  					
-		  					rowtipoempleado += '<a onclick="'+funcion+'" href="'+base_url+'type_employee/status/'+tipoempleado.id+'">'; 		
-		  					rowtipoempleado += '<img src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
-		  					rowtipoempleado += '</a>'; 
+		  					funcion = 'Valid.changeStatus(\''+base_url+'type_employee/status/'+tipoempleado.id+'\',\''+base_url+'\',\'type_employee\',\''+tipoempleado.id+'\');';
+		  					 		
+		  					rowtipoempleado += '<img id="type_employee_'+tipoempleado.id+'" onclick="'+funcion+'" src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
+		  					rowtipoempleado += '<img src="'+base_url+'assets/images/wait.gif" id="wait_'+tipoempleado.id+'" width="25" height="25" style="display:none">';
+		  				 
+		  				    }else{
+		  				    	rowtipoempleado += '<img src="'+base_url+'assets/images/active.png'+'"style="width:25px;height:25px;" />';
 		  				    }
 		  						  			  				    
-	 	  				rowtipoempleado +=  '<td align="center">'; 
-
+	 	  				
 	 	  				if(tipoempleado.eliminar){
+
+	 	  				rowtipoempleado +=  '<td align="center">'; 
 
 	 	  					if(tipoempleado.estatus!=2){
                        
-		  					rowtipoempleado += '<a onclick="if(Valid.eliminaregistro() ==false)return false" href="'+base_url+'type_employee/eliminar/'+tipoempleado.id+'">'; 		
-		  					rowtipoempleado += '<img src="'+base_url+'assets/images/delete.png" style="width:25px;height:25px;" />';
-		  					rowtipoempleado += '</a>'; 
+		  					funcion_delete = 'Valid.eliminaregistro(\''+base_url+'type_employee/eliminar/'+tipoempleado.id+'\',\'type_employee\',\''+tipoempleado.id+'\');';
+	 		
+		  					rowtipoempleado += '<img id="type_employee_delete_'+tipoempleado.id+'"  onclick="'+funcion_delete+'" src="'+base_url+'assets/images/delete.png" style="width:25px;height:25px;" />';
+		  					rowtipoempleado += '<img src="'+base_url+'assets/images/wait.gif" id="wait_delete_'+tipoempleado.id+'" width="25" height="25" style="display:none">';
+		  				 
 	 	  					}
-	 	  				}
-
-
 	 	  				rowtipoempleado += '</td>';
-		  			}
+	 	  				}
+	 	  			}
 
 		  			rowtipoempleado += '</tr>';
 

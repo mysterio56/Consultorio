@@ -202,7 +202,7 @@ function grid(){
 		  		jQuery.each(data.data,function(key,paciente){
 
 	                classRow = (key % 2 == 0)?'odd':'even';
-		  			rowPaciente  = '<tr class="'+classRow+'">';
+		  			rowPaciente  = '<tr class="'+classRow+'" id="tr_patient_'+paciente.id+'" >';
 		  			rowPaciente	+= '<td>'+paciente.codigo+'</td>';
 		  			rowPaciente	+= '<td>'+paciente.nombre+'</td>';
 		  			rowPaciente	+= '<td>'+paciente.email+'</td>';
@@ -223,36 +223,34 @@ function grid(){
 		  				
 		  				if(paciente.activar){	
 		  				
+		  					
 		  					if(paciente.estatus == 1){
 		  					
 		  						activo  ='active';
-		  						funcion ='if(Valid.desactivaregistro()==false)return false';
+		  					
 		  				
-		  					}else if(paciente.estatus == 0){
+		  					}else{
 		  					
 		  						activo ='inactive';
-		  						funcion='if(Valid.activaregistro()==false)return false';
 		  				
-		  					}else if(paciente.estatus == 2){
-		  					
-		  						activo ='active';
-		  						funcion='if(Valid.activaregistro()==false)return false';
-		  					
 		  					}
 		  					
-		  					rowPaciente += '<a id="cambio" onclick="'+funcion+'" href="'+base_url+'patient/status/'+paciente.id+'">'; 		
-		  					rowPaciente += '<img src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
-		  					rowPaciente += '</a>'; 
+		  					funcion = 'Valid.changeStatus(\''+base_url+'patient/status/'+paciente.id+'\',\''+base_url+'\',\'patient\',\''+paciente.id+'\');';
+		  					 		
+		  					rowPaciente += '<img id="patient_'+paciente.id+'" onclick="'+funcion+'" src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
+		  					rowPaciente += '<img src="'+base_url+'assets/images/wait.gif" id="wait_'+paciente.id+'" width="25" height="25" style="display:none">';
+		  				 
 		  				    }
 		  						  			  				    
 	 	  				if(paciente.eliminar){
 
 	 	  					if(paciente.estatus!=2){
                        
-		  					rowPaciente += '<a onclick="if(Valid.eliminaregistro() ==false)return false" href="'+base_url+'patient/eliminar/'+paciente.id+'">'; 		
-		  					rowPaciente += '<img src="'+base_url+'assets/images/delete.png" style="width:25px;height:25px;" />';
-		  					rowPaciente += '</a>'; 
-	 	  					}
+		  					funcion_delete = 'Valid.eliminaregistro(\''+base_url+'patient/eliminar/'+paciente.id+'\',\'patient\',\''+paciente.id+'\');';
+	 		
+		  					rowPaciente += '<img id="patient_delete_'+paciente.id+'"  onclick="'+funcion_delete+'" src="'+base_url+'assets/images/delete.png" style="width:25px;height:25px;" />';
+		  					rowPaciente += '<img src="'+base_url+'assets/images/wait.gif" id="wait_delete_'+paciente.id+'" width="25" height="25" style="display:none">';
+		  				 	}
 	 	  				}
 
 

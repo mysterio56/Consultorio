@@ -102,8 +102,7 @@ class Specialism extends CI_Controller{
 		    								   				           date("Y",strtotime($especialidad->fecha_alta)),
 		    								   			"fecha_alta_value"=> $especialidades->fecha_alta,
 		    								   			"estatus"   => $especialidad->estatus,
-		    								   			"activar"   => in_array($permisos['specialism'],aPermisos('Editar'))?true:false,
-		    								    	    "editar"    => in_array($permisos['specialism'],aPermisos('Editar'))?true:false,
+		    								   			"editar"    => in_array($permisos['specialism'],aPermisos('Editar'))?true:false,
 		    								    	    "eliminar"  => in_array($permisos['specialism'],aPermisos('Eliminar'))?true:false
 		    										  );  
 				
@@ -210,10 +209,9 @@ public function eliminar($id_especialidad){
 		$especialidad->fecha_baja = date("Y-m-d H:i:s");
 
 		if($especialidad->save()){
-
-			redirect(base_url('specialism'));
-		} else {
-			echo $especialidad->error->string;
+			echo json_encode(array('error' =>false ,'id'=>$id_especialidad));
+		}else{
+			echo json_encode(array('error' =>true));
 
 		}
 
@@ -226,21 +224,27 @@ public function eliminar($id_especialidad){
 
 		$especialidad->where('id', $id_especialidad)->get();
 
+		$estatus_actual=$especialidad->estatus;
+
 		if($especialidad->estatus == 1){
 
 			$especialidad->estatus    = 0;
-			$especialidad->fecha_baja = '0000-00-00 00:00:00';
+			$status=0;
 	
 		} else{
 
-			$especialidad->fecha_baja = date("Y-m-d H:i:s");
 			$especialidad->estatus    = 1;
-
+			$status=1;
 		}
 		
-		$especialidad->save();
+		$especialidad->fecha_baja = date("Y-m-d H:i:s");
+		
+		if($especialidad->save()){
 
-		redirect(base_url('specialism'));
+			echo json_encode(array('estatus' =>$status ,'id'=>$id_especialidad));
+		}else{
+			echo json_encode(array('error'=>false,'estatus' =>$estatus_actual ,'id'=>$id_especialidad ));
+		}
 
 	}
 
