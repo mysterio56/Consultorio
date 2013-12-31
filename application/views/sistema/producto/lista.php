@@ -4,15 +4,15 @@
 	<table>
 		<thead>
 			<tr>
-				<th align="center">Código</th>
-				<th align="center">Nombre</th>
-				<th align="center">Fecha Alta</th>
+				<th width="6">Código</th>
+				<th width="auto">Nombre</th>
+				<th width="auto">Fecha Alta</th>
 				<?php if(in_array($permisos,$aPermisos['Editar']) ): ?>
-					<th align="center">Editar</th>
+					<th width="6">Editar</th>
 				<?php endif; ?>
-				<th align="center">Activo</th>
+				<th width="6">Activo</th>
 				<?php if(in_array($permisos,$aPermisos['Eliminar']) ): ?>
-					<th align="center">Eliminar</th>
+					<th width="6">Eliminar</th>
 				<?php endif; ?>	
 				</tr>
 		</thead>
@@ -84,12 +84,21 @@ function grid(){
 		  		jQuery.each(data.data,function(key,producto){
 
 	                classRow = (key % 2 == 0)?'odd':'even';
-		  			rowproducto  = '<tr class="'+classRow+'">';
-		  			rowproducto	+= '<td align="center">'+producto.codigo+'</td>';
-		  			rowproducto	+= '<td align="center">'+producto.nombre+'</td>';
-		  			rowproducto	+= '<td align="center">'+producto.fecha_alt+'</td>';
+		  			rowproducto  = '<tr class="'+classRow+'" id="tr_product_'+producto.id+'" >';
+		  			rowproducto	+= '<td>'+producto.codigo+'</td>';
+		  			rowproducto	+= '<td>'+producto.nombre+'</td>';
+		  			rowproducto	+= '<td>'+producto.fecha_alt+'</td>';
+
+		  			if(producto.estatus == 1){
+		  					
+		  						activo  ='active';
+		  						
+		  					}else {
+		  					
+		  						activo ='inactive';
+		  					}
 		  			
-		  			if(producto.editar||producto.activar||producto.eliminar){
+		  			if(producto.editar||producto.eliminar){
 		  				
 		  				rowproducto +=  '<td align="center">'; 
 
@@ -97,48 +106,40 @@ function grid(){
 		  					rowproducto += '<a href="'+base_url+'product/editar/'+producto.id+'">'; 		
 		  					rowproducto += '<img src="'+base_url+'assets/images/edit.png" style="width:25px;height:25px;" />';
 		  					rowproducto += '</a>'; 
-		  				}
+		  				
 		  				rowproducto +=  '<td align="center">';
 
-		  				if(producto.activar){	
-		  				
-		  					if(producto.estatus == 1){
-		  					
-		  						activo  ='active';
-		  						funcion ='if(Valid.desactivaregistro()==false)return false';
-		  				
-		  					}else if(producto.estatus == 0){
-		  					
-		  						activo ='inactive';
-		  						funcion='if(Valid.activaregistro()==false)return false';
-		  				
-		  					}else if(producto.estatus == 2){
-		  					
-		  						activo ='active';
-		  						funcion='if(Valid.activaregistro()==false)return false';
-		  					
-		  					}
-		  					
-		  					rowproducto += '<a onclick="'+funcion+'" href="'+base_url+'product/status/'+producto.id+'">'; 		
-		  					rowproducto += '<img src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
-		  					rowproducto += '</a>'; 
+		  					funcion = 'Valid.changeStatus(\''+base_url+'product/status/'+producto.id+'\',\''+base_url+'\',\'product\',\''+producto.id+'\');';
+		  					 		
+		  					rowproducto += '<img id="product_'+producto.id+'" onclick="'+funcion+'" src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
+		  					rowproducto += '<img src="'+base_url+'assets/images/wait.gif" id="wait_'+producto.id+'" width="25" height="25" style="display:none">';
+		  				 
+		  				    }else{
+		  				    	rowproducto += '<img src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
 		  				    }
-		  						  			  				    
-	 	  				rowproducto +=  '<td align="center">'; 
+		  				    		  						  			  				    
+	 	  			 
 
 	 	  				if(producto.eliminar){
 
+	 	  					rowproducto +=  '<td align="center">';
+
 	 	  					if(producto.estatus!=2){
                        
-		  					rowproducto += '<a onclick="if(Valid.eliminaregistro() ==false)return false" href="'+base_url+'product/eliminar/'+producto.id+'">'; 		
-		  					rowproducto += '<img src="'+base_url+'assets/images/delete.png" style="width:25px;height:25px;" />';
-		  					rowproducto += '</a>'; 
+		  					funcion_delete = 'Valid.eliminaregistro(\''+base_url+'product/eliminar/'+producto.id+'\',\'product\',\''+producto.id+'\');';
+	 		
+		  					rowproducto += '<img id="product_delete_'+producto.id+'"  onclick="'+funcion_delete+'" src="'+base_url+'assets/images/delete.png" style="width:25px;height:25px;" />';
+		  					rowproducto += '<img src="'+base_url+'assets/images/wait.gif" id="wait_delete_'+producto.id+'" width="25" height="25" style="display:none">';
+		  				 
 	 	  					}
+	 	  				   rowproducto += '</td>';
 	 	  				}
-
-
-	 	  				rowproducto += '</td>';
-		  			}
+	 	  				
+		  			}else{
+							rowproducto += '<td align="center">'; 
+							rowproducto += '<img src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
+							rowproducto += '</td>';
+					}
 
 		  			rowproducto += '</tr>';
 

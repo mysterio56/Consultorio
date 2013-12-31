@@ -4,15 +4,15 @@
 	<table>
 		<thead>
 			<tr>
-				<th align="center">Código</th>
-				<th align="center">Nombre</th>
-				<th align="center">Fecha Alta</th>
-			<?php if(in_array($permisos,$aPermisos['Editar']) ): ?>
-					<th align="center">Editar</th>
+				<th width="5">Código</th>
+				<th width="auto">Nombre</th>
+				<th width="auto">Fecha Alta</th>
+			<?php if(in_array($permisos,$aPermisos['Editar'])): ?>
+					<th width="6">Editar</th>
 				<?php endif; ?>
-				<th align="center">Activo</th>
-				<?php if(in_array($permisos,$aPermisos['Eliminar']) ): ?>
-				<th align="center">Eliminar</th>
+				<th width="6">Activo</th>
+				<?php if(in_array($permisos,$aPermisos['Eliminar'])):?>
+				<th width="6">Eliminar</th>
 				<?php endif;?>
 			</tr>
 		</thead>
@@ -29,15 +29,13 @@
 	</div>
 
 </section>
-	
-		
-
- <?php if(in_array($permisos,$aPermisos['Agregar']) ): ?>
+<?php if(in_array($permisos,$aPermisos['Agregar']) ): ?>
 		<a id="agregar" class="abutton" href="<?= base_url('service/agregar') ?>">Agregar</a>
 	<?php endif; ?>
 		<a id="busavan" class="abutton" href="<?= base_url('service/buscar') ?>">Búsqueda Avanzada</a>
 		<a id="cancela" display:none href="<?= base_url('service') ?>" class="abutton">Cancelar</a>
 	
+
 <script>
 
 base_url = "<?= base_url(); ?>";
@@ -77,10 +75,10 @@ function grid(){
 
 	jQuery('#tbodyservicio').html("");
 	jQuery('#wait_grid').show();
-
+	
 	var form_data = jQuery('#busquedaForm').serialize();
 	jQuery.post( base_url+"service/grid/"+page, form_data , 
-
+	 
 		function( data ) {
 
 			if(!data.empty){
@@ -88,12 +86,22 @@ function grid(){
 		  		jQuery.each(data.data,function(key,servicio){
 
 	                classRow = (key % 2 == 0)?'odd':'even';
-		  			rowservicio  = '<tr class="'+classRow+'">';
-		  			rowservicio	+= '<td align="center">'+servicio.codigo+'</td>';
-		  			rowservicio	+= '<td align="center">'+servicio.nombre+'</td>';
-		  			rowservicio	+= '<td align="center">'+servicio.fecha_alt+'</td>';
-		  			
-		  			if(servicio.editar||servicio.activar||servicio.eliminar){
+		  			rowservicio  = '<tr class="'+classRow+'" id="tr_service_'+servicio.id+'" >';
+		  			rowservicio	+= '<td>'+servicio.codigo+'</td>';
+		  			rowservicio	+= '<td>'+servicio.nombre+'</td>';
+		  			rowservicio	+= '<td>'+servicio.fecha_alt+'</td>';
+
+		  			if(servicio.estatus == 1){
+		  					
+		  						activo  ='active';
+		  						
+		  					}else{
+		  					
+		  						activo ='inactive';
+		  				
+		  					}
+
+		  			if(servicio.editar||servicio.eliminar){
 		  				
 		  				rowservicio +=  '<td align="center">'; 
 
@@ -101,49 +109,41 @@ function grid(){
 		  					rowservicio += '<a href="'+base_url+'service/editar/'+servicio.id+'">'; 		
 		  					rowservicio += '<img src="'+base_url+'assets/images/edit.png" style="width:25px;height:25px;" />';
 		  					rowservicio += '</a>'; 
-		  				}
+		  				
+
 		  				rowservicio +=  '<td align="center">';
 
-		  				if(servicio.activar){	
+		  					funcion = 'Valid.changeStatus(\''+base_url+'service/status/'+servicio.id+'\',\''+base_url+'\',\'service\',\''+servicio.id+'\');';
+		  					 		
+		  					rowservicio += '<img id="service_'+servicio.id+'" onclick="'+funcion+'" src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
+		  					rowservicio += '<img src="'+base_url+'assets/images/wait.gif" id="wait_'+servicio.id+'" width="25" height="25" style="display:none">';
+		  				 
+		  				    }else{
+
+		  				rowservicio += '<img src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
 		  				
-		  					if(servicio.estatus == 1){
-		  					
-		  						activo  ='active';
-		  						funcion ='if(Valid.desactivaregistro()==false)return false';
-		  				
-		  					}else if(servicio.estatus == 0){
-		  					
-		  						activo ='inactive';
-		  						funcion='if(Valid.activaregistro()==false)return false';
-		  				
-		  					}else if(servicio.estatus == 2){
-		  					
-		  						activo ='active';
-		  						funcion='if(Valid.activaregistro()==false)return false';
-		  					
-		  					}
-		  					
-		  					rowservicio += '<a onclick="'+funcion+'" href="'+base_url+'service/status/'+servicio.id+'">'; 		
-		  					rowservicio += '<img src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
-		  					rowservicio += '</a>'; 
-		  				    }
-		  						  			  				    
-	 	  				rowservicio +=  '<td align="center">'; 
+		  			}		  						  			  				    
+	 	  				
 
 	 	  				if(servicio.eliminar){
-
+	 	  					rowservicio +=  '<td align="center">'; 
+	 	  					
 	 	  					if(servicio.estatus!=2){
-                       
-		  					rowservicio += '<a onclick="if(Valid.eliminaregistro() ==false)return false" href="'+base_url+'service/eliminar/'+servicio.id+'">'; 		
-		  					rowservicio += '<img src="'+base_url+'assets/images/delete.png" style="width:25px;height:25px;" />';
-		  					rowservicio += '</a>'; 
+                       		
+                       		funcion_delete = 'Valid.eliminaregistro(\''+base_url+'service/eliminar/'+servicio.id+'\',\'service\',\''+servicio.id+'\');';
+	 		
+		  					rowservicio += '<img id="service_delete_'+servicio.id+'"  onclick="'+funcion_delete+'" src="'+base_url+'assets/images/delete.png" style="width:25px;height:25px;" />';
+		  					rowservicio += '<img src="'+base_url+'assets/images/wait.gif" id="wait_delete_'+servicio.id+'" width="25" height="25" style="display:none">';
+		  				 
 	 	  					}
+	 	  					rowservicio += '</td>';
 	 	  				}
-
-
+	 	  			}else{
+	 	  				rowservicio += '<td align="center">'; 
+	 	  				rowservicio += '<img src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
 	 	  				rowservicio += '</td>';
-		  			}
-
+	 	  			}
+	 	  			
 		  			rowservicio += '</tr>';
 
 		  			
@@ -205,7 +205,7 @@ function grid(){
 
 			}else {
 
-	 			rowservicio = '<tr><td colspan="100%">No existen servicioes </td></tr>';
+	 			rowservicio = '<tr><td colspan="100%">No se encuantra lo que Busca </td></tr>';
 	 			jQuery('#tbodyservicio').append(rowservicio);
 	 			jQuery('#tfootservicio').html("");
 
@@ -221,4 +221,6 @@ function setPage(nPage){
 	page = nPage;
 	grid();
 }
+
+
 </script>

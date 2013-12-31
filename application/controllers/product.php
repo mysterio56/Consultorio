@@ -34,7 +34,7 @@ class Product extends CI_Controller{
     		$productos = new Producto();
 
     		$productos->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
-    		$productos->where('estatus <> 2');
+    		
 
 			$permisos = permisos($this->session->userdata('type_user'));
 
@@ -49,37 +49,60 @@ class Product extends CI_Controller{
     		if($this->input->post('nombre')){
 
     			$productos->where('nombre',$this->input->post('nombre'));
-    			
+    			$productos->order_by(' codigo ', 'ASC ');
+
     		}
 
-    		if($this->input->post('fecha_alt')){
+    		if($this->input->post('Codigo')){
 
-    			$productos->where('fecha_alta',$this->input->post('fecha_alt'));
-    			
+    			$productos->where('codigo like "%'.$_POST['Codigo'].'%"');
+    			$productos->order_by(' codigo ', 'ASC ');
+
+    		}
+    		
+    		if($this->input->post('Nombre')){
+
+    			$productos->where('nombre like "%'.$_POST['Nombre'].'%"');
+    			$productos->order_by(' codigo ', 'ASC ');
+
+    		}
+
+    		if($this->input->post('estatus')){
+
+    			$productos->where_in('estatus',$this->input->post('estatus'));
+    			$productos->order_by(' estatus');	
+    			$productos->order_by(' codigo ', 'ASC ');   			
+    		} else {
+
+    			$productos->where('estatus <> 2');
+    		}
+
+    		if($this->input->post('fecha_alta')){
+
+    			$productos->where('DATE(fecha_alta) = \''.$this->input->post('fecha_alta').'\'');
+    			$productos->order_by(' codigo ', 'ASC ');
     		}
 
     		if($this->input->post('buscarId')){
 
 				$productos->where('id' ,$this->input->post('buscarId'));
-    			
+    			$productos->order_by(' codigo ', 'ASC ');
     			
 			}
     		
-    		$data['buscar']   = true;
     		$oProductos = $productos->get_paged_iterated($page, 5);
     		
     		foreach( $oProductos as $nKey => $producto){	
 
 		    	$aProductos['data'][$nKey] = array("id"      	=> $producto->id,
-		    								   			"codigo"  	=> $producto->codigo,
-		    								   			"nombre"  	=> $producto->nombre,
-		    								   			"fecha_alt" => date("d",strtotime($producto->fecha_alta))."/".
+		    								       "codigo"  	=> $producto->codigo,
+		    								       "nombre"  	=> $producto->nombre,
+		    								       "fecha_alt" => date("d",strtotime($producto->fecha_alta))."/".
 		    								   				           month(date("m",strtotime($producto->fecha_alta))-1,false)."/".
 		    								   				           date("Y",strtotime($producto->fecha_alta)),
-		    								   			"estatus"   => $producto->estatus,
-		    								   			"activar"   => in_array($permisos['product'],aPermisos('Editar'))?true:false,
-		    								    	    "editar"    => in_array($permisos['product'],aPermisos('Editar'))?true:false,
-		    								    	    "eliminar"  => in_array($permisos['product'],aPermisos('Eliminar'))?true:false
+		    								       "estatus"   => $producto->estatus,
+		    								       "editar"    => in_array($permisos['product'],aPermisos('Editar'))?true:false,
+		    								       "eliminar"  => in_array($permisos['product'],aPermisos('Eliminar'))?true:false
 		    										  );  
 				
     		}
@@ -201,10 +224,9 @@ public function eliminar($id_producto){
 
 		if($producto->save()){
 
-			redirect(base_url('product'));
-		} else {
-			echo $producto->error->string;
-
+			echo json_encode(array('error' =>false ,'id'=>$id_producto));
+		}else{
+			echo json_encode(array('error' =>true));
 		}
 
 	}
@@ -216,27 +238,37 @@ public function eliminar($id_producto){
 
 		$producto->where('id', $id_producto)->get();
 
+		$estatus_actual= $producto->estatus;
+
 		if($producto->estatus == 1){
 
 			$producto->estatus    = 0;
-			$producto->fecha_baja = '0000-00-00 00:00:00';
-	
+			$status=0;
+
 		} else{
 
-			$producto->fecha_baja = date("Y-m-d H:i:s");
 			$producto->estatus    = 1;
-
+			$status=1;
 		}
-		
-		$producto->save();
 
-		redirect(base_url('product'));
+		$producto->fecha_baja = date("Y-m-d H:i:s");
+		
+		if($producto->save()){
+			echo json_encode(array('estatus' =>$status ,'id'=>$id_producto ));
+
+		}else{
+
+			echo json_encode(array('error' =>true ,'estatus'=>$estatus_actual,'id'=>$id_producto));
+		}
 
 	}
 
 
    public function buscar($page = 1){
 
+   		$aPermisos = permisos($this->session->userdata('type_user'));
+
+    	$data['permisos'] = $aPermisos['product'];
 		$data['view']     = 'sistema/producto/buscar';
 		$data['return']   = 'product';
 		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
@@ -246,40 +278,7 @@ public function eliminar($id_producto){
 							      'jquery.ui.datepicker-es.js',
 							      'valid_forms.js');
 
-		if($this->input->post()){
-
-			$productos = new Producto();
-			
-			$aPermisos = permisos($this->session->userdata('type_user'));
-			$input_count = 0;
-
-			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != '' && $input_name != 'estatus'){ 	
-			 		$productos->like($input_name, $input);
-			 		$input_count++;
-			 	}
-			 	if($input_name == 'estatus'){
-			  		$productos->where_in('estatus', $this->input->post('estatus'));
-			  		$input_count++;			  
-			 	}
-
-			 } 
-			if($input_count > 0){
-
-				$productos->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
-				$productos->order_by('estatus');
-				$productos->order_by('codigo');
-				$productos->get_paged_iterated($page, 8);
-
-				$data['permisos']     = $aPermisos['product'];
-				$data['paginaActual'] = $page;
-				$data['productos']     = $productos;
-				$data['buscar']       = true;
-
-			}
-
-		}
-
+		
 		$this->load->view('sistema/template',$data);
 
 	}

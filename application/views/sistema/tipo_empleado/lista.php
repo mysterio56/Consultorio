@@ -4,15 +4,15 @@
 	<table>
 		<thead>
 			<tr>
-				<th align="center">Código</th>
-				<th align="center">Nombre</th>
-				<th align="center">Fecha Alta</th>
+				<th width="5">Código</th>
+				<th width="auto">Nombre</th>
+				<th width="auto">Fecha Alta</th>
 					<?php if(in_array($permisos,$aPermisos['Editar']) ): ?>
-				<th align="center">Editar</th>
+				<th width="6">Editar</th>
 					<?php endif; ?>
-				<th align="center">Activo</th>
+				<th width="6">Activo</th>
 					<?php if(in_array($permisos,$aPermisos['Eliminar']) ): ?>
-				<th align="center">Eliminar</th>
+				<th width="6">Eliminar</th>
 			    	<?php endif;?>
 			</tr>
 		</thead>
@@ -87,12 +87,20 @@ function grid(){
 		  		jQuery.each(data.data,function(key,tipoempleado){
 
 	                classRow = (key % 2 == 0)?'odd':'even';
-		  			rowtipoempleado  = '<tr class="'+classRow+'">';
-		  			rowtipoempleado	+= '<td align="center">'+tipoempleado.codigo+'</td>';
-		  			rowtipoempleado	+= '<td align="center">'+tipoempleado.nombre+'</td>';
-		  			rowtipoempleado	+= '<td align="center">'+tipoempleado.fecha_alt+'</td>';
+		  			rowtipoempleado  = '<tr class="'+classRow+'" id="tr_type_employee_'+tipoempleado.id+'" >';
+		  			rowtipoempleado	+= '<td>'+tipoempleado.codigo+'</td>';
+		  			rowtipoempleado	+= '<td>'+tipoempleado.nombre+'</td>';
+		  			rowtipoempleado	+= '<td>'+tipoempleado.fecha_alt+'</td>';
+
+		  			if(tipoempleado.estatus == 1){
+		  					
+		  						activo  ='active';
+		  					}else{
+		  					
+		  						activo ='inactive';
+		  					}
 		  			
-		  			if(tipoempleado.editar||tipoempleado.activar||tipoempleado.eliminar){
+		  			if(tipoempleado.editar||tipoempleado.eliminar){
 		  				
 		  				rowtipoempleado +=  '<td align="center">'; 
 
@@ -100,48 +108,34 @@ function grid(){
 		  					rowtipoempleado += '<a href="'+base_url+'type_employee/editar/'+tipoempleado.id+'">'; 		
 		  					rowtipoempleado += '<img src="'+base_url+'assets/images/edit.png" style="width:25px;height:25px;" />';
 		  					rowtipoempleado += '</a>'; 
-		  				}
+		  				
 		  				rowtipoempleado +=  '<td align="center">';
 
-		  				if(tipoempleado.activar){	
-		  				
-		  					if(tipoempleado.estatus == 1){
-		  					
-		  						activo  ='active';
-		  						funcion ='if(Valid.desactivaregistro()==false)return false';
-		  				
-		  					}else if(tipoempleado.estatus == 0){
-		  					
-		  						activo ='inactive';
-		  						funcion='if(Valid.activaregistro()==false)return false';
-		  				
-		  					}else if(tipoempleado.estatus == 2){
-		  					
-		  						activo ='active';
-		  						funcion='if(Valid.activaregistro()==false)return false';
-		  					
-		  					}
-		  					
-		  					rowtipoempleado += '<a onclick="'+funcion+'" href="'+base_url+'type_employee/status/'+tipoempleado.id+'">'; 		
-		  					rowtipoempleado += '<img src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
-		  					rowtipoempleado += '</a>'; 
+		  					funcion = 'Valid.changeStatus(\''+base_url+'type_employee/status/'+tipoempleado.id+'\',\''+base_url+'\',\'type_employee\',\''+tipoempleado.id+'\');';
+		  					 		
+		  					rowtipoempleado += '<img id="type_employee_'+tipoempleado.id+'" onclick="'+funcion+'" src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
+		  					rowtipoempleado += '<img src="'+base_url+'assets/images/wait.gif" id="wait_'+tipoempleado.id+'" width="25" height="25" style="display:none">';
+		  				 
+		  				    }else{
+		  				    	rowtipoempleado += rowPaciente += '<img src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
 		  				    }
 		  						  			  				    
-	 	  				rowtipoempleado +=  '<td align="center">'; 
-
+	 	  				
 	 	  				if(tipoempleado.eliminar){
+
+	 	  				rowtipoempleado +=  '<td align="center">'; 
 
 	 	  					if(tipoempleado.estatus!=2){
                        
-		  					rowtipoempleado += '<a onclick="if(Valid.eliminaregistro() ==false)return false" href="'+base_url+'type_employee/eliminar/'+tipoempleado.id+'">'; 		
-		  					rowtipoempleado += '<img src="'+base_url+'assets/images/delete.png" style="width:25px;height:25px;" />';
-		  					rowtipoempleado += '</a>'; 
+		  					funcion_delete = 'Valid.eliminaregistro(\''+base_url+'type_employee/eliminar/'+tipoempleado.id+'\',\'type_employee\',\''+tipoempleado.id+'\');';
+	 		
+		  					rowtipoempleado += '<img id="type_employee_delete_'+tipoempleado.id+'"  onclick="'+funcion_delete+'" src="'+base_url+'assets/images/delete.png" style="width:25px;height:25px;" />';
+		  					rowtipoempleado += '<img src="'+base_url+'assets/images/wait.gif" id="wait_delete_'+tipoempleado.id+'" width="25" height="25" style="display:none">';
+		  				 
 	 	  					}
-	 	  				}
-
-
 	 	  				rowtipoempleado += '</td>';
-		  			}
+	 	  				}
+	 	  			}
 
 		  			rowtipoempleado += '</tr>';
 

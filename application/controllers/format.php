@@ -10,11 +10,8 @@ class Format extends CI_Controller{
 
 	public function index(){
 
-    	$consultorio = new Consultorio();
     	$formatos    = new Formato();
 		$aPermisos = permisos($this->session->userdata('type_user'));
-
-		$consultorio->where(array('id' => $this->session->userdata('id_consultorio')))->get();
 
 		$data['permisos'] = $aPermisos['format'];
     	$data['view']	  =	'sistema/formato/lista';
@@ -33,45 +30,66 @@ class Format extends CI_Controller{
 
     		$consultorio = new Consultorio();
 
+
     	if($this->input->post()){
 
     		$consultorio = new Consultorio();
-    		$formatos   = new Formato();
 
-
-    		$consultorio->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
-    		$formatos->where('estatus <> 2');
+    		$consultorio->where(array('id' => $this->session->userdata('id_consultorio')))->get();
 
 			$permisos = permisos($this->session->userdata('type_user'));
-
-			
+						
 			if($this->input->post('codigo')){
 
-    			$formatos->where('codigo',$this->input->post('codigo'));
-    			$formatos->order_by(' codigo ', 'ASC ');
+    			$consultorio->formatos->where('codigo',$this->input->post('codigo'));
+    			$consultorio->formatos->order_by(' codigo ', 'ASC ');
 
     		}
 
     		if($this->input->post('nombre')){
 
-    			$formatos->where('nombre',$this->input->post('nombre'));
-    			
+    			$consultorio->formatos->where('nombre',$this->input->post('nombre'));
+    			$consultorio->formatos->order_by(' codigo ', 'ASC ');
     		}
 
-    		if($this->input->post('fecha_alt')){
+    		if($this->input->post('Codigo')){
 
-    			$formatos->where('fecha_alta',$this->input->post('fecha_alt'));
-    			
+    			$consultorio->formatos->where('codigo like "%'.$_POST['Codigo'].'%"');
+    			$consultorio->formatos->order_by(' codigo ', 'ASC ');
+
+    		}
+    		
+    		if($this->input->post('Nombre')){
+
+    			$consultorio->formatos->where('nombre like "%'.$_POST['Nombre'].'%"');
+    			$consultorio->formatos->order_by(' codigo ', 'ASC ');
+    		}
+
+    		if($this->input->post('estatus')){
+
+    			$consultorio->formatos->where_in('estatus',$this->input->post('estatus'));	
+    			$consultorio->formatos->order_by(' estatus ');
+    			$consultorio->formatos->order_by(' codigo ', 'ASC ');   			
+    		} else {
+
+    			$consultorio->formatos->where('estatus <> 2');
+    		}
+
+
+    		if($this->input->post('fecha_alta')){
+
+    			$consultorio->formatos->where('fecha_alta',$this->input->post('fecha_alta'));
+    			$consultorio->formatos->order_by(' codigo ', 'ASC ');
     		}
 
     		if($this->input->post('buscarId')){
 
-				$formatos->where('id' ,$this->input->post('buscarId'));
-    			
-    					}
+				$consultorio->formatos->where('id' ,$this->input->post('buscarId'));
+    			$consultorio->formatos->order_by(' codigo ', 'ASC ');
+    		}
     		
     		
-    		$oFormatos = $formatos->get_paged_iterated($page, 5);
+    		$oFormatos = $consultorio->formatos->get_paged_iterated($page, 5);
     		
     		foreach( $oFormatos as $nKey => $formato){	
 
@@ -82,21 +100,20 @@ class Format extends CI_Controller{
 		    								   				     month(date("m",strtotime($formato->fecha_alta))-1,false)." / ".
 		    								   				     date("Y",strtotime($formato->fecha_alta)),
 		    								   	  "estatus"   => $formato->estatus,
-		    								   	  "activar"   => in_array($permisos['specialism'],aPermisos('Editar'))?true:false,
-		    								      "editar"    => in_array($permisos['specialism'],aPermisos('Editar'))?true:false,
-		    								      "eliminar"  => in_array($permisos['specialism'],aPermisos('Eliminar'))?true:false
+		    								   	  "editar"    => in_array($permisos['format'],aPermisos('Editar'))?true:false,
+		    								      "eliminar"  => in_array($permisos['format'],aPermisos('Eliminar'))?true:false
 		    										  );  
 				
     		}
 
     		if(isset($aFormatos)){
 
-    			$aFormatos['page_total']    = $formatos->paged->total_pages;
+    			$aFormatos['page_total']    = $consultorio->formatos->paged->total_pages;
     			$aFormatos['page_actual']   = $page;
-    			$aFormatos['has_previous']  = $formatos->paged->has_previous;
-    			$aFormatos['has_next']      = $formatos->paged->has_next;
-    			$aFormatos['previous_page'] = $formatos->paged->previous_page;
-    			$aFormatos['next_page']     = $formatos->paged->next_page;
+    			$aFormatos['has_previous']  = $consultorio->formatos->paged->has_previous;
+    			$aFormatos['has_next']      = $consultorio->formatos->paged->has_next;
+    			$aFormatos['previous_page'] = $consultorio->formatos->paged->previous_page;
+    			$aFormatos['next_page']     = $consultorio->formatos->paged->next_page;
 
 				echo json_encode($aFormatos);
 
@@ -205,12 +222,13 @@ public function eliminar($id_formato){
 
 		if($formato->save()){
 
-			redirect(base_url('format'));
+			echo json_encode(array('error'=>false,'id' => $id_formato));
+
 		} else {
-			echo $formato->error->string;
+
+			echo json_encode(array('error'=>true));
 
 		}
-
 	}
 
 
@@ -220,28 +238,39 @@ public function eliminar($id_formato){
 		$formato = new Formato();
 
 		$formato->where('id', $id_formato)->get();
+		
+		$estatus_actual = $formato->estatus;
+
 
 		if($formato->estatus == 1){
 
 			$formato->estatus    = 0;
-			$formato->fecha_modificacion = '0000-00-00 00:00:00';
+			$status=0;
 	
 		} else{
 
-			$formato->fecha_modificacion = date("Y-m-d H:i:s");
 			$formato->estatus    = 1;
-
+			$status=1;
 		}
 		
-		$formato->save();
+		$formato->fecha_modificacion = date("Y-m-d H:i:s");
+		
+		if($formato->save()){
 
-		redirect(base_url('format'));
+			echo json_encode(array('estatus' => $status ,'id'=> $id_formato ));
 
+		}else{
+			echo json_encode(array('error' =>true,'estatus'=>$estatus_actual,'id'=>$id_formato));
+		}
+
+		
 	}
 
 
    public function buscar($page = 1){
 
+   		$aPermisos = permisos($this->session->userdata('type_user'));
+		$data['permisos'] = $aPermisos['format'];
 		$data['view']     = 'sistema/formato/buscar';
 		$data['return']   = 'format';
 		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
@@ -251,42 +280,7 @@ public function eliminar($id_formato){
 							      'jquery.ui.datepicker-es.js',
 							      'valid_forms.js');
 
-		if($this->input->post()){
-
-
-			$consultorio= new Consultorio();
-			$consultorio->where(array('id' => $this->session->userdata('id_consultorio')))->get();
-			
-			$aPermisos = permisos($this->session->userdata('type_user'));
-			$input_count = 0;
-
-			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != '' && $input_name != 'estatus'){
-			 		$consultorio->formato->like($input_name, $input);
-			 		$input_count++;
-			 	}
-			 	if($input_name == 'estatus'){
-			  		$consultorio->formato->where_in('estatus', $this->input->post('estatus'));
-			  		$input_count++;			  
-			 	}
-			 } 
-
-			if($input_count > 0){
-
-				$consultorio->formato->order_by('estatus');
-				$consultorio->formato->order_by('codigo');
-
-				$formatos = $consultorio->formato->get_paged_iterated($page, 9);
-
-				$data['permisos']     = $aPermisos['format'];
-				$data['paginaActual'] = $page;
-				$data['formatos']     = $formatos;
-				$data['buscar']       = true;
-
-			}
-
-		}
-
+		
 		$this->load->view('sistema/template',$data);
 
 	}
@@ -294,15 +288,15 @@ public function eliminar($id_formato){
 	public function lista(){
 
 		$consultorio= new Consultorio();
-		$formatos   = new Formato();	
+			
 
 		$consultorio->where(array('id' => $this->session->userdata('id_consultorio')))->get();
 			
-		$formatos->where('CONCAT( codigo, "  " , nombre ) like "%'.$_GET['term'].'%"')->get();
+        $consultorio->formatos->where('CONCAT( codigo, "  " , nombre ) like "%'.$_GET['term'].'%"')->get();
 		
 		$aFormatos = array();		
 
-		foreach($formatos as $format){
+		foreach($consultorio->formatos as $format){
 			 $aFormatos[] = array("Id"    => $format->id, 
 			 					  "label" => $format->codigo ." ". $format->nombre,
 			 					  "value" => $format->codigo ." ". $format->nombre);

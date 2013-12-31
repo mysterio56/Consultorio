@@ -1,19 +1,19 @@
 <?php $aPermisos = unserialize (PERMISOS); ?>
 <?php $aMeses    = unserialize (MESES); ?>
 
-<section class="datagrid">
+<section id="especialidad"class="datagrid">
 	<table>
 		<thead>
 			<tr>
-				<th align="center">Código</th>
-				<th align="center">Nombre</th>
-				<th align="center">Fecha Alta</th>
+				<th width="6">Código</th>
+				<th width="auto">Nombre</th>
+				<th width="auto">Fecha Alta</th>
 					<?php if(in_array($permisos,$aPermisos['Editar']) ): ?>
-				<th align="center">Editar</th>
+				<th width="6">Editar</th>
 					<?php endif; ?>
-				<th align="center">Activo</th>
+				<th width="6">Activo</th>
 					<?php if(in_array($permisos,$aPermisos['Eliminar']) ): ?>
-				<th align="center">Eliminar</th>
+				<th width="7">Eliminar</th>
 			    	<?php endif;?>
 			</tr>
 		</thead>
@@ -54,6 +54,8 @@ jQuery(function() {
            }
         });
 
+		
+
       jQuery( "#buscar" ).autocomplete({
             source: base_url + "specialism/lista",
             minLength: 2,
@@ -87,61 +89,62 @@ function grid(){
 		  		jQuery.each(data.data,function(key,especialidad){
 
 	                classRow = (key % 2 == 0)?'odd':'even';
-		  			rowEspecialidad  = '<tr class="'+classRow+'">';
-		  			rowEspecialidad	+= '<td align="center">'+especialidad.codigo+'</td>';
-		  			rowEspecialidad	+= '<td align="center">'+especialidad.nombre+'</td>';
-		  			rowEspecialidad	+= '<td align="center">'+especialidad.fecha_alt+'</td>';
+		  			rowEspecialidad  = '<tr class="'+classRow+'" id="tr_specialism_'+especialidad.id+'" >';
+		  			rowEspecialidad	+= '<td>'+especialidad.codigo+'</td>';
+		  			rowEspecialidad	+= '<td>'+especialidad.nombre+'</td>';
+		  			rowEspecialidad	+= '<td>'+especialidad.fecha_alt+'</td>';
+
+
+		  			if(especialidad.estatus == 1){
+		  					
+		  				activo  ='active';
+		  						
+		  			}else {
+		  					
+		  				activo ='inactive';
+		  								  					
+		  			}
 		  			
-		  			if(especialidad.editar||especialidad.activar||especialidad.eliminar){
+		  			if(especialidad.editar||especialidad.eliminar){
 		  				
-		  				rowEspecialidad +=  '<td align="center">'; 
+		  				rowEspecialidad +=  '<td>'; 
 
 		  				if(especialidad.editar){
 		  					rowEspecialidad += '<a href="'+base_url+'specialism/editar/'+especialidad.id+'">'; 		
 		  					rowEspecialidad += '<img src="'+base_url+'assets/images/edit.png" style="width:25px;height:25px;" />';
 		  					rowEspecialidad += '</a>'; 
-		  				}
-		  				rowEspecialidad +=  '<td align="center">';
+		  			
+		  				rowEspecialidad +=  '<td>';
 
-		  				if(especialidad.activar){	
-		  				
-		  					if(especialidad.estatus == 1){
-		  					
-		  						activo  ='active';
-		  						funcion ='if(Valid.desactivaregistro()==false)return false';
-		  				
-		  					}else if(especialidad.estatus == 0){
-		  					
-		  						activo ='inactive';
-		  						funcion='if(Valid.activaregistro()==false)return false';
-		  				
-		  					}else if(especialidad.estatus == 2){
-		  					
-		  						activo ='active';
-		  						funcion='if(Valid.activaregistro()==false)return false';
-		  					
-		  					}
-		  					
-		  					rowEspecialidad += '<a onclick="'+funcion+'" href="'+base_url+'specialism/status/'+especialidad.id+'">'; 		
-		  					rowEspecialidad += '<img src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
-		  					rowEspecialidad += '</a>'; 
+		  					funcion = 'Valid.changeStatus(\''+base_url+'specialism/status/'+especialidad.id+'\',\''+base_url+'\',\'specialism\',\''+especialidad.id+'\');';
+		  					 		
+		  					rowEspecialidad += '<img id="specialism_'+especialidad.id+'" onclick="'+funcion+'" src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
+		  					rowEspecialidad += '<img src="'+base_url+'assets/images/wait.gif" id="wait_'+especialidad.id+'" width="25" height="25" style="display:none">';
+		  				 
+		  				    }else{
+		  				    	rowEspecialidad += '<img src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
 		  				    }
 		  						  			  				    
-	 	  				rowEspecialidad +=  '<td align="center">'; 
-
+	 	  				
 	 	  				if(especialidad.eliminar){
+	 	  					rowEspecialidad +=  '<td>'; 
 
 	 	  					if(especialidad.estatus!=2){
                        
-		  					rowEspecialidad += '<a onclick="if(Valid.eliminaregistro() ==false)return false" href="'+base_url+'specialism/eliminar/'+especialidad.id+'">'; 		
-		  					rowEspecialidad += '<img src="'+base_url+'assets/images/delete.png" style="width:25px;height:25px;" />';
-		  					rowEspecialidad += '</a>'; 
+		  					funcion_delete = 'Valid.eliminaregistro(\''+base_url+'specialism/eliminar/'+especialidad.id+'\',\'specialism\',\''+especialidad.id+'\');';
+	 		
+		  					rowEspecialidad += '<img id="specialism_delete_'+especialidad.id+'"  onclick="'+funcion_delete+'" src="'+base_url+'assets/images/delete.png" style="width:25px;height:25px;" />';
+		  					rowEspecialidad += '<img src="'+base_url+'assets/images/wait.gif" id="wait_delete_'+especialidad.id+'" width="25" height="25" style="display:none">';
+		  				 
 	 	  					}
+	 	  				   rowEspecialidad += '</td>';
 	 	  				}
-
-
-	 	  				rowEspecialidad += '</td>';
-		  			}
+ 	  				
+		  			}else{
+						rowEspecialidad += '<td align="center">'; 
+						rowEspecialidad += '<img src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
+						rowEspecialidad += '</td>';
+					}
 
 		  			rowEspecialidad += '</tr>';
 

@@ -36,7 +36,7 @@ class Service extends CI_Controller{
     		$servicios = new Servicio();
 
     		$servicios->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
-    		$servicios->where('estatus <> 2');
+    		
 
 			$permisos = permisos($this->session->userdata('type_user'));
 
@@ -53,13 +53,33 @@ class Service extends CI_Controller{
     			$servicios->where('nombre',$this->input->post('nombre'));
     			
     		}
+    		if($this->input->post('Codigo')){
 
-    		if($this->input->post('fecha_alt')){
+    			$servicios->where('codigo like "%'.$_POST['Codigo'].'%"');
+    			$servicios->order_by(' codigo ', 'ASC ');
 
-    			$servicios->where('fecha_alta',$this->input->post('fecha_alt'));
+    		}
+    		
+    		if($this->input->post('Nombre')){
+
+    			$servicios->where('nombre like "%'.$_POST['Nombre'].'%"');
     			
     		}
 
+    		if($this->input->post('estatus')){
+
+    			$servicios->where_in('estatus',$this->input->post('estatus'));	
+    			   			
+    		} else {
+
+    			$servicios->where('estatus <> 2');
+    		}
+			
+			if($this->input->post('fecha_alta')){
+
+    			$servicios->where('DATE(fecha_alta) = \''.$this->input->post('fecha_alta').'\'');
+    			
+    		}
     		if($this->input->post('buscarId')){
 
 				$servicios->where('id' ,$this->input->post('buscarId'));
@@ -67,7 +87,6 @@ class Service extends CI_Controller{
     			
 			}
     		
-    		$data['buscar']   = true;
     		$oServicios = $servicios->get_paged_iterated($page, 5);
     		
     		foreach( $oServicios as $nKey => $servicio){	
@@ -76,12 +95,11 @@ class Service extends CI_Controller{
 		    								   	   "codigo"  	=> $servicio->codigo,
 		    								   	   "nombre"  	=> $servicio->nombre,
 		    								   	   "fecha_alt"  => date("d",strtotime($servicio->fecha_alta))." / ".
-		    								   	   	           month(date("m",strtotime($servicio->fecha_alta))-1,false)." / ".
-		    								   	   	           date("Y",strtotime($servicio->fecha_alta)),
+		    								   	   	               month(date("m",strtotime($servicio->fecha_alta))-1,false)." / ".
+		    								   	   	               date("Y",strtotime($servicio->fecha_alta)),
 		    								   	   "estatus"   => $servicio->estatus,
-		    								   	   "activar"   => in_array($permisos['specialism'],aPermisos('Editar'))?true:false,
-		    								       "editar"    => in_array($permisos['specialism'],aPermisos('Editar'))?true:false,
-		    								       "eliminar"  => in_array($permisos['specialism'],aPermisos('Eliminar'))?true:false
+		    								   	   "editar"    => in_array($permisos['service'],aPermisos('Editar'))?true:false,
+		    								       "eliminar"  => in_array($permisos['service'],aPermisos('Eliminar'))?true:false
 		    										  );  
 				
     		}
@@ -152,7 +170,7 @@ class Service extends CI_Controller{
 
 			if($servicio->save()){
 
-				redirect(base_url('service'));
+				reload(base_url('service'));
 
 			} else {
 
@@ -226,9 +244,11 @@ public function eliminar($id_servicio){
 
 		if($servicio->save()){
 
-			redirect(base_url('service'));
+			echo json_encode(array('error'=>false,'id' => $id_servicio));
+
 		} else {
-			echo $servicio->error->string;
+
+			echo json_encode(array('error'=>true));
 
 		}
 
@@ -242,27 +262,36 @@ public function eliminar($id_servicio){
 
 		$servicio->where('id', $id_servicio)->get();
 
+		$estatus_actual = $servicio->estatus;
+
 		if($servicio->estatus == 1){
 
 			$servicio->estatus    = 0;
-			$servicio->fecha_modificacion = '0000-00-00 00:00:00';
+			$status = 0;
 	
-		} else{
+		} else {
 
-			$servicio->fecha_modificacion = date("Y-m-d H:i:s");
+			$status = 1;
 			$servicio->estatus    = 1;
 
 		}
+
+		$servicio->fecha_modificacion = date("Y-m-d H:i:s");
 		
-		$servicio->save();
-
-		redirect(base_url('service'));
-
+		if($servicio->save()){
+			echo json_encode(array('estatus'=>$status,'id'=>$id_servicio));
+		} else {
+			echo json_encode(array('error'=>true,'estatus'=>$estatus_actual,'id'=>$id_servicio));
+		}
+	
 	}
 
 
    public function buscar($page = 1){
 
+   		$aPermisos = permisos($this->session->userdata('type_user'));
+
+    	$data['permisos'] = $aPermisos['service'];
 		$data['view']     = 'sistema/servicio/buscar';
 		$data['return']   = 'service';
 		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
@@ -272,41 +301,7 @@ public function eliminar($id_servicio){
 							      'jquery.ui.datepicker-es.js',
 							      'valid_forms.js');
 
-		if($this->input->post()){
-
-			$servicios = new Servicio();
-			
-			$aPermisos = permisos($this->session->userdata('type_user'));
-			$input_count = 0;
-
-			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != '' && $input_name != 'estatus'){
-			 		$servicios->like($input_name, $input);
-			 		$input_count++;
-			 	}
-
-			  	if($input_name == 'estatus'){
-			  		$servicios->where_in('estatus', $this->input->post('estatus'));
-			  		$input_count++;			  
-			 	}
-			}
-
-			 if($input_count > 0){
-
-				$servicios->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
-				$servicios->order_by('estatus');
-				$servicios->order_by('codigo');
-				$servicios->get_paged_iterated($page, 4);
-
-				$data['permisos']     = $aPermisos['service'];
-				$data['paginaActual'] = $page;
-				$data['servicios']    = $servicios;
-				$data['buscar']       = true;
-
-			}
-
-		}
-
+		
 		$this->load->view('sistema/template',$data);
 
 	}
