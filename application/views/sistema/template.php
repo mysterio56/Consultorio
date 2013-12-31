@@ -33,44 +33,37 @@
 <div class="subir">
 
 <?php
+
  if(!isset($return) && $view != 'sistema/consultorio/editar'){
-
-
-
-    echo form_open();
-    
-   
-    echo form_label('Código:','codigo');
-   
-    echo form_input(array('name'  => 'codigo' , 
-                          'id'    => 'codigo' , 
-                          'size'  => '20', 
-                          'value' => set_value('codigo'),
-                          'class' => 'color_form'));
-    
-    echo form_label('Nombre:','nombre');
-   
-
-    echo form_input(array('name'  => 'nombre', 
-                          'id'    => 'nombre', 
-                          'size'  => '20', 
-                          'value' => set_value('nombre'),
-                          'class' => 'color_form'));
   
-    echo form_submit(array('name'  => 'buscar', 
-                           'id'    => 'buscar',
-                           'class' => 'abutton',
-                           'value' => 'Buscar',
-                           'style' => 'margin:0px'));
-  
+    $attributes = array('id' => 'busquedaForm');
+    echo form_open(null,$attributes);
+    
+    echo form_label('Código / Nombre:');
+   
+    $data =array(
+                'name'  => 'buscar' , 
+                'id'    => 'buscar' , 
+                'size'  => '20', 
+                'value' => set_value('buscar'),
+                'class' => 'color_form'
+                );
+
+    echo form_input($data);
+
+
+  ?>
+    <input type="hidden" name="buscarId" id="buscarId"/>
+    <a id='busqueda' class="abutton" onclick= "grid();"> Buscar</a>
+  </div>
+  </table>
+
+  <? 
+      
   echo form_close();
   }
 
 ?> 
-
-</div>
-</table>
-
 
 <?php   
     $this->load->view($view); 

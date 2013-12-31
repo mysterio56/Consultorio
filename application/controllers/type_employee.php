@@ -8,54 +8,127 @@ class Type_employee extends CI_Controller{
     	permisos($this->session->userdata('type_user'));
     }
 
-	public function index($page = 1){
-
-    	$tipoEmpleados = new Tipo_empleado();
-		$aPermisos = permisos($this->session->userdata('type_user'));
-
-		$tipoEmpleados->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
-								    
-		$tipoEmpleados->where('estatus <> 2');
-		$tipoEmpleados->order_by('codigo');
+	public function index(){
     
-    	$tipoEmpleados->get_paged_iterated($page, 9);
+    	$tipoEmpleados = new Tipo_Empleado();
+    	
+    	$aPermisos = permisos($this->session->userdata('type_user'));
 
-		$data['permisos']      = $aPermisos['type_employee'];
-		$data['paginaActual']  = $page;
-		$data['tipoEmpleados'] = $tipoEmpleados;
-		$data['view']          = 'sistema/tipo_empleado/lista';
-		$data['cssFiles']      = array('sistema.css');
-		$data['jsFiles']       = array('valid_forms.js');
+    	$data['permisos'] = $aPermisos['type_employee'];
+    	$data['view']	  =	'sistema/tipo_empleado/lista';
+       	$data['cssFiles'] = array('sistema.css',
+								  'jquery-ui/jquery-ui.css');
+		$data['jsFiles']  = array('jquery.js',
+							      'jquery-ui.js',
+							      'valid_forms.js');
 
-		if($this->input->post()){
 
-			$tipoEmpleados = new Tipo_empleado();
+    	$this->load->view('sistema/template',$data);
+    }
+
+    public function grid($page = 1){
+
+
+    		$tipoEmpleados = new Tipo_Empleado();
+
+    	if($this->input->post()){
+
+    		$tipoEmpleados = new Tipo_Empleado();
+
+    		$tipoEmpleados->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
+    		
+
+			$permisos = permisos($this->session->userdata('type_user'));
+
 			
-			$aPermisos = permisos($this->session->userdata('type_user'));
-			$input_count = 0;
+			if($this->input->post('codigo')){
 
-			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != ''){
-			 		$tipoEmpleados->like($input_name, $input);
-			 		$input_count++;
-			 	}
-			 } 
-			if($input_count > 0){
+    			$tipoEmpleados->where('codigo',$this->input->post('codigo'));
+    			$tipoEmpleados->order_by(' codigo ', 'ASC ');
 
-				$tipoEmpleados->order_by('codigo');
-				$tipoEmpleados->get_paged_iterated($page, 8);
+    		}
 
-				$data['permisos']     = $aPermisos['type_employee'];
-				$data['paginaActual'] = $page;
-				$data['tipoEmpleados']= $tipoEmpleados;
-				$data['buscar']       = true;
+    		if($this->input->post('nombre')){
+
+    			$tipoEmpleados->where('nombre',$this->input->post('nombre'));
+    			$tipoEmpleados->order_by(' codigo ', 'ASC ');
+    	
+    		}
+
+    		if($this->input->post('Codigo')){
+
+    			$tipoEmpleados->where('codigo like "%'.$_POST['Codigo'].'%"');
+    			$tipoEmpleados->order_by(' codigo ', 'ASC ');
+
+    		}
+
+			if($this->input->post('Nombre')){
+
+    			$tipoEmpleados->where('nombre like "%'.$_POST['Nombre'].'%"');
+    			$tipoEmpleados->order_by(' codigo ', 'ASC ');
+    		
+    		}
+
+    		if($this->input->post('estatus')){
+
+    			$tipoEmpleados->where_in('estatus',$this->input->post('estatus'));	
+    			$tipoEmpleados->order_by(' estatus');
+    			$tipoEmpleados->order_by(' codigo ', 'ASC ');   			
+    		} else {
+
+    			$tipoEmpleados->where('estatus <> 2');
+    		}
+
+    		if($this->input->post('fecha_alta')){
+
+    			$tipoEmpleados->where('DATE(fecha_alta) = \''.$this->input->post('fecha_alta').'\'');
+    			$tipoEmpleados->order_by(' codigo ', 'ASC ');
+    		}
+
+    		if($this->input->post('buscarId')){
+
+				$tipoEmpleados->where('id' ,$this->input->post('buscarId'));
+    			$tipoEmpleados->order_by(' codigo ', 'ASC ');
+    		}
+    		
+    		
+    		$oTipoEmpleados = $tipoEmpleados->get_paged_iterated($page, 5);
+    		
+    		foreach( $oTipoEmpleados as $nKey => $tipoempleado){	
+
+		    	$aTipoEmpleados['data'][$nKey] = array("id"        => $tipoempleado->id,
+		    								   	   	   "codigo"    => $tipoempleado->codigo,
+		    								   	   	   "nombre"    => $tipoempleado->nombre." ".$tipoempleado->apellido_p." ".$tipoempleado->apellido_m,
+		    								   	   	   "fecha_alt" => date("d",strtotime($tipoempleado->fecha_alta))." / ".
+		    								   	   	   				  month(date("m",strtotime($tipoempleado->fecha_alta))-1, false)." / ".
+		    								   	   	   				  date("Y",strtotime($tipoempleado->fecha_alta)), 
+		    								   	   	   "estatus"   => $tipoempleado->estatus,
+		    								   	   	   "editar"    => in_array($permisos['type_employee'],aPermisos('Editar'))?true:false,
+		    								       	   "eliminar"  => in_array($permisos['type_employee'],aPermisos('Eliminar'))?true:false
+		    										  );  
+				
+    		}
+
+    		if(isset($aTipoEmpleados)){
+
+    			$aTipoEmpleados['page_total']    = $tipoEmpleados->paged->total_pages;
+    			$aTipoEmpleados['page_actual']   = $page;
+    			$aTipoEmpleados['has_previous']  = $tipoEmpleados->paged->has_previous;
+    			$aTipoEmpleados['has_next']      = $tipoEmpleados->paged->has_next;
+    			$aTipoEmpleados['previous_page'] = $tipoEmpleados->paged->previous_page;
+    			$aTipoEmpleados['next_page']     = $tipoEmpleados->paged->next_page;
+
+				echo json_encode($aTipoEmpleados);
+
+			} else {
+
+				echo json_encode(array('empty' => true)); 
 
 			}
 
-		}
-		$this->load->view('sistema/template',$data);
-    }
+    	}
 
+    }
     public function agregar(){
 
     	$tipoEmpleado = new Tipo_empleado();
@@ -87,7 +160,7 @@ class Type_employee extends CI_Controller{
 			$tipoEmpleado->descripcion    = $this->input->post('descripcion');
 			$tipoEmpleado->fecha_alta     = date("Y-m-d H:i:s");
 			$tipoEmpleado->consultorio_id =  $this->session->userdata('id_consultorio');
-			$tipoEmpleado->estatus        = 1;
+			$tipoEmpleado->estatus        =  1;
 
 			$modulos->where_in('id',$this->input->post('modulos'))->get();
 			
@@ -204,12 +277,11 @@ class Type_employee extends CI_Controller{
 
 		if($tipoEmpleado->save()){
 
-			redirect(base_url('type_employee'));
-		} else {
-			echo $tipoEmpleado->error->string;
+			echo json_encode(array('error' =>false,'id'=>$id_tipoEmpleado ));
+		}else{
 
+			echo json_encode(array('error' =>true));
 		}
-
 	}
 
 
@@ -219,28 +291,39 @@ class Type_employee extends CI_Controller{
 		$tipoEmpleado = new Tipo_empleado();
 
 		$tipoEmpleado->where('id', $id_tipoEmpleado)->get();
+		$estatus_actual = $tipoEmpleado->estatus;
 
 		if($tipoEmpleado->estatus == 1){
 
 			$tipoEmpleado->estatus    = 0;
-			$tipoEmpleado->fecha_baja = '0000-00-00 00:00:00';
+			$status=0;
 	
 		} else{
-
-			$tipoEmpleado->fecha_baja = date("Y-m-d H:i:s");
+			
 			$tipoEmpleado->estatus    = 1;
+			$status=1;
 
 		}
 		
-		$tipoEmpleado->save();
+		$tipoEmpleado->fecha_modificacion = date("Y-m-d H:i:s");
+		if($tipoEmpleado->save()){
 
-		redirect(base_url('type_employee'));
+			echo json_encode(array('estatus' =>$status ,'id'=>$id_tipoEmpleado));
+		}else{
+
+			echo json_encode(array('error'=>true,'estatus' =>$estatus_actual ,'id'=>$id_tipoEmpleado));
+		}
+
+		
 
 	}
 
 
    public function buscar($page = 1){
 
+   		$aPermisos = permisos($this->session->userdata('type_user'));
+
+    	$data['permisos'] = $aPermisos['type_employee'];
 		$data['view']     = 'sistema/tipo_empleado/buscar';
 		$data['return']   = 'type_employee';
 		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
@@ -250,40 +333,7 @@ class Type_employee extends CI_Controller{
 							      'jquery.ui.datepicker-es.js',
 							      'valid_forms.js');
 
-		if($this->input->post()){
-
-			$tipoEmpleados = new Tipo_empleado();
-			
-			$aPermisos = permisos($this->session->userdata('type_user'));
-			$input_count = 0;
-
-			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != '' && $input_name != 'estatus'){
-			 		$tipoEmpleados->like($input_name, $input);
-			 		$input_count++;
-			 	}
-			 	 	if($input_name == 'estatus'){
-			  		$tipoEmpleados->where_in('estatus', $this->input->post('estatus'));
-			  		$input_count++;			  
-			 	}
-			}
-			
-			if($input_count > 0){
-
-				$tipoEmpleados->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
-									       
-				$tipoEmpleados->order_by('estatus');
-				$tipoEmpleados->order_by('codigo');
-				$tipoEmpleados->get_paged_iterated($page, 8);
-
-				$data['permisos']     = $aPermisos['type_employee'];
-				$data['paginaActual'] = $page;
-				$data['tipoEmpleados']= $tipoEmpleados;
-				$data['buscar']       = true;
-
-			}
-		}
-			$this->load->view('sistema/template',$data);
+		$this->load->view('sistema/template',$data);
 
 	}
 
@@ -299,5 +349,27 @@ class Type_employee extends CI_Controller{
 		echo json_encode($aTipoEmpleados);
 
 	}
+
+	public function lista_add(){
+	
+		$tipoEmpleados = new Tipo_Empleado();
+
+		$tipoEmpleados->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
+								   'estatus'       => 1));
+
+		$tipoEmpleados->where('CONCAT( codigo, "  " , nombre ) like "%'.$_GET['term'].'%"')->get();
+		
+		$aTipoEmpleados = array();
+
+		foreach($tipoEmpleados as $tipoempleado){
+			 $aTipoEmpleados[] = array("Id"    => $tipoempleado->id, 
+			 					  	   "label" => $tipoempleado->codigo ." ". $tipoempleado->nombre,
+		 					  	       "value" => $tipoempleado->codigo ." ". $tipoempleado->nombre);
+
+	}
+
+	echo json_encode($aTipoEmpleados);
+
+}
 
 }

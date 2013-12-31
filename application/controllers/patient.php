@@ -7,60 +7,137 @@ class Patient extends CI_Controller{
     	parent::__construct();
     	permisos($this->session->userdata('type_user'));
     }
-
-	public function index($page = 1){
-
-    	$consultorio = new Consultorio();
-
-		$aPermisos = permisos($this->session->userdata('type_user'));
-
-		$consultorio->where(array('id' => $this->session->userdata('id_consultorio')))->get();
-        $consultorio->paciente->where('estatus <>', 2);
-		$consultorio->paciente->order_by('codigo');
+   public function index(){
+    
+    	$pacientes = new Paciente();
     	
-    	$pacientes = $consultorio->paciente->get_paged_iterated($page, 9);
+    	$aPermisos = permisos($this->session->userdata('type_user'));
 
-		$data['permisos']     = $aPermisos['patient'];
+    	$data['permisos'] = $aPermisos['patient'];
+    	$data['view']	  =	'sistema/pacientes/lista';
+    	$data['cssFiles'] = array('sistema.css',
+								  'jquery-ui/jquery-ui.css');
+		$data['jsFiles']  = array('jquery.js',
+							      'jquery-ui.js',
+							      'valid_forms.js');
 
-		$data['paginaActual'] = $page;
-		$data['pacientes']    = $pacientes;
-		$data['view']         = 'sistema/pacientes/lista';
-		$data['cssFiles']     = array('sistema.css');
-		$data['jsFiles']      = array('valid_forms.js');
 
-		if($this->input->post()){
 
-			$consultorio = new Consultorio();
-			$consultorio->where(array('id' => $this->session->userdata('id_consultorio')))->get();
-			//print_r($consultorio->nombre); exit();
-			$aPermisos   = permisos($this->session->userdata('type_user'));
-			$input_count = 0;
+    	$this->load->view('sistema/template',$data);
+    }
 
-			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != ''){
-			 		$consultorio->paciente->like($input_name, $input);
-			 		$input_count++;
-			 	}
-			 } 
+    public function grid($page = 1){
 
-			if($input_count > 0){
-				$consultorio->paciente->where('estatus <>', 2);
-				$consultorio->paciente->order_by('codigo');
-				$pacientes = $consultorio->paciente->get_paged_iterated($page, 8);
 
-				$data['permisos']     = $aPermisos['patient'];
-				$data['paginaActual'] = $page;
-				$data['pacientes']	  = $pacientes;
-				$data['buscar']       = true;
+    		$consultorio = new Consultorio();
+
+
+    	if($this->input->post()){
+
+    		$consultorio = new Consultorio();
+
+    		$consultorio->where(array('id' => $this->session->userdata('id_consultorio')))->get();
+
+			$permisos = permisos($this->session->userdata('type_user'));
+    		
+    		if($this->input->post('codigo')){
+
+    			$consultorio->pacientes->where('codigo',$this->input->post('codigo'));
+    			$consultorio->pacientes->order_by(' codigo ');
+
+    		}
+
+    		if($this->input->post('nombre')){
+
+    			$consultorio->pacientes->where('nombre',$this->input->post('nombre'));
+    			$consultorio->pacientes->order_by(' codigo ');
+    		}
+    		if($this->input->post('Codigo')){
+
+    			$consultorio->pacientes->where('codigo like "%'.$_POST['Codigo'].'%"');
+    			$consultorio->pacientes->order_by(' codigo ', 'ASC ');
+
+    		}
+    		
+    		if($this->input->post('Nombre')){
+
+    			$consultorio->pacientes->where('nombre like "%'.$_POST['Nombre'].'%"');
+    			$consultorio->pacientes->order_by(' codigo ');
+    		}
+    		if($this->input->post('Apellido_p')){
+
+    			$consultorio->pacientes->where('apellido_p like "%'.$_POST['Apellido_p'].'%"');
+    			$consultorio->pacientes->order_by(' codigo ');
+    		}
+    		if($this->input->post('Apellido_m')){
+
+    			$consultorio->pacientes->where('apellido_m like "%'.$_POST['Apellido_m'].'%"');
+    			$consultorio->pacientes->order_by(' codigo ');
+    		}
+    		if($this->input->post('estatus')){
+
+    			$consultorio->pacientes->where_in('estatus',$this->input->post('estatus'));	
+    			$consultorio->pacientes->order_by(' estatus ');
+    			$consultorio->pacientes->order_by(' codigo ');
+    			   			
+    		} else {
+
+    			$consultorio->pacientes->where('estatus <> 2');
+    		}
+
+
+			if($this->input->post('fecha_alta')){
+
+    			$consultorio->pacientes->where('DATE(fecha_alta) = \''.$this->input->post('fecha_alta').'\'');
+    			$consultorio->pacientes->order_by(' codigo ');
+    			
+    		}
+
+
+    		if($this->input->post('buscarId')){
+
+				$consultorio->pacientes->where('id' ,$this->input->post('buscarId'));
+    			$consultorio->pacientes->order_by(' codigo ');
+    			
+    		}
+    		
+    		$oPacientes = $consultorio->pacientes->get_paged_iterated($page, 5);
+    		
+    		foreach( $oPacientes as $nKey => $paciente){	
+
+		    	$aPacientes['data'][$nKey] = array("id"        => $paciente->id,
+		    								   	   "codigo"    => $paciente->codigo,
+		    								   	   "nombre"    => $paciente->nombre." ".$paciente->apellido_p." ".$paciente->apellido_m,
+		    								   	   "email"	   => $paciente->email,
+		    								   	   "telefono"  => $paciente->telefono,
+		    								   	   "celular"   => $paciente->celular,
+		    								   	   "estatus"   => $paciente->estatus,
+		    								   	   "editar"    => in_array($permisos['patient'],aPermisos('Editar'))?true:false,
+		    								       "eliminar"  => in_array($permisos['patient'],aPermisos('Eliminar'))?true:false
+		    										  );  
+				
+    		}
+
+    		if(isset($aPacientes)){
+
+    			$aPacientes['page_total']    = $consultorio->pacientes->paged->total_pages;
+    			$aPacientes['page_actual']   = $page;
+    			$aPacientes['has_previous']  = $consultorio->pacientes->paged->has_previous;
+    			$aPacientes['has_next']      = $consultorio->pacientes->paged->has_next;
+    			$aPacientes['previous_page'] = $consultorio->pacientes->paged->previous_page;
+    			$aPacientes['next_page']     = $consultorio->pacientes->paged->next_page;
+
+				echo json_encode($aPacientes);
+
+			} else {
+
+				echo json_encode(array('empty' => true)); 
 
 			}
 
-		}
+    	}
 
-		$this->load->view('sistema/template',$data);
-
-	}
-
+    }
 	public function agregar(){
 
 		$direccion   = new Direccion();
@@ -180,21 +257,28 @@ class Patient extends CI_Controller{
 		$paciente = new Paciente();
 
 		$paciente->where('id', $id_paciente)->get();
+		$estatus_actual = $paciente->estatus;
 
 		if($paciente->estatus == 1){
 
 			$paciente->estatus = 0;
+			$status=0;
+
 	
 		} else{
 
 			$paciente->estatus = 1;
-
+			$status=1;
 		}
 
 		$paciente->fecha_modificacion = date("Y-m-d H:i:s");
-		$paciente->save();
+		if($paciente->save()){
 
-		redirect(base_url('patient'));
+			echo json_encode(array('estatus' =>$status ,'id'=>$id_paciente));
+		}else{
+
+			echo json_encode(array('error' =>true ,'estatus'=>$estatus_actual,'id'=>$id_paciente));
+		}
 
 	}
 
@@ -207,14 +291,21 @@ class Patient extends CI_Controller{
 		$paciente->estatus    = 2;
 		$paciente->fecha_baja = date("Y-m-d H:i:s");
 
-		$paciente->save();
+		if($paciente->save()){
 
-		redirect(base_url('patient'));
+			echo json_encode(array('error'=>false, 'id'=>$id_paciente));
+		}else{
+
+			echo json_encode(array('error' =>true ));
+		}
 
 	}
 
 	public function buscar($page = 1){
 
+		$aPermisos = permisos($this->session->userdata('type_user'));
+
+    	$data['permisos'] = $aPermisos['patient'];
 		$data['view']     = 'sistema/pacientes/buscar';
 		$data['return']   = 'patient';
 		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
@@ -224,44 +315,10 @@ class Patient extends CI_Controller{
 							      'jquery.ui.datepicker-es.js',
 							      'valid_forms.js');
 		
-		if($this->input->post()){
-			
-			$consultorio = new Consultorio();
-			$consultorio->where(array('id' => $this->session->userdata('id_consultorio')))->get();
-
-			$aPermisos = permisos($this->session->userdata('type_user'));
-			$input_count = 0;
-
-			foreach ($this->input->post() as $input_name => $input) {
-				if($input_name != 'buscar' && $input_name != 'fecha_alta_value' && $input != '' && $input_name != 'estatus'){
-			 		$consultorio->paciente->like($input_name, $input);
-			 		$input_count++;
-			 	}
-
-			  	if($input_name == 'estatus'){
-			  		$consultorio->paciente->where_in('estatus', $this->input->post('estatus'));
-			  		$input_count++;			  
-			 	}
-			}
-
-			 if($input_count > 0){
-
-				$consultorio->paciente->order_by('estatus');
-				$consultorio->paciente->order_by('codigo');
-				$pacientes = $consultorio->paciente->get_paged_iterated($page, 8);
-				
-				$data['permisos']     = $aPermisos['patient'];
-				$data['paginaActual'] = $page;
-				$data['pacientes']	  = $pacientes;
-				$data['buscar']       = true;
-
-			}
-
-		}
-
 		$this->load->view('sistema/template',$data);
 
 	} 
+
 
 	public function lista(){
 
