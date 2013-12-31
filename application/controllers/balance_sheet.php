@@ -82,7 +82,20 @@ class Balance_sheet extends CI_Controller{
 			
 		}
 
-		echo $totalIngreso - $totalEgreso;        
+		if($this->input->post('type_aux')){
+
+			if($this->input->post('type_aux') == "ingreso"){
+				echo $totalIngreso;
+			} else {
+				echo $totalEgreso;
+			}
+
+		}else{
+
+			echo $totalIngreso - $totalEgreso;
+
+		}
+		
 
 	}
 
@@ -143,7 +156,19 @@ class Balance_sheet extends CI_Controller{
 			
 		}
 
-		echo $totalIngreso - $totalEgreso;
+		if($this->input->post('type_aux')){
+
+			if($this->input->post('type_aux') == "ingreso"){
+				echo $totalIngreso;
+			} else {
+				echo $totalEgreso;
+			}
+
+		}else{
+
+			echo $totalIngreso - $totalEgreso;
+
+		}
 	
 	}
 
@@ -160,63 +185,68 @@ class Balance_sheet extends CI_Controller{
 
         }
 
-		$productos->get_paged_iterated($page, 9);
 
-		foreach($productos as $producto){
+        if(!$this->input->post('imprimir')){
 
-			$totalIngreso = 0;
-			$totalEgreso  = 0;
+			$productos->get_paged_iterated($page, 9);
 
-			$producto->ingreso->where("estatus", 2);
+			foreach($productos as $producto){
 
-			if ($this->input->post('date_start') && $this->input->post('date_end')){
+				$totalIngreso = 0;
+				$totalEgreso  = 0;
 
-				$producto->ingreso->where("DATE(fecha_alta) between '".$this->input->post('date_start')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end')."-01', INTERVAL 0 DAY))");
-            	$producto->egreso->where("DATE(fecha_alta) between '".$this->input->post('date_start')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end')."-01', INTERVAL 0 DAY))");
-				         	
-        	} elseif ($this->input->post('date_start') && !$this->input->post('date_end')){
+				$producto->ingreso->where("estatus", 2);
 
-				$producto->ingreso->where("DATE(fecha_alta) between '".$this->input->post('date_start')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_start')."-01', INTERVAL 0 DAY))");
-            	$producto->egreso->where("DATE(fecha_alta) between '".$this->input->post('date_start')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_start')."-01', INTERVAL 0 DAY))");
-				         	
-        	} elseif (!$this->input->post('date_start') && $this->input->post('date_end')){
+				if ($this->input->post('date_start') && $this->input->post('date_end')){
 
-				$producto->ingreso->where("DATE(fecha_alta) between '".$this->input->post('date_end')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end')."-01', INTERVAL 0 DAY))");
-            	$producto->egreso->where("DATE(fecha_alta) between '".$this->input->post('date_end')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end')."-01', INTERVAL 0 DAY))");
-				         	
-        	} else {
+					$producto->ingreso->where("DATE(fecha_alta) between '".$this->input->post('date_start')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end')."-01', INTERVAL 0 DAY))");
+	            	$producto->egreso->where("DATE(fecha_alta) between '".$this->input->post('date_start')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end')."-01', INTERVAL 0 DAY))");
 
-        		$producto->ingreso->where("DATE(fecha_alta) between '".date("Y-m")."-01' and LAST_DAY(DATE_ADD('".date("Y-m")."-01', INTERVAL 0 DAY))");
-            	$producto->egreso->where("DATE(fecha_alta) between '".date("Y-m")."-01' and LAST_DAY(DATE_ADD('".date("Y-m")."-01', INTERVAL 0 DAY))");
+					         	
+	        	} elseif ($this->input->post('date_start') && !$this->input->post('date_end')){
 
-        	}
+					$producto->ingreso->where("DATE(fecha_alta) between '".$this->input->post('date_start')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_start')."-01', INTERVAL 0 DAY))");
+	            	$producto->egreso->where("DATE(fecha_alta) between '".$this->input->post('date_start')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_start')."-01', INTERVAL 0 DAY))");
+					         	
+	        	} elseif (!$this->input->post('date_start') && $this->input->post('date_end')){
 
-        	$producto->ingreso->get();
-			$producto->egresos->get();
-			
-			foreach($producto->ingreso->all as $ingreso){
-				$totalIngreso = $totalIngreso + $ingreso->costo;
+					$producto->ingreso->where("DATE(fecha_alta) between '".$this->input->post('date_end')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end')."-01', INTERVAL 0 DAY))");
+	            	$producto->egreso->where("DATE(fecha_alta) between '".$this->input->post('date_end')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end')."-01', INTERVAL 0 DAY))");
+					         	
+	        	} else {
+
+	        		$producto->ingreso->where("DATE(fecha_alta) between '".date("Y-m")."-01' and LAST_DAY(DATE_ADD('".date("Y-m")."-01', INTERVAL 0 DAY))");
+	            	$producto->egreso->where("DATE(fecha_alta) between '".date("Y-m")."-01' and LAST_DAY(DATE_ADD('".date("Y-m")."-01', INTERVAL 0 DAY))");
+
+	        	}
+
+	        	$producto->ingreso->get();
+				$producto->egresos->get();
+				
+				foreach($producto->ingreso->all as $ingreso){
+					$totalIngreso = $totalIngreso + $ingreso->costo;
+				}
+
+				foreach($producto->egreso->all as $egreso){
+					$totalEgreso = $totalEgreso + $egreso->costo;
+				}
+
+				$aProductos['data'][] = array('id'      => $producto->id,
+											  'nombre'  => $producto->nombre,
+											  'ingreso' => $totalIngreso,
+											  'egreso'  => $totalEgreso,
+											  'total'   => $totalIngreso - $totalEgreso);
+
 			}
 
-			foreach($producto->egreso->all as $egreso){
-				$totalEgreso = $totalEgreso + $egreso->costo;
-			}
+			if(isset($aProductos)){
 
-			$aProductos['data'][] = array('nombre'  => $producto->nombre,
-										  'ingreso' => $totalIngreso,
-										  'egreso'  => $totalEgreso,
-										  'total'   => $totalIngreso - $totalEgreso);
-
-		}
-
-		if(isset($aProductos)){
-
-    			$aProductos['page_total']    = $productos->paged->total_pages;
-    			$aProductos['page_actual']   = $page;
-    			$aProductos['has_previous']  = $productos->paged->has_previous;
-    			$aProductos['has_next']      = $productos->paged->has_next;
-    			$aProductos['previous_page'] = $productos->paged->previous_page;
-    			$aProductos['next_page']     = $productos->paged->next_page;
+				$aProductos['page_total']    = $productos->paged->total_pages;
+				$aProductos['page_actual']   = $page;
+				$aProductos['has_previous']  = $productos->paged->has_previous;
+				$aProductos['has_next']      = $productos->paged->has_next;
+				$aProductos['previous_page'] = $productos->paged->previous_page;
+				$aProductos['next_page']     = $productos->paged->next_page;
 
 				echo json_encode($aProductos);
 
@@ -225,6 +255,134 @@ class Balance_sheet extends CI_Controller{
 				echo json_encode(array('empty' => true)); 
 
 			}
+
+		} else {
+
+			$productos->get();  
+
+            $this->load->library('Pdf');
+            $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+
+            $pdf->SetFont('Helvetica', '', 14, '', true); 
+
+            $pdf->AddPage();
+     
+            $pdf->setTextShadow(array('enabled' => true, 'depth_w' => 0.2, 'depth_h' => 0.2, 'color' => array(196, 196, 196), 'opacity' => 1, 'blend_mode' => 'Normal'));
+            $pdf->setImageScale(0.47);
+
+            $pdf->Image(base_url('assets/images/logos/'.$this->session->userdata('logo').'_logo.png'), 10, 10, 45, 25, '', '', '', false, 300);
+
+            $html  = $this->_css().' <table class="table">';
+            $html .= '<thead>
+                        <tr>
+                            <th class="th">Producto</th>
+                            <th class="th">Egreso</th>
+                            <th class="th">Ingreso</th>
+                            <th class="th">Balance</th>
+                        </tr>
+                    </thead>';
+            $html .= '<tbody>';  
+
+            foreach ($productos->all as $key => $producto) {
+
+                if ((($key+1) % 2) == 0) {
+                        $rowClass = "even";
+                    } else  {
+                        $rowClass = "odd";
+                    }
+
+                $totalIngreso = 0;
+				$totalEgreso  = 0;
+
+				$producto->ingreso->where("estatus", 2);
+		
+				if ($this->input->post('date_start_alt') && $this->input->post('date_end_alt')){
+
+					$dPdf_start = explode('-',$this->input->post('date_start_alt'));
+					$dPdf_start = month(($dPdf_start[1]-1),false)." ".$dPdf_start[0];
+					$dPdf_end   = explode('-',$this->input->post('date_end_alt'));
+					$dPdf_end   = month(($dPdf_end[1]-1),false)." ".$dPdf_end[0];
+
+					$producto->ingreso->where("DATE(fecha_alta) between '".$this->input->post('date_start')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end')."-01', INTERVAL 0 DAY))");
+	            	$producto->egreso->where("DATE(fecha_alta) between '".$this->input->post('date_start')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end')."-01', INTERVAL 0 DAY))");
+					         	
+	        	} elseif ($this->input->post('date_start_alt') && !$this->input->post('date_end_alt')){
+
+	        		$dPdf_start = explode('-',$this->input->post('date_start_alt'));
+					$dPdf_start = month(($dPdf_start[1]-1),false)." ".$dPdf_start[0];
+
+					$producto->ingreso->where("DATE(fecha_alta) between '".$this->input->post('date_start')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_start')."-01', INTERVAL 0 DAY))");
+	            	$producto->egreso->where("DATE(fecha_alta) between '".$this->input->post('date_start')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_start')."-01', INTERVAL 0 DAY))");
+
+					         	
+	        	} elseif (!$this->input->post('date_start_alt') && $this->input->post('date_end_alt')){
+
+	        		$dPdf_end   = explode('-',$this->input->post('date_end_alt'));
+					$dPdf_end   = month(($dPdf_end[1]-1),false)." ".$dPdf_end[0];
+
+					$producto->ingreso->where("DATE(fecha_alta) between '".$this->input->post('date_end')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end')."-01', INTERVAL 0 DAY))");
+	            	$producto->egreso->where("DATE(fecha_alta) between '".$this->input->post('date_end')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end')."-01', INTERVAL 0 DAY))");
+					         	
+	        	} else {
+
+	        		$producto->ingreso->where("DATE(fecha_alta) between '".date("Y-m")."-01' and LAST_DAY(DATE_ADD('".date("Y-m")."-01', INTERVAL 0 DAY))");
+	            	$producto->egreso->where("DATE(fecha_alta) between '".date("Y-m")."-01' and LAST_DAY(DATE_ADD('".date("Y-m")."-01', INTERVAL 0 DAY))");
+
+	        	}
+
+	        	$producto->ingreso->get();
+				$producto->egresos->get();
+				
+				foreach($producto->ingreso->all as $ingreso){
+					$totalIngreso = $totalIngreso + $ingreso->costo;
+				}
+
+				foreach($producto->egreso->all as $egreso){
+					$totalEgreso = $totalEgreso + $egreso->costo;
+				}
+
+				$balance = $totalIngreso - $totalEgreso;
+
+                $html .= '<tr class="'.$rowClass.'">';
+                $html .= '<td class="td">'.$producto->nombre.'</td>';
+                $html .= '<td class="td" align="right">'.$totalEgreso.'</td>';
+                $html .= '<td class="td" align="right">$ '.$totalIngreso.'</td>';
+                $html .= '<td class="td" align="right">$ '.$balance.'</td>';
+                $html .= '</tr>';
+            }
+
+            $html .= '</tbody>';
+            $html .= '</table>';
+     
+     		if(isset($dPdf_start) && isset($dPdf_end)){
+
+                $fecha = $dPdf_start ." al ". $dPdf_end;                    
+
+            }elseif(isset($dPdf_start) && !isset($dPdf_end)){
+
+                $fecha = $dPdf_start;                    
+
+            }elseif(isset($dPdf_end) && !isset($dPdf_start)){
+
+                $fecha = $dPdf_end;                    
+
+            }else{
+
+                $fecha = month((date('m')-1),false). " / ". date('Y');
+
+            }    
+
+            $pdf->writeHTMLCell(0, 0, 60, 15, '<h1 style="font-size:8px;">Balance de '.$fecha.'</h1>', 0, 1,  0, true, '', true);
+
+            $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = 40, $html, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
+
+            $pdf->writeHTMLCell(0, 0, 140, '', '<h1 style="font-size:8px;">Total: <strong>$ '.number_format($this->input->post('inputTotalProducto'), 2, '.', ',').'</strong></h1>', 0, 1,  0, true, '', true);
+
+            $nombre_archivo = utf8_decode("Balance.pdf");
+
+            $pdf->Output($nombre_archivo, 'I');
+
+		}
 
 	}
 
@@ -241,63 +399,66 @@ class Balance_sheet extends CI_Controller{
 
         }
 
-		$servicios->get_paged_iterated($page, 9);
+        if(!$this->input->post('imprimir')){
 
-		foreach($servicios as $servicio){
+			$servicios->get_paged_iterated($page, 9);
 
-			$totalIngreso = 0;
-			$totalEgreso  = 0;
+			foreach($servicios as $servicio){
 
-			$servicio->ingreso->where("estatus", 2);
+				$totalIngreso = 0;
+				$totalEgreso  = 0;
 
-			if ($this->input->post('date_start') && $this->input->post('date_end')){
+				$servicio->ingreso->where("estatus", 2);
 
-				$servicio->ingreso->where("DATE(fecha_alta) between '".$this->input->post('date_start')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end')."-01', INTERVAL 0 DAY))");
-            	$servicio->egreso->where("DATE(fecha_alta) between '".$this->input->post('date_start')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end')."-01', INTERVAL 0 DAY))");
-				         	
-        	} elseif ($this->input->post('date_start') && !$this->input->post('date_end')){
+				if ($this->input->post('date_start') && $this->input->post('date_end')){
 
-				$servicio->ingreso->where("DATE(fecha_alta) between '".$this->input->post('date_start')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_start')."-01', INTERVAL 0 DAY))");
-            	$servicio->egreso->where("DATE(fecha_alta) between '".$this->input->post('date_start')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_start')."-01', INTERVAL 0 DAY))");
-				         	
-        	} elseif (!$this->input->post('date_start') && $this->input->post('date_end')){
+					$servicio->ingreso->where("DATE(fecha_alta) between '".$this->input->post('date_start')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end')."-01', INTERVAL 0 DAY))");
+	            	$servicio->egreso->where("DATE(fecha_alta) between '".$this->input->post('date_start')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end')."-01', INTERVAL 0 DAY))");
+					         	
+	        	} elseif ($this->input->post('date_start') && !$this->input->post('date_end')){
 
-				$servicio->ingreso->where("DATE(fecha_alta) between '".$this->input->post('date_end')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end')."-01', INTERVAL 0 DAY))");
-            	$servicio->egreso->where("DATE(fecha_alta) between '".$this->input->post('date_end')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end')."-01', INTERVAL 0 DAY))");
-				         	
-        	} else {
+					$servicio->ingreso->where("DATE(fecha_alta) between '".$this->input->post('date_start')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_start')."-01', INTERVAL 0 DAY))");
+	            	$servicio->egreso->where("DATE(fecha_alta) between '".$this->input->post('date_start')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_start')."-01', INTERVAL 0 DAY))");
+					         	
+	        	} elseif (!$this->input->post('date_start') && $this->input->post('date_end')){
 
-        		$servicio->ingreso->where("DATE(fecha_alta) between '".date("Y-m")."-01' and LAST_DAY(DATE_ADD('".date("Y-m")."-01', INTERVAL 0 DAY))");
-            	$servicio->egreso->where("DATE(fecha_alta) between '".date("Y-m")."-01' and LAST_DAY(DATE_ADD('".date("Y-m")."-01', INTERVAL 0 DAY))");
+					$servicio->ingreso->where("DATE(fecha_alta) between '".$this->input->post('date_end')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end')."-01', INTERVAL 0 DAY))");
+	            	$servicio->egreso->where("DATE(fecha_alta) between '".$this->input->post('date_end')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end')."-01', INTERVAL 0 DAY))");
+					         	
+	        	} else {
 
-        	}
+	        		$servicio->ingreso->where("DATE(fecha_alta) between '".date("Y-m")."-01' and LAST_DAY(DATE_ADD('".date("Y-m")."-01', INTERVAL 0 DAY))");
+	            	$servicio->egreso->where("DATE(fecha_alta) between '".date("Y-m")."-01' and LAST_DAY(DATE_ADD('".date("Y-m")."-01', INTERVAL 0 DAY))");
 
-        	$servicio->ingreso->get();
-			$servicio->egresos->get();
-			
-			foreach($servicio->ingreso->all as $ingreso){
-				$totalIngreso = $totalIngreso + $ingreso->costo;
+	        	}
+
+	        	$servicio->ingreso->get();
+				$servicio->egresos->get();
+				
+				foreach($servicio->ingreso->all as $ingreso){
+					$totalIngreso = $totalIngreso + $ingreso->costo;
+				}
+
+				foreach($servicio->egreso->all as $egreso){
+					$totalEgreso = $totalEgreso + $egreso->costo;
+				}
+
+				$aServicio['data'][] = array( 'id'      => $servicio->id,
+											  'nombre'  => $servicio->nombre,
+											  'ingreso' => $totalIngreso,
+											  'egreso'  => $totalEgreso,
+											  'total'   => $totalIngreso - $totalEgreso);
+
 			}
 
-			foreach($servicio->egreso->all as $egreso){
-				$totalEgreso = $totalEgreso + $egreso->costo;
-			}
+			if(isset($aServicio)){
 
-			$aServicio['data'][] = array('nombre'  => $servicio->nombre,
-										  'ingreso' => $totalIngreso,
-										  'egreso'  => $totalEgreso,
-										  'total'   => $totalIngreso - $totalEgreso);
-
-		}
-
-		if(isset($aServicio)){
-
-    			$aServicio['page_total']    = $servicios->paged->total_pages;
-    			$aServicio['page_actual']   = $page;
-    			$aServicio['has_previous']  = $servicios->paged->has_previous;
-    			$aServicio['has_next']      = $servicios->paged->has_next;
-    			$aServicio['previous_page'] = $servicios->paged->previous_page;
-    			$aServicio['next_page']     = $servicios->paged->next_page;
+				$aServicio['page_total']    = $servicios->paged->total_pages;
+				$aServicio['page_actual']   = $page;
+				$aServicio['has_previous']  = $servicios->paged->has_previous;
+				$aServicio['has_next']      = $servicios->paged->has_next;
+				$aServicio['previous_page'] = $servicios->paged->previous_page;
+				$aServicio['next_page']     = $servicios->paged->next_page;
 
 				echo json_encode($aServicio);
 
@@ -307,6 +468,536 @@ class Balance_sheet extends CI_Controller{
 
 			}
 
+		} else {
+
+			$servicios->get();  
+
+            $this->load->library('Pdf');
+            $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+
+            $pdf->SetFont('Helvetica', '', 14, '', true); 
+
+            $pdf->AddPage();
+     
+            $pdf->setTextShadow(array('enabled' => true, 'depth_w' => 0.2, 'depth_h' => 0.2, 'color' => array(196, 196, 196), 'opacity' => 1, 'blend_mode' => 'Normal'));
+            $pdf->setImageScale(0.47);
+
+            $pdf->Image(base_url('assets/images/logos/'.$this->session->userdata('logo').'_logo.png'), 10, 10, 45, 25, '', '', '', false, 300);
+
+            $html  = $this->_css().' <table class="table">';
+            $html .= '<thead>
+                        <tr>
+                            <th class="th">Producto</th>
+                            <th class="th">Egreso</th>
+                            <th class="th">Ingreso</th>
+                            <th class="th">Balance</th>
+                        </tr>
+                    </thead>';
+            $html .= '<tbody>';  
+
+            foreach ($servicios->all as $key => $servicio) {
+
+                if ((($key+1) % 2) == 0) {
+                        $rowClass = "even";
+                    } else  {
+                        $rowClass = "odd";
+                    }
+
+                $totalIngreso = 0;
+				$totalEgreso  = 0;
+		
+				if ($this->input->post('date_start_alt') && $this->input->post('date_end_alt')){
+
+					$dPdf_start = explode('-',$this->input->post('date_start_alt'));
+					$dPdf_start = month(($dPdf_start[1]-1),false)." ".$dPdf_start[0];
+					$dPdf_end   = explode('-',$this->input->post('date_end_alt'));
+					$dPdf_end   = month(($dPdf_end[1]-1),false)." ".$dPdf_end[0];
+
+					$servicio->ingreso->where("DATE(fecha_alta) between '".$this->input->post('date_start')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end')."-01', INTERVAL 0 DAY))");
+	            	$servicio->egreso->where("DATE(fecha_alta) between '".$this->input->post('date_start')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end')."-01', INTERVAL 0 DAY))");
+					         	
+	        	} elseif ($this->input->post('date_start_alt') && !$this->input->post('date_end_alt')){
+
+	        		$dPdf_start = explode('-',$this->input->post('date_start_alt'));
+					$dPdf_start = month(($dPdf_start[1]-1),false)." ".$dPdf_start[0];
+
+					$servicio->ingreso->where("DATE(fecha_alta) between '".$this->input->post('date_start')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_start')."-01', INTERVAL 0 DAY))");
+	            	$servicio->egreso->where("DATE(fecha_alta) between '".$this->input->post('date_start')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_start')."-01', INTERVAL 0 DAY))");
+
+					         	
+	        	} elseif (!$this->input->post('date_start_alt') && $this->input->post('date_end_alt')){
+
+	        		$dPdf_end   = explode('-',$this->input->post('date_end_alt'));
+					$dPdf_end   = month(($dPdf_end[1]-1),false)." ".$dPdf_end[0];
+
+					$servicio->ingreso->where("DATE(fecha_alta) between '".$this->input->post('date_end')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end')."-01', INTERVAL 0 DAY))");
+	            	$servicio->egreso->where("DATE(fecha_alta) between '".$this->input->post('date_end')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end')."-01', INTERVAL 0 DAY))");
+					         	
+	        	} else {
+
+	        		$servicio->ingreso->where("DATE(fecha_alta) between '".date("Y-m")."-01' and LAST_DAY(DATE_ADD('".date("Y-m")."-01', INTERVAL 0 DAY))");
+	            	$servicio->egreso->where("DATE(fecha_alta) between '".date("Y-m")."-01' and LAST_DAY(DATE_ADD('".date("Y-m")."-01', INTERVAL 0 DAY))");
+
+	        	}
+
+	        	$servicio->ingreso->get();
+				$servicio->egresos->get();
+				
+				foreach($servicio->ingreso->all as $ingreso){
+					$totalIngreso = $totalIngreso + $ingreso->costo;
+				}
+
+				foreach($servicio->egreso->all as $egreso){
+					$totalEgreso = $totalEgreso + $egreso->costo;
+				}
+
+				$balance = $totalIngreso - $totalEgreso;
+
+                $html .= '<tr class="'.$rowClass.'">';
+                $html .= '<td class="td">'.$servicio->nombre.'</td>';
+                $html .= '<td class="td" align="right">'.$totalEgreso.'</td>';
+                $html .= '<td class="td" align="right">$ '.$totalIngreso.'</td>';
+                $html .= '<td class="td" align="right">$ '.$balance.'</td>';
+                $html .= '</tr>';
+            }
+
+            $html .= '</tbody>';
+            $html .= '</table>';
+     
+     		if(isset($dPdf_start) && isset($dPdf_end)){
+
+                $fecha = $dPdf_start ." al ". $dPdf_end;                    
+
+            }elseif(isset($dPdf_start) && !isset($dPdf_end)){
+
+                $fecha = $dPdf_start;                    
+
+            }elseif(isset($dPdf_end) && !isset($dPdf_start)){
+
+                $fecha = $dPdf_end;                    
+
+            }else{
+
+                $fecha = month((date('m')-1),false). " / ". date('Y');
+
+            }    
+
+            $pdf->writeHTMLCell(0, 0, 60, 15, '<h1 style="font-size:8px;">Balance de '.$fecha.'</h1>', 0, 1,  0, true, '', true);
+
+            $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = 40, $html, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
+
+            $pdf->writeHTMLCell(0, 0, 140, '', '<h1 style="font-size:8px;">Total: <strong>$ '.number_format($this->input->post('inputTotalServicio'), 2, '.', ',').'</strong></h1>', 0, 1,  0, true, '', true);
+
+            $nombre_archivo = utf8_decode("Balance.pdf");
+
+            $pdf->Output($nombre_archivo, 'I');
+
+		}
+
 	}
+
+
+	public function detailProducto($id = null, $type = null, $date_start, $date_end, $page = 1, $imprimir = null){
+
+		$producto = new Producto();
+
+		$producto->where('id', $id)->get();
+
+		$producto->ingreso->where('estatus', 2);	
+ 
+		if($date_start != 'false' && $date_end != 'false'){
+
+			$date_start = $date_start / 1000; 
+	        $date_end   = $date_end / 1000;
+
+	        $date_start = date("Y-m-d", $date_start);
+	        $date_end   = date("Y-m-d", $date_end);
+
+			$producto->ingreso->where("DATE(fecha_alta) between '".$date_start."' and LAST_DAY(DATE_ADD('".$date_end."', INTERVAL 0 DAY))");
+	    	$producto->egreso->where("DATE(fecha_alta) between '".$date_start."' and LAST_DAY(DATE_ADD('".$date_end."', INTERVAL 0 DAY))");
+			         	
+		} elseif ($date_start != 'false' && $date_end == 'false'){
+
+			$date_start = $date_start / 1000; 
+			$date_start = date("Y-m-d", $date_start);
+
+			$producto->ingreso->where("DATE(fecha_alta) between '".$date_start."' and LAST_DAY(DATE_ADD('".$date_start."', INTERVAL 0 DAY))");
+	    	$producto->egreso->where("DATE(fecha_alta) between '".$date_start."' and LAST_DAY(DATE_ADD('".$date_start."', INTERVAL 0 DAY))");
+
+			         	
+		} elseif ($date_start == 'false' && $date_end != 'false'){
+
+			$date_end = $date_end / 1000; 
+			$date_end = date("Y-m-d", $date_end);
+
+			$producto->ingreso->where("DATE(fecha_alta) between '".$date_end."' and LAST_DAY(DATE_ADD('".$date_end."', INTERVAL 0 DAY))");
+	    	$producto->egreso->where("DATE(fecha_alta) between '".$date_end."' and LAST_DAY(DATE_ADD('".$date_end."', INTERVAL 0 DAY))");
+			         	
+		} else {
+
+			$producto->ingreso->where("DATE(fecha_alta) between '".date("Y-m")."-01' and LAST_DAY(DATE_ADD('".date("Y-m")."-01', INTERVAL 0 DAY))");
+	    	$producto->egreso->where("DATE(fecha_alta) between '".date("Y-m")."-01' and LAST_DAY(DATE_ADD('".date("Y-m")."-01', INTERVAL 0 DAY))");
+
+		}
+
+		if($type == "ingreso"){
+
+			if(!$imprimir){
+
+				$detail = $producto->ingreso->get_paged_iterated($page,6);
+ 
+			} else {
+
+				$detail = $producto->ingreso->get();
+				$nombre = $producto->nombre;
+
+			}
+
+		} elseif($type == "egreso") {
+			
+			if(!$imprimir){
+
+				$detail = $producto->egreso->get_paged_iterated($page,6);
+
+			} else {
+
+				$detail = $producto->egreso->get();
+				$nombre = $producto->nombre;
+				
+			}
+
+		}	 
+
+		if(!$imprimir){
+
+			$data['view']         = 'sistema/balance/detalle';
+			$data['detail']       = $detail;
+			$data['tipo']         = $type;
+			$data['id']           = $id;
+			$data['paginaActual'] = $page;
+			$data['date_start']   = $date_start;
+	        $data['date_end']     = $date_end;
+	        $data['nombre']       = $producto->nombre;
+	        $data['typeDetail']   = "Producto";
+			$data['cssFiles']     = array('sistema.css',
+								     	  'jquery-ui/jquery-ui.css');
+			$data['jsFiles']      = array('jquery.js',
+							         	  'jquery-ui.js',
+								          'jquery.ui.datepicker-es.js');
+
+			$this->load->view('sistema/template_simple',$data);
+
+		} else {
+
+            $this->load->library('Pdf');
+            $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+
+            $pdf->SetFont('Helvetica', '', 14, '', true); 
+
+            $pdf->AddPage();
+     
+            $pdf->setTextShadow(array('enabled' => true, 'depth_w' => 0.2, 'depth_h' => 0.2, 'color' => array(196, 196, 196), 'opacity' => 1, 'blend_mode' => 'Normal'));
+            $pdf->setImageScale(0.47);
+
+            $pdf->Image(base_url('assets/images/logos/'.$this->session->userdata('logo').'_logo.png'), 10, 10, 45, 25, '', '', '', false, 300);
+
+            $html  = $this->_css().' <table class="table">';
+            $html .= '<thead>
+                        <tr>
+                            <th class="th" style="width:70px;">Fecha/Hora</th>';
+
+            if($type == "ingreso") {
+		    	$html .= '<th class="th">Por Cita</th>';
+            }
+
+            $html .=        '<th class="th">Cantidad</th>
+                            <th class="th">Costo</th>
+                            <th class="th">Total</th>
+                        </tr>
+                    </thead>';
+            $html .= '<tbody>'; 
+
+            $total = 0;
+
+            foreach ($detail->all as $key => $detalle) {
+
+            	if ((($key+1) % 2) == 0) {
+                        $rowClass = "even";
+                    } else  {
+                        $rowClass = "odd";
+                    }
+
+            	$html .= '<tr class="'.$rowClass.'">';
+            	$html .= '<td class="td" style="width:70px;">'.date("d", strtotime($detalle->fecha_alta)).'/'.
+            					month(date("m", strtotime($detalle->fecha_alta))-1,false).'/'.
+            					date("Y H:i", strtotime($detalle->fecha_alta)).'</td>';
+
+            	if($type == "ingreso") {
+
+            		$porCita = $detalle->cita_id?"Si":"";
+            		$html .= '<td class="td">'.$porCita.'</td>';
+
+            	}
+
+            	$html .= '<td class="td">'.$detalle->cantidad.'</td>';
+            	$html .= '<td class="td">'.$detalle->costo/$detalle->cantidad.'</td>'; 
+            	$html .= '<td class="td">'.$detalle->costo.'</td>'; 
+
+            	$html .= '</tr>';
+
+            	$total = $total + $detalle->costo;
+
+            }
+
+            $html .= '</tbody>';
+            $html .= '</table>';
+     
+     		if(isset($dPdf_start) && isset($dPdf_end)){
+
+                $fecha = $dPdf_start ." al ". $dPdf_end;                    
+
+            }elseif(isset($dPdf_start) && !isset($dPdf_end)){
+
+                $fecha = $dPdf_start;                    
+
+            }elseif(isset($dPdf_end) && !isset($dPdf_start)){
+
+                $fecha = $dPdf_end;                    
+
+            }else{
+
+                $fecha = month((date('m')-1),false). " / ". date('Y');
+
+            }    
+
+            $pdf->writeHTMLCell(0, 0, 60, 15, '<h1 style="font-size:8px;">Balance de '.$fecha.'</h1>', 0, 1,  0, true, '', true);
+
+            $pdf->writeHTMLCell(0, 0, 60, 25, '<h1 style="font-size:8px;">Producto '.$nombre.'</h1>', 0, 1,  0, true, '', true);
+
+            $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = 40, $html, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
+
+            $pdf->writeHTMLCell(0, 0, 140, '', '<h1 style="font-size:8px;">Total: <strong>$ '.number_format($total, 2, '.', ',').'</strong></h1>', 0, 1,  0, true, '', true);
+
+            $nombre_archivo = utf8_decode("Balance.pdf");
+
+            $pdf->Output($nombre_archivo, 'I');
+
+		}
+
+	}
+
+	public function detailServicio($id = null, $type = null, $date_start, $date_end, $page = 1, $imprimir = null){
+
+		$servicio = new Servicio();
+
+		$servicio->where('id', $id)->get();
+
+		$servicio->ingreso->where('estatus', 2);	
+ 
+		if($date_start != 'false' && $date_end != 'false'){
+
+			$date_start = $date_start / 1000; 
+	        $date_end   = $date_end / 1000;
+
+	        $date_start = date("Y-m-d", $date_start);
+	        $date_end   = date("Y-m-d", $date_end);
+
+			$servicio->ingreso->where("DATE(fecha_alta) between '".$date_start."' and LAST_DAY(DATE_ADD('".$date_end."', INTERVAL 0 DAY))");
+	    	$servicio->egreso->where("DATE(fecha_alta) between '".$date_start."' and LAST_DAY(DATE_ADD('".$date_end."', INTERVAL 0 DAY))");
+			         	
+		} elseif ($date_start != 'false' && $date_end == 'false'){
+
+			$date_start = $date_start / 1000; 
+			$date_start = date("Y-m-d", $date_start);
+
+			$servicio->ingreso->where("DATE(fecha_alta) between '".$date_start."' and LAST_DAY(DATE_ADD('".$date_start."', INTERVAL 0 DAY))");
+	    	$servicio->egreso->where("DATE(fecha_alta) between '".$date_start."' and LAST_DAY(DATE_ADD('".$date_start."', INTERVAL 0 DAY))");
+
+			         	
+		} elseif ($date_start == 'false' && $date_end != 'false'){
+
+			$date_end = $date_end / 1000; 
+			$date_end = date("Y-m-d", $date_end);
+
+			$servicio->ingreso->where("DATE(fecha_alta) between '".$date_end."' and LAST_DAY(DATE_ADD('".$date_end."', INTERVAL 0 DAY))");
+	    	$servicio->egreso->where("DATE(fecha_alta) between '".$date_end."' and LAST_DAY(DATE_ADD('".$date_end."', INTERVAL 0 DAY))");
+			         	
+		} else {
+
+			$servicio->ingreso->where("DATE(fecha_alta) between '".date("Y-m")."-01' and LAST_DAY(DATE_ADD('".date("Y-m")."-01', INTERVAL 0 DAY))");
+	    	$servicio->egreso->where("DATE(fecha_alta) between '".date("Y-m")."-01' and LAST_DAY(DATE_ADD('".date("Y-m")."-01', INTERVAL 0 DAY))");
+
+		}
+
+		if($type == "ingreso"){
+
+			if(!$imprimir){
+
+				$detail = $servicio->ingreso->get_paged_iterated($page,6);
+ 
+			} else {
+
+				$detail = $servicio->ingreso->get();
+				$nombre = $servicio->nombre;
+
+			}
+
+		} elseif($type == "egreso") {
+			
+			if(!$imprimir){
+
+				$detail = $servicio->egreso->get_paged_iterated($page,6);
+
+			} else {
+
+				$detail = $servicio->egreso->get();
+				$nombre = $servicio->nombre;
+				
+			}
+
+		}
+
+		if(!$imprimir){	 
+
+			$data['view']         = 'sistema/balance/detalle';
+			$data['detail']       = $detail;
+			$data['tipo']         = $type;
+			$data['id']           = $id;
+			$data['paginaActual'] = $page;
+			$data['date_start']   = $date_start;
+	        $data['date_end']     = $date_end;
+	        $data['nombre']       = $servicio->nombre;
+	        $data['typeDetail']   = "Servicio";
+			$data['cssFiles']     = array('sistema.css',
+								     	  'jquery-ui/jquery-ui.css');
+			$data['jsFiles']      = array('jquery.js',
+							         	  'jquery-ui.js',
+								          'jquery.ui.datepicker-es.js');
+
+			$this->load->view('sistema/template_simple',$data);
+
+		} else {
+
+			$this->load->library('Pdf');
+            $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+
+            $pdf->SetFont('Helvetica', '', 14, '', true); 
+
+            $pdf->AddPage();
+     
+            $pdf->setTextShadow(array('enabled' => true, 'depth_w' => 0.2, 'depth_h' => 0.2, 'color' => array(196, 196, 196), 'opacity' => 1, 'blend_mode' => 'Normal'));
+            $pdf->setImageScale(0.47);
+
+            $pdf->Image(base_url('assets/images/logos/'.$this->session->userdata('logo').'_logo.png'), 10, 10, 45, 25, '', '', '', false, 300);
+
+            $html  = $this->_css().' <table class="table">';
+            $html .= '<thead>
+                        <tr>
+                            <th class="th">Fecha/Hora</th>';
+
+            if($type == "ingreso") {
+		    	$html .= '<th class="th">Por Cita</th>';
+            }
+
+            $html .=        '<th class="th">Cantidad</th>
+                            <th class="th">Costo</th>
+                            <th class="th">Total</th>
+                        </tr>
+                    </thead>';
+            $html .= '<tbody>'; 
+
+            $total = 0;
+
+            foreach ($detail->all as $detalle) {
+
+            	$html .= '<tr>';
+            	$html .= '<td>'.$detalle->fecha_alta.'</td>';
+
+            	if($type == "ingreso") {
+
+            		$porCita = $detalle->cita_id?"Si":"";
+            		$html .= '<td>'.$porCita.'</td>';
+
+            	}
+
+            	$html .= '<td>'.$detalle->cantidad.'</td>';
+            	$html .= '<td>'.$detalle->costo/$detalle->cantidad.'</td>'; 
+            	$html .= '<td>'.$detalle->costo.'</td>'; 
+
+            	$html .= '</tr>';
+
+            	$total = $total + $detalle->costo;
+
+            }
+
+            $html .= '</tbody>';
+            $html .= '</table>';
+     
+     		if(isset($dPdf_start) && isset($dPdf_end)){
+
+                $fecha = $dPdf_start ." al ". $dPdf_end;                    
+
+            }elseif(isset($dPdf_start) && !isset($dPdf_end)){
+
+                $fecha = $dPdf_start;                    
+
+            }elseif(isset($dPdf_end) && !isset($dPdf_start)){
+
+                $fecha = $dPdf_end;                    
+
+            }else{
+
+                $fecha = month((date('m')-1),false). " / ". date('Y');
+
+            }    
+
+            $pdf->writeHTMLCell(0, 0, 60, 15, '<h1 style="font-size:8px;">Balance de '.$fecha.'</h1>', 0, 1,  0, true, '', true);
+
+            $pdf->writeHTMLCell(0, 0, 60, 25, '<h1 style="font-size:8px;">Servicio '.$nombre.'</h1>', 0, 1,  0, true, '', true);
+
+            $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = 40, $html, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
+
+            $pdf->writeHTMLCell(0, 0, 140, '', '<h1 style="font-size:8px;">Total: <strong>$ '.number_format($total, 2, '.', ',').'</strong></h1>', 0, 1,  0, true, '', true);
+
+            $nombre_archivo = utf8_decode("Balance.pdf");
+
+            $pdf->Output($nombre_archivo, 'I');
+
+		}
+
+
+	}
+
+
+	private function _css(){
+     
+     return " <style> 
+
+        .table {
+          width: 100%; 
+        }
+
+        .th {
+        padding: 3px 5px;
+        background-color:#4cbade;
+        color:#005d7b;
+        font-size: 7px;
+        border: 0.5px solid #0070A8;
+        font-weight:bold;
+        }
+
+        .td {
+        padding: 3px 5px;
+        font-size: 6px;
+        border: 0.5px solid #0070A8;
+        }
+
+        .even {
+            background-color: #CEECF5;  
+        }
+
+    </style>";
+
+    }
 
 }

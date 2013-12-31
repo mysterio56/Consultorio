@@ -109,7 +109,7 @@ function grid(){
 		  			}else{
 
 						rowCita += '<td>';
-						rowCita += '<img style="width:25px;height:25px;" src="'+base_url+'assets/images/'+cita.estatus+'_point.png"/>';
+						rowCita += '<img style="width:25px;height:25px;" src="'+base_url+'assets/images/'+cita.estatus+'_point.png" title   = "'+getTitle(cita.nEstatus)+'"/>';
 						rowCita += '<img src="'+base_url+'assets/images/wait.gif" id="wait_'+cita.id+'"  style="width:25px;height:25px;display:none">';
 						rowCita += '</td>';
 

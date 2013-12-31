@@ -20,6 +20,9 @@
 			$date_start_url = strtotime($date_start)*1000;
 			$date_end_url   = strtotime($date_end)*1000;
 
+			$date_start_url = $date_start_url?$date_start_url:"false";
+			$date_end_url   = $date_end_url?$date_end_url:"false";
+
 				foreach($ingresos as $key => $ingreso){
 
 				    $ingreso->producto->get();

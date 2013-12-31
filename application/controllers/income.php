@@ -302,6 +302,7 @@ class Income extends CI_Controller{
                 echo json_encode(array('empty' => true));
 
             }
+            
         } else {
 
             $ingresos->get();  
