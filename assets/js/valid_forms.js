@@ -335,6 +335,21 @@ Valid.consultorio = function()
     });
     
 }
+Valid.busqueda =function()
+{
+    $('#busquedaForm').validate({
+        rules:{
+            buscar:{
+                required:true
+            }
+        },
+        errorElement: 'div',
+        wrapper: 'div',
+        errorPlacement: function(error, element) {
+            error.insertAfter(element);
+        }
+    });
+}
 
 Valid.especialidad = function()
 {
@@ -363,27 +378,64 @@ Valid.especialidad = function()
     
 }
 
-Valid.eliminaregistro = function()
+Valid.eliminaregistro = function(url,type, id)
 {
-   if (!confirm("¿Desea eliminar el registro?")){ 
-        return false
-        }
+   var valid_confirm = confirm("¿Desea eliminar el registro?"); 
+        
+    if (valid_confirm == true){
+
+      $('#wait_delete_'+id).show();
+      $('#'+type+'_delete_'+id).hide();
+
+      $.getJSON( url, function( data ) {
+ 
+            if(!data.error){   
+
+                $('#tr_'+type+'_'+data.id).hide();
+
+            } else {
+
+                alert('Ocurrio un error intente mas tarde');
+
+            }
+
+        });
+
+    } 
 }
 
-Valid.activaregistro =function ()
+Valid.changeStatus = function (url,image_url,type, id)
 {
-if (!confirm("¿Desea activar el registro?")){  
-        return false
-    }
-}
 
-Valid.desactivaregistro = function()
-{
-    if (!confirm("¿Desea desactivar el registro?")){  
-        return false
-    }
-}
+    var valid_confirm = confirm("¿Desea cambiar el estatus del registro?"); 
+        
+    if (valid_confirm == true){
 
+      $('#wait_'+id).show();
+      $('#'+type+'_'+id).hide();
+
+      $.getJSON( url, function( data ) {
+
+            if(!data.error){
+            
+                active = data.estatus?'active':'inactive';    
+
+                $('#'+type+'_'+data.id).attr('src',image_url+'assets/images/'+active+'.png');
+
+            } else {
+
+                alert('Ocurrio un error intente mas tarde');
+                console.log(data);
+            }
+
+            $('#wait_'+data.id).hide();
+            $('#'+type+'_'+data.id).show();
+
+        });
+
+    } 
+
+}
 
 Valid.tipoEmpleado = function()
 {
@@ -542,6 +594,16 @@ Valid.return = function(id_iframe){
 function Find() {
 
 }
+
+Find.producto = function()
+{
+
+    $('#fecha_alta_value')
+            .datepicker({
+                altField:   "#fecha_alta",
+                altFormat:  "yy-mm-dd",
+                dateFormat: "dd M yy"});
+}
     
 
 Find.empleados = function()
@@ -592,7 +654,7 @@ Find.fecha_alta_value = function()
                 dateFormat: "dd M yy"});
 
 
-jQuery.validator.addMethod('selectcheck', function (value) {
+/*jQuery.validator.addMethod('selectcheck', function (value) {
         return (value != '0');
-    }, "Requerido.");
+    }, "Requerido.");*/
 }
