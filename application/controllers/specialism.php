@@ -108,10 +108,14 @@ class Specialism extends CI_Controller{
     }
     public function agregar(){
 
-    	$especialidad = new Especialidad();
+    	$nCodigo = new Especialidad();
+
+    	$nCodigo->where('consultorio_id', $this->session->userdata('id_consultorio'))->get();
+		$nCodigo = $nCodigo->count() + 1;
 
     	$data['view']     	  = 'sistema/especialidades/agregar';
 		$data['return']       = 'specialism';
+		$data['nCodigo']      = $nCodigo;
 		$data['cssFiles']     = array('sistema.css');
 		$data['jsFiles']      = array('jquery.js',
 							     	  'jquery-validation/dist/jquery.validate.js',
@@ -122,11 +126,14 @@ class Specialism extends CI_Controller{
 
 		if($this->input->post()){
 
-			$especialidad->codigo     = $this->input->post('codigo'); 
-			$especialidad->nombre     = $this->input->post('nombre');
-			$especialidad->fecha_alta = date("Y-m-d H:i:s");
+			$especialidad = new Especialidad();
+
+			$especialidad->codigo         = $this->input->post('codigo'); 
+			$especialidad->nombre         = $this->input->post('nombre');
+			$especialidad->descripcion    = $this->input->post('descripcion');
+			$especialidad->fecha_alta     = date("Y-m-d H:i:s");
 			$especialidad->consultorio_id = $this->session->userdata('id_consultorio');
-			$especialidad->estatus    = 1;
+			$especialidad->estatus        = 1;
 
 			if($especialidad->save()){
 
@@ -161,6 +168,7 @@ class Specialism extends CI_Controller{
 
 			$especialidad->codigo             = $this->input->post('codigo'); 
 			$especialidad->nombre             = $this->input->post('nombre');
+			$especialidad->descripcion        = $this->input->post('descripcion');
 			$especialidad->fecha_modificacion = date("Y-m-d H:i:s");
 
 			if($especialidad->save()){

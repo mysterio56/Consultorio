@@ -106,10 +106,14 @@ class Product extends CI_Controller{
     }
     public function agregar(){
 
-    	$producto = new Producto();
+    	$nCodigo = new Producto();
+
+    	$nCodigo->where('consultorio_id', $this->session->userdata('id_consultorio'))->get();
+		$nCodigo = $nCodigo->count() + 1;
 
     	$data['view']     	  = 'sistema/producto/agregar';
 		$data['return']       = 'product';
+		$data['nCodigo']      = $nCodigo;
 		$data['cssFiles']     = array('sistema.css');
 		$data['jsFiles']      = array('jquery.js',
 							     	  'jquery-validation/dist/jquery.validate.js',
@@ -121,8 +125,11 @@ class Product extends CI_Controller{
 
 		if($this->input->post()){
 
+			$producto = new Producto();
+
 			$producto->codigo         = $this->input->post('codigo'); 
 			$producto->nombre         = $this->input->post('nombre');
+			$producto->descripcion    = $this->input->post('descripcion');
 			$producto->costo_compra   = str_replace(",","",$this->input->post('costo_c'));
 			$producto->costo_venta    = str_replace(",","",$this->input->post('costo_v'));
 			$producto->consultorio_id = $this->session->userdata('id_consultorio');
@@ -164,6 +171,7 @@ class Product extends CI_Controller{
 
 			$producto->codigo             = $this->input->post('codigo'); 
 			$producto->nombre             = $this->input->post('nombre');
+			$producto->descripcion        = $this->input->post('descripcion');
 			$producto->costo_compra       = str_replace(",","",$this->input->post('costo_c'));
 			$producto->costo_venta        = str_replace(",","",$this->input->post('costo_v'));
 			$producto->fecha_modificacion = date("Y-m-d H:i:s");
@@ -285,8 +293,10 @@ public function eliminar($id_producto){
 	$aProducto = array(); 
 
 	foreach($producto as $product){
-			 $aProducto[] = array("id"    => $product->id, 
-			 					  "value" => $product->codigo .' '. $product->nombre);
+			 $aProducto[] = array("id"           => $product->id, 
+			 					  "value"        => $product->codigo .' '. $product->nombre,
+			 					  "costo"        => $product->costo_venta,
+			 					  "costo_compra" => $product->costo_compra);
 		}
 		
 		echo json_encode($aProducto);

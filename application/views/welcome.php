@@ -1,6 +1,6 @@
 <?php
 
-	$this->load->view('banner');
+	
 	echo '<section class="main-container">';
 		echo '<div id="div-container">';
 			$this->load->view('servicios');

@@ -153,7 +153,7 @@
 	?>
 		<td width="25%">
 			 <div id="wait_tp" class="wait">
-	  	  		<p>Cargando tipo de empleados, por favor espere</p>
+	  	  		<p>Cargando tipo de empleados</p>
 	  	 	</div>
 			<div class="select_reload">
 			 	<select name="tipo_empleado" id="tipo_empleado"></select>
@@ -202,7 +202,7 @@ echo'<tr>';
 	<td width="25%">
 	  	 <select name="estado" id="estado" class="hide" onChange="getMunicipalities();"> </select>
 	  	  <div id="wait_estados" class="wait">
-	  	  	<p>Cargando Estados, por favor espere</p>
+	  	  	<p>Cargando Estados</p>
 	  	  	</div>
 	</td>
 
@@ -212,7 +212,7 @@ echo'<tr>';
 	<td width="25%">
 		<select  name="municipio" id="municipio" class="hide" onchange="getPostalCodes();"/></select>
 		 <div id="wait_mun" class="wait hide">
-	  	  	<p>Cargando Municipios, por favor espere</p>
+	  	  	<p>Cargando Municipios</p>
 	  	  	</div>
 	</td>
 </tr>
@@ -223,7 +223,7 @@ echo'<tr>';
     <td width="25%">
     	<select name="codigo_postal" id="codigo_postal" class="hide" onchange="getColonies();"/></select>
     	 <div id="wait_cp" class="wait hide">
-	  	  	<p>Cargando Codigos Postales, por favor espere</p>
+	  	  	<p>Cargando Codigos Postales</p>
 	  	 </div>
     </td>
 
@@ -233,7 +233,7 @@ echo'<tr>';
 	<td width="25%">
 		<select name="colonia" id="colonia" class="hide"/></select>
 		 <div id="wait_col" class="wait hide">
-	  	  	<p>Cargando Colonias, por favor espere</p>
+	  	  	<p>Cargando Colonias</p>
 	  	  	</div>
 	</td>
 </tr>

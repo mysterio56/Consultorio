@@ -109,10 +109,14 @@ class Service extends CI_Controller{
 
     public function agregar(){
 
-    	$servicio = new Servicio();
+    	$nCodigo = new Servicio();
+
+    	$nCodigo->where('consultorio_id', $this->session->userdata('id_consultorio'))->get();
+		$nCodigo = $nCodigo->count() + 1;
 
     	$data['view']     	  = 'sistema/servicio/agregar';
 		$data['return']       = 'service';
+		$data['nCodigo']      = $nCodigo;
 		$data['cssFiles']     = array('sistema.css');
 		$data['jsFiles']      = array('jquery.js',
 							     	  'jquery-validation/dist/jquery.validate.js',
@@ -124,8 +128,11 @@ class Service extends CI_Controller{
 
 		if($this->input->post()){
 
+			$servicio = new Servicio();
+
 			$servicio->codigo         = $this->input->post('codigo'); 
 			$servicio->nombre         = $this->input->post('nombre');
+			$servicio->descripcion    = $this->input->post('descripcion');
 
 			if ($this->input->post('servicios') == 1) {
 				$servicio->costo_compra = 0.00;
@@ -176,8 +183,9 @@ class Service extends CI_Controller{
 
 		if($this->input->post()){
 
-			$servicio->codigo             = $this->input->post('codigo'); 
-			$servicio->nombre             = $this->input->post('nombre');
+			$servicio->codigo      = $this->input->post('codigo'); 
+			$servicio->nombre      = $this->input->post('nombre');
+			$servicio->descripcion = $this->input->post('descripcion');
 
 			if ($this->input->post('servicios') == 1) {
 				$servicio->costo_compra = 0.00;
@@ -329,8 +337,20 @@ public function eliminar($id_servicio){
 
 	$servicio = new Servicio();
 	$servicio->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
-	$servicio->where('tipo', 1);
-	$servicio->costo_venta;
+	$servicio->where_in('tipo', array(1,3));
+	$servicio->where('estatus', 1)->get();
+	
+	$aServicio = $servicio->all_to_array(); 
+		
+	echo json_encode($aServicio);
+
+	}
+
+	public function lista_egresos(){
+
+	$servicio = new Servicio();
+	$servicio->where(array('consultorio_id' => $this->session->userdata('id_consultorio')));
+	$servicio->where_in('tipo', array(2,3));
 	$servicio->where('estatus', 1)->get();
 	
 	$aServicio = $servicio->all_to_array(); 

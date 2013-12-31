@@ -1,9 +1,16 @@
+* {
+ font-family: Helvetica, Arial, sans-serif;
+ font-size: 13px;
+}
+
 /********* Estilos para Datagrid *********/
 
 .datagrid table {
   border-collapse: collapse;
   text-align: left;
-  width: 100%; }
+  width: 100%; 
+  table-layout: fixed; 
+}
 
 .datagrid {
     background: #fff;
@@ -28,6 +35,7 @@ font-size: 15px;
 font-weight: bold;
 border-left: 1px solid #0070A8;
 border-bottom: 1px solid #0070A8;
+width: 100%;
 }
 
 .datagrid table thead th:first-child {
@@ -39,7 +47,23 @@ border-left: none;
   border-left: 1px solid #E1EEF4;
   font-size: 12px;
   font-weight: normal;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   }
+
+  .tdtooltip:hover:after{
+    content: attr(tooltip);
+    position: absolute;
+    padding: 3px;
+    margin-top: 20px;
+    margin-left: -70px;
+    border: 1px solid gray;
+    background-color: #CEECF5;
+    font-size: 13px;
+    border-radius: 3px;
+    z-index: 20;
+}
 
 .datagrid table tbody .alt td {
   background: #E1EEF4;
@@ -115,12 +139,11 @@ border-left: none;
 
 /********* Estilos para Formulario *********/
 
-form > label{
+label{
   color: #0091c0;
   margin: 5px;
   font-weight: bold;
   font-size: 14px;
-  border-radius: 5px;
 }
 
 form .capitalize
@@ -167,6 +190,41 @@ div .error{
 .abutton {
   display: inline-block;
   background: #006699;
+  padding: 6px;
+  text-align: center;
+  border-radius: 5px;
+  color: white;
+  text-decoration: none;
+  margin: 10px;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: helvetica;
+  border: none;
+  font-weight: normal;
+  min-width: 68px;
+   border: solid 1px #4cbade;
+}
+
+.abutton_balance {
+  display: inline-block;
+  background: #006699;
+  text-align: center;
+  border-radius: 5px;
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: helvetica;
+  border: none;
+  font-weight: normal;
+  border: solid 1px #4cbade;
+  width: 25px;
+  margin: 0px;
+}
+
+.abutton_add {
+  display: inline-block;
+  background: #04B404;
   padding: 6px;
   text-align: center;
   border-radius: 5px;
@@ -239,6 +297,11 @@ div .error{
    border-radius: 5px;
 }
 
+.table_form textarea {
+    border-color: #00BFFF;
+    border-radius: 5px;
+}
+
 .color_form {
    
    border-color: #00BFFF;
@@ -304,6 +367,24 @@ font-weight: normal;
 border: solid 1px #4cbade;
 }
 
+.citas .radio_cancel  {
+
+  display: inline-block;
+background: #4cbade;
+padding: 4px;
+text-align: center;
+border-radius: 5px;
+color: white;
+text-decoration: none;
+margin: 6px;
+cursor: pointer;
+font-size: 13px;
+font-family: helvetica;
+border: none;
+font-weight: normal;
+border: solid 1px #4cbade;
+}
+
 .citas > input:checked + label {
 display: inline-block;
 background: #4cbade;
@@ -337,5 +418,4 @@ font-weight: normal;
   height:25px;
   cursor:pointer;
 }
-
 

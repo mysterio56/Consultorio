@@ -116,8 +116,12 @@ class Format extends CI_Controller{
         $consultorio = new Consultorio();
     	$formato     = new Formato();
 
+    	$consultorio->where('id', $this->session->userdata('id_consultorio'))->get();
+		$nCodigo = $consultorio->formato->count() + 1;
+
     	$data['view']     = 'sistema/formato/agregar';
 		$data['return']   = 'format';
+		$data['nCodigo']  = $nCodigo;
 		$data['cssFiles'] = array('sistema.css');
 		$data['jsFiles']  = array('jquery.js',
 						    	  'jquery-validation/dist/jquery.validate.js',
@@ -131,6 +135,7 @@ class Format extends CI_Controller{
 
 			$formato->codigo         = $this->input->post('codigo'); 
 			$formato->nombre         = $this->input->post('nombre');
+			$formato->descripcion    = $this->input->post('descripcion');
 			$formato->fecha_alta     = date("Y-m-d H:i:s");
 			$formato->estatus        = 1;
 
@@ -172,6 +177,7 @@ class Format extends CI_Controller{
 
 			$formato->codigo             = $this->input->post('codigo'); 
 			$formato->nombre             = $this->input->post('nombre');
+			$formato->descripcion    = $this->input->post('descripcion');
 			$formato->fecha_modificacion = date("Y-m-d H:i:s");
 
 			if($formato->save()){

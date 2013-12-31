@@ -27,14 +27,14 @@ Tab.newTab = function(name_tab, url_tab, name_iframe)
             .after ('<label class="tabChecked" id="label'+name_tab+'" for="input'+name_tab+'">'+name_tab_title+'  '+'<img src="'+base_url+'assets/images/x.png" onclick="Tab.destroyTab(\''+name_tab+'\');"/></label>');
 
      }
-      
+     
       $('<input/>', {
         id: 'input'+name_tab,
         type:'radio',
         name:'tab-group',
         checked: 'checked',
         value: name_tab,
-        onChange: "Tab.change();"
+        onChange: "Tab.change('"+name_iframe+"');"
       }).appendTo('#carousel-tabs');
 
       $('<div/>', {
@@ -42,11 +42,14 @@ Tab.newTab = function(name_tab, url_tab, name_iframe)
         class: 'show'
       }).appendTo('#content');
 
-      $('<iframe/>', {
+      iframe = $('<iframe/>', {
         name: name_iframe, 
         src : url_tab,
         id  : name_iframe,
+        onLoad: 'Tab.iframe("'+name_iframe+'")',
       }).appendTo('#div'+name_tab);
+
+
 
   } else {
 
@@ -62,17 +65,87 @@ Tab.newTab = function(name_tab, url_tab, name_iframe)
      left = 590 - this.arrowsShow();
      $("#carousel-tabs").css("left",left);
   }
-
-  this.change();
+ 
+  this.change(name_iframe);
 
 }
 
-Tab.change = function()
-{ 
+Tab.iframe = function(obj)
+{
+
+  heightDiv = 0;
+
+  $.each($('.ac-container').children(),function(key,div){
+    heightDiv = heightDiv + $(div).height();
+  });
+
+height = $('#'+obj).contents().find("html").height();
+
+$('#'+obj).animate({"height":height});
+
+//if(heightDiv < height){
+ // $('#'+obj).css("height",1);
+
+    if(height<400){
+      height = 400;
+    }
+
+    $('#'+obj).animate({"height":height});
+
+   // if(heightDiv < height){
+      $('.ac-container').animate({"min-height":height+30});
+    //}
+    
+    //$("#wrapper").animate({"height":height+50});
+    //$(".main-container").animate({"height":height+46});
+    //$(".main-container").animate({"height":height+46});
+//  }
+
+
+/*$("iframe#"+obj).load(function() {
+    height = $('#'+obj).contents().find("html").height();
+    if(height<400){
+      height = 400;
+    }
+    $('#'+obj).animate({"height":height});
+    $("#wrapper").animate({"height":height+80});
+    $(".main-container").animate({"height":height+40});
+});*/
+
+    
+
+ /* $("#"+name_iframe).load(function() {
+
+        height = $("#"+name_iframe).contents().find("html").height();
+        if(height < 400){
+          height = 400;
+        }
+          $("#"+name_iframe).animate({"height":height});
+          //$("#div-container").animate({"height":height+50});
+         // $(".main-container").animate({"height":height+98});
+         // $("#wrapper").animate({"height":height+100});
+      
+    });
+
+  if($("#"+name_iframe).contents().find("html").height() >= 400){
+            if(height < 400){
+              height = 400;
+            }
+              $("#"+name_iframe).animate({"height":height});
+            //  $("#div-container").animate({"height":height+50});
+              //$(".main-container").animate({"height":height+98});
+            //  $("#wrapper").animate({"height":height+100});
+  }*/
+}
+
+Tab.change = function(iframe)
+{
+  Tab.iframe(iframe) 
   this.allHide();
   name_tab = $("input[name=tab-group]:checked").val();
   $('#content').children('#div'+name_tab).removeClass( "hide" ).addClass( "show" );
   $('#carousel-tabs').children('#label'+name_tab).removeClass( "tabUnChecked" ).addClass( "tabChecked" );
+
 }
 
 Tab.destroyTab = function(destroy_name_tab)
@@ -83,6 +156,8 @@ Tab.destroyTab = function(destroy_name_tab)
   $("#div"+destroy_name_tab).remove();
 
   this.arrowsShow();
+
+ 
 
 }
 
@@ -147,7 +222,19 @@ Tab.moveLeft = function()
 
 /*** Funciones para la animacion del banner ***/ 
 function Banner() {
-  setTimeout("Banner.hide();",3000);
+
+  var innerHeight = $( window ).height(); 
+
+  if(innerHeight<=656){
+
+    setTimeout("Banner.hide();",3000);
+
+  }else{
+
+    //setTimeout("$('#ac-1').attr('checked', true)",100);
+
+  }
+
 }
 
 Banner.hide = function()
@@ -155,10 +242,13 @@ Banner.hide = function()
   $('.banner-container').animate({"height": "30px"});
   $('.banner-container').attr({"title": "Da click para expander"});
   $('#prox-cita').animate({width: "100%"});
+
+  if($("#proxCitaEmpty").css("display") == "none"){
+    $('#detail-cita').hide();
+    $('#detail-cita-small').show();
+    $('#detail-cita-small').css({display: 'inline-block'});
+  }
   $('#doctors').hide();
-  $('#detail-cita').hide();
-  $('#detail-cita-small').show();
-  $('#detail-cita-small').css({display: 'inline-block'});
   $('#head-cita').css({'width':'150px',
                        'padding-left': '50px',
                        'padding-top': '4px',
@@ -174,8 +264,11 @@ Banner.show = function()
   $('.banner-container').attr({"title": "Da click para ocultar"});
   $('#prox-cita').animate({width: "31%"});
   $('#doctors').show();
-  $('#detail-cita').show();
-  $('#detail-cita-small').css({display: 'none'});
+  if($("#proxCitaEmpty").css("display") == "none"){
+    $('#detail-cita').show();
+    $('#detail-cita-small').css({display: 'none'});
+  }
+
   $('#head-cita').css({'width':'100%',
                        'padding-left': '0px',
                        'padding-top': '7px',

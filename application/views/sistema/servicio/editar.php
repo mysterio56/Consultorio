@@ -20,7 +20,7 @@
              'name'  => 'codigo',
 		 	 'id'    => 'codigo',
 		 	'value' => set_value('codigo',$servicio->codigo),
-		 	'style' => 'width:125px'
+		 	'style' => 'width:200px'
 		 	);
 		 	 
              echo form_input($data);
@@ -37,11 +37,26 @@
 		 		'id'    => 'nombre',
 		 		'class' => 'capitalize',
 		 		'value' => set_value('nombre',$servicio->nombre),
-		 		'style' => 'width:125px'
+		 		'style' => 'width:200px'
 		 	);
    echo form_input($data);
    echo'</td>';
    echo '</tr>'; 
+
+    echo'<tr>'; 
+ 	echo'<td  width="100" valing="top">'; 
+		 	echo form_label('Descripcion:'); 
+		 	echo'</td>';
+            echo'<td>';
+		 	$data = array(
+		 		'name'  => 'descripcion',
+		 		'id'    => 'descripcion',
+		 		'value' => set_value('descripcion',$servicio->descripcion),
+		 		'style' => 'width:200px;height:50px'
+		 	);
+   echo form_textarea($data);
+   echo'</td>';
+   echo '</tr>';
 
 
 echo'<tr>'; 
@@ -93,7 +108,7 @@ echo'<tr>';
 		 		'id'    => 'costo_c',
 		 		'class' => 'auto',
 		 		'value' => set_value('costo_c',$servicio->costo_compra),
-		 		'style' => 'width:125px'
+		 		'style' => 'width:200px'
 		 	);
    echo form_input($data);
    echo'</td>';
@@ -109,7 +124,7 @@ echo'<tr id="trCostoVenta">';
 		 		'id'    => 'costo_v',
 		 		'class' => 'auto',
 		 		'value' => set_value('costo_v',$servicio->costo_venta),
-		 		'style' => 'width:125px'
+		 		'style' => 'width:200px'
 		 	);
    echo form_input($data);
    echo'</td>';

@@ -23,6 +23,18 @@
 		 	 
              echo form_input($data);
       echo'</td>';
+      echo'<td  width="100" valing="top">'; 
+		 	echo form_label('Descripcion:'); 
+		 	echo'</td>';
+            echo'<td rowspan="2">';
+		 	$data = array(
+		 		'name'  => 'descripcion',
+		 		'id'    => 'descripcion',
+		 		'value' => set_value('descripcion',$tipoEmpleado->descripcion),
+		 		'style' => 'width:200px;height:50px'
+		 	);
+   echo form_textarea($data);
+   echo'</td>';
       echo '</tr>';
  		 
 	echo'<tr>'; 
@@ -53,6 +65,12 @@
              			$aChecked[$tipo_empleado_modulo->id] = $tipo_empleado_modulo->id;
              }
 
+             $aCheckedSub = array();
+
+             foreach($oSubmodulos as $tipo_empleado_submodulo){
+             			$aCheckedSub[$tipo_empleado_submodulo->id] = $tipo_empleado_submodulo->id;
+             }
+             
              if(!isset($aChecked))
              	$aChecked[0] = 0;
 
@@ -110,6 +128,22 @@
 			 		);
 
 			 		echo form_checkbox($data);
+
+			 		$submodulos = $modulo->submodulo->get();
+			 		
+			 		foreach($submodulos as $submodulo){
+
+			 			echo form_label($submodulo->nombre);
+
+			 			$data = array(
+					 		'name'    => 'submodulos_'.$modulo->id.'[]',
+					 		'value'   => $submodulo->id,
+					 		'checked' => (in_array($submodulo->id,$aCheckedSub))?true:false 		
+			 			);
+		 				
+		 				echo form_checkbox($data);
+
+		 			}	
 			 	}
 
                 echo'</td>';

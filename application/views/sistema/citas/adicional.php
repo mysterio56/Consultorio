@@ -4,6 +4,7 @@
   echo form_open(null,$attributes);
 	
   echo '<input type="hidden" name="cita_id" value="'.$cita_id.'" />';
+  echo '<input type="hidden" name="estatus" value="'.$estatus.'" />';
 
 	echo '<table class="table_form">';
 	echo '<tr>';
@@ -14,7 +15,7 @@
 	 	?>
 		<td>
 			 <div id="wait_tp" class="wait">
-	  	  		<p>Cargando productos, por favor espere</p>
+	  	  		<p>Cargando productos</p>
 	  	 	</div>
 			<div class="select_reload">
 			 	<select name="producto" id="producto"></select>
@@ -23,6 +24,10 @@
 			         style   = "width:16px; height:16px;cursor:pointer;"
 			         onClick = "getProducto();"/>
 			</div>
+
+      <label>Cantidad:</label>
+
+      <input name="cantidad_prod" id="cantidad_prod" value="1" style="width:45px"/>
 		    
 		 </td>
 </tr>
@@ -33,6 +38,9 @@
 			echo form_label('Servicio: ');
 		?>
 		<td width="25%">
+      <div id="wait_serv" class="wait">
+            <p>Cargando servicios</p>
+        </div>
 			    <div class="select_reload">
 			 	<select name="servicio" id="servicio"></select>
 			 	<td>
@@ -41,15 +49,26 @@
 			         onClick = "getServicio();"/>
 			</div>
 		    
+      <label>Cantidad:</label>
+
+      <input name="cantidad_serv" id="cantidad_serv" value="1" style="width:45px"/>
+
 		 </td>
+</tr>
+<tr>
+  <td>
+    <?= form_label('Total: '); ?>
+  </td>
+  <td id="total" style="color:#000">
+    
+  </td>  
 </tr>
 <?php
 		 	echo '</td>';
 	echo '</tr>';
 	echo'</table>';
 
-		 	echo '<a href="javascript:void(0)" onclick="addGrid();" class="abutton">Agregar</a>';
-      echo '<a href="'.base_url($return).'" class="abutton_cancel">Cancelar</a>';
+		 	echo '<a href="javascript:void(0)" onclick="addGrid();" class="abutton_add">Agregar Adicionales</a>';
 
 echo form_close();
 
@@ -61,48 +80,98 @@ echo form_close();
 			<tr>
 				<th align="center">Código</th>
 				<th align="center">Producto/Servicio</th>
+        <th align="center">Cantidad</th>
 				<th align="center">Costo</th>
         <th align="center">Borrar</th>
 			</tr>
 		</thead>
     <tbody id="tbodyAdd" >
 
-      <?php foreach($ingresos as $key => $ingreso){
+      <?php
 
-          $ingreso->producto->get();
-          $ingreso->servicio->get();
+          echo  '<tr>';
+          echo  '<td>'.$servicio->codigo.'</td>';
+          echo  '<td>'.$servicio->nombre.'</td>';
+          echo  '<td>1</td>';
+          echo  '<td class="costo" align="right">$ '.$costo.'</td>';
+          echo  '</tr>';
 
-          $classRow = ($key % 2 == 0)?'odd':'even';
+          foreach($ingresos as $key => $ingreso){
 
-          echo '<tr class="'.$classRow.'" id="add_'.$ingreso->id.'">';
-            echo '<td>';
-            echo $ingreso->producto_id?$ingreso->producto->codigo:$ingreso->servicio->codigo;
-            echo '</td>';
-            echo '<td>';
-            echo $ingreso->producto_id?$ingreso->producto->nombre:$ingreso->servicio->nombre;
-            echo '</td>';
-            echo '<td>';
-            echo $ingreso->costo;
-            echo '</td>';
-            echo '<td>';
-            echo '<img id="imgDelete_'.$ingreso->id.'" src="'.base_url('assets/images/delete.png').'" onClick="deleteAdd('.$ingreso->id.');"/>';
-            echo '<img id="imgWait_'.$ingreso->id.'" src="'.base_url('assets/images/wait.gif').'" class="ico hide"/>';
-            echo '</td>';
-          echo '</tr>';
-      }
+            $ingreso->producto->get();
+            $ingreso->servicio->get();
+
+            echo '<tr id="add_'.$ingreso->id.'">';
+              echo '<td>';
+              echo $ingreso->producto_id?$ingreso->producto->codigo:$ingreso->servicio->codigo;
+              echo '</td>';
+              echo '<td>';
+              echo $ingreso->producto_id?$ingreso->producto->nombre:$ingreso->servicio->nombre;
+              echo '</td>';
+              echo '<td>';
+              echo $ingreso->sumCantidad;
+              echo '</td>';
+              echo '<td class="costo" align="right">$ ';
+              echo $ingreso->sumCosto;
+              echo '</td>';
+              echo '<td>';
+              echo '<img id="imgDelete_'.$ingreso->id.'" src="'.base_url('assets/images/delete.png').'" onClick="deleteAdd('.$ingreso->id.');"/>';
+              echo '<img id="imgWait_'.$ingreso->id.'" src="'.base_url('assets/images/wait.gif').'" class="ico hide"/>';
+              echo '</td>';
+            echo '</tr>';
+          }
       ?>
     </tbody> 
-		</table>
+		</table>   
 </section>
-
+ <a href="<?= base_url($return); ?>" class="abutton_cancel">Cancelar</a>
 <script>
 $(function () {
   
   base_url = "<?= base_url(); ?>";
   getProducto();
   getServicio();
-
+  getTotal();
+  oddEven();
 }); 
+
+function getTotal(){
+
+  total = 0;
+
+  $.each($('.costo'),function(key, costo){
+          costo = costo.innerHTML.replace("$ ","");
+          total = total + parseFloat(costo);
+
+        }); 
+
+  $("#total").html('$ '+number_format(total,2,".",","));
+
+}
+
+function number_format (number, decimals, dec_point, thousands_sep) {
+
+  number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
+  var n = !isFinite(+number) ? 0 : +number,
+    prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+    sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+    dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+    s = '',
+    toFixedFix = function (n, prec) {
+      var k = Math.pow(10, prec);
+      return '' + Math.round(n * k) / k;
+    };
+  // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+  s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+  if (s[0].length > 3) {
+    s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+  }
+  if ((s[1] || '').length < prec) {
+    s[1] = s[1] || '';
+    s[1] += new Array(prec - s[1].length + 1).join('0');
+  }
+  return s.join(dec);
+}
 
 function getProducto(){
 
@@ -132,7 +201,10 @@ function getProducto(){
   });
 
 }
+
 function getServicio(){
+
+  $('#wait_serv').show();
 
   $("#servicio option").remove();
 
@@ -152,7 +224,7 @@ function getServicio(){
           $( "#servicio" ).toggle();
         });
 
-    $('#wait_tp').hide();
+    $('#wait_serv').hide();
     $('.servicio_input').val('');
           
   });
@@ -327,7 +399,8 @@ function addGrid(){
             rowAdd  = "<tr id='add_"+ingreso.id+"'>";
             rowAdd += "<td>"+ingreso.codigo+"</td>";
             rowAdd += "<td>"+ingreso.nombre+"</td>";
-            rowAdd += "<td>"+ingreso.costo+"</td>";  
+            rowAdd += "<td>"+ingreso.cantidad+"</td>";
+            rowAdd += "<td class='costo' align='right'>$ "+ingreso.costo+"</td>";  
             rowAdd += "<td><img id='imgDelete_"+ingreso.id+"' src='"+base_url+"/assets/images/delete.png' onclick='deleteAdd("+ingreso.id+")'/><img id='imgWait_"+ingreso.id+"' src='"+base_url+"/assets/images/wait.gif' class='ico hide'/></td>";      
             rowAdd += "</tr>";
 
@@ -339,6 +412,7 @@ function addGrid(){
         });
 
         oddEven();
+        getTotal();
 
       }, "json");
   }
@@ -368,6 +442,9 @@ function deleteAdd(id_ingreso){
         $('#imgWait_'+id_ingreso).hide();
         alert("Error en la base de datos");
        }
+
+       oddEven();
+       getTotal();
 
       }, "json");
 

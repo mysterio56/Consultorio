@@ -7,7 +7,7 @@ class Producto extends DataMapper
 
     public $has_one = array("consultorio");
 
-    public $has_many = array("ingreso");
+    public $has_many = array("ingreso","egreso");
 
     public $error_prefix = '<div class = "error">';
     public $error_suffix = '</div>';
@@ -20,6 +20,10 @@ class Producto extends DataMapper
         'codigo' => array(
             'label' => 'Código',
             'rules' => array('required', 'trim', 'unique_for_surgery' => 'codigo', 'min_length' => 1, 'max_length' => 10),
+        ),
+        'descripcion' => array(
+            'label' => 'Descripcion',
+            'rules' => array('trim', 'max_length' => 100)
         )
     );
 

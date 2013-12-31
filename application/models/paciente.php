@@ -7,7 +7,7 @@ class Paciente extends DataMapper
 
     public $has_one  = array("direccion");
 
-    public $has_many = array("consultorio", "reunion");
+    public $has_many = array("consultorio", "reunion", "ingreso");
 
     public $error_prefix = '<div class="error">';
     public $error_suffix = '</div>';
