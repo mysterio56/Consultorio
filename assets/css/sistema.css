@@ -219,6 +219,7 @@ div .error{
   font-weight: normal;
   border: solid 1px #4cbade;
   width: 25px;
+  margin: 0px;
 }
 
 .abutton_add {

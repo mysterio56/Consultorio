@@ -45,9 +45,9 @@
     </select>
 
     <label> Mes Inicio </label> <label id="l_date_start"> </label> <input type="hidden" id="date_start" name="date_start"/>
-    <input type="hidden" id="date_start_alt"/>
+    <input type="hidden" name="date_start_alt" id="date_start_alt"/>
     <label> Mes Fin    </label> <label id="l_date_end"> </label> <input type="hidden" id="date_end" name="date_end"/>
-    <input type="hidden" id="date_end_alt"/>
+    <input type="hidden" name="date_end_alt" id="date_end_alt"/>
 
     <label class ="abutton" onClick="getTotalProducto(); getTotalServicio(); grid();" >Buscar</label>
 
@@ -188,11 +188,11 @@ jQuery("#date_start").datepicker({
     jQuery('#tbodyBalance').html("");
     jQuery('#wait_grid').show();
 
-    var form_data = { type     : $('#type').val(),
-                      producto : $('#producto').val(),
-                      servicio : $('#servicio').val(),
-                      date_start : $('#date_start').val(),
-                      date_end : $('#date_end').val()
+    var form_data = { type       : $('#type').val(),
+                      producto   : $('#producto').val(),
+                      servicio   : $('#servicio').val(),
+                      date_start : $('#date_start_alt').val(),
+                      date_end   : $('#date_end_alt').val()
                     };
 
     if($('#type').val()==1){
@@ -226,12 +226,21 @@ jQuery("#date_start").datepicker({
               rowBalance += balance.total;
               rowBalance += '</td>';
               rowBalance += '<td>';
+
+              egreso  = false;
+              ingreso = false;
+
               if(balance.egreso > 0){
-                rowBalance += '<label class="abutton_balance" title="Detalle Egreso">E</label>';
+                rowBalance += '<label class="abutton_balance" title="Detalle Egreso" onClick="detail('+balance.id+', \'egreso\');" >E</label>';
+                egreso = true;
               }
+
               if(balance.ingreso > 0){
-                rowBalance += '<label class="abutton_balance" title="Detalle Ingresos">I</label>';
-              }   
+                rowBalance += '<label class="abutton_balance" title="Detalle Ingresos" onClick="detail('+balance.id+', \'ingreso\'); ">I</label>';
+                ingreso = true;
+              }
+
+              rowBalance += '<img onclick="detail('+balance.id+',\'\', \''+egreso+'\',\''+ingreso+'\',\'true\');" src="'+base_url+'/assets/images/pdf.png" class="ico" title="Imprimir detalle"/>'
               rowBalance += '</td>';
               rowBalance += '</tr>';
 
@@ -307,9 +316,9 @@ jQuery("#date_start").datepicker({
   function imprimir(){
 
       if($('#type').val()==1){
-        url = "income/gridPS/"+page;
+        url = "balance_sheet/gridProducto/";
       } else {
-        url = "income/gridCitas/"+page;
+        url = "balance_sheet/gridServicio";
       }
 
       $('#imprimir').val('imprimir');
@@ -322,12 +331,12 @@ function setPage(nPage){
   grid();
 }
 
-function detail(id,tipo,imprimir){
+function detail(id,tipo,egreso,ingreso,imprimir){
 
-  if($('#date_start').val()!=""){
+  if($('#date_start_alt').val()!=""){
 
-    date_start = $('#date_start').val().split("/"); 
-    date_start = new Date(date_start[2],date_start[1]-1,date_start[0],'00','00','00').getTime();
+    date_start = $('#date_start_alt').val().split("-"); 
+    date_start = new Date(date_start[0],date_start[1]-1,'01','00','00','00').getTime();
 
   }else{
 
@@ -337,8 +346,8 @@ function detail(id,tipo,imprimir){
 
   if($('#date_end').val()!=""){
     
-    date_end = $('#date_end').val().split("/");
-    date_end = new Date(date_end[2],date_end[1]-1,date_end[0],'00','00','00').getTime();
+    date_end = $('#date_end_alt').val().split("-");
+    date_end = new Date(date_end[0],date_end[1]-1,'01','00','00','00').getTime();
 
   } else {
 
@@ -346,31 +355,52 @@ function detail(id,tipo,imprimir){
 
   }
 
-  if(tipo=="cita"){
+    if($('#type').val()==1){
 
-    if(imprimir){
+      if(!imprimir){
 
-      window.open(base_url+"income/detailCita/"+id+"/1/imprimir",'_blank');
+        window.location = base_url+"balance_sheet/detailProducto/"+id+"/"+tipo+"/"+date_start+"/"+date_end;
+
+      } else {
+
+        if(ingreso == 'true'){
+
+          window.open(base_url+"balance_sheet/detailProducto/"+id+"/ingreso/"+date_start+"/"+date_end+"/1/imprimir",'_blank'); 
+
+        }
+
+        if(egreso == 'true'){
+
+          window.open(base_url+"balance_sheet/detailProducto/"+id+"/egreso/"+date_start+"/"+date_end+"/1/imprimir",'_blank'); 
+
+        }
+
+      } 
 
     } else {
 
-      window.location = base_url+"income/detailCita/"+id;
+      if(!imprimir){  
+
+        window.location = base_url+"balance_sheet/detailServicio/"+id+"/"+tipo+"/"+date_start+"/"+date_end;
+
+      } else {
+
+        if(ingreso == 'true'){
+
+          window.open(base_url+"balance_sheet/detailServicio/"+id+"/ingreso/"+date_start+"/"+date_end+"/1/imprimir",'_blank'); 
+
+        }
+
+        if(egreso == 'true'){
+
+          window.open(base_url+"balance_sheet/detailServicio/"+id+"/egreso/"+date_start+"/"+date_end+"/1/imprimir",'_blank'); 
+
+        }
+
+
+      }
 
     }
-
-  }else{
-
-    if(imprimir){
-
-      window.open(base_url+"income/detail/"+id+"/"+tipo+"/"+date_start+"/"+date_end+"/1/imprimir",'_blank'); 
-
-    } else {
-
-      window.location = base_url+"income/detail/"+id+"/"+tipo+"/"+date_start+"/"+date_end;
-
-    }
-
-  }
 
 } 
 
