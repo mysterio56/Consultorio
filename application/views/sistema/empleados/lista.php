@@ -82,10 +82,20 @@ function grid(){
 		  			rowEmpleado	+= '<td>'+empleado.email+'</td>';
 		  			rowEmpleado	+= '<td>'+empleado.telefono+'</td>';
 		  			rowEmpleado	+= '<td>'+empleado.celular+'</td>';
+
+		  			jQuery('#thAcciones').show();
+
+		  			if(empleado.estatus == 1){
+		  					
+		  				activo  ='active';
+		  						
+		  			}else{
+		  					
+		  				activo ='inactive';
+		  				 					
+		  			}
 		  					  			
 		  			if(empleado.editar||empleado.activar||empleado.eliminar){
-
-		  				jQuery('#thAcciones').show();		  				
 		  				
 		  				rowEmpleado +=  '<td>'; 
 
@@ -93,27 +103,15 @@ function grid(){
 		  					rowEmpleado += '<a href="'+base_url+'employees/editar/'+empleado.id+'">'; 		
 		  					rowEmpleado += '<img src="'+base_url+'assets/images/edit.png" style="width:25px;height:25px;" />';
 		  					rowEmpleado += '</a>'; 
-		  				}
 		  				
-		  				if(empleado.activar){	
 		  				
-		  					if(empleado.estatus == 1){
-		  					
-		  						activo  ='active';
-		  						
-		  					}else{
-		  					
-		  						activo ='inactive';
-		  						 					
-		  					}
-		  					
 		  					funcion = 'Valid.changeStatus(\''+base_url+'employees/status/'+empleado.id+'\',\''+base_url+'\',\'employees\',\''+empleado.id+'\');';
 		  					 		
 		  					rowEmpleado += '<img id="employees_'+empleado.id+'" onclick="'+funcion+'" src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
 		  					rowEmpleado += '<img src="'+base_url+'assets/images/wait.gif" id="wait_'+empleado.id+'" width="25" height="25" style="display:none">';
 		  				 
 		  				    }else{
-		  				    	rowEmpleado += '<img src="'+base_url+'assets/images/active.png'+'"style="width:25px;height:25px;" />';
+		  				    	rowEmpleado += '<img src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
 		  				    }
 		  						  			  				    
 	 	  				if(empleado.eliminar){
@@ -127,9 +125,11 @@ function grid(){
 		  				 
 	 	  					}
 	 	  				}
-
-
 	 	  				rowEmpleado += '</td>';
+		  			}else{
+		  				rowEmpleado += '<td align="center">'; 
+						rowEmpleado += '<img src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
+						rowEmpleado += '</td>';
 		  			}
 
 		  			rowEmpleado += '</tr>';

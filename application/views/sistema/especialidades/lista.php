@@ -93,8 +93,19 @@ function grid(){
 		  			rowEspecialidad	+= '<td>'+especialidad.codigo+'</td>';
 		  			rowEspecialidad	+= '<td>'+especialidad.nombre+'</td>';
 		  			rowEspecialidad	+= '<td>'+especialidad.fecha_alt+'</td>';
+
+
+		  			if(especialidad.estatus == 1){
+		  					
+		  				activo  ='active';
+		  						
+		  			}else {
+		  					
+		  				activo ='inactive';
+		  								  					
+		  			}
 		  			
-		  			if(especialidad.editar||especialidad.activar||especialidad.eliminar){
+		  			if(especialidad.editar||especialidad.eliminar){
 		  				
 		  				rowEspecialidad +=  '<td>'; 
 
@@ -105,23 +116,13 @@ function grid(){
 		  			
 		  				rowEspecialidad +=  '<td>';
 
-		  					  				
-		  					if(especialidad.estatus == 1){
-		  					
-		  						activo  ='active';
-		  						
-		  					}else {
-		  					
-		  						activo ='inactive';
-		  								  					
-		  					}
 		  					funcion = 'Valid.changeStatus(\''+base_url+'specialism/status/'+especialidad.id+'\',\''+base_url+'\',\'specialism\',\''+especialidad.id+'\');';
 		  					 		
 		  					rowEspecialidad += '<img id="specialism_'+especialidad.id+'" onclick="'+funcion+'" src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
 		  					rowEspecialidad += '<img src="'+base_url+'assets/images/wait.gif" id="wait_'+especialidad.id+'" width="25" height="25" style="display:none">';
 		  				 
 		  				    }else{
-		  				    	rowEspecialidad += '<img src="'+base_url+'assets/images/active.png'+'"style="width:25px;height:25px;" />';
+		  				    	rowEspecialidad += '<img src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
 		  				    }
 		  						  			  				    
 	 	  				
@@ -138,10 +139,12 @@ function grid(){
 	 	  					}
 	 	  				   rowEspecialidad += '</td>';
 	 	  				}
-
-
-	 	  				
-		  			}
+ 	  				
+		  			}else{
+						rowEspecialidad += '<td align="center">'; 
+						rowEspecialidad += '<img src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
+						rowEspecialidad += '</td>';
+					}
 
 		  			rowEspecialidad += '</tr>';
 

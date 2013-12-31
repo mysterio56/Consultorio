@@ -189,6 +189,14 @@ function grid(){
 		  			rowtipoempleado	+= '<td>'+tipoempleado.codigo+'</td>';
 		  			rowtipoempleado	+= '<td>'+tipoempleado.nombre+'</td>';
 		  			rowtipoempleado	+= '<td>'+tipoempleado.fecha_alt+'</td>';
+
+		  			if(tipoempleado.estatus == 1){
+		  					
+		  						activo  ='active';
+		  					}else{
+		  					
+		  						activo ='inactive';
+		  					}
 		  			
 		  			if(tipoempleado.editar||tipoempleado.eliminar){
 		  				
@@ -201,14 +209,6 @@ function grid(){
 		  				
 		  				rowtipoempleado +=  '<td align="center">';
 
-		  				
-		  					if(tipoempleado.estatus == 1){
-		  					
-		  						activo  ='active';
-		  					}else{
-		  					
-		  						activo ='inactive';
-		  					}
 		  					
 		  					funcion = 'Valid.changeStatus(\''+base_url+'type_employee/status/'+tipoempleado.id+'\',\''+base_url+'\',\'type_employee\',\''+tipoempleado.id+'\');';
 		  					 		
@@ -216,7 +216,8 @@ function grid(){
 		  					rowtipoempleado += '<img src="'+base_url+'assets/images/wait.gif" id="wait_'+tipoempleado.id+'" width="25" height="25" style="display:none">';
 		  				 
 		  				    }else{
-		  				     rowtipoempleado += '<img src="'+base_url+'assets/images/active.png'+'"style="width:25px;height:25px;" />';
+		  				    	
+		  				     rowtipoempleado += '<img src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
 		  				    }
 		  						  			  				    
 	 	  				
@@ -235,7 +236,11 @@ function grid(){
 	 	  					}
 	 	  				rowtipoempleado += '</td>';
 	 	  				}
-		  			}
+		  			}else{
+						rowtipoempleado += '<td align="center">'; 
+						rowtipoempleado += '<img src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
+						rowtipoempleado += '</td>';
+					}
 
 		  			rowtipoempleado += '</tr>';
 

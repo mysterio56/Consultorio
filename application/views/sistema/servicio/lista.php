@@ -90,7 +90,17 @@ function grid(){
 		  			rowservicio	+= '<td>'+servicio.codigo+'</td>';
 		  			rowservicio	+= '<td>'+servicio.nombre+'</td>';
 		  			rowservicio	+= '<td>'+servicio.fecha_alt+'</td>';
-		  			
+
+		  			if(servicio.estatus == 1){
+		  					
+		  						activo  ='active';
+		  						
+		  					}else{
+		  					
+		  						activo ='inactive';
+		  				
+		  					}
+
 		  			if(servicio.editar||servicio.eliminar){
 		  				
 		  				rowservicio +=  '<td align="center">'; 
@@ -103,27 +113,16 @@ function grid(){
 
 		  				rowservicio +=  '<td align="center">';
 
-		  					  				
-		  					if(servicio.estatus == 1){
-		  					
-		  						activo  ='active';
-		  						
-		  					}else{
-		  					
-		  						activo ='inactive';
-		  				
-		  					}
-
 		  					funcion = 'Valid.changeStatus(\''+base_url+'service/status/'+servicio.id+'\',\''+base_url+'\',\'service\',\''+servicio.id+'\');';
 		  					 		
 		  					rowservicio += '<img id="service_'+servicio.id+'" onclick="'+funcion+'" src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
 		  					rowservicio += '<img src="'+base_url+'assets/images/wait.gif" id="wait_'+servicio.id+'" width="25" height="25" style="display:none">';
 		  				 
 		  				    }else{
-		  				    	rowservicio += '<img src="'+base_url+'assets/images/active.png'+'"style="width:25px;height:25px;" />';
-		  				    }
 
-		  						  			  				    
+		  				rowservicio += '<img src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
+		  				
+		  			}		  						  			  				    
 	 	  				
 
 	 	  				if(servicio.eliminar){
@@ -139,11 +138,12 @@ function grid(){
 	 	  					}
 	 	  					rowservicio += '</td>';
 	 	  				}
-
-
-	 	  				
-		  			}
-
+	 	  			}else{
+	 	  				rowservicio += '<td align="center">'; 
+	 	  				rowservicio += '<img src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
+	 	  				rowservicio += '</td>';
+	 	  			}
+	 	  			
 		  			rowservicio += '</tr>';
 
 		  			

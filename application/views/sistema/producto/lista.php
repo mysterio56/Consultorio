@@ -88,8 +88,17 @@ function grid(){
 		  			rowproducto	+= '<td>'+producto.codigo+'</td>';
 		  			rowproducto	+= '<td>'+producto.nombre+'</td>';
 		  			rowproducto	+= '<td>'+producto.fecha_alt+'</td>';
+
+		  			if(producto.estatus == 1){
+		  					
+		  						activo  ='active';
+		  						
+		  					}else {
+		  					
+		  						activo ='inactive';
+		  					}
 		  			
-		  			if(producto.editar||producto.activar||producto.eliminar){
+		  			if(producto.editar||producto.eliminar){
 		  				
 		  				rowproducto +=  '<td align="center">'; 
 
@@ -100,23 +109,13 @@ function grid(){
 		  				
 		  				rowproducto +=  '<td align="center">';
 
-		  					if(producto.estatus == 1){
-		  					
-		  						activo  ='active';
-		  						
-		  					}else {
-		  					
-		  						activo ='inactive';
-		  					}
-		  					
-		  					
 		  					funcion = 'Valid.changeStatus(\''+base_url+'product/status/'+producto.id+'\',\''+base_url+'\',\'product\',\''+producto.id+'\');';
 		  					 		
 		  					rowproducto += '<img id="product_'+producto.id+'" onclick="'+funcion+'" src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
 		  					rowproducto += '<img src="'+base_url+'assets/images/wait.gif" id="wait_'+producto.id+'" width="25" height="25" style="display:none">';
 		  				 
 		  				    }else{
-		  				    	rowproducto += '<img src="'+base_url+'assets/images/active.png'+'"style="width:25px;height:25px;" />';
+		  				    	rowproducto += '<img src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
 		  				    }
 		  				    		  						  			  				    
 	 	  			 
@@ -136,7 +135,11 @@ function grid(){
 	 	  				   rowproducto += '</td>';
 	 	  				}
 	 	  				
-		  			}
+		  			}else{
+							rowproducto += '<td align="center">'; 
+							rowproducto += '<img src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
+							rowproducto += '</td>';
+					}
 
 		  			rowproducto += '</tr>';
 

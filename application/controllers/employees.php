@@ -116,8 +116,7 @@ class Employees extends CI_Controller{
 		    								   	   "telefono"  => $empleado->telefono,
 		    								   	   "celular"   => $empleado->celular,
 		    								   	   "estatus"   => $empleado->estatus,
-		    								   	   "activar"   => in_array($permisos['employees'],aPermisos('Editar'))?true:false,
-		    								       "editar"    => in_array($permisos['employees'],aPermisos('Editar'))?true:false,
+		    								   	   "editar"    => in_array($permisos['employees'],aPermisos('Editar'))?true:false,
 		    								       "eliminar"  => in_array($permisos['employees'],aPermisos('Eliminar'))?true:false
 		    										  );  
 				

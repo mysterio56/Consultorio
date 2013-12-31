@@ -112,8 +112,7 @@ class Patient extends CI_Controller{
 		    								   	   "telefono"  => $paciente->telefono,
 		    								   	   "celular"   => $paciente->celular,
 		    								   	   "estatus"   => $paciente->estatus,
-		    								   	   "activar"   => in_array($permisos['patient'],aPermisos('Editar'))?true:false,
-		    								       "editar"    => in_array($permisos['patient'],aPermisos('Editar'))?true:false,
+		    								   	   "editar"    => in_array($permisos['patient'],aPermisos('Editar'))?true:false,
 		    								       "eliminar"  => in_array($permisos['patient'],aPermisos('Eliminar'))?true:false
 		    										  );  
 				

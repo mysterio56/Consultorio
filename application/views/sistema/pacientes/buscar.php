@@ -208,22 +208,9 @@ function grid(){
 		  			rowPaciente	+= '<td>'+paciente.email+'</td>';
 		  			rowPaciente	+= '<td>'+paciente.telefono+'</td>';
 		  			rowPaciente	+= '<td>'+paciente.celular+'</td>';
-		  					  			
-		  			if(paciente.editar||paciente.activar||paciente.eliminar){
 
-		  				jQuery('#thAcciones').show();		  				
-		  				
-		  				rowPaciente +=  '<td align="center">'; 
-
-		  				if(paciente.editar){
-		  					rowPaciente += '<a href="'+base_url+'patient/editar/'+paciente.id+'">'; 		
-		  					rowPaciente += '<img src="'+base_url+'assets/images/edit.png" style="width:25px;height:25px;" />';
-		  					rowPaciente += '</a>'; 
-		  				}
-		  				
-		  				if(paciente.activar){	
-		  				
-		  					
+		  			jQuery('#thAcciones').show();
+					  					
 		  					if(paciente.estatus == 1){
 		  					
 		  						activo  ='active';
@@ -234,13 +221,25 @@ function grid(){
 		  						activo ='inactive';
 		  				
 		  					}
-		  					
+		  							  					  			
+		  			if(paciente.editar||paciente.eliminar){
+
+		  				rowPaciente +=  '<td align="center">'; 
+
+		  				if(paciente.editar){
+		  					rowPaciente += '<a href="'+base_url+'patient/editar/'+paciente.id+'">'; 		
+		  					rowPaciente += '<img src="'+base_url+'assets/images/edit.png" style="width:25px;height:25px;" />';
+		  					rowPaciente += '</a>'; 
+		  					  				
 		  					funcion = 'Valid.changeStatus(\''+base_url+'patient/status/'+paciente.id+'\',\''+base_url+'\',\'patient\',\''+paciente.id+'\');';
 		  					 		
 		  					rowPaciente += '<img id="patient_'+paciente.id+'" onclick="'+funcion+'" src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
 		  					rowPaciente += '<img src="'+base_url+'assets/images/wait.gif" id="wait_'+paciente.id+'" width="25" height="25" style="display:none">';
 		  				 
-		  				    }
+		  				}else{
+
+		  				    	rowPaciente += '<img src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
+		  				}
 		  						  			  				    
 	 	  				if(paciente.eliminar){
 
@@ -252,9 +251,11 @@ function grid(){
 		  					rowPaciente += '<img src="'+base_url+'assets/images/wait.gif" id="wait_delete_'+paciente.id+'" width="25" height="25" style="display:none">';
 		  				 	}
 	 	  				}
-
-
 	 	  				rowPaciente += '</td>';
+		  			}else{
+		  				rowPaciente += '<td align="center">'; 
+						rowPaciente += '<img src="'+base_url+'assets/images/'+activo+'.png'+'"style="width:25px;height:25px;" />';
+						rowPaciente += '</td>';
 		  			}
 
 		  			rowPaciente += '</tr>';
