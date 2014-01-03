@@ -642,147 +642,30 @@ class Balance_sheet extends CI_Controller{
 
 		if($type == "ingreso"){
 
-			if(!$imprimir){
-
-				$detail = $producto->ingreso->get_paged_iterated($page,6);
- 
-			} else {
-
-				$detail = $producto->ingreso->get();
-				$nombre = $producto->nombre;
-
-			}
+			$detail = $producto->ingreso->get_paged_iterated($page,6);
 
 		} elseif($type == "egreso") {
-			
-			if(!$imprimir){
 
-				$detail = $producto->egreso->get_paged_iterated($page,6);
-
-			} else {
-
-				$detail = $producto->egreso->get();
-				$nombre = $producto->nombre;
-				
-			}
-
-		}	 
-
-		if(!$imprimir){
-
-			$data['view']         = 'sistema/balance/detalle';
-			$data['detail']       = $detail;
-			$data['tipo']         = $type;
-			$data['id']           = $id;
-			$data['paginaActual'] = $page;
-			$data['date_start']   = $date_start;
-	        $data['date_end']     = $date_end;
-	        $data['nombre']       = $producto->nombre;
-	        $data['typeDetail']   = "Producto";
-			$data['cssFiles']     = array('sistema.css',
-								     	  'jquery-ui/jquery-ui.css');
-			$data['jsFiles']      = array('jquery.js',
-							         	  'jquery-ui.js',
-								          'jquery.ui.datepicker-es.js');
-
-			$this->load->view('sistema/template_simple',$data);
-
-		} else {
-
-            $this->load->library('Pdf');
-            $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
-
-            $pdf->SetFont('Helvetica', '', 14, '', true); 
-
-            $pdf->AddPage();
-     
-            $pdf->setTextShadow(array('enabled' => true, 'depth_w' => 0.2, 'depth_h' => 0.2, 'color' => array(196, 196, 196), 'opacity' => 1, 'blend_mode' => 'Normal'));
-            $pdf->setImageScale(0.47);
-
-            $pdf->Image(base_url('assets/images/logos/'.$this->session->userdata('logo').'_logo.png'), 10, 10, 45, 25, '', '', '', false, 300);
-
-            $html  = $this->_css().' <table class="table">';
-            $html .= '<thead>
-                        <tr>
-                            <th class="th" style="width:70px;">Fecha/Hora</th>';
-
-            if($type == "ingreso") {
-		    	$html .= '<th class="th">Por Cita</th>';
-            }
-
-            $html .=        '<th class="th">Cantidad</th>
-                            <th class="th">Costo</th>
-                            <th class="th">Total</th>
-                        </tr>
-                    </thead>';
-            $html .= '<tbody>'; 
-
-            $total = 0;
-
-            foreach ($detail->all as $key => $detalle) {
-
-            	if ((($key+1) % 2) == 0) {
-                        $rowClass = "even";
-                    } else  {
-                        $rowClass = "odd";
-                    }
-
-            	$html .= '<tr class="'.$rowClass.'">';
-            	$html .= '<td class="td" style="width:70px;">'.date("d", strtotime($detalle->fecha_alta)).'/'.
-            					month(date("m", strtotime($detalle->fecha_alta))-1,false).'/'.
-            					date("Y H:i", strtotime($detalle->fecha_alta)).'</td>';
-
-            	if($type == "ingreso") {
-
-            		$porCita = $detalle->cita_id?"Si":"";
-            		$html .= '<td class="td">'.$porCita.'</td>';
-
-            	}
-
-            	$html .= '<td class="td">'.$detalle->cantidad.'</td>';
-            	$html .= '<td class="td">'.$detalle->costo/$detalle->cantidad.'</td>'; 
-            	$html .= '<td class="td">'.$detalle->costo.'</td>'; 
-
-            	$html .= '</tr>';
-
-            	$total = $total + $detalle->costo;
-
-            }
-
-            $html .= '</tbody>';
-            $html .= '</table>';
-     
-     		if(isset($dPdf_start) && isset($dPdf_end)){
-
-                $fecha = $dPdf_start ." al ". $dPdf_end;                    
-
-            }elseif(isset($dPdf_start) && !isset($dPdf_end)){
-
-                $fecha = $dPdf_start;                    
-
-            }elseif(isset($dPdf_end) && !isset($dPdf_start)){
-
-                $fecha = $dPdf_end;                    
-
-            }else{
-
-                $fecha = month((date('m')-1),false). " / ". date('Y');
-
-            }    
-
-            $pdf->writeHTMLCell(0, 0, 60, 15, '<h1 style="font-size:8px;">Balance de '.$fecha.'</h1>', 0, 1,  0, true, '', true);
-
-            $pdf->writeHTMLCell(0, 0, 60, 25, '<h1 style="font-size:8px;">Producto '.$nombre.'</h1>', 0, 1,  0, true, '', true);
-
-            $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = 40, $html, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
-
-            $pdf->writeHTMLCell(0, 0, 140, '', '<h1 style="font-size:8px;">Total: <strong>$ '.number_format($total, 2, '.', ',').'</strong></h1>', 0, 1,  0, true, '', true);
-
-            $nombre_archivo = utf8_decode("Balance.pdf");
-
-            $pdf->Output($nombre_archivo, 'I');
+			$detail = $producto->egreso->get_paged_iterated($page,6);
 
 		}
+
+		$data['view']         = 'sistema/balance/detalle';
+		$data['detail']       = $detail;
+		$data['tipo']         = $type;
+		$data['id']           = $id;
+		$data['paginaActual'] = $page;
+		$data['date_start']   = $date_start;
+        $data['date_end']     = $date_end;
+        $data['nombre']       = $producto->nombre;
+        $data['typeDetail']   = "Producto";
+		$data['cssFiles']     = array('sistema.css',
+							     	  'jquery-ui/jquery-ui.css');
+		$data['jsFiles']      = array('jquery.js',
+						         	  'jquery-ui.js',
+							          'jquery.ui.datepicker-es.js');
+
+		$this->load->view('sistema/template_simple',$data);
 
 	}
 
@@ -831,140 +714,253 @@ class Balance_sheet extends CI_Controller{
 
 		if($type == "ingreso"){
 
-			if(!$imprimir){
-
-				$detail = $servicio->ingreso->get_paged_iterated($page,6);
- 
-			} else {
-
-				$detail = $servicio->ingreso->get();
-				$nombre = $servicio->nombre;
-
-			}
+			$detail = $servicio->ingreso->get_paged_iterated($page,6);
 
 		} elseif($type == "egreso") {
 			
-			if(!$imprimir){
+			$detail = $servicio->egreso->get_paged_iterated($page,6);
 
-				$detail = $servicio->egreso->get_paged_iterated($page,6);
+		}	 
 
-			} else {
+		$data['view']         = 'sistema/balance/detalle';
+		$data['detail']       = $detail;
+		$data['tipo']         = $type;
+		$data['id']           = $id;
+		$data['paginaActual'] = $page;
+		$data['date_start']   = $date_start;
+        $data['date_end']     = $date_end;
+        $data['nombre']       = $servicio->nombre;
+        $data['typeDetail']   = "Servicio";
+		$data['cssFiles']     = array('sistema.css',
+							     	  'jquery-ui/jquery-ui.css');
+		$data['jsFiles']      = array('jquery.js',
+						         	  'jquery-ui.js',
+							          'jquery.ui.datepicker-es.js');
 
-				$detail = $servicio->egreso->get();
-				$nombre = $servicio->nombre;
-				
-			}
+		$this->load->view('sistema/template_simple',$data);
+
+	}
+
+
+	public function detailImprimir($id = null, $type = null, $date_start, $date_end, $page = 1, $imprimir = null){
+
+		$servicio = new Servicio();
+		$producto = new Producto();
+
+		$servicio->where('id', $id)->get();
+		$producto->where('id', $id)->get();
+
+		$servicio->ingreso->where('estatus', 2);
+		$producto->ingreso->where('estatus', 2);	
+ 
+		if($date_start != 'false' && $date_end != 'false'){
+
+			$date_start = $date_start / 1000; 
+	        $date_end   = $date_end / 1000;
+
+	        $dPdf_start = month(date("m", $date_start)-1,false).' '.date("Y", $date_start);
+	        $dPdf_end = month(date("m", $date_end)-1,false).' '.date("Y", $date_end);
+
+	        $date_start = date("Y-m-d", $date_start);
+	        $date_end   = date("Y-m-d", $date_end);
+
+			$servicio->ingreso->where("DATE(fecha_alta) between '".$date_start."' and LAST_DAY(DATE_ADD('".$date_end."', INTERVAL 0 DAY))");
+	    	$servicio->egreso->where("DATE(fecha_alta) between '".$date_start."' and LAST_DAY(DATE_ADD('".$date_end."', INTERVAL 0 DAY))");
+
+	    	$producto->ingreso->where("DATE(fecha_alta) between '".$date_start."' and LAST_DAY(DATE_ADD('".$date_end."', INTERVAL 0 DAY))");
+	    	$producto->egreso->where("DATE(fecha_alta) between '".$date_start."' and LAST_DAY(DATE_ADD('".$date_end."', INTERVAL 0 DAY))");
+			         	
+		} elseif ($date_start != 'false' && $date_end == 'false'){
+
+			$date_start = $date_start / 1000; 
+
+			$dPdf_start = month(date("m", $date_start)-1,false).' '.date("Y", $date_start);
+			$date_start = date("Y-m-d", $date_start);
+
+			$servicio->ingreso->where("DATE(fecha_alta) between '".$date_start."' and LAST_DAY(DATE_ADD('".$date_start."', INTERVAL 0 DAY))");
+	    	$servicio->egreso->where("DATE(fecha_alta) between '".$date_start."' and LAST_DAY(DATE_ADD('".$date_start."', INTERVAL 0 DAY))");
+
+	    	$producto->ingreso->where("DATE(fecha_alta) between '".$date_start."' and LAST_DAY(DATE_ADD('".$date_start."', INTERVAL 0 DAY))");
+	    	$producto->egreso->where("DATE(fecha_alta) between '".$date_start."' and LAST_DAY(DATE_ADD('".$date_start."', INTERVAL 0 DAY))");
+			         	
+		} elseif ($date_start == 'false' && $date_end != 'false'){
+
+			$date_end = $date_end / 1000; 
+
+			$dPdf_end = month(date("m", $date_end)-1,false).' '.date("Y", $date_end);
+			$date_end = date("Y-m-d", $date_end);
+
+			$servicio->ingreso->where("DATE(fecha_alta) between '".$date_end."' and LAST_DAY(DATE_ADD('".$date_end."', INTERVAL 0 DAY))");
+	    	$servicio->egreso->where("DATE(fecha_alta) between '".$date_end."' and LAST_DAY(DATE_ADD('".$date_end."', INTERVAL 0 DAY))");
+
+	    	$producto->ingreso->where("DATE(fecha_alta) between '".$date_end."' and LAST_DAY(DATE_ADD('".$date_end."', INTERVAL 0 DAY))");
+	    	$producto->egreso->where("DATE(fecha_alta) between '".$date_end."' and LAST_DAY(DATE_ADD('".$date_end."', INTERVAL 0 DAY))");
+			         	
+		} else {
+
+			$servicio->ingreso->where("DATE(fecha_alta) between '".date("Y-m")."-01' and LAST_DAY(DATE_ADD('".date("Y-m")."-01', INTERVAL 0 DAY))");
+	    	$servicio->egreso->where("DATE(fecha_alta) between '".date("Y-m")."-01' and LAST_DAY(DATE_ADD('".date("Y-m")."-01', INTERVAL 0 DAY))");
+
+	    	$producto->ingreso->where("DATE(fecha_alta) between '".date("Y-m")."-01' and LAST_DAY(DATE_ADD('".date("Y-m")."-01', INTERVAL 0 DAY))");
+	    	$producto->egreso->where("DATE(fecha_alta) between '".date("Y-m")."-01' and LAST_DAY(DATE_ADD('".date("Y-m")."-01', INTERVAL 0 DAY))");
 
 		}
 
-		if(!$imprimir){	 
+		if(isset($dPdf_start) && isset($dPdf_end)){
 
-			$data['view']         = 'sistema/balance/detalle';
-			$data['detail']       = $detail;
-			$data['tipo']         = $type;
-			$data['id']           = $id;
-			$data['paginaActual'] = $page;
-			$data['date_start']   = $date_start;
-	        $data['date_end']     = $date_end;
-	        $data['nombre']       = $servicio->nombre;
-	        $data['typeDetail']   = "Servicio";
-			$data['cssFiles']     = array('sistema.css',
-								     	  'jquery-ui/jquery-ui.css');
-			$data['jsFiles']      = array('jquery.js',
-							         	  'jquery-ui.js',
-								          'jquery.ui.datepicker-es.js');
+            $fecha = $dPdf_start ." al ". $dPdf_end;                    
 
-			$this->load->view('sistema/template_simple',$data);
+        }elseif(isset($dPdf_start) && !isset($dPdf_end)){
+
+            $fecha = $dPdf_start;                    
+
+        }elseif(isset($dPdf_end) && !isset($dPdf_start)){
+
+            $fecha = $dPdf_end;                    
+
+        }else{
+
+            $fecha = month((date('m')-1),false). " / ". date('Y');
+
+        }  
+
+		if($type == "producto") {
+
+			$detailIngresos = $producto->ingreso->get();
+			$detailEgreso   = $producto->egreso->get();
+			$nombre         = $producto->nombre;
 
 		} else {
 
-			$this->load->library('Pdf');
-            $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
-
-            $pdf->SetFont('Helvetica', '', 14, '', true); 
-
-            $pdf->AddPage();
-     
-            $pdf->setTextShadow(array('enabled' => true, 'depth_w' => 0.2, 'depth_h' => 0.2, 'color' => array(196, 196, 196), 'opacity' => 1, 'blend_mode' => 'Normal'));
-            $pdf->setImageScale(0.47);
-
-            $pdf->Image(base_url('assets/images/logos/'.$this->session->userdata('logo').'_logo.png'), 10, 10, 45, 25, '', '', '', false, 300);
-
-            $html  = $this->_css().' <table class="table">';
-            $html .= '<thead>
-                        <tr>
-                            <th class="th">Fecha/Hora</th>';
-
-            if($type == "ingreso") {
-		    	$html .= '<th class="th">Por Cita</th>';
-            }
-
-            $html .=        '<th class="th">Cantidad</th>
-                            <th class="th">Costo</th>
-                            <th class="th">Total</th>
-                        </tr>
-                    </thead>';
-            $html .= '<tbody>'; 
-
-            $total = 0;
-
-            foreach ($detail->all as $detalle) {
-
-            	$html .= '<tr>';
-            	$html .= '<td>'.$detalle->fecha_alta.'</td>';
-
-            	if($type == "ingreso") {
-
-            		$porCita = $detalle->cita_id?"Si":"";
-            		$html .= '<td>'.$porCita.'</td>';
-
-            	}
-
-            	$html .= '<td>'.$detalle->cantidad.'</td>';
-            	$html .= '<td>'.$detalle->costo/$detalle->cantidad.'</td>'; 
-            	$html .= '<td>'.$detalle->costo.'</td>'; 
-
-            	$html .= '</tr>';
-
-            	$total = $total + $detalle->costo;
-
-            }
-
-            $html .= '</tbody>';
-            $html .= '</table>';
-     
-     		if(isset($dPdf_start) && isset($dPdf_end)){
-
-                $fecha = $dPdf_start ." al ". $dPdf_end;                    
-
-            }elseif(isset($dPdf_start) && !isset($dPdf_end)){
-
-                $fecha = $dPdf_start;                    
-
-            }elseif(isset($dPdf_end) && !isset($dPdf_start)){
-
-                $fecha = $dPdf_end;                    
-
-            }else{
-
-                $fecha = month((date('m')-1),false). " / ". date('Y');
-
-            }    
-
-            $pdf->writeHTMLCell(0, 0, 60, 15, '<h1 style="font-size:8px;">Balance de '.$fecha.'</h1>', 0, 1,  0, true, '', true);
-
-            $pdf->writeHTMLCell(0, 0, 60, 25, '<h1 style="font-size:8px;">Servicio '.$nombre.'</h1>', 0, 1,  0, true, '', true);
-
-            $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = 40, $html, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
-
-            $pdf->writeHTMLCell(0, 0, 140, '', '<h1 style="font-size:8px;">Total: <strong>$ '.number_format($total, 2, '.', ',').'</strong></h1>', 0, 1,  0, true, '', true);
-
-            $nombre_archivo = utf8_decode("Balance.pdf");
-
-            $pdf->Output($nombre_archivo, 'I');
-
+			$detailIngresos = $servicio->ingreso->get();
+			$detailEgreso   = $servicio->egreso->get();
+			$nombre         = $servicio->nombre;
+			
 		}
 
+		$this->load->library('Pdf');
+
+        $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+
+        $pdf->SetFont('Helvetica', '', 14, '', true); 
+
+        $pdf->AddPage();
+ 
+        $pdf->setTextShadow(array('enabled' => true, 'depth_w' => 0.2, 'depth_h' => 0.2, 'color' => array(196, 196, 196), 'opacity' => 1, 'blend_mode' => 'Normal'));
+
+        $pdf->setImageScale(0.47);
+
+        $pdf->Image(base_url('assets/images/logos/'.$this->session->userdata('logo').'_logo.png'), 10, 10, 45, 25, '', '', '', false, 300);
+
+        $html  = $this->_css().' <table class="table">';
+        $html .= '<thead>
+                    <tr>
+                        <th class="th" style="width:60px;">Fecha/Hora</th>
+                        <th class="th">Por Cita</th>
+       					<th class="th">Cantidad</th>
+                        <th class="th">Costo</th>
+                        <th class="th">Total</th>
+                    </tr>
+                </thead>';
+        $html .= '<tbody>'; 
+
+        $total = 0;
+
+        foreach ($detailIngresos->all as $key => $detalle) {
+
+        	if ((($key+1) % 2) == 0) {
+                        $rowClass = "even";
+                    } else  {
+                        $rowClass = "odd";
+                    }
+
+            $html .= '<tr class="'.$rowClass.'">';
+        	$html .= '<td class="td" style="width:60px;">'.date("d", strtotime($detalle->fecha_alta)).'/'.
+            					month(date("m", strtotime($detalle->fecha_alta))-1,false).'/'.
+            					date("Y H:i", strtotime($detalle->fecha_alta)).'</td>';
+
+        	$porCita = $detalle->cita_id?"Si":"";
+        	$html .= '<td class="td">'.$porCita.'</td>';
+
+        	$html .= '<td class="td" style="text-align: right;">'.$detalle->cantidad.'</td>';
+        	$html .= '<td class="td" style="text-align: right;">$ '.number_format(($detalle->costo/$detalle->cantidad), 2, '.', ',').'</td>'; 
+        	$html .= '<td class="td" style="text-align: right;">$ '.number_format($detalle->costo, 2, '.', ',').'</td>'; 
+
+        	$html .= '</tr>';
+
+        	$total = $total + $detalle->costo;
+
+        }
+
+        $html .= '</tbody>';
+        $html .= '</table>';  
+
+        $pdf->writeHTMLCell(0, 0, 60, 15, '<h1 style="font-size:8px;">Balance de '.$fecha.'</h1>', 0, 1,  0, true, '', true);
+
+        $pdf->writeHTMLCell(0, 0, 60, 25, '<h1 style="font-size:8px;">Ingresos de '.$nombre.'</h1>', 0, 1,  0, true, '', true);
+
+        $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = 40, $html, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
+
+        $pdf->writeHTMLCell(0, 0, 140, '', '<h1 style="font-size:8px;">Total: <strong>$ '.number_format($total, 2, '.', ',').'</strong></h1>', 0, 1,  0, true, '', true);
+
+        $pdf->AddPage();
+ 
+        $pdf->setTextShadow(array('enabled' => true, 'depth_w' => 0.2, 'depth_h' => 0.2, 'color' => array(196, 196, 196), 'opacity' => 1, 'blend_mode' => 'Normal'));
+
+        $pdf->setImageScale(0.47);
+
+        $pdf->Image(base_url('assets/images/logos/'.$this->session->userdata('logo').'_logo.png'), 10, 10, 45, 25, '', '', '', false, 300);
+
+        $html  = $this->_css().' <table class="table">';
+        $html .= '<thead>
+                    <tr>
+                        <th class="th" style="width:60px;">Fecha/Hora</th>
+       					<th class="th">Cantidad</th>
+                        <th class="th">Costo</th>
+                        <th class="th">Total</th>
+                    </tr>
+                </thead>';
+        $html .= '<tbody>'; 
+
+        $total = 0;
+
+        foreach ($detailEgreso->all as $key => $detalle) {
+
+        	if ((($key+1) % 2) == 0) {
+                        $rowClass = "even";
+                    } else  {
+                        $rowClass = "odd";
+                    }
+
+            $html .= '<tr class="'.$rowClass.'">';
+        	$html .= '<td class="td" style="width:60px;">'.date("d", strtotime($detalle->fecha_alta)).'/'.
+            					month(date("m", strtotime($detalle->fecha_alta))-1,false).'/'.
+            					date("Y H:i", strtotime($detalle->fecha_alta)).'</td>';
+
+        	$html .= '<td class="td" style="text-align: right;">'.$detalle->cantidad.'</td>';
+        	$html .= '<td class="td" style="text-align: right;">$ '.number_format(($detalle->costo/$detalle->cantidad), 2, '.', ',').'</td>'; 
+        	$html .= '<td class="td" style="text-align: right;">$ '.number_format($detalle->costo, 2, '.', ',').'</td>'; 
+
+        	$html .= '</tr>';
+
+        	$total = $total + $detalle->costo;
+
+        }
+
+        $html .= '</tbody>';
+        $html .= '</table>';
+
+        $pdf->writeHTMLCell(0, 0, 60, 15, '<h1 style="font-size:8px;">Balance de '.$fecha.'</h1>', 0, 1,  0, true, '', true);
+
+        $pdf->writeHTMLCell(0, 0, 60, 25, '<h1 style="font-size:8px;">Egresos de '.$nombre.'</h1>', 0, 1,  0, true, '', true);
+
+        $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = 40, $html, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
+
+        $pdf->writeHTMLCell(0, 0, 140, '', '<h1 style="font-size:8px;">Total: <strong>$ '.number_format($total, 2, '.', ',').'</strong></h1>', 0, 1,  0, true, '', true);
+
+        $nombre_archivo = utf8_decode("Detalle-Balance.pdf");
+
+        $pdf->Output($nombre_archivo, 'I');
 
 	}
 
