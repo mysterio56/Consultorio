@@ -240,7 +240,12 @@ jQuery("#date_start").datepicker({
                 ingreso = true;
               }
 
-              rowBalance += '<img onclick="detail('+balance.id+',\'\', \''+egreso+'\',\''+ingreso+'\',\'true\');" src="'+base_url+'/assets/images/pdf.png" class="ico" title="Imprimir detalle"/>'
+              if(ingreso == true || egreso == true){
+
+                rowBalance += '<img onclick="detail('+balance.id+',\'\', \''+egreso+'\',\''+ingreso+'\',\'true\');" src="'+base_url+'/assets/images/pdf.png" class="ico" title="Imprimir detalle"/>'
+
+              }
+
               rowBalance += '</td>';
               rowBalance += '</tr>';
 
@@ -363,17 +368,7 @@ function detail(id,tipo,egreso,ingreso,imprimir){
 
       } else {
 
-        if(ingreso == 'true'){
-
-          window.open(base_url+"balance_sheet/detailProducto/"+id+"/ingreso/"+date_start+"/"+date_end+"/1/imprimir",'_blank'); 
-
-        }
-
-        if(egreso == 'true'){
-
-          window.open(base_url+"balance_sheet/detailProducto/"+id+"/egreso/"+date_start+"/"+date_end+"/1/imprimir",'_blank'); 
-
-        }
+          window.open(base_url+"balance_sheet/detailImprimir/"+id+"/producto/"+date_start+"/"+date_end+"/1/imprimir",'_blank'); 
 
       } 
 
@@ -385,18 +380,7 @@ function detail(id,tipo,egreso,ingreso,imprimir){
 
       } else {
 
-        if(ingreso == 'true'){
-
-          window.open(base_url+"balance_sheet/detailServicio/"+id+"/ingreso/"+date_start+"/"+date_end+"/1/imprimir",'_blank'); 
-
-        }
-
-        if(egreso == 'true'){
-
-          window.open(base_url+"balance_sheet/detailServicio/"+id+"/egreso/"+date_start+"/"+date_end+"/1/imprimir",'_blank'); 
-
-        }
-
+        window.open(base_url+"balance_sheet/detailImprimir/"+id+"/servicio/"+date_start+"/"+date_end+"/1/imprimir",'_blank'); 
 
       }
 
