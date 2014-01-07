@@ -134,7 +134,10 @@ Valid.cita = function()
                 required:true,
             },
             servicio:{
-                required:true,
+                selectcheck:true,
+            },
+            servicio_name:{
+                required:true
             }
         },
         errorElement: 'div',
