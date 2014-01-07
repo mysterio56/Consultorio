@@ -4,7 +4,7 @@
 </script>
 	<?php
 
-        $attributes = array('id' => 'tipoEmpleadosForm');
+        $attributes = array('id' => 'tipoEmpleadoForm');
 	 	echo form_open(null,$attributes);
 
 	echo '<table class="table_form">';
@@ -162,7 +162,7 @@
 		 	);
 
 		 	echo form_submit($data);
-		 	echo '<a href="'.base_url($return).'" class="abutton_cancel">Cancelar</a>';
+		 	echo '<a href="'.base_url($return).'" onclick = "$(\'.screenLoad\').show();" class="abutton_cancel">Cancelar</a>';
 	 		echo form_close();
 ?>
 </table>
@@ -174,6 +174,12 @@ $(function(){
 		if($(check).is(":checked")){
 			showPermisos($(check).val(),true);
 		}
+	});
+
+	$( "#tipoEmpleadoForm" ).submit(function( event ) {
+		if($('#tipoEmpleadoForm').valid()){
+  			$('.screenLoad').show();
+  		}
 	});
 
 });

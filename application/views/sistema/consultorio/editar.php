@@ -82,7 +82,7 @@
 		echo '<td width="25%">';
 		 	?>
 
-		 	<input type="file" name="userfile" size="20" />
+		 	<input type="file" name="userfile" id="userfile" size="20" />
 
 		 	<?php
 		
@@ -248,6 +248,35 @@ $(function () {
 	getFederalEntities(1);
 
 	//$("#estado").combobox();
+
+  
+
+
+  $( "#consultorioForm" ).submit(function( event ) {
+
+   
+
+    if($('#consultorioForm').valid()){
+
+      if($('#userfile').val() != ""){
+
+        var ext = $('#userfile').val().split('.').pop().toLowerCase();
+
+        if($.inArray(ext, ['png']) == -1) {
+          alert('La imagen debe tener extensión png!');
+          return false;
+        }else{
+          return true;
+        }
+
+      }
+
+        $('.screenLoad').show();
+      }
+
+    
+  });
+  
 
 });
 

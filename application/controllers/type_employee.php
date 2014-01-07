@@ -167,21 +167,25 @@ class Type_employee extends CI_Controller{
 
 			if($tipoEmpleado->save($modulos->all)){
 
-				foreach($this->input->post('modulos') as $modulo){
-					
-					$oPermisos->where(array('modulo_id' => $modulo, 'tipo_empleado_id' => $tipoEmpleado->id))->get();
-					$sumPermiso = 0;
-					
-					foreach($this->input->post('permisos_'.$modulo) as $permiso){
-						 $sumPermiso = $sumPermiso + $permiso;
+				if(is_array($this->input->post('modulos'))){
+					foreach($this->input->post('modulos') as $modulo){
+						
+						$oPermisos->where(array('modulo_id' => $modulo, 'tipo_empleado_id' => $tipoEmpleado->id))->get();
+						$sumPermiso = 0;
+						
+						if(is_array($this->input->post('permisos_'.$modulo))){
+							foreach($this->input->post('permisos_'.$modulo) as $permiso){
+								 $sumPermiso = $sumPermiso + $permiso;
+							}
+						}
+
+						$submodulos->where_in('id',$this->input->post('submodulos_'.$modulo))->get();
+						$tipoEmpleado->save($submodulos->all);
+
+						$oPermisos->permiso = $sumPermiso;
+						$oPermisos->save();
+
 					}
-
-					$submodulos->where_in('id',$this->input->post('submodulos_'.$modulo))->get();
-					$tipoEmpleado->save($submodulos->all);
-
-					$oPermisos->permiso = $sumPermiso;
-					$oPermisos->save();
-
 				}
 
 				redirect(base_url('type_employee'));
@@ -237,21 +241,25 @@ class Type_employee extends CI_Controller{
 
 			if($tipoEmpleado->save($modulos->all)){
 
-				foreach($this->input->post('modulos') as $modulo){
-					
-					$oPermisos->where(array('modulo_id' => $modulo, 'tipo_empleado_id' => $id_tipoEmpleado))->get();
-					$sumPermiso = 0;
-					
-					foreach($this->input->post('permisos_'.$modulo) as $permiso){
-						 $sumPermiso = $sumPermiso + $permiso;
+				if(is_array($this->input->post('modulos'))){
+					foreach($this->input->post('modulos') as $modulo){
+						
+						$oPermisos->where(array('modulo_id' => $modulo, 'tipo_empleado_id' => $id_tipoEmpleado))->get();
+						$sumPermiso = 0;
+						
+						if(is_array($this->input->post('permisos_'.$modulo))){
+							foreach($this->input->post('permisos_'.$modulo) as $permiso){
+								 $sumPermiso = $sumPermiso + $permiso;
+							}
+						}
+
+						$submodulos->where_in('id',$this->input->post('submodulos_'.$modulo))->get();
+						$tipoEmpleado->save($submodulos->all);
+
+						$oPermisos->permiso = $sumPermiso;
+						$oPermisos->save();
+
 					}
-
-					$submodulos->where_in('id',$this->input->post('submodulos_'.$modulo))->get();
-					$tipoEmpleado->save($submodulos->all);
-
-					$oPermisos->permiso = $sumPermiso;
-					$oPermisos->save();
-
 				}
 				
 				redirect(base_url('type_employee'));

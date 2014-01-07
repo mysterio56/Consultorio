@@ -419,3 +419,45 @@ font-weight: normal;
   cursor:pointer;
 }
 
+
+div.screenLoad
+{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background-color: #000000;
+    opacity: 0.3;
+    filter: alpha(opacity=70);
+    display:none;
+}
+
+div.screenLoad div > *
+{
+  display: inline-block;
+  vertical-align: middle;
+}
+
+div.screenLoad div {
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 50px;
+  margin-top: -25px;
+  margin-left: -100px;
+  border-radius: 5px;
+  border: 5px solid;
+  border-color: rgba(255,255,255, 0.5);
+  padding: 15px;
+
+}
+
+div.screenLoad label
+{
+    background-color: #000000;
+}
+

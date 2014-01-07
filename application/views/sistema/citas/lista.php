@@ -30,11 +30,11 @@
 
 	<?php if(in_array($permisos,$aPermisos['Agregar']) ): ?>
 
-		<a class="abutton" href="<?= base_url('appointment/agregar') ?>">Agregar</a>
+		<a class="abutton" onclick = "jQuery('.screenLoad').show();"  href="<?= base_url('appointment/agregar') ?>">Agregar</a>
 
 	<?php endif; ?>
 
-	<a class="abutton_cancel" href="<?= base_url('appointment'); ?>" >Cancelar</a>
+	<a class="abutton_cancel" onclick = "jQuery('.screenLoad').show();"  href="<?= base_url('appointment'); ?>" >Cancelar</a>
 
 <script>
 

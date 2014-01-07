@@ -65,10 +65,22 @@
 		 	);
 
 		 	echo form_submit($data);
-		 	echo '<a href="'.base_url($return).'" class="abutton_cancel">Cancelar</a>';
+		 	echo '<a href="'.base_url($return).'" onclick = "$(\'.screenLoad\').show();" class="abutton_cancel">Cancelar</a>';
 	 		echo form_close();
 ?>
 
   </form>
 </div> 
 </table>
+
+<script>
+$(function () {
+
+	$( "#especialidadesForm" ).submit(function( event ) {
+		if($('#especialidadesForm').valid()){
+  			$('.screenLoad').show();
+  		}
+	});
+	
+});
+</script>

@@ -234,6 +234,11 @@ class Expenses extends CI_Controller{
             $egresos->get();  
 
             $this->load->library('Pdf');
+
+            $imgConsultorio = new Consultorio();
+            $imgConsultorio->where('id',$this->session->userdata('id_consultorio'))->get();
+            $imgConsultorio = $imgConsultorio->nombre_logo;
+
             $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
             $pdf->SetCreator(PDF_CREATOR);
 
@@ -262,7 +267,7 @@ class Expenses extends CI_Controller{
 
             }    
 
-            $pdf->Image(base_url('assets/images/logos/'.$this->session->userdata('logo').'_logo.png'), 10, 10, 45, 25, '', '', '', false, 300);
+            $pdf->Image(base_url('assets/images/logos/'.$imgConsultorio.'_logo.png'), 10, 10, 45, 25, '', '', '', false, 300);
 
             $pdf->writeHTMLCell(0, 0, 60, 15, '<h1 style="font-size:8px;">Egresos del '.$fecha.'</h1>', 0, 1,  0, true, '', true);
 
@@ -385,6 +390,11 @@ class Expenses extends CI_Controller{
             $egresos->get();  
 
             $this->load->library('Pdf');
+
+            $imgConsultorio = new Consultorio();
+            $imgConsultorio->where('id',$this->session->userdata('id_consultorio'))->get();
+            $imgConsultorio = $imgConsultorio->nombre_logo;
+
             $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
             $pdf->SetCreator(PDF_CREATOR);
 
@@ -413,7 +423,7 @@ class Expenses extends CI_Controller{
 
             }    
 
-            $pdf->Image(base_url('assets/images/logos/'.$this->session->userdata('logo').'_logo.png'), 10, 10, 45, 25, '', '', '', false, 300);
+            $pdf->Image(base_url('assets/images/logos/'.$imgConsultorio.'_logo.png'), 10, 10, 45, 25, '', '', '', false, 300);
 
             $pdf->writeHTMLCell(0, 0, 60, 15, '<h1 style="font-size:8px;">Egresos del '.$fecha.'</h1>', 0, 1,  0, true, '', true);
 

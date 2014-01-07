@@ -104,7 +104,7 @@ $cita->servicio->get();
 
 		 	echo form_submit($data);	
 
-		 	echo '<a href="'.base_url($return).'" class="abutton_cancel">Cancelar</a>';
+		 	echo '<a href="'.base_url($return).'"  onclick = "$(\'.screenLoad\').show();"  class="abutton_cancel">Cancelar</a>';
 		
 		echo form_close();
 
@@ -191,6 +191,12 @@ $('#fecha').datetimepicker({
 	closeText:   'Aceptar',
 
 });
+
+$( "#citaForm" ).submit(function( event ) {
+    if($('#citaForm').valid()){
+        $('.screenLoad').show();
+      }
+  });
 });
 
 function getServicio(nStart){

@@ -99,10 +99,22 @@ echo'<tr>';
 		 	);
 
 		 	echo form_submit($data);	
-		 	echo '<a href="'.base_url($return).'" class="abutton_cancel">Cancelar</a>';
+		 	echo '<a href="'.base_url($return).'" onclick = "$(\'.screenLoad\').show();" class="abutton_cancel">Cancelar</a>';
 			echo form_close();
 ?>
 
   </form>
 </div> 
 </table>
+
+<script>
+$(function(){
+	
+	$( "#productoForm" ).submit(function( event ) {
+		if($('#productoForm').valid()){
+  			$('.screenLoad').show();
+  		}
+	});
+
+});
+</script>

@@ -142,7 +142,7 @@
 		 	);
 
 		 	echo form_submit($data);
-		 	echo '<a href="'.base_url($return).'" class="abutton_cancel">Cancelar</a>';
+		 	echo '<a href="'.base_url($return).'" onclick = "$(\'.screenLoad\').show();" class="abutton_cancel">Cancelar</a>';
 	 		echo form_close();
 ?>
 
@@ -155,6 +155,12 @@ $(function(){
 		if($(check).is(":checked")){
 			showPermisos($(check).val(),true);
 		}
+	});
+
+	$( "#tipoEmpleadoForm" ).submit(function( event ) {
+		if($('#tipoEmpleadoForm').valid()){
+  			$('.screenLoad').show();
+  		}
 	});
 
 });

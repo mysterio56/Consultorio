@@ -31,10 +31,10 @@
 </section>
 	
 		<?php if(in_array($permisos,$aPermisos['Agregar']) ): ?>
-		<a id="agregar" class="abutton" href="<?= base_url('type_employee/agregar') ?>">Agregar</a>
+		<a id="agregar" class="abutton" onclick = "$('.screenLoad').show();" href="<?= base_url('type_employee/agregar') ?>">Agregar</a>
 	<?php endif; ?>
-		<a id="busavan" class="abutton" href="<?= base_url('type_employee/buscar') ?>">Búsqueda Avanzada</a>
-		<a id="cancela" display:none href="<?= base_url('type_employee') ?>" class="abutton_cancel">Cancelar</a>
+		<a id="busavan" class="abutton" onclick = "$('.screenLoad').show();" href="<?= base_url('type_employee/buscar') ?>">Búsqueda Avanzada</a>
+		<a id="cancela" display:none onclick = "$('.screenLoad').show();" href="<?= base_url('type_employee') ?>" class="abutton_cancel">Cancelar</a>
    
 
 

@@ -112,7 +112,7 @@
 
 			<?php
 				
-		 	echo '<a href="'.base_url($return).'" class="abutton_cancel">Cancelar</a>';
+		 	echo '<a href="'.base_url($return).'" onclick = "$(\'.screenLoad\').show();" class="abutton_cancel">Cancelar</a>';
 			echo form_close(); 
 
 	 	
@@ -192,7 +192,7 @@ function grid(){
 		  			rowservicio	+= '<td>'+servicio.nombre+'</td>';
 		  			rowservicio	+= '<td>'+servicio.fecha_alt+'</td>';
 
-		  			if(producto.estatus == 1){
+		  			if(servicio.estatus == 1){
 		  					
 		  						activo  ='active';
 		  						

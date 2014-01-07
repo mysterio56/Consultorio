@@ -261,6 +261,11 @@ class Balance_sheet extends CI_Controller{
 			$productos->get();  
 
             $this->load->library('Pdf');
+
+            $imgConsultorio = new Consultorio();
+            $imgConsultorio->where('id',$this->session->userdata('id_consultorio'))->get();
+            $imgConsultorio = $imgConsultorio->nombre_logo;
+
             $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
 
             $pdf->SetFont('Helvetica', '', 14, '', true); 
@@ -270,7 +275,7 @@ class Balance_sheet extends CI_Controller{
             $pdf->setTextShadow(array('enabled' => true, 'depth_w' => 0.2, 'depth_h' => 0.2, 'color' => array(196, 196, 196), 'opacity' => 1, 'blend_mode' => 'Normal'));
             $pdf->setImageScale(0.47);
 
-            $pdf->Image(base_url('assets/images/logos/'.$this->session->userdata('logo').'_logo.png'), 10, 10, 45, 25, '', '', '', false, 300);
+            $pdf->Image(base_url('assets/images/logos/'.$imgConsultorio.'_logo.png'), 10, 10, 45, 25, '', '', '', false, 300);
 
             $html  = $this->_css().' <table class="table">';
             $html .= '<thead>
@@ -473,6 +478,11 @@ class Balance_sheet extends CI_Controller{
 			$servicios->get();  
 
             $this->load->library('Pdf');
+
+            $imgConsultorio = new Consultorio();
+            $imgConsultorio->where('id',$this->session->userdata('id_consultorio'))->get();
+            $imgConsultorio = $imgConsultorio->nombre_logo;
+
             $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
 
             $pdf->SetFont('Helvetica', '', 14, '', true); 
@@ -482,7 +492,7 @@ class Balance_sheet extends CI_Controller{
             $pdf->setTextShadow(array('enabled' => true, 'depth_w' => 0.2, 'depth_h' => 0.2, 'color' => array(196, 196, 196), 'opacity' => 1, 'blend_mode' => 'Normal'));
             $pdf->setImageScale(0.47);
 
-            $pdf->Image(base_url('assets/images/logos/'.$this->session->userdata('logo').'_logo.png'), 10, 10, 45, 25, '', '', '', false, 300);
+            $pdf->Image(base_url('assets/images/logos/'.$imgConsultorio.'_logo.png'), 10, 10, 45, 25, '', '', '', false, 300);
 
             $html  = $this->_css().' <table class="table">';
             $html .= '<thead>
@@ -840,6 +850,10 @@ class Balance_sheet extends CI_Controller{
 
 		$this->load->library('Pdf');
 
+		$imgConsultorio = new Consultorio();
+        $imgConsultorio->where('id',$this->session->userdata('id_consultorio'))->get();
+        $imgConsultorio = $imgConsultorio->nombre_logo;
+
         $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
 
         $pdf->SetFont('Helvetica', '', 14, '', true); 
@@ -850,7 +864,7 @@ class Balance_sheet extends CI_Controller{
 
         $pdf->setImageScale(0.47);
 
-        $pdf->Image(base_url('assets/images/logos/'.$this->session->userdata('logo').'_logo.png'), 10, 10, 45, 25, '', '', '', false, 300);
+        $pdf->Image(base_url('assets/images/logos/'.$imgConsultorio.'_logo.png'), 10, 10, 45, 25, '', '', '', false, 300);
 
         $html  = $this->_css().' <table class="table">';
         $html .= '<thead>
@@ -909,7 +923,7 @@ class Balance_sheet extends CI_Controller{
 
         $pdf->setImageScale(0.47);
 
-        $pdf->Image(base_url('assets/images/logos/'.$this->session->userdata('logo').'_logo.png'), 10, 10, 45, 25, '', '', '', false, 300);
+        $pdf->Image(base_url('assets/images/logos/'.$imgConsultorio.'_logo.png'), 10, 10, 45, 25, '', '', '', false, 300);
 
         $html  = $this->_css().' <table class="table">';
         $html .= '<thead>

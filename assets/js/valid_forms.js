@@ -263,44 +263,26 @@ Valid.paciente = function()
 Valid.consultorio = function()
 {
 
-    this.onlyNum('telefono'); 
-    this.onlyNum('celular');
+    this.onlyNum('telefono1'); 
+    this.onlyNum('telefono2');
 
     $('#consultorioForm').validate({
         rules:{
-            codigo:{
-                required:true,
-                minlength: 1,
-                 maxlength: 10
-            },
-            nombre:{
-                required:true,
-                minlength: 3
-            },
-            apellido_p:{
-                required:true,
-                minlength: 4
-            },
-            apellido_m:{
-                required:true,
-                minlength: 4
-            },
             email:{
                 required:true,
                 email:true,
                 minlength: 5
             },
-            telefono:{
+            telefono1:{
                 required:true,
                 number:true,
                 minlength: 8,
                 maxlength: 10
             },
-            celular:{
-                required:true,
+            telefono2:{
                 number:true,
-                minlength: 10,
-                maxlength: 13
+                minlength: 8,
+                maxlength: 10
             },
             estado: {
                 selectcheck: true

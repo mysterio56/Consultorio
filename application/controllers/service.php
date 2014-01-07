@@ -170,7 +170,7 @@ class Service extends CI_Controller{
 
 			if($servicio->save()){
 
-				reload(base_url('service'));
+				redirect(base_url('service'));
 
 			} else {
 

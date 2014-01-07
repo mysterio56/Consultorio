@@ -10,13 +10,16 @@
 			<?php
 
 			    $warning = false;
-			    $days    = 56;
+
+			    $start = new DateTime();
+				$end   = new DateTime('2014-06-01');
+				$days  = round(($end->format('U') - $start->format('U')) / (60*60*24));
 
 			    if($days <= 10 ){
 			        $warning = true;
 			        echo "<script> setTimeout('alert(\"Quedan ".$days." días para renovar su licencia\");',4000); </script>";
 			    }
-			    
+
 			?>
 	<?php if ($this->session->userdata('username')): ?>
         <div id="renew">

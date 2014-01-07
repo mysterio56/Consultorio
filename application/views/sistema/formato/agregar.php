@@ -65,7 +65,7 @@
 		 	);
 
 		 	echo form_submit($data);	
-		 	echo '<a href="'.base_url($return).'" class="abutton_cancel">Cancelar</a>';
+		 	echo '<a href="'.base_url($return).'" onclick = "$(\'.screenLoad\').show();" class="abutton_cancel">Cancelar</a>';
 			echo form_close(); 
 ?>
 
@@ -73,3 +73,14 @@
 </div> 
 </table>
 
+<script>
+$(function(){
+	
+	$( "#formatoForm" ).submit(function( event ) {
+		if($('#formatoForm').valid()){
+  			$('.screenLoad').show();
+  		}
+	});
+
+});
+</script>

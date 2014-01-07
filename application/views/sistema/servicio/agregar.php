@@ -140,7 +140,7 @@ echo'<tr id="trCostoVenta">';
 		 	);
 
 		 	echo form_submit($data);	
-		 	echo '<a href="'.base_url($return).'" class="abutton_cancel">Cancelar</a>';
+		 	echo '<a href="'.base_url($return).'" onclick = "$(\'.screenLoad\').show();" class="abutton_cancel">Cancelar</a>';
 			echo form_close(); 
 ?>
 
@@ -155,6 +155,12 @@ $(function(){
 	$("input:radio[name=servicios]").click(function() {
 	    var value = $(this).val();
 	  	showCostos(value);  
+	});
+
+	$( "#servicioForm" ).submit(function( event ) {
+		if($('#servicioForm').valid()){
+  			$('.screenLoad').show();
+  		}
 	});
 
 });

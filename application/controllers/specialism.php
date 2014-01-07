@@ -196,7 +196,7 @@ class Specialism extends CI_Controller{
 
 			if($especialidad->save()){
 
-				redirect(base_url('specialism',$page));
+				redirect(base_url('specialism'));
 				
 			} else {
 
