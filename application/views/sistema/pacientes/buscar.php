@@ -1,6 +1,6 @@
 <?php $aPermisos = unserialize (PERMISOS); ?>
 <script>
-	$(function(){ Find.pacientes(); });
+	$(function(){ Find.pacientes();  $('.screenLoad').hide(); });
 </script>
 <?php
 	$attributes = array('id' => 'pacientesForm');
