@@ -266,6 +266,7 @@ function getFederalEntities(){
 		    });
  	 	$('#wait_estados').hide();
  	 	$('.estado_input').val('');
+ 	 	$('.screenLoad').hide();
      	
 	});
 }
@@ -353,6 +354,7 @@ var url = base_url + "address/getColonies/"+$("#codigo_postal").val();
 		    });
 		$('#wait_col').hide();
 		$('.colonia_input').val('');
+
 	});
 	
 }

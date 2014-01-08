@@ -387,6 +387,7 @@ function getFederalEntities(){
 		    });
  	 	$('#wait_estados').hide();
  	 	$('.estado_input').val('');
+ 	 	$('.screenLoad').hide();
      	
 	});
 }

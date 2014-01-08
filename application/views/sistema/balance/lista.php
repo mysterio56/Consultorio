@@ -313,6 +313,7 @@ jQuery("#date_start").datepicker({
           }
 
             jQuery('#wait_grid').hide();
+            $('.screenLoad').hide();
 
     },'json');
 

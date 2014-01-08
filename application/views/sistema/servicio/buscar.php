@@ -1,6 +1,6 @@
 <?php $aPermisos = unserialize (PERMISOS); ?>
 <script>	
-	$(function(){ Find.fecha_alta_value(); });
+	$(function(){ Find.fecha_alta_value(); $('.screenLoad').hide(); });
 </script>
 <?php
 	$attributes = array('id' => 'servicioForm');

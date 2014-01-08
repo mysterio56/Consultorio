@@ -116,5 +116,7 @@ $(function(){
   		}
 	});
 
+	$('.screenLoad').hide();
+
 });
 </script>

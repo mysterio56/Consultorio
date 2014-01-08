@@ -117,6 +117,9 @@
 		$('#name_PS').html(name_PS);
 
 		getTotalPS();
+
+		$('.screenLoad').hide();
+		
 	});
    
 

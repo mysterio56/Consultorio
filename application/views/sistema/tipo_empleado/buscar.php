@@ -1,6 +1,6 @@
 <?php $aPermisos = unserialize (PERMISOS); ?>
 <script>
-	$(function(){ Find.tipoempleados(); });
+	$(function(){ Find.tipoempleados(); $('.screenLoad').hide(); });
 </script>
 <?php
 	$attributes = array('id' => 'tipoEmpleadoForm');

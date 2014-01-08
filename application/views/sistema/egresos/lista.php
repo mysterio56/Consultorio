@@ -233,6 +233,7 @@ jQuery(function() {
           }
 
             jQuery('#wait_grid').hide();
+            $('.screenLoad').hide();
 
     },'json');
 

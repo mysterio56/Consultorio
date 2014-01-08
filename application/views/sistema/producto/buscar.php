@@ -1,6 +1,6 @@
 <?php $aPermisos = unserialize (PERMISOS); ?>
 <script>
-	$(function(){ Find.producto(); });
+	$(function(){ Find.producto(); $('.screenLoad').hide(); });
 </script>
 <?php
 	$attributes = array('id' => 'productoForm');

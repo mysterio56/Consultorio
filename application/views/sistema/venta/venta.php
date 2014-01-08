@@ -137,6 +137,8 @@ $(function () {
       $('#costo_serv').val(costo);
   });
 
+  $('.screenLoad').hide();
+
 }); 
 
 function getTotal(){

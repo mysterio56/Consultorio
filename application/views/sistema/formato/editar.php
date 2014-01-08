@@ -80,5 +80,7 @@ $(function(){
   		}
 	});
 
+	$('.screenLoad').hide();
+
 });
 </script>

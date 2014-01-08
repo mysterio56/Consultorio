@@ -1,6 +1,6 @@
 <?php $aPermisos = unserialize (PERMISOS); ?>
 <script>
-	$(function(){  Find.especialidades(); 
+	$(function(){  Find.especialidades(); $('.screenLoad').hide();
 	});
 </script>
 <?php

@@ -68,6 +68,8 @@ $cita->empleado->get();
 <a href="<?= base_url('income') ?>" class ="abutton_cancel" >Cancelar</a>
 
 <script>
- 
+ $(function(){
+ 	$('.screenLoad').hide();
+ });
 
 </script>

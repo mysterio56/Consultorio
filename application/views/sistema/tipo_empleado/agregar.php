@@ -163,6 +163,8 @@ $(function(){
   		}
 	});
 
+	$('.screenLoad').hide();
+
 });
 
 function showPermisos(id_modulo, checked){

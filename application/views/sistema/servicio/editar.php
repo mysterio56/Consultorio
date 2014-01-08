@@ -163,6 +163,8 @@ $(function(){
   		}
 	});
 
+	$('.screenLoad').hide();
+
 });
 
 function showCostos(costos){

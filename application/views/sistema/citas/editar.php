@@ -197,6 +197,9 @@ $( "#citaForm" ).submit(function( event ) {
         $('.screenLoad').show();
       }
   });
+
+jQuery('.screenLoad').hide();
+
 });
 
 function getServicio(nStart){

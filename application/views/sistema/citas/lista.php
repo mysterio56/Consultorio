@@ -216,6 +216,7 @@ function grid(){
 	 		}
 
 	 		jQuery('#wait_grid').hide();
+	 		jQuery('.screenLoad').hide();
 
 		}, "json");
 

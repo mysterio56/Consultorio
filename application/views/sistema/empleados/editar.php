@@ -513,6 +513,7 @@ $('#colonia').append('<option value="' + val.id + '">' + val.name + '</option>')
 		      $( "#colonia" ).toggle();
 		    });
 		$('#wait_col').hide();
+    $('.screenLoad').hide();
 		
 	});
 	

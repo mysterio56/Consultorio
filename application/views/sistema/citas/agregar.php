@@ -190,6 +190,8 @@ $( "#citaForm" ).submit(function( event ) {
       }
   });
 
+jQuery('.screenLoad').hide();
+
 });	
 
 function getServicio(){

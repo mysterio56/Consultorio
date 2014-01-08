@@ -22,7 +22,11 @@ define ("PERMISOS", serialize (array("Agregar"  => array(4,5,6,7),
     }
 ?>
 
-
+<div class="screenLoad">
+  <div>  
+    <img src="<?= base_url('assets/images/Loading.gif'); ?>" width="50" /><label>Procesando...</label>
+  </div>  
+</div>
 
 
 <?php   

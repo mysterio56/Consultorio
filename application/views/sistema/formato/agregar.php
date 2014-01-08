@@ -82,5 +82,7 @@ $(function(){
   		}
 	});
 
+	$('.screenLoad').hide();
+	
 });
 </script>

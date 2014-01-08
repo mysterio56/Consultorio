@@ -205,6 +205,7 @@ function grid(){
 	 		}
 
 	 		jQuery('#wait_grid').hide();
+	 		$('.screenLoad').hide();
 
 		}, "json");
 

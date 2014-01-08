@@ -431,7 +431,6 @@ div.screenLoad
     background-color: #000000;
     opacity: 0.3;
     filter: alpha(opacity=70);
-    display:none;
 }
 
 div.screenLoad div > *

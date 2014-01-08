@@ -122,5 +122,7 @@ $(function(){
   		}
 	});
 
+	$('.screenLoad').hide();
+
 });
 </script>

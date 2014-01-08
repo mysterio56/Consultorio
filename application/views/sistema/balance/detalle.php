@@ -125,6 +125,8 @@
 
 		getTotal();
 
+		$('.screenLoad').hide();
+
 	});
    
 
