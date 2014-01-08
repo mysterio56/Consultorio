@@ -283,6 +283,27 @@ public function eliminar($id_producto){
 
 	}
 
+	public function lista(){
+
+		$producto = new Producto();
+
+		$producto->where(array('consultorio_id' => $this->session->userdata('id_consultorio'),
+							   'estatus'       => 1));
+
+		$producto->where('CONCAT( codigo,  "  " , nombre ) like "%'.$_GET['term'].'%"')->get();
+		
+		$aProducto = array();
+
+		foreach($producto as $product){
+			 $aProducto[] = array("Id"    => $product->id, 
+			 					  "label" => $product->codigo ." ". $product->nombre,
+			 					  "value" => $product->codigo ." ". $product->nombre);
+		}
+		
+		echo json_encode($aProducto);
+
+	}
+	
 	public function lista_add(){
 
 	$producto = new Producto();
