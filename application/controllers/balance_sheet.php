@@ -308,16 +308,16 @@ class Balance_sheet extends CI_Controller{
 					$dPdf_end   = explode('-',$this->input->post('date_end_alt'));
 					$dPdf_end   = month(($dPdf_end[1]-1),false)." ".$dPdf_end[0];
 
-					$producto->ingreso->where("DATE(fecha_alta) between '".$this->input->post('date_start')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end')."-01', INTERVAL 0 DAY))");
-	            	$producto->egreso->where("DATE(fecha_alta) between '".$this->input->post('date_start')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end')."-01', INTERVAL 0 DAY))");
+					$producto->ingreso->where("DATE(fecha_alta) between '".$this->input->post('date_start_alt')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end_alt')."-01', INTERVAL 0 DAY))");
+	            	$producto->egreso->where("DATE(fecha_alta) between '".$this->input->post('date_start_alt')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end_alt')."-01', INTERVAL 0 DAY))");
 					         	
 	        	} elseif ($this->input->post('date_start_alt') && !$this->input->post('date_end_alt')){
 
 	        		$dPdf_start = explode('-',$this->input->post('date_start_alt'));
 					$dPdf_start = month(($dPdf_start[1]-1),false)." ".$dPdf_start[0];
 
-					$producto->ingreso->where("DATE(fecha_alta) between '".$this->input->post('date_start')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_start')."-01', INTERVAL 0 DAY))");
-	            	$producto->egreso->where("DATE(fecha_alta) between '".$this->input->post('date_start')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_start')."-01', INTERVAL 0 DAY))");
+					$producto->ingreso->where("DATE(fecha_alta) between '".$this->input->post('date_start_alt')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_start_alt')."-01', INTERVAL 0 DAY))");
+	            	$producto->egreso->where("DATE(fecha_alta) between '".$this->input->post('date_start_alt')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_start_alt')."-01', INTERVAL 0 DAY))");
 
 					         	
 	        	} elseif (!$this->input->post('date_start_alt') && $this->input->post('date_end_alt')){
@@ -325,8 +325,8 @@ class Balance_sheet extends CI_Controller{
 	        		$dPdf_end   = explode('-',$this->input->post('date_end_alt'));
 					$dPdf_end   = month(($dPdf_end[1]-1),false)." ".$dPdf_end[0];
 
-					$producto->ingreso->where("DATE(fecha_alta) between '".$this->input->post('date_end')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end')."-01', INTERVAL 0 DAY))");
-	            	$producto->egreso->where("DATE(fecha_alta) between '".$this->input->post('date_end')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end')."-01', INTERVAL 0 DAY))");
+					$producto->ingreso->where("DATE(fecha_alta) between '".$this->input->post('date_end_alt')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end_alt')."-01', INTERVAL 0 DAY))");
+	            	$producto->egreso->where("DATE(fecha_alta) between '".$this->input->post('date_end_alt')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end_alt')."-01', INTERVAL 0 DAY))");
 					         	
 	        	} else {
 
@@ -350,9 +350,9 @@ class Balance_sheet extends CI_Controller{
 
                 $html .= '<tr class="'.$rowClass.'">';
                 $html .= '<td class="td">'.$producto->nombre.'</td>';
-                $html .= '<td class="td" align="right">'.$totalEgreso.'</td>';
-                $html .= '<td class="td" align="right">$ '.$totalIngreso.'</td>';
-                $html .= '<td class="td" align="right">$ '.$balance.'</td>';
+                $html .= '<td class="td" align="right">$ '.number_format($totalEgreso, 2, '.', ',').'</td>';
+                $html .= '<td class="td" align="right">$ '.number_format($totalIngreso, 2, '.', ',').'</td>';
+                $html .= '<td class="td" align="right">$ '.number_format($balance, 2, '.', ',').'</td>';
                 $html .= '</tr>';
             }
 
@@ -515,7 +515,9 @@ class Balance_sheet extends CI_Controller{
 
                 $totalIngreso = 0;
 				$totalEgreso  = 0;
-		
+				
+				$servicio->ingreso->where("estatus", 2);
+				
 				if ($this->input->post('date_start_alt') && $this->input->post('date_end_alt')){
 
 					$dPdf_start = explode('-',$this->input->post('date_start_alt'));
@@ -523,16 +525,16 @@ class Balance_sheet extends CI_Controller{
 					$dPdf_end   = explode('-',$this->input->post('date_end_alt'));
 					$dPdf_end   = month(($dPdf_end[1]-1),false)." ".$dPdf_end[0];
 
-					$servicio->ingreso->where("DATE(fecha_alta) between '".$this->input->post('date_start')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end')."-01', INTERVAL 0 DAY))");
-	            	$servicio->egreso->where("DATE(fecha_alta) between '".$this->input->post('date_start')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end')."-01', INTERVAL 0 DAY))");
+					$servicio->ingreso->where("DATE(fecha_alta) between '".$this->input->post('date_start_alt')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end_alt')."-01', INTERVAL 0 DAY))");
+	            	$servicio->egreso->where("DATE(fecha_alta) between '".$this->input->post('date_start_alt')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end_alt')."-01', INTERVAL 0 DAY))");
 					         	
 	        	} elseif ($this->input->post('date_start_alt') && !$this->input->post('date_end_alt')){
 
 	        		$dPdf_start = explode('-',$this->input->post('date_start_alt'));
 					$dPdf_start = month(($dPdf_start[1]-1),false)." ".$dPdf_start[0];
 
-					$servicio->ingreso->where("DATE(fecha_alta) between '".$this->input->post('date_start')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_start')."-01', INTERVAL 0 DAY))");
-	            	$servicio->egreso->where("DATE(fecha_alta) between '".$this->input->post('date_start')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_start')."-01', INTERVAL 0 DAY))");
+					$servicio->ingreso->where("DATE(fecha_alta) between '".$this->input->post('date_start_alt')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_start_alt')."-01', INTERVAL 0 DAY))");
+	            	$servicio->egreso->where("DATE(fecha_alta) between '".$this->input->post('date_start_alt')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_start_alt')."-01', INTERVAL 0 DAY))");
 
 					         	
 	        	} elseif (!$this->input->post('date_start_alt') && $this->input->post('date_end_alt')){
@@ -540,8 +542,8 @@ class Balance_sheet extends CI_Controller{
 	        		$dPdf_end   = explode('-',$this->input->post('date_end_alt'));
 					$dPdf_end   = month(($dPdf_end[1]-1),false)." ".$dPdf_end[0];
 
-					$servicio->ingreso->where("DATE(fecha_alta) between '".$this->input->post('date_end')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end')."-01', INTERVAL 0 DAY))");
-	            	$servicio->egreso->where("DATE(fecha_alta) between '".$this->input->post('date_end')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end')."-01', INTERVAL 0 DAY))");
+					$servicio->ingreso->where("DATE(fecha_alta) between '".$this->input->post('date_end_alt')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end_alt')."-01', INTERVAL 0 DAY))");
+	            	$servicio->egreso->where("DATE(fecha_alta) between '".$this->input->post('date_end_alt')."-01' and LAST_DAY(DATE_ADD('".$this->input->post('date_end_alt')."-01', INTERVAL 0 DAY))");
 					         	
 	        	} else {
 
@@ -565,9 +567,9 @@ class Balance_sheet extends CI_Controller{
 
                 $html .= '<tr class="'.$rowClass.'">';
                 $html .= '<td class="td">'.$servicio->nombre.'</td>';
-                $html .= '<td class="td" align="right">'.$totalEgreso.'</td>';
-                $html .= '<td class="td" align="right">$ '.$totalIngreso.'</td>';
-                $html .= '<td class="td" align="right">$ '.$balance.'</td>';
+                $html .= '<td class="td" align="right">$ '.number_format($totalEgreso, 2, '.', ',').'</td>';
+                $html .= '<td class="td" align="right">$ '.number_format($totalIngreso, 2, '.', ',').'</td>';
+                $html .= '<td class="td" align="right">$ '.number_format($balance, 2, '.', ',').'</td>';
                 $html .= '</tr>';
             }
 
