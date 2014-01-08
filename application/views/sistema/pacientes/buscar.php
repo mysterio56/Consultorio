@@ -27,7 +27,7 @@
             echo '</tr>';
 
            echo'<tr>'; 
- 	       echo'<td  width="100" valing="top">'; 
+ 	       echo'<td width="100" valing="top">'; 
 		   echo form_label('Nombre:');
 			echo'</td>';
             echo'<td>';
@@ -40,24 +40,33 @@
 		 	);
 
 		 	echo form_input($data);
+		 	echo '</td>';
+		 	echo '</tr>';
 
+		 	echo '<tr>';
+		 	echo '<td>';
 		 	echo form_label('Apellido Paterno:');
+		 	echo'</td>';
+		 	echo'<td>';
 		 	$data = array(
 		 		'name'  => 'Apellido_p',
 		 		'id'    => 'Apellido_p',
 		 		'class' => 'capitalize',
 		 		'value' => set_value('Apellido_p'),
-		 		'style' => 'width:85px'
+		 		'style' => 'width:100px'
 		 	);
 		 	echo form_input($data);
-
+		 	echo '</td>';
+		 	echo'<td>';
 		 	echo form_label('Apellido Materno:');
+		 	echo'</td>';
+		 	echo'<td>';
 		 	$data = array(
 		 		'name'  => 'Apellido_m',
 		 		'id'    => 'Apellido_m',
 		 		'class' => 'capitalize',
 		 		'value' => set_value('Apellido_m'),
-		 		'style' => 'width:85px'
+		 		'style' => 'width:100px'
 		 	);
 		 	echo form_input($data);
 		 	echo'</td>';

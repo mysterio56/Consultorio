@@ -292,8 +292,8 @@ public function eliminar($id_formato){
 
 		$consultorio->where(array('id' => $this->session->userdata('id_consultorio')))->get();
 			
-        $consultorio->formatos->where('CONCAT( codigo, "  " , nombre ) like "%'.$_GET['term'].'%"')->get();
-		
+        $consultorio->formatos->where('CONCAT( codigo, "  " , nombre ) like "%'.$_GET['term'].'%"');
+		$consultorio->formatos->where('estatus',1)->get();
 		$aFormatos = array();		
 
 		foreach($consultorio->formatos as $format){

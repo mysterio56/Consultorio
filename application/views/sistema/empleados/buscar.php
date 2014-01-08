@@ -40,8 +40,14 @@
 		 	);
 
 		 	echo form_input($data);
+		 	echo '</td>';
+		 	echo '</tr>';
 
+		 	echo '<tr>';
+		 	echo '<td>';
 		 	echo form_label('Apellido Paterno:');
+		 	echo'</td>';
+		 	echo'<td>';
 		 	$data = array(
 		 		'name'  => 'apellido_p',
 		 		'id'    => 'apellido_p',
@@ -51,8 +57,12 @@
 		 	);
 
 		 	echo form_input($data);
+		 	echo '</td>';
 
+		 	echo'<td>';
 		 	echo form_label('Apellido Materno:');
+		 	echo'</td>';
+		 	echo'<td>';
 		 	$data = array(
 		 		'name'  => 'apellido_m',
 		 		'id'    => 'apellido_m',

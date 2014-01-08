@@ -52,8 +52,8 @@ jQuery(function() {
            }
         });
       jQuery( "#buscar" ).autocomplete({
-            source: base_url + "product/lista_add",
-            minLength: 2,
+            source: base_url + "product/lista",
+            minLength: 1,
                 select: function( event, item ) {
                 },
                 change: function(event, ui) {

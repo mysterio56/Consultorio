@@ -58,7 +58,7 @@ jQuery(function() {
 
       jQuery( "#buscar" ).autocomplete({
             source: base_url + "specialism/lista",
-            minLength: 2,
+            minLength: 1,
                 select: function( event, item ) {
                 },
                 change: function(event, ui) {
