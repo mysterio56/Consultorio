@@ -396,10 +396,11 @@ class DataMapper implements IteratorAggregate {
 			// now double check that all required config values were set
 			foreach(DataMapper::$_dmz_config_defaults as $config_key => $config_value)
 			{
-				if( ! array_key_exists($config_key, DataMapper::$config))
-				{
+				/* modificacion pako */
+				//if( ! array_key_exists($config_key, DataMapper::$config))
+				//{
 					DataMapper::$config[$config_key] = $config_value;
-				}
+				//}
 			}
 
 			DataMapper::_load_extensions(DataMapper::$global_extensions, DataMapper::$config['extensions']);
