@@ -1,6 +1,6 @@
 <?php
     /** funcion para validar que la pagina se habra en un iframe **/
-
+    $this->load->helper('redirect');
     IframeRedirect();
 
     define ("PERMISOS", serialize (array("Agregar"  => array(4,5,6,7),
@@ -52,13 +52,13 @@
     echo form_input($data);
 
 
-  ?>
+?>
     <input type="hidden" name="buscarId" id="buscarId"/>
     <a id='busqueda' class="abutton" onclick= "grid();"> Buscar</a>
   </div>
   </table>
 
-  <? 
+<?php 
       
   echo form_close();
   }
