@@ -2,6 +2,9 @@
 <html lang="es">
 	<head>
 		<meta charset="utf-8" />
+
+		<link href="<?= base_url('assets/images/favicon.ico'); ?>" rel="icon" type="image/x-icon" />
+
 		<title><?= $title ?></title>
 		<?php
 			if(isset($cssFiles) && is_array($cssFiles)){
