@@ -15,7 +15,7 @@ class Appointment extends CI_Controller{
     	$citas = new Reunion();
 
 		$aPermisos    = permisos($this->session->userdata('type_user'));
-		$aPermisosSub = submodulos($this->session->userdata('type_user'),9);
+		$aPermisosSub = submodulos($this->session->userdata('type_user'),5);
 
 		$data['permisos'] = $aPermisos['appointment'];    
 		$data['view']          = 'sistema/citas/lista';
@@ -50,7 +50,7 @@ class Appointment extends CI_Controller{
 
     		$aMeses = array("Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic");
 
-    		$permisosSub = submodulos($this->session->userdata('type_user'),9);
+    		$permisosSub = submodulos($this->session->userdata('type_user'),5);
 
     		if($this->input->post('estatus_citas')){
 
