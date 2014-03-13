@@ -133,6 +133,9 @@ $(function () {
   getServicio();
   getTotal();
   oddEven();
+
+  $('.screenLoad').hide();
+  
 }); 
 
 function getTotal(){
