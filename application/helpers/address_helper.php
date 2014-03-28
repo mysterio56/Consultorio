@@ -4,8 +4,10 @@ if ( ! function_exists('addressData'))
 {
     function addressData($sModule, $sMethod, $nIdParent = NULL){
 
-        $sWebService = 'localhost/Address';
-        $sKey        = '1owvUtwudHylyenow15OkerirfudhocOve';
+        $sWebService   = 'localhost/Address';
+        $sKey          = '1owvUtwudHylyenow15OkerirfudhocOve';
+        $fields        = array('key' => urlencode($sKey));
+        $fields_string = '';
 
         if(function_exists('curl_init')){
 
@@ -13,7 +15,13 @@ if ( ! function_exists('addressData'))
             curl_setopt($ch, CURLOPT_URL, 'http://'. $sWebService .'/'.$sModule.'/'.$sMethod.'/'.$nIdParent);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HEADER, false);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array('key: '.$sKey));
+
+            foreach($fields as $key => $value) { $fields_string .= $key.'='.$value.'&'; }
+            rtrim($fields_string, '&');
+            
+            curl_setopt($ch,CURLOPT_POST, count($fields));
+            curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+
             $aData = curl_exec($ch);
             curl_close($ch);
 
