@@ -2,7 +2,7 @@
 
 if ( ! function_exists('addressData'))
 {
-    function addressData($sMethod, $nIdParent = NULL){
+    function addressData($sModul, $sMethod, $nIdParent = NULL){
 
 
         $sWebService   = 'localhost/Address';
@@ -11,7 +11,7 @@ if ( ! function_exists('addressData'))
         if(function_exists('curl_init')){
 
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, 'http://'. $sWebService .'/'.$sMethod.'/'.$nIdParent);
+            curl_setopt($ch, CURLOPT_URL, 'http://'. $sWebService .'/'.$sModul.'/'.$sMethod.'/'.$nIdParent);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HEADER, false);
 

@@ -7,34 +7,35 @@ class Address extends CI_Controller{
     	parent::__construct();
     	if (!$this->session->userdata('username')){ echo "error"; exit(); }
     	$this->load->helper('address');
+
     }
 
 	public function getFederalEntities($id_federal_entities = null)
 	{
 
-		
-		echo addressData('getFederalEntities'); 
+		echo addressData('federal_entities','getFederalEntities');
+
 
 	}
 
-	public function getMunicipalities($id_federal_entities, $id_municipio = null)
+	public function getMunicipalities($id_federal_entities)
 	{
 
-		echo addressData('getMunicipalities', $id_federal_entities); 
+		echo addressData('municipalities','getMunicipalities', $id_federal_entities); 
 
 	}
 
 	public function getPostalCodes($id_municipio, $id_codigo_postal = null)
 	{
 
-		echo addressData('getPostalCodes', $id_municipio); 
+		echo addressData('postal_codes','getPostalCodes', $id_municipio); 
 
 	}
 
 	public function getColonies($id_codigo_postal, $id_colonia = null)
 	{
 
-		echo addressData('getColonies', $id_codigo_postal); 
+		echo addressData('colonies','getColonies', $id_codigo_postal); 
 
 	}
 
