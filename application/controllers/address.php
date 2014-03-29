@@ -9,32 +9,32 @@ class Address extends CI_Controller{
     	$this->load->helper('address');
     }
 
-	public function getFederalEntities()
+	public function getFederalEntities($id_federal_entities = null)
 	{
 
 		$id_pais = 139;
-		echo addressData('federal_entities','getFederalEntities'); 
+		echo addressData('getFederalEntities', $id_pais, $id_federal_entities); 
 
 	}
 
-	public function getMunicipalities($id_federal_entities)
+	public function getMunicipalities($id_federal_entities, $id_municipio = null)
 	{
 
-		echo addressData('municipalities','getMunicipalities', $id_federal_entities); 
+		echo addressData('getMunicipalities', $id_federal_entities, $id_municipio); 
 
 	}
 
-	public function getPostalCodes($id_municipio)
+	public function getPostalCodes($id_municipio, $id_codigo_postal = null)
 	{
 
-		echo addressData('postal_codes','getPostalCodes', $id_municipio); 
+		echo addressData('getPostalCodes', $id_municipio, $id_codigo_postal); 
 
 	}
 
-	public function getColonies($id_codigo_postal)
+	public function getColonies($id_codigo_postal, $id_colonia = null)
 	{
 
-		echo addressData('colonies','getColonies', $id_codigo_postal); 
+		echo addressData('getColonies', $id_codigo_postal, $id_colonia); 
 
 	}
 
