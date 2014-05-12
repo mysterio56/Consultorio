@@ -166,6 +166,7 @@ class Patient extends CI_Controller{
 			$paciente->nombre         = $this->input->post('nombre');
 			$paciente->apellido_p     = $this->input->post('apellido_p');
 			$paciente->apellido_m     = $this->input->post('apellido_m');
+			$paciente->sexo           = $this->input->post('sexo');
 			$paciente->email          = $this->input->post('email');
 			$paciente->telefono       = $this->input->post('telefono');
 			$paciente->celular        = $this->input->post('celular');
@@ -225,6 +226,7 @@ class Patient extends CI_Controller{
 			$paciente->nombre             = $this->input->post('nombre');
 			$paciente->apellido_p         = $this->input->post('apellido_p');
 			$paciente->apellido_m         = $this->input->post('apellido_m');
+			$paciente->sexo               = $this->input->post('sexo');
 			$paciente->email              = $this->input->post('email');
 			$paciente->telefono           = $this->input->post('telefono');
 			$paciente->celular            = $this->input->post('celular');

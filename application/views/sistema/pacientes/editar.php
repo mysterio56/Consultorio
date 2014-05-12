@@ -74,6 +74,39 @@
     echo '</tr>';
 
     echo '<tr>';
+
+	        echo '<td width="8%">';
+		 	echo form_label('*Sexo:');
+	        echo '</td>';
+
+	        echo'<td colspan="8%">';
+		 	$data = array(
+		 		'name'    => 'sexo',
+		 		'id'      => 'sex1',
+		 		'radio'   => true,
+		 		'value'   => 1,
+		 		'checked' => $paciente->sexo?true:false,		 		
+		 		'style'   => 'width:20px;'
+		 	);
+		 	echo form_label('Masculino', 'sex1');
+		 	echo form_radio($data);
+
+		 	$data = array(
+		 		'name'    => 'sexo',
+		 		'id'      => 'sex2',
+		 		'radio'   => true,
+		 		'value'   => 0,
+		 		'checked' => !$paciente->sexo?true:false,
+		 		'style'   => 'width:20px;'
+		 	);
+		 	echo form_label('Femenino', 'sex2');
+		 	echo form_radio($data);
+
+	echo '</td>';
+	echo '<tr/>';
+
+
+    echo '<tr>';
     echo '<td width="8%">';
 		 	echo form_label('*Email:');
 	echo '</td>';
