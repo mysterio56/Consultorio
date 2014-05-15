@@ -6,31 +6,35 @@
 	$attributes = array('id' => 'consultorioForm');
 
 	 	echo form_open_multipart(null,$attributes);
- echo '<table class="table_form" cellspacing="10">';
+ echo '<table class="table_form">';
 	echo '<tr>';
 	echo form_label('*Campos Requeridos','campo');
-		echo'<td width="25%">';
+		echo'<td>';
 	 		echo form_label('Nombre:');
 	 	echo '</td>';
-	 	echo'<td width="25%">';
+	 	echo'<td>';
 	 		echo form_label($consultorio->nombre);
 		echo '</td>';
 
  			$consultorio->tipo_consultorio->get();
- 		echo'<td width="25%">';
+
+    echo'</tr>';
+    echo'<tr>';
+
+ 		echo'<td>';
 	 		echo form_label('Tipo:');
 	 	echo '</td>';
-	 	echo'<td width="25%">';
+	 	echo'<td>';
 	 		echo form_label($consultorio->tipo_consultorio->nombre);
 	 	echo '</td>';
 	echo '</tr>';
 
 	echo '<tr>';
-		echo'<td width="25%">';
+		echo'<td>';
 		 	echo form_label('*Teléfono 1:');
 		echo '</td>';
 
-    echo'<td width="25%">';
+    echo'<td>';
 		 	$data = array(
 		 		'name'  => 'telefono1',
 		 		'id'    => 'telefono1',
@@ -38,33 +42,36 @@
 		 		//'style' => 'width:180px'
 		 	);
 
-		
 		 	echo form_input($data);
+
 		echo '</td>';
 
-		echo'<td width="25%">';
+echo'</tr>';
+echo'<tr>';
+
+		echo'<td>';
 		 	echo form_label('Teléfono 2:');
 		echo '</td>';
 
-    echo'<td width="25%">';
+    echo'<td>';
 		 	$data = array(
 		 		'name'  => 'telefono2',
 		 		'id'    => 'telefono2',
 		 		'value' => set_value('telefono2', $consultorio->telefono2),
-		 		'style' => 'width:180px'
+		 		//'style' => 'width:180px'
 		 	);
 
-		 
 		 	echo form_input($data);
+
 		 echo '</td>';
 	echo '</tr>';
 
 	echo '<tr>';
-		echo'<td width="25%">';
+		echo'<td>';
 		 	echo form_label('*Email:');
 		echo '</td>';
 
-     echo'<td width="25%">';
+     echo'<td>';
 		 	$data = array(
 		 		'name'  => 'email',
 		 		'id'    => 'email',
@@ -74,12 +81,14 @@
 		
 		 	echo form_input($data);
 		echo '</td>';
-		
+
+echo'</tr>';
+echo'<tr>';		
 
 		echo '<td>';
 			echo form_label('Logo:');
 		echo '</td>';
-		echo '<td width="25%">';
+		echo '<td>';
 		 	?>
 
 		 	<input type="file" name="userfile" id="userfile" size="20" />
@@ -131,20 +140,22 @@
 
 		 	?>
 <tr>
-	<td width="25%">
+	<td>
 		<?= form_label('*Estado:'); ?>
 	</td>
-	    <td width="25%">
+	    <td >
 	  	   <select name="estado" id="estado" class="hide" onChange="getMunicipalities();"> </select>
 	  	   <div id="wait_estados" class="wait">
 				<p>Cargando Estados</p>
 	 		</div>
 	    </td>
+</tr>
+<tr>
 
-	<td width="25%">
+	<td>
 		 	<?= form_label('*Municipio:'); ?>
 	</td>
-	<td width="25%">
+	<td>
 		<select  name="municipio" id="municipio" class="hide" onchange="getPostalCodes();"/></select>
 		<div id="wait_mun" class="wait">
 		<p>Cargando Municipio</p>
@@ -153,20 +164,23 @@
 </tr>
 
 <tr>
-	<td width="25%">
+	<td>
 		 	<?= form_label('*Codigo Postal:'); ?>
 	</td>
-    <td width="25%">
+    <td>
     	<select name="codigo_postal" id="codigo_postal" class="hide" onchange="getColonies();"/></select>
     	<div id="wait_cp" class="wait">
 			<p>Cargando Codigo Postal</p>
 	 	</div>
     </td>
 
-	<td width="25%">
+</tr>
+<tr>
+
+	<td>
 		 	<?= form_label('*Colonia:'); ?>
 	</td>
-	<td width="25%">
+	<td>
 		<select name="colonia" id="colonia" class="hide" onchange=""/></select>
 		<div id="wait_col" class="wait">
 		<p>Cargando Colonia</p>
@@ -177,11 +191,11 @@
 <?php
 
 echo '<tr>';
-   echo '<td width="25%">';
+   echo '<td>';
         echo form_label('*Calle:');
    echo '</td>';
           
-          echo '<td width="25%">';
+          echo '<td>';
           $data = array(
           'name'  => 'calle',
           'id'    => 'calle',
@@ -191,11 +205,14 @@ echo '<tr>';
  
         echo form_input($data);
    echo '</td>';
+
+echo'</tr>';
+echo'<tr>';
  
-   echo '<td width="25%">';
+   echo '<td>';
         echo form_label('Número Exterior:');
    echo '</td>';
-        echo '<td width="25%">';
+        echo '<td>';
         $data = array(
           'name'  => 'numero_ext',
           'id'    => 'numero_ext',
@@ -208,10 +225,10 @@ echo '<tr>';
   echo '</tr>';
 
 echo '<tr>';
-   echo '<td width="25%">';
+   echo '<td>';
         echo form_label('Número interior:');
    echo '</td>';
-        echo '<td width="25%">';
+        echo '<td>';
         $data = array(
           'name'  => 'numero_int',
           'id'    => 'numero_int',
@@ -248,9 +265,6 @@ $(function () {
 	getFederalEntities(1);
 
 	//$("#estado").combobox();
-
-  
-
 
   $( "#consultorioForm" ).submit(function( event ) {
 

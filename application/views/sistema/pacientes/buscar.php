@@ -12,7 +12,7 @@
 	 	}
 	 	echo '<table class="table_form">';
 	    echo'<tr>'; 
-	    echo'<td  width="100" valing="top">'; 
+	    echo'<td>'; 
 	 		echo form_label('Código:');
 	    echo'</td>';
 	    echo'<td>';
@@ -20,14 +20,14 @@
 		 		'name'  => 'Codigo',
 		 		'id'    => 'Codigo',
 		 		'value' => set_value('Codigo'),
-		 		'style' => 'width:80px'
+		 		//'style' => 'width:80px'
 		 	);
 		 	echo form_input($data);
 		 	echo'</td>';
             echo '</tr>';
 
            echo'<tr>'; 
- 	       echo'<td width="100" valing="top">'; 
+ 	       echo'<td>'; 
 		   echo form_label('Nombre:');
 			echo'</td>';
             echo'<td>';
@@ -36,7 +36,7 @@
 		 		'id'    => 'Nombre',
 		 		'class' => 'capitalize',
 		 		'value' => set_value('Nombre'),
-		 		'style' => 'width:125px'
+		 		//'style' => 'width:125px'
 		 	);
 
 		 	echo form_input($data);
@@ -53,10 +53,14 @@
 		 		'id'    => 'Apellido_p',
 		 		'class' => 'capitalize',
 		 		'value' => set_value('Apellido_p'),
-		 		'style' => 'width:100px'
+		 		//'style' => 'width:100px'
 		 	);
 		 	echo form_input($data);
 		 	echo '</td>';
+
+		 	echo '</tr>';
+		 	echo '<tr>';
+
 		 	echo'<td>';
 		 	echo form_label('Apellido Materno:');
 		 	echo'</td>';
@@ -66,7 +70,7 @@
 		 		'id'    => 'Apellido_m',
 		 		'class' => 'capitalize',
 		 		'value' => set_value('Apellido_m'),
-		 		'style' => 'width:100px'
+		 		//'style' => 'width:100px'
 		 	);
 		 	echo form_input($data);
 		 	echo'</td>';
@@ -81,7 +85,7 @@
 		 		'id'    => 'estatus',
 		 		'class' => 'capitalize',
 		 		'value' => 1,
-		 		'style' => 'width:125px'
+		 		//'style' => 'width:125px'
 		 	);
 		 	echo form_checkbox($data);
 
@@ -89,7 +93,7 @@
             echo '</tr>';
 
             echo'<tr>'; 
- 	        echo'<td  width="50" valing="top">'; 
+ 	        echo'<td>'; 
  	        echo form_label('Inactivo');
  	        echo '<td>';	
 		 	$data = array(
@@ -97,14 +101,14 @@
 		 		'id'    => 'estatus',
 		 		'class' => 'capitalize',
 		 		'value' => 0,
-		 		'style' => 'width:125px'
+		 		//'style' => 'width:125px'
 		 	);
 		 	echo form_checkbox($data);
 		 	echo '</td>';
             echo '</tr>';
 
             echo'<tr>'; 
- 	        echo'<td  width="50" valing="top">'; 
+ 	        echo'<td>'; 
  	        echo form_label('Eliminado');
  	        echo '<td>';	
 		 	$data = array(
@@ -112,7 +116,7 @@
 		 		'id'    => 'estatus',
 		 		'class' => 'capitalize',
 		 		'value' => 2,
-		 		'style' => 'width:125px'
+		 		//'style' => 'width:125px'
 		 	);
 		 	echo form_checkbox($data);
 		 	echo '</td>';
@@ -120,7 +124,7 @@
 		 	
 
 		 	echo'<tr>'; 
- 	        echo'<td  width="100" valing="top">'; 
+ 	        echo'<td>'; 
 		 	echo form_label('Fecha de alta:');
 		 	echo'</td>';
             echo'<td>';
@@ -128,7 +132,7 @@
 		 		'name'  => 'fecha_alta_value',
 		 		'id'    => 'fecha_alta_value',
 		 		'value' => set_value('fecha_alta_value'),
-		 		'style' => 'width:85px'
+		 		//'style' => 'width:85px'
 		 	);
 
 		 	echo form_input($data);

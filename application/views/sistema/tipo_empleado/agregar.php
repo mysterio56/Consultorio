@@ -9,7 +9,7 @@
 	echo '<table class="table_form">';
 	echo'<tr>'; 
 	echo form_label('*Campos Requeridos','campo');
- 	echo'<td  width="100" valing="top">'; 
+ 	echo'<td>'; 
 	 		echo form_label('*Codigo:');
 	 echo'</td>';
      echo'<td>';
@@ -17,21 +17,23 @@
              'name'  => 'codigo',
 		 	 'id'    => 'codigo',
 		 	'value' => set_value('codigo',$nCodigo),
-		 	'style' => 'width:200px'
+		 	//'style' => 'width:200px'
 		 	);
 		 	 
              echo form_input($data);
       echo'</td>';
+      echo'</tr>';
 
-      echo'<td  width="100" valing="top">'; 
+      echo'<tr>';
+      echo'<td>'; 
 		 	echo form_label('Descripcion:'); 
 		 	echo'</td>';
-            echo'<td rowspan="2">';
+            echo'<td>';
 		 	$data = array(
 		 		'name'  => 'descripcion',
 		 		'id'    => 'descripcion',
 		 		'value' => set_value('descripcion'),
-		 		'style' => 'width:200px;height:50px'
+		 	//	'style' => 'width:200px;height:50px'
 		 	);
    echo form_textarea($data);
    echo'</td>';
@@ -39,7 +41,7 @@
       echo '</tr>';
  		 
 	echo'<tr>'; 
- 	echo'<td  width="100" valing="top">'; 
+ 	echo'<td>'; 
 		 	echo form_label('*Nombre:'); 
 		 	echo'</td>';
             echo'<td>';
@@ -48,7 +50,7 @@
 		 		'id'    => 'nombre',
 		 		'class' => 'capitalize',
 		 		'value' => set_value('nombre'),
-		 		'style' => 'width:200px'
+		 		//'style' => 'width:200px'
 		 	);
    echo form_input($data);
    echo'</td>';

@@ -3,7 +3,7 @@
   $attributes = array('id' => 'addBuy');
   echo form_open(null,$attributes);
 
-	echo '<table class="table_form">';
+	echo '<table class="table_form" style="width:100%">';
 	echo '<tr>';
 		echo '<tr>';
 		echo '<td>';
@@ -88,7 +88,7 @@ echo form_close();
 		<thead>
 			<tr>
 				<th align="center">Código</th>
-				<th align="center">Producto/Servicio</th>
+				<th align="center" style="width:200px">Producto/Servicio</th>
         <th align="center">Cantidad</th>
 				<th align="center">Costo</th>
         <th align="center">Borrar</th>
