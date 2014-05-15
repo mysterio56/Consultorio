@@ -16,6 +16,7 @@ $cita->servicio->get();
 		echo'<td>';
 
 			echo form_label('*Campos Requeridos','campo');
+
 		echo'</td>';
 	echo '</tr>';
 
@@ -25,13 +26,17 @@ $cita->servicio->get();
 	
 			echo form_label('Paciente:');
 	
-		echo '<td>';	
-	
+		echo '</td>';	
+	  echo '<td style="width:60%">';
+
 		    echo form_label(' '.$cita->paciente->nombre.' '.$cita->paciente->apellido_p.' '.$cita->paciente->apellido_m);
 			echo '<input type="hidden" name="pacienteId" id="pacienteId"/>';
 	
+	 	
 	 	echo '</td>';
-	 	echo '</td>';
+
+    echo '</tr>';
+    echo '<tr>';
 	    
 	    echo '<td>';	
 			echo form_label('*Doctor: ');
@@ -40,7 +45,7 @@ $cita->servicio->get();
 		 		'name'  => 'doctor',
 		 		'id'    => 'doctor',
 		 		'value' => set_value('doctor',$cita->empleado->nombre.' '.$cita->empleado->apellido_p.' '.$cita->empleado->apellido_m),
-		 		'style' =>'width:150px'
+		 		//'style' =>'width:150px'
 		 	);
 
 		 	echo form_input($data);
@@ -61,7 +66,7 @@ $cita->servicio->get();
 					'name' =>'fecha' ,
 					'id'   =>'fecha' ,
 					'value'=>set_value('fecha',$cita->fecha_hora),
-					'style' =>'width:150px'
+					//'style' =>'width:150px'
 					);
 	
 			echo form_input($data);
@@ -70,6 +75,9 @@ $cita->servicio->get();
 
 		echo '</td>'; 
 		echo '</td>'; 
+
+    echo '</tr>';
+    echo '<tr>';
 
 		echo '<td>';
 	

@@ -443,10 +443,13 @@ class Appointment extends CI_Controller{
 
 		$ingresos->select(' *, sum(cantidad) as sumCantidad, sum(costo) as sumCosto ')->
 			where(array('cita_id' => $id_cita, 'tipo <>' => 1))->group_by('producto_id, servicio_id')->get(); 
+
 		$cita->where('id', $id_cita)->get();
+
 		$servicio = $cita->servicio->get();
-		$costo = $cita->costo;
-		$estatus = $cita->estatus;
+		$costo    = $cita->costo;
+		$estatus  = $cita->estatus;
+		$fecha    = $cita->fecha_hora;
 		
 		$data['view']     = 'sistema/citas/adicional';
 		$data['return']   = 'appointment';
@@ -455,6 +458,7 @@ class Appointment extends CI_Controller{
 		$data['costo']    = $costo;
 		$data['estatus']  = $estatus;
 		$data['servicio'] = $servicio;
+		$data['fecha']    = $fecha;
 		$data['cssFiles'] = array('jquery-ui/jquery-ui.css',
 								  'sistema.css');
 		$data['jsFiles']  = array('jquery.js',

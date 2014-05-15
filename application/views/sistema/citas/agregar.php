@@ -19,20 +19,24 @@
 		echo '<td>';
 	 		echo form_label('*Paciente:');
 	 	
-	 	echo '<td>';
+	 	echo '</td>';
+    echo '<td style="width:60%">';
 
 		 	$data = array(
 		 		'name'  => 'paciente',
 		 		'id'    => 'paciente',
 		 		'value' => set_value('paciente'),
-		 		'style' => 'width:150px'
+		 		//'style' => 'width:150px'
 		 	);
 
 		 	echo form_input($data);
 		 		echo '<input type="hidden" name="pacienteId" id="pacienteId"/>';
+
 		echo '</td>';
-		echo '</td>';
-				
+	   
+  echo '</tr>';
+  echo '<tr>';
+
 		echo  '<td>';
 			echo form_label('*Doctor: ');
 		
@@ -41,7 +45,7 @@
 		 		'name'  => 'doctor',
 		 		'id'    => 'doctor',
 		 		'value' => set_value('doctor'),
-		 		'style' => 'width:150px'
+		 		//'style' => 'width:150px'
 		 	);
 			echo form_input($data);
 		 	echo '<input type="hidden" name="doctorId" id="doctorId"/>';
@@ -59,7 +63,7 @@
 					'name' =>'fecha' ,
 					'id'   =>'fecha' ,
 					'value'=>set_value('fecha'),
-					'style'=>'width:150px'
+					//'style'=>'width:150px'
 					);
 		
 			echo form_input($data);
@@ -69,6 +73,8 @@
 		echo '</td>';
 		echo '</td>'; 
 	
+  echo '</tr>';
+  echo '<tr>';
 
 		echo '<td>';
 			echo form_label('*Servicio:');

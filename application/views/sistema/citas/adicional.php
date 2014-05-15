@@ -1,24 +1,36 @@
 <?php
 
   $attributes = array('id' => 'addForm');
+
+$datetime1 = new DateTime();
+$datetime2 = new DateTime($fecha);
+
+$interval = $datetime1->diff($datetime2);
+
   echo form_open(null,$attributes);
 	
   echo '<input type="hidden" name="cita_id" value="'.$cita_id.'" />';
   echo '<input type="hidden" name="estatus" value="'.$estatus.'" />';
 
 	echo '<table class="table_form">';
+
+  if ( $interval->format('%R%a') >= 0 && $estatus == 2){
+
 	echo '<tr>';
+
 		echo '<tr>';
 		echo '<td width="25%">';
 	 		echo form_label('Producto:');
 	 	
 	 	?>
-		<td>
+		<td style="width: 35%;">
 			 <div id="wait_tp" class="wait">
 	  	  		<p>Cargando productos</p>
 	  	 	</div>
 			<div class="select_reload">
+        
 			 	<select name="producto" id="producto"></select>
+        
 			 	<td>
 			    <img src     = "<?= base_url('assets/images/reload.png'); ?>" 
 			         style   = "width:16px; height:16px;cursor:pointer;"
@@ -55,8 +67,11 @@
 
 		 </td>
 </tr>
+<?php 
+}
+?>
 <tr>
-  <td>
+  <td width="25%">
     <?= form_label('Total: '); ?>
   </td>
   <td id="total" style="color:#000">
@@ -68,7 +83,11 @@
 	echo '</tr>';
 	echo'</table>';
 
+   if ( $interval->format('%R%a') >= 0 && $estatus == 2){
+
 		 	echo '<a href="javascript:void(0)" onclick="addGrid();" class="abutton_add">Agregar Adicionales</a>';
+      
+    }
 
 echo form_close();
 
@@ -79,10 +98,16 @@ echo form_close();
 		<thead>
 			<tr>
 				<th align="center">Código</th>
-				<th align="center">Producto/Servicio</th>
+				<th align="center" style="width:200px">Producto/Servicio</th>
         <th align="center">Cantidad</th>
 				<th align="center">Costo</th>
+
+       <?php if ( $interval->format('%R%a') >= 0 && $estatus == 2): ?>
+
         <th align="center">Borrar</th>
+
+      <?php endif; ?>
+
 			</tr>
 		</thead>
     <tbody id="tbodyAdd" >
@@ -211,7 +236,7 @@ function getServicio(){
 
   $("#servicio option").remove();
 
-    $.getJSON( base_url + "service/lista_add", function( data ) {
+    $.getJSON( base_url + "service/lista_buy", function( data ) {
 
     $('#servicio').append('<option value="0"></option>');
 

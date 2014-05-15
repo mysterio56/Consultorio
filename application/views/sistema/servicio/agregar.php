@@ -11,7 +11,7 @@
 	echo '<table class="table_form">';
 	echo'<tr>'; 
 	echo form_label('*Campos Requeridos','campo');
- 	echo'<td  width="100" valing="top">'; 
+ 	echo'<td  valing="top">'; 
 	 		echo form_label('*Codigo:');
 	 echo'</td>';
      echo'<td>';
@@ -27,7 +27,7 @@
       echo '</tr>';
  		 
 	echo'<tr>'; 
- 	echo'<td  width="100" valing="top">'; 
+ 	echo'<td  valing="top">'; 
 		 	echo form_label('*Nombre:'); 
 		 	echo'</td>';
             echo'<td>';
@@ -43,7 +43,7 @@
    echo '</tr>';
 
     echo'<tr>'; 
- 	echo'<td  width="100" valing="top">'; 
+ 	echo'<td   valing="top">'; 
 		 	echo form_label('Descripcion:'); 
 		 	echo'</td>';
             echo'<td>';
@@ -98,6 +98,36 @@ echo '<tr>';
    echo '</td>';
    echo '</tr>'; 
   
+  echo'<tr id="trCita">'; 
+ 	echo'<td  valing="top">'; 
+
+echo form_label('Servicio para Cita');  
+		 	
+   echo'</td>';
+echo'<td>';
+   echo form_label('Si:'); 
+
+		 	$data = array(
+		 		'name'    => 'cita',
+		 		'id'      => 'cita',
+		 		'value'   => 1,
+		 		'style'   => 'width:16px'
+		 	);
+             echo form_radio($data);
+  
+		 	echo form_label('No:'); 
+		 	
+		 	$data = array(
+		 		'name'    => 'cita',
+		 		'id'      => 'cita',
+		 		'value'   => 2,
+		 		'style'   => 'width:16px'
+		 	);
+             echo form_radio($data);
+             
+    echo '</td>';          
+   echo '</tr>'; 
+
  echo'<tr id="trCostoCompra">'; 
  	echo'<td>';  
 		 	echo form_label('*Costo Compra:'); 
@@ -154,7 +184,8 @@ $(function(){
 
 	$("input:radio[name=servicios]").click(function() {
 	    var value = $(this).val();
-	  	showCostos(value);  
+	  	showCostos(value); 
+	  	ShowToCita(value);  
 	});
 
 	$( "#servicioForm" ).submit(function( event ) {
@@ -166,6 +197,16 @@ $(function(){
 	$('.screenLoad').hide();
 
 });
+
+function ShowToCita(cita){
+
+	if(cita == 1){
+		$("#trCita").show();
+	} else {
+		$("#trCita").hide();
+	}
+
+}
 
 function showCostos(costos){
 	

@@ -57,7 +57,7 @@ border-left: none;
     position: absolute;
     padding: 3px;
     margin-top: 20px;
-    margin-left: -70px;
+    margin-left: -100px;
     border: 1px solid gray;
     background-color: #CEECF5;
     font-size: 13px;
@@ -322,8 +322,12 @@ div .error{
 }
 
 .auto-input{
-  width:78% !important;
+  width:87% !important;
 
+}
+
+.custom-combobox{
+  width: 100%;
 }
 
 .select_reload > * {

@@ -60,6 +60,7 @@ div .error{
 
 .footer-container {
     height: 65px;
+    margin-top: 3px;
      background-image: url(../images/bg_blue_lines.png);
     -moz-box-shadow:inset 0 0 10px #000000;
     -webkit-box-shadow:inset 0 0 10px #000000;
@@ -75,7 +76,7 @@ div .error{
 
 .footer-container #logo-footer{
   width: 31%;
-  height: 100%;
+ /* height: 100%; */
   display: inline-block;
   margin-top: 6px;
 }
@@ -298,7 +299,7 @@ div .error{
 /********* Estilos para Acordeon *********/
 
 .ac-container{
-    width: 309px;
+    width: 31%;
     height: 100%;
     display: inline-block;
     vertical-align: top;
@@ -396,6 +397,7 @@ div .error{
     height: 256px;
     overflow-x: hidden;
     overflow-y: auto;
+    width: 99.9%
 }
 
 .footer-container #renew{
@@ -458,6 +460,7 @@ div .error{
   position: absolute;
   margin-top: 35px;
   opacity: 0.5;
+  width: 45%;
 }
 
 #container #tabs{

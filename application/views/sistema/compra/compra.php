@@ -15,9 +15,9 @@
 	  	  		<p>Cargando productos</p>
 	  	 	</div>
 			<div class="select_reload">
-
+      <div style="width: 42%;">
 			 	<select name="producto" id="producto"></select>
-
+      </div>
         <img src     = "<?= base_url('assets/images/reload.png'); ?>" 
                style   = "width:16px; height:16px;cursor:pointer;margin-left:-13px;"
                onClick = "getProducto();"/>
@@ -45,8 +45,9 @@
       </div>
 
 			 <div class="select_reload">
-
+          <div style="width: 42%;">
 			 	   <select name="servicio" id="servicio"></select>
+           </div>
 
            <img src     = "<?= base_url('assets/images/reload.png'); ?>" 
                 style   = "width:16px; height:16px;cursor:pointer;margin-left:-13px;"

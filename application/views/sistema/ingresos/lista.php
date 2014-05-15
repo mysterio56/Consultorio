@@ -362,7 +362,7 @@ function getServicio(){
 
   $("#servicio option").remove();
 
-    $.getJSON( base_url + "service/lista_add", function( data ) {
+    $.getJSON( base_url + "service/lista_ingresos", function( data ) {
 
     $('#servicio').append('<option value="0"></option>');
 

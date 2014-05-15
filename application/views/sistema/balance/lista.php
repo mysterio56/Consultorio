@@ -69,7 +69,7 @@
   <table>
     <thead>
       <tr>
-        <th>Producto/Servicio</th>
+        <th style="width:130px">Producto/Servicio</th>
         <th>Egreso</th>
         <th>Ingreso</th>
         <th>Balance</th>

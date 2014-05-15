@@ -96,9 +96,9 @@ function grid(){
 		  			rowCita	+= '<td class ="tdtooltip" tooltip="'+cita.servicio+'">'+cita.servicio+'</td>';
 		  			rowCita	+= '<td id="fecha_'+cita.id+'">'+cita.fecha_format+'</td>';
 
-		  			if(cita.editar){
+		  			if(cita.editar && jQuery( "input[name=estatus_citas]:checked" ).val() != 3){
 
-		  				rowCita += '<td><img class    = "ico"';
+		  				rowCita += '<td style="text-align: center"><img class    = "ico"';
 	                    rowCita +=           'src     = "'+base_url+'assets/images/'+cita.estatus+'_point.png"';
 		  				rowCita +=			 'id      = "estatus_'+cita.id+'"';
 		  			    rowCita +=	         'onclick = "createTooltip('+cita.id+' , '+cita.nEstatus+', \''+cita.fecha_format2+'\')"';
@@ -106,9 +106,9 @@ function grid(){
 		  			    rowCita += '<img src="'+base_url+'assets/images/wait.gif" id="wait_'+cita.id+'" class="ico" style="display:none">';
 		  				rowCita += '</td>';
 
-		  			}else{
+		  			} else {
 
-						rowCita += '<td>';
+						rowCita += '<td style="text-align: center">';
 						rowCita += '<img style="width:25px;height:25px;" src="'+base_url+'assets/images/'+cita.estatus+'_point.png" title   = "'+getTitle(cita.nEstatus)+'"/>';
 						rowCita += '<img src="'+base_url+'assets/images/wait.gif" id="wait_'+cita.id+'"  style="width:25px;height:25px;display:none">';
 						rowCita += '</td>';
@@ -120,7 +120,7 @@ function grid(){
 
 		  				rowCita +=  '<td>'; 
 
-		  				if(cita.editar){
+		  				if(cita.editar && jQuery( "input[name=estatus_citas]:checked" ).val() != 3){
 		  					rowCita += '<a href="'+base_url+'appointment/editar/'+cita.id+'">'; 		
 		  					rowCita += '<img src="'+base_url+'assets/images/edit.png" class="ico" title="Editar" />';
 		  					rowCita += '</a>'; 

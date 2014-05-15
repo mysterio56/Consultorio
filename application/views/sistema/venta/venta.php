@@ -15,9 +15,9 @@
 	  	  		<p>Cargando productos</p>
 	  	 	</div>
 			<div class="select_reload">
-
-			 	<select name="producto" id="producto"></select>
-
+        <div style="width: 42%;">
+			 	   <select name="producto" id="producto"></select>
+        </div>
         <img src     = "<?= base_url('assets/images/reload.png'); ?>" 
                style   = "width:16px; height:16px;cursor:pointer;margin-left:-13px;"
                onClick = "getProducto();"/>
@@ -45,9 +45,9 @@
       </div>
 
 			 <div class="select_reload">
-
+          <div style="width: 42%;">
 			 	   <select name="servicio" id="servicio"></select>
-
+           </div>
            <img src     = "<?= base_url('assets/images/reload.png'); ?>" 
                 style   = "width:16px; height:16px;cursor:pointer;margin-left: -13px;"
                 onClick = "getServicio();"/>
@@ -214,7 +214,7 @@ function getServicio(){
 
   $("#servicio option").remove();
 
-    $.getJSON( base_url + "service/lista_add", function( data ) {
+    $.getJSON( base_url + "service/lista_buy", function( data ) {
 
     $('#servicio').append('<option value="0"></option>');
 

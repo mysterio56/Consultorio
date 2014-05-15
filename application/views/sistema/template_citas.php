@@ -32,7 +32,7 @@ define ("PERMISOS", serialize (array("Agregar"  => array(4,5,6,7),
 
 <?php
 
-    $attributes = array('id' => 'citasForm');
+    $attributes = array('id' => 'citasForm', 'style' => 'margin-bottom: 0px;');
     echo form_open(null,$attributes);
 
 ?>

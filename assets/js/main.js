@@ -255,6 +255,8 @@ Banner.hide = function()
                        'background-position': '25px 3px',
                        'background-size': '18px'});
   $('#date, #time').css('padding','7px');
+
+  $(".tabs-container").animate({"height":435});
   
 }
 

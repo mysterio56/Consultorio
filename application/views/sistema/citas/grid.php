@@ -68,7 +68,7 @@ if(isset($cssFiles) && is_array($cssFiles)){
 									//.'/'. date("Y", strtotime($cita->fecha_hora)) 
 									' '. date("H:i", strtotime($cita->fecha_hora)).
 							 '</td>';
-						echo '<td>';
+						echo '<td style="text-align: center">';
 
 						if(in_array($permisos,$aPermisos['Editar'])){ 
 							echo '<img src="'.base_url('assets/images/'.estatus($cita->estatus).'_point.png').'" id="estatus_'.$cita->id.'" style="cursor:pointer" width="25" height="25" onclick="createTooltip('.$cita->id.')">';
