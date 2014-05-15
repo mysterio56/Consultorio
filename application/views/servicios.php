@@ -68,7 +68,7 @@
                         prox_cita +=    '<div id="prox-cita">';
                         prox_cita +=        '<div id="datetime">';
                         prox_cita +=            '<p id="date">'+cita.fecha+'</p>'
-                        prox_cita +=            '<p id="time">'+cita.hora+'</p>'
+                        prox_cita +=            '<p id="time">'+cita.hora+' hrs.</p>'
                         prox_cita +=        '</div>';
                         prox_cita +=        '<div>';
                         prox_cita +=            '<div id="detail">';

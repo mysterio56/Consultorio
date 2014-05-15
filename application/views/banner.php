@@ -58,7 +58,7 @@
             	$('#datetime').show();
 
             	$('#date_prox').html(data[0].fecha);
-            	$('#time_prox').html(data[0].hora);
+            	$('#time_prox').html(data[0].hora+" hrs.");
             	$('#doctor_prox').html(data[0].doctor);
             	$('#paciente_prox').html(data[0].paciente);
             	$('#doctor_prox_s').html(data[0].doctor);
