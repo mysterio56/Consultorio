@@ -297,7 +297,16 @@ class Employees extends CI_Controller{
 
 			if($empleado->save($especialidades->all) && $empleado->direccion->save() && $empleado->usuario->save()){
 
-				redirect(base_url('employees'));
+				if($this->input->post('editar') != "Actualizar Perfil" ){
+
+					redirect(base_url('employees'));
+
+				} else {
+
+					redirect(base_url('employees/editar/'.$id_empleado));
+
+				}
+
 
 			} else {
 
@@ -351,6 +360,7 @@ class Employees extends CI_Controller{
 
 		$data['view']           = 'sistema/empleados/password';
 		$data['return']         = 'employees';
+		$data['id_employee']    = $id_empleado;
 		$data['cssFiles']       = array('sistema.css');
 		$data['jsFiles']        = array('jquery.js',
 							      	    'jquery-validation/dist/jquery.validate.js',
@@ -367,7 +377,17 @@ class Employees extends CI_Controller{
 				$empleado->usuario->clave = md5($this->input->post('password'));
 
 				if($empleado->usuario->save()){
-					redirect(base_url('employees'));
+
+					if($this->input->post('perfil') == ' false'){
+
+						redirect(base_url('employees'));
+
+					} else {
+
+						redirect(base_url('employees/editar/'.$id_empleado));
+
+					}
+
 				} else {
 					echo $empleado->usuario->error->string;
 				}

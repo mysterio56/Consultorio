@@ -36,7 +36,14 @@
 					<?php if ($this->session->userdata('username')): ?>
 						<?php $this->load->view('menu_header'); ?>
 						<div id="welcome">
-							<p>Bienvenido:</p><strong><?= "&nbsp".$this->session->userdata('nombre_completo'); ?></strong><a id="logout" href="<?= base_url(); ?>login/logout">Cerrar Sesión</a>
+							<p>Bienvenido:</p>
+								<strong>
+									<a title="Editar Perfil"
+									   href="javascript:void(0)" 
+									   onclick="Tab.newTab('Perfil','<?= base_url(); ?>employees/editar/<?= $this->session->userdata('id_user') ?>','employees_edit');" >
+										<?= "&nbsp".$this->session->userdata('nombre_completo'); ?>
+									</a>
+								</strong><a id="logout" href="<?= base_url(); ?>login/logout">Cerrar Sesión</a>
 						</div>
 					<?php endif; ?>
 				</div>

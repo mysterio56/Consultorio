@@ -10,7 +10,7 @@ Tab.newTab = function(name_tab, url_tab, name_iframe)
 
   var valid_tab = $( "#label"+name_tab ).length;
 
-  if(!valid_tab){
+  if(!valid_tab || name_iframe == "employees_edit" ){
 
       this.allHide();
 

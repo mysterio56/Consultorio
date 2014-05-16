@@ -296,13 +296,21 @@ echo '</table>';
 		 	);
 
 	 		echo form_submit($data);
-	 		echo '<a href="'.base_url($return).'" onclick = "$(\'.screenLoad\').show();" class="abutton_cancel">Cancelar</a>';
+	 		echo '<a href="'.base_url($return).'" id="cancel" onclick = "$(\'.screenLoad\').show();" class="abutton_cancel">Cancelar</a>';
+      echo '<a href="'.base_url('employees/password/'.$empleado->id).'" id="password" onclick = "$(\'.screenLoad\').show();" class="abutton_cancel">Cambiar Contraseña</a>';
 	 		echo form_close(); 
 	?>
 	
 <script>
 
 $(function () {
+
+    if(window.name == "employees_edit"){
+
+      $('#editar').val('Actualizar Perfil');
+      $('#cancel').hide();
+
+    }
 
   showEspecialidades();
 
