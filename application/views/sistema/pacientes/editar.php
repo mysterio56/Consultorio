@@ -115,7 +115,7 @@ echo'<tr>';
 
     echo '<tr>';
     echo '<td>';
-		 	echo form_label('*Email:');
+		 	echo form_label('Email:');
 	echo '</td>';
 	        echo'<td>';
 		 	$data = array(
@@ -132,7 +132,7 @@ echo'</tr>';
 echo'<tr>';
 
 	echo '<td>';
-		 	echo form_label('*Teléfono:');
+		 	echo form_label('Teléfono:');
 	echo '</td>';
 	        echo'<td>';
 		 	$data = array(
@@ -148,7 +148,7 @@ echo'<tr>';
            
            echo'</tr>';
 		 	echo'<td>';
-		 	echo form_label('*Celular:');
+		 	echo form_label('Celular:');
 	echo '</td>';
 	         echo'<td>';
 		 	$data = array(

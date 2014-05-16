@@ -202,7 +202,7 @@ Valid.paciente = function()
                 required:true,
                 minlength: 4,
             },
-            email:{
+            /*email:{
                 required:true,
                 email:true,
                 minlength: 5,
@@ -218,7 +218,7 @@ Valid.paciente = function()
                 number:true,
                 minlength: 10,
                 maxlength: 13
-            },
+            },*/
             estado: {
                 selectcheck: true
             },

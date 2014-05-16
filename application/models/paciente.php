@@ -29,7 +29,7 @@ class Paciente extends DataMapper
             'label' => 'Apellido Materno',
             'rules' => array('trim', 'min_length' => 2, 'max_length' => 15),
         ),
-        'email' => array(
+        /*'email' => array(
             'label' => 'Email',
             'rules' => array('valid_email', 'trim', 'min_length' => 2, 'max_length' => 45),
         ),
@@ -40,7 +40,7 @@ class Paciente extends DataMapper
         'celular' => array(
             'label' => 'Celular',
             'rules' => array('trim', 'min_length' => 10, 'max_length' => 13),
-        )
+        )*/
     );
 
     function _unique_for_surgery($field, $campo)
