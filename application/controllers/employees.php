@@ -560,5 +560,28 @@ class Employees extends CI_Controller{
 		echo json_encode($aEmpleado);
 
 	}
+
+	public function lista_all(){
+
+		$consultorio= new Consultorio();
+							
+		$consultorio->where('id',$this->session->userdata('id_consultorio'))->get();
+				
+		$consultorio->empleado->where('CONCAT( codigo,  "  " , nombre,  " " , apellido_p, " " , apellido_m ) like "%'.$_GET['term'].'%"');
+		$consultorio->empleado->where('estatus', 1)->get();
+		$aEmpleado = array();
+
+		foreach($consultorio->empleado->all as $empleado){
+			$empleado->tipo_empleado->get();
+			 if($empleado->tipo_empleado->nombre){
+			 	$aEmpleado[] = array("Id"     => $empleado->id, 
+			 					     "label"     => $empleado->codigo .' '. $empleado->nombre .' '. $empleado->apellido_p .' '. $empleado->apellido_m,
+			 					     "value"     => $empleado->codigo .' '. $empleado->nombre .' '. $empleado->apellido_p .' '. $empleado->apellido_m);
+			 }
+		}
+	
+		echo json_encode($aEmpleado);
+
+	}
 }
 
