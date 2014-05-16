@@ -19,18 +19,20 @@ $interval = $datetime1->diff($datetime2);
 	echo '<tr>';
 
 		echo '<tr>';
-		echo '<td width="25%">';
+		echo '<td >';
 	 		echo form_label('Producto:');
 	 	
 	 	?>
-		<td style="width: 35%;">
+		<td >
 			 <div id="wait_tp" class="wait">
 	  	  		<p>Cargando productos</p>
 	  	 	</div>
 			<div class="select_reload">
+
         
-			 	<select name="producto" id="producto"></select>
+			 	 <select name="producto" id="producto"></select>
         
+
 			 	<td>
 			    <img src     = "<?= base_url('assets/images/reload.png'); ?>" 
 			         style   = "width:16px; height:16px;cursor:pointer;"
@@ -49,7 +51,7 @@ $interval = $datetime1->diff($datetime2);
 		echo  '<td>';
 			echo form_label('Servicio: ');
 		?>
-		<td width="25%">
+		<td >
       <div id="wait_serv" class="wait">
             <p>Cargando servicios</p>
         </div>
@@ -71,7 +73,7 @@ $interval = $datetime1->diff($datetime2);
 }
 ?>
 <tr>
-  <td width="25%">
+  <td >
     <?= form_label('Total: '); ?>
   </td>
   <td id="total" style="color:#000">

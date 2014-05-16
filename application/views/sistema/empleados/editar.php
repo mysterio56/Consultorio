@@ -139,8 +139,12 @@
                <div id="wait_tp" class="wait">
                     <p>Cargando tipo de empleados</p>
                 </div>
+
               <div class="select_reload">
-                <select name="tipo_empleado" id="tipo_empleado"></select>
+                   <div style="width:92%">
+                      <select name="tipo_empleado" id="tipo_empleado"></select> 
+                   </div>
+
                   <img src     = "<?= base_url('assets/images/reload.png'); ?>" 
                        style   = "width:16px; height:16px;cursor:pointer;"
                        onClick = "getTipoEmpleado();"/>
