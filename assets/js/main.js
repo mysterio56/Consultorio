@@ -175,6 +175,15 @@ Tab.destroyTab = function(destroy_name_tab)
 
   }
 
+  limit1 = this.arrowsShow()*-1;
+  limit2 = parseInt($("#carousel-tabs").css("left"));
+
+  console.log(limit1);
+  console.log(limit2);
+  if(limit2 < limit1){
+     $("#carousel-tabs").animate({"left":0},200);
+  }
+
 }
 
 Tab.allHide = function()
@@ -240,6 +249,7 @@ Tab.moveLeft = function()
   if(parseInt(limit2) > limit1){
      $("#carousel-tabs").animate({"left":left},200);
   }
+
 }
 
 /*** Funciones para la animacion del banner ***/ 
