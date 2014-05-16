@@ -57,7 +57,9 @@ Tab.newTab = function(name_tab, url_tab, name_iframe)
         input.checked = true;
      });
 
-    $("#carousel-tabs").animate({"left":this.tabChange('label'+name_tab)});
+     if (this.arrowsShow() > 609){
+       $("#carousel-tabs").animate({"left":this.tabChange('label'+name_tab)});
+      }
 
   }
 
@@ -140,7 +142,7 @@ $('#'+obj).animate({"height":height});
 
 Tab.change = function(iframe)
 {
-  Tab.iframe(iframe) 
+  Tab.iframe(iframe); 
   this.allHide();
   name_tab = $("input[name=tab-group]:checked").val();
   $('#content').children('#div'+name_tab).removeClass( "hide" ).addClass( "show" );
@@ -151,13 +153,27 @@ Tab.change = function(iframe)
 Tab.destroyTab = function(destroy_name_tab)
 { 
 
+  labelClass = $("#label"+destroy_name_tab).attr("class");
   $("#label"+destroy_name_tab).remove();
   $("#input"+destroy_name_tab).remove();
   $("#div"+destroy_name_tab).remove();
 
   this.arrowsShow();
 
- 
+  numInputs = $("#carousel-tabs").children('input');
+
+  if(numInputs.length > 0 && labelClass == "tabChecked"){
+
+    iframe   = $(numInputs[numInputs.length-1]).attr("onChange");
+    name_tab = $(numInputs[numInputs.length-1]).val();
+
+    iframe = iframe.split("'");
+    Tab.iframe(iframe[1]);
+
+    $('#content').children('#div'+name_tab).removeClass( "hide" ).addClass( "show" );
+    $('#carousel-tabs').children('#label'+name_tab).removeClass( "tabUnChecked" ).addClass( "tabChecked" );
+
+  }
 
 }
 
@@ -206,9 +222,9 @@ Tab.moveRight = function()
   left = parseInt(left);
   if(left < 0){
     left = left+100;
-    $("#carousel-tabs").animate({"left":left});
+    $("#carousel-tabs").animate({"left":left},200);
   } else {
-    $("#carousel-tabs").animate({"left":0});
+    $("#carousel-tabs").animate({"left":0},200);
   }
   
 }
@@ -217,7 +233,13 @@ Tab.moveLeft = function()
 {
   var left = $("#carousel-tabs").css("left");
   left = parseInt(left)-100;
-  $("#carousel-tabs").animate({"left":left});
+
+  limit1 = (Tab.arrowsShow()/2)*-1;
+  limit2 = $("#carousel-tabs").css("left");
+
+  if(parseInt(limit2) > limit1){
+     $("#carousel-tabs").animate({"left":left},200);
+  }
 }
 
 /*** Funciones para la animacion del banner ***/ 
