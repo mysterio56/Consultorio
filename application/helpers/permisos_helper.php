@@ -7,6 +7,7 @@ if ( ! function_exists('permisos'))
 
     	$permisos = new Permiso();
     	$modulos  = new Modulo();
+        $aPermisosUsuario = array();
 
     	$permisos->where('tipo_empleado_id', $tipo_empleado_id)->get();
 
@@ -15,10 +16,14 @@ if ( ! function_exists('permisos'))
     		$aPermisosUsuario[$modulos->url] = $aIthem->permiso;
     	}
 
-        if(isset($aPermisosUsuario)){
+        if(empty($aPermisosUsuario) || $tipo_empleado_id == 'admin'){
+
             return $aPermisosUsuario;
+
         } else {
-            redirect(base_url('error'));
+
+                redirect(base_url('error'));
+            
         }
 
     }   

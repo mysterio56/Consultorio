@@ -6,6 +6,8 @@
 
          <?php
 
+         if($this->session->userdata('type_user') != 'admin'){
+
             $aSubmodulo = array();
 
             foreach($submodulos as $submodulo){
@@ -77,12 +79,60 @@
                       }
 
                     }
+
                     echo '</ul>';
                 }
+
                 echo '</li>';
               }
 
             }
+
+          } else {
+
+            
+
+            foreach($allModulosAdmin as $modulo){
+              
+                $modulo->modulo->get();
+
+                 
+
+                echo '<li class="parent">';
+                echo    '<a href="javascript:void(0)"'; 
+
+                  if($modulo->url != ""){
+                    echo 'onClick="Tab.newTab(\''.$modulo->nombre.'\',\''.base_url($modulo->url).'\',\''.$modulo->url.'\');"';
+                  }
+
+                echo     '>';
+                echo     $modulo->nombre;
+                echo    '</a>';
+
+                echo '<ul>';
+
+                    foreach($modulo->modulo->all as $submoduloAll){
+                 
+                      
+                        echo '<li>';
+                        echo  '<a href="javascript:void(0)"';
+                        echo 'onClick="Tab.newTab(\''.$submoduloAll->nombre.'\',\''.base_url($submoduloAll->url).'\',\''.$submoduloAll->url.'\');"';
+                        echo  '>';
+                        echo $submoduloAll->nombre;
+                        echo '</a>';
+                        echo '</li>';
+                      }
+
+                    
+
+                    echo '</ul>';
+
+                echo    '</li>';
+
+            }
+
+
+          }
 
          ?>
    </nav>

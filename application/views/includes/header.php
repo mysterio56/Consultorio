@@ -52,8 +52,17 @@
 	<?php endif; ?>
 		
 	<?php if ($this->session->userdata('username')): ?>
-	<?php $this->load->view('banner');	?>		
+
+		<?php if ($this->session->userdata('type_user') != 'admin'): ?>
+
+			<?php $this->load->view('banner');	?>		
+
+		<?php endif; ?>
+
 	<div id="wrapper">
-	<?php else: ?>	
+
+	<?php else: ?>
+
 		<div id="wrapper_login">
+
 	<?php endif; ?>

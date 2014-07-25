@@ -410,7 +410,7 @@ Valid.changeStatus = function (url,image_url,type, id)
             } else {
 
                 alert('Ocurrio un error intente mas tarde');
-                console.log(data);
+                
             }
 
             $('#wait_'+data.id).hide();

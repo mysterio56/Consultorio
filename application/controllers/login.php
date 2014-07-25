@@ -20,7 +20,12 @@ class Login extends CI_Controller{
 	        $usuario   = $this->input->post('usuario');
 			$password  = md5($this->input->post('password'));
 
-			$oUsuarios = new Usuario();
+			$oUsuarios      = new Usuario();
+			$oUsuariosAdmin = new Admin_Usuario();
+
+			$oUsuariosAdmin->where(array('usuario' => $usuario,
+		    						'clave'   => $password,
+		    						'estatus' => 1))->get();
 
 		    $oUsuarios->where(array('usuario' => $usuario,
 		    						'clave'   => $password,
@@ -29,6 +34,8 @@ class Login extends CI_Controller{
 		    $oUsuarios->empleados->get();
 
 		    $total = count($oUsuarios->all);
+
+		    $total_admin = count($oUsuariosAdmin->all);
 
 		    if($oUsuarios->empleados->estatus != 1){
 		    	$total = 0;
@@ -58,8 +65,19 @@ class Login extends CI_Controller{
 	            
 		        redirect('welcome');
 
-	    	} else {
+	    	} elseif($total_admin) {
+
+	    		$userdata = array('username'        => $oUsuariosAdmin->usuario,
+	    						  'type_user'       => 'admin',
+	    						  'logo'            => 'admin',
+	    						  'nombre_completo' => 'Admin');
+
+	    		$this->session->set_userdata($userdata);
 	    		
+	    		redirect('welcome');
+
+	    	} else {
+
 	    		$data['error_menssage'] = 'Usuario y/o constraseña invalido';
 	        	$this->load->view('template',$data);
 

@@ -23,15 +23,20 @@ class Welcome extends CI_Controller{
 		$empleado = $oUsuario->empleado->get();
 		$empleado->consultorio->get();
 
-		$data['logo']       = $empleado->consultorio->nombre_logo;
-		$data['modulos']    = $oTipoEmpleado->modulo->where('modulo_id',0)->get()->all;
+		$data['logo']       = $this->session->userdata('logo');
+		$data['modulos']    = $oTipoEmpleado->modulo->where(array('modulo_id' => 0))->get()->all;
 		$data['submodulos'] = $oTipoEmpleado->modulo->where('modulo_id <>',0)->get()->all;
-		$data['allModulos'] = $oModulos->where(array('estatus'=>1,'modulo_id'=>0))->get()->all;
+		$data['allModulos'] = $oModulos->where(array('estatus' => 1, 'modulo_id' => 0, 'tipo' => 0))->get()->all;
 		$data['title']      = "welcome page";
 		$data['view']       = "welcome";
 		$data['cssFiles']   = array('styles.css');
 		$data['jsFiles']    = array('jquery.js',
 							     	'main.js');
+
+
+		if($this->session->userdata('type_user') == 'admin'){
+			$data['allModulosAdmin'] = $oModulos->where(array('estatus' => 1, 'modulo_id' => 0, 'tipo' => 1))->get()->all;
+		}
 
 		$this->load->view('template',$data);
 

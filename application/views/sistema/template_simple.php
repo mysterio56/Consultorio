@@ -1,10 +1,10 @@
 <?php
 
 define ("PERMISOS", serialize (array("Agregar"  => array(4,5,6,7),
-                                         "Editar"   => array(2,3,6,7),
-                                         "Eliminar" => array(1,3,5,7)
-                                         )
-                                  )
+                                     "Editar"   => array(2,3,6,7),
+                                     "Eliminar" => array(1,3,5,7)
+                                    )
+                              )
         );
 
  define ("MESES", serialize (array("Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic")));

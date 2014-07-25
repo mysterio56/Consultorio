@@ -138,6 +138,7 @@ class Patient extends CI_Controller{
     	}
 
     }
+    
 	public function agregar(){
 
 		$direccion   = new Direccion();
